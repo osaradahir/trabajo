@@ -1,0 +1,873 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block Content %}
+{{ status }}
+  <section class="container_data">
+    {{ informationPersonalUser }}
+    <div class="my-data-name">
+      <div class="information-data-name" id="information-profile">
+        <div class="information-profile-photo">
+          <img src="{% static 'images/crea.jpg' %}" alt="" />
+        </div>
+        <div class="information-user-profile">
+          <h5>{{ informationPersonalUser.nombre }} {{ informationPersonalUser.ape_pat }} {{ informationPersonalUser.ape_mat }}</h5>
+          <h6>Edad: {{ edad }}</h6>
+          <h6>{{ informationPersonalUser.municipio }}, {{ informationPersonalUser.estado }}</h6>
+        </div>
+        <div class="input-information-user-profile" style="display: none">
+          <div class="row">
+            <form class="col s12" id="update-information-personal">
+              {% csrf_token %}
+              <div class="input-field col s12">
+                <input id="name" type="text" class="validate" name="nombre" pattern="[A-Za-záéíóúñÑ\s]{3,25}"
+                minlength="3"
+                maxlength="25"
+                title="Use solo letras con un minimo de 3 caracteres"/>
+                <label for="name">Nombre</label>
+              </div>
+              <div class="input-field col s6">
+                <input id="apellidos" type="text" class="validate" name="apellido_paterno" pattern="[A-Za-záéíóúñÑ]{4,25}"
+                minlength="4"
+                maxlength="35"
+                title="Use solo letras con un minimo de 4 caracteres"/>
+                <label for="apellidos">Paterno</label>
+              </div>
+              <div class="input-field col s6">
+                <input id="apellidos" type="text" class="validate" name="apellido_materno" />
+                <label for="apellidos">Materno</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="icon_telephone" name="fechaNacimiento" type="text" class="datepicker" >
+                <label for="icon_telephone">Fecha de Nacimiento</label>
+              </div>
+              <label for="genero" id="genero">Género</label>
+              <div class="input-field col s12">
+                <p>
+                  <label>
+                    <input type="radio" name="genero" value="M" />
+                    <span>Hombre</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="genero" value="F" />
+                    <span>Mujer</span>
+                  </label>
+                </p>
+              </div>
+              <div id="button-information-user-profile">
+                <button class="white-buttons">Actualizar información</button>
+              </div>
+            </form>
+            <div id="button-information-user-profile">
+              <button class="blue-buttons" id="cancel-editing-information-profile">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="information-user-botomms-cv">
+          <button class="white-buttons">Generar CV</button>
+          <button class="blue-buttons" id="edit-profile-user-information">
+            Editar información
+          </button>
+        </div>
+      </div>
+      <div class="information-data-name" id="information-profile-factors">
+        <div class="information-costs">
+          <div class="card-money-hour">
+            <div class="money-kind" id="money-kind-show">
+              <h6>Tipo de Moneda</h6>
+              <h5>{{ tipoMoneda }}</h5>
+            </div>
+            <div class="money-kind" id="money-kind-edit" style="display: none;">
+              <h6>Tipo de Moneda</h6>
+                <form style="margin-top: -6px;" id="update-moneda-cobro">
+                    {% csrf_token %}
+                    <select name="tipo_moneda" id="selectMoneda">
+                      <option value="" disabled selected>Escoge tu moneda de cobro</option>
+                      {% for moneda in monedaCobro %}
+                        <option value='{{moneda.id}}'>{{ moneda.tipo }}</option>
+                      {% endfor %}{
+                    </select>                  
+                </form>
+            </div>
+            <div class="money-img">
+              <div id="circle">
+                <span class="material-symbols-outlined"> paid </span>
+              </div>
+            </div>
+            <div class="money-change" id="button-edit" onclick="changeKindMoney()">
+              <span class="material-symbols-outlined" id="editAllow"> edit_square </span>
+            </div>
+            <div class="money-change" id="button-save" onclick="saveKindMoney()" style="display: none;">
+              <span class="material-symbols-outlined" id="editAllow"> send </span>
+            </div>
+          </div>
+          <div class="card-money-hour" style="margin-left: 20px">
+            <div class="money-kind" id="hour-kind-show">
+              <h6>Cobro por Hora</h6>
+              <h5>${{informationConsultorUser.tarifa_hora}}</h5>
+            </div>
+            <div class="money-kind" style="display: none;" id="hour-kind-edit">
+              <h6>Cobro por Hora</h6>
+              <form id="update-manera-cobro" style="margin-top: -6px;">
+                {% csrf_token %}
+                <input value="" id="hora" type="text" class="validate" name="updateHora" pattern="[0-9]+(\.[0-9]+)?" title="Ingrese un número entero o decimal"/>
+              </form>
+            </div>
+            <div class="money-img">
+              <div id="circle">
+                <span class="material-symbols-outlined"> paid </span>
+              </div>
+            </div>
+            <div class="money-change" id="button-edit-hour" onclick="changeCostHour()">
+              <span class="material-symbols-outlined" id="editAllow"> edit_square </span>
+            </div>
+            <div class="money-change" style="display: none;" id="button-save-hour" onclick="saveCostHour()">
+              <span class="material-symbols-outlined" id="editAllow"> send </span>
+            </div>
+          </div>
+        </div>
+        <div class="information-facturation">
+          <div class="facturation">
+            <h5>Mis datos de Facturación</h5>
+          </div>
+          <div class="inputs" id="inputs-show-factury">
+            <div class="row">
+              <div class="input-field col s6">
+                <input value="{{informationConsultorUser.rfc}}" id="data_rfc" type="text" readonly class="validate" />
+                <label for="data_rfc">RFC</label>
+              </div>
+              <div class="input-field col s6">
+                <input value="{{ maneraPago2.tipo }}" id="kind_pay" type="text" readonly class="validate" />
+                <label for="kind_pay">Forma de pago</label>
+              </div>
+            </div>
+          </div>
+          <div class="inputs" id="input-edit-factury" style="background-color: white; display:none;">
+            <form id="update-rfc-honorarios">
+              {% csrf_token %}
+              <div class="row">
+                <div class="input-field col s6" style="padding-top: 14px;">
+                  <label for="kind_pay"
+                    style="background-color:white; padding-left:14px; margin-top:-27px; font-size: 14px;">Forma de
+                    Pago</label>
+
+                  <select class="browser-default" name="honorarios">
+                    <option value="" disabled selected>Escoge tu forma de cobro
+                    </option>
+                    {% for manera in maneraPago %}
+                      <option value={{manera.id}}>{{ manera.tipo }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="input-field col s6">
+                  <input value="" name="RFC" id="kind_pay" type="text" class="validate" pattern="[0-9A-Za-z]{12}"
+                  minlength="12"
+                  maxlength="12"
+                  title="El RFC consta de 12 caracteres"
+                  required/>
+                  <label for="kind_pay">RFC</label>
+                </div>
+                <div class="buttons-rfc" id="edit-factory-information-send">
+                  <button class="blue-buttons" id="button-update-rfc">Actualizar información</button>
+                </div>
+            </form>
+          </div>
+        </div>
+        <div class="buttons-rfc" id="buttons-show">
+          <button class="blue-buttons" id="edit-factory-information-activate">Editar información</button>
+          <button class="white-buttons">Agregar datos bancarios</button>
+        </div>
+      </div>
+    </div>
+    <div class="information-contact-experience">
+      <div class="contact">
+        <h5 class="data-contact-tittle">Datos de contacto</h5>
+        <div class="contact-info">
+          <h6 id="labels">Telefono:</h6>
+          <h6>{{ informationPersonalUser.telefono }}</h6>
+          <h6 id="labels">Correo electronico:</h6>
+          <h6>{{ correo }}</h6>
+          <h6 id="labels">Dirección:</h6>
+          {% if informationPersonalUser.ciudad == 'NA' or informationPersonalUser.ciudad == ''  %}
+            <h6>{{ informationPersonalUser.colonia }}, {{ informationPersonalUser.cod_post }}, {{ informationPersonalUser.municipio }}, {{ informationPersonalUser.estado }}</h6>
+          {% else %}
+            <h6>{{ informationPersonalUser.colonia }}, {{ informationPersonalUser.cod_post }}, {{ informationPersonalUser.ciudad }}, {{ informationPersonalUser.estado }}</h6>
+          {% endif %}
+        </div>
+        <div class="container-edit-experience" style="display: none">
+          <div class="row">
+            <form class="col s12" id="update-contact-form">
+              {% csrf_token %}
+              <div class="input-field col s12">
+                <input id="telefono" type="tel" class="validate" name="telefono" pattern="[0-9]{3}[ -][0-9]{3}[ -][0-9]{4}"
+                title="Use solo numeros y deje un espacio entre las series de digitos: 000-000-0000"/>
+                <label for="telefono">Telefono</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="correo" type="email" class="validate" name="correo" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                title="Coloque @"/>
+                <label for="correo">Correo Electronico</label>
+              </div>
+              <div class="input-field col s12">
+                <input id="cp" type="number" class="validate" name="codigoPostal" pattern="[0-9]{5,6}"
+                min="0" maxlength="6" title="El codigo postal debe tener un minimo de 5 caracteres" onchange="queryCP(document.getElementById('cp').value)"/>
+                <label for="cp">Codigo Postal</label>
+              </div>
+              <div class="container-options">
+                <div class="contact-options">
+                  <label>Pais</label>
+                  <div class="input-field col s12">
+                    <select class="browser-default" name="pais">
+                      <option value="" disabled selected>Pais</option>
+                      <option value="México">México (MX)</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="contact-options">
+                  
+                  <div class="input-field col s6">
+                    <label for="" style="margin-top: -30px;">Estado</label>
+                    <select class="browser-default" name="estado" id="estado">
+                      <option value="" disabled selected>Estado</option>
+                    </select>
+                  </div>
+                  <div class="input-field col s6">
+                    <label for="" style="margin-top: -30px;">Ciudad</label>
+                    <select class="browser-default" name="ciudad" id="ciudad">
+                      <option value="" disabled selected>Ciudad</option>
+                    </select>
+                  </div>
+                  
+                </div>
+                <div class="contact-options">
+                  <div class="input-field col s6">
+                    <label for="" style="margin-top: -34px;">Municipio</label>
+                    <select class="browser-default" name="municipio" id="municipio">
+                      <option value="" disabled selected>Municipio</option>
+                    </select>
+                  </div>
+                  <div class="input-field col s6">
+                    <label for="" style="margin-top: -34px;">Colonia</label>
+                    <select class="browser-default" name="colonia" id="colonia">
+                      <option value="" disabled selected>Colonia</option>
+                    </select>
+                  </div>
+                </div>
+                
+              </div>
+              <div id="button-information-user-profile">
+                <button class="white-buttons" id="button-update-contact">
+                  Actualizar información
+                </button>
+              </div>
+            </form>
+            <div id="button-information-user-profile">
+              <button class="blue-buttons" id="cancel-editing-information-contact">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="contact-button">
+          <button class="blue-buttons" id="edit-contact-user-information">
+            Editar información
+          </button>
+        </div>
+      </div>
+      <div class="experience">
+        <div class="data-experience">
+          <h5>Experiencia Profesional</h5>
+          <h6 id="title-requeriment">
+            {{ experienciasConsultor.puesto }} en {{ experienciasConsultor.empresa }}
+            <span class="material-symbols-outlined" id="edit-icon">
+              edit_square
+            </span>
+          </h6>
+          <h6 id="date-requirement">{{ experienciaInicio }} - {{ experienciaTermino }}</h6>
+          <h6 id="content-requirement">
+            {{ experienciasConsultor.descripcion }}
+          </h6>
+        </div>
+        <div class="button-experience">
+          <button class="blue-buttons">Editar información</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="information-contact-experience" id="lenguajes">
+      <div class="contact" id="information-contact-experience-contact">
+        <h5>Idiomas</h5>
+        {% if misIdiomas%}
+          <div class="contact-info" id="languajes-description" style="overflow:auto; height:140px">
+            
+              {% for miIdioma in misIdiomas %}
+              <div style="display: flex; flex-direction: row; justify-content: space-between" id="{{ miIdioma.0 }}" onmousedown="startLongPress(this)" onmouseup="endLongPress(this)">
+                <p>{{ miIdioma.1.nombre }}</p>
+                <p style="background-color: tomato; color:white; border-radius:10px; width:40px; text-align:center; margin-right:12px">{{ miIdioma.2 }}</p>
+              </div>
+            {% endfor %}
+            
+          </div>
+        {% else %}
+          <div class="contact-info" id="languajes-description">
+            <p>Describe los idiomas que conoces, incluso tu idoma nativo</p>
+          </div>
+        {% endif %}
+        <div class="languajes-container" style="display: none">
+          <form id="update-idiomas-form">
+            {% csrf_token %}
+            <div class="contact-options">
+              <label>Idioma</label>
+              <div class="input-field col s12">
+                <select class="browser-default" name="idioma" required>
+                  <option value="" disabled selected>Idioma</option>
+                  {% for idioma in listaIdiomas %}
+                    <option value='{{idioma.id}}'>{{ idioma.nombre }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="contact-options">
+              <label>Nivel</label>
+              <div class="input-field col s12">
+                <select class="browser-default" name="nivel" required>
+                  <option value="" disabled selected>Nivel</option>
+                  <option value="Nivel A1 (Principiante)">Nivel A1 (Principiante)</option>
+                  <option value="Nivel A2 (Básico)">Nivel A2 (Básico)</option>
+                  <option value="Nivel B1 (Umbral)">Nivel B1 (Umbral)</option>
+                  <option value="Nivel B2 (Avanzado)">Nivel B2 (Avanzado)</option>
+                  <option value="Nivel C1 (Dominio efectivo)">Nivel C1 (Dominio efectivo)</option>
+                  <option value="Nivel C2 (Maestría)">Nivel C2 (Maestría)</option>
+
+                </select>
+              </div>
+            </div>
+            <div id="button-information-user-profile">
+              <button class="white-buttons" id="button-update-idiomas">Actualizar información</button>
+            </div>
+          </form>
+          <div id="button-information-user-profile">
+            <button class="blue-buttons" id="cancel-editing-information-languajes">
+              Cancelar
+            </button>
+          </div>
+        </div>
+        <div class="contact-button">
+          <button class="blue-buttons" id="edit-languajes-user-information">
+            Agregar información
+          </button>
+        </div>
+      </div>
+
+
+      <div class="experience" id="information-contact-experience-contact-experience">
+        <div class="data-experience" id="data-experience-show-container">
+          <h5>Educación</h5>
+          <h6 id="title-requeriment">
+            {{ institucion.nombre }}
+            <span class="material-symbols-outlined" id="edit-icon">
+              edit_square
+            </span>
+          </h6>
+          <h6 id="date-requirement">{{ educacionInicio }} - {{ educacionTermino }}</h6>
+          <h6 id="content-requirement">
+            {{ estudiosConsultor.educacion }} - {{ estudiosConsultor.titulo_registrado }}
+          </h6>
+          <hr />
+        </div>
+
+
+        <div class="data-experience" id="data-experience-edit-container" style="display: none;">
+          <h5>Educación</h5>
+          <h6 id="title-requeriment">
+            <input type="hidden" name="" id="fecha-nacimiento" value="{{informationPersonalUser.fecha_nacimiento}}">
+          
+          
+            <form style="margin-top: -20px;  display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%;">
+            {% csrf_token %}
+              <div class="row" style="margin-left:-10px; width:100%">
+                <label style="font-size: 14px; padding-left:10px">Nivel</label>
+                <div class="input-field col s12">
+                  <select class="browser-default">
+                    <option value="" disabled selected>Selecciona tu nivel</option>
+                    <option value="Bachiller">Educación Media Superior - Bachiller</option>
+                    <option value="Técnico">Educación Media Superior Técnica - Técnico</option>
+                    <option value="Técnico Superior Universitario">Educación Superior - Técnico Superior Universitario</option>
+                    <option value="Licenciatura">Educación Superior - Licenciatura</option>
+                    <option value="Ingeniería">Educación Superior - Ingenieria</option>
+                    <option value="Maestría">Educación Superior - Maestría</option>
+                    <option value="Doctorado">Educación Superior - Doctorado</option>
+                  </select>
+                </div>
+                <div class="input-field col s6">
+                  <input id="institute" type="text" class="validate" name="institute" />
+                  <label for="institute">Institucion</label>
+                </div>
+                <div class="input-field col s6">
+                  <input id="kindCertificate" type="text" class="validate" name="titulo " />
+                  <label for="titulo  ">Titulo o Carrera</label>
+                </div>
+                <div>
+                  <div class="input-field col s6">
+                    <label for="ageInit" style="margin-top:-10px;">Año de Inicio</label>
+                    <input id="ageInit" type="text" class="datepicker validate" name="ageInit" />
+                  </div>
+                  <div class="input-field col s6">
+                    <label for="ageFinish" style="margin-top:-10px;" id="span-study">Año de Termino</label>
+                    <input id="ageFinish" type="text" class="datepicker validate" name="ageFinish" />
+                  </div>
+                  <div class="input-field col s6">
+                    <p>
+                      <label>
+                        <input type="checkbox" class="filled-in" onChange="comprobar(this);"/>
+                        <span>Sigo Estudiando</span>
+                      </label>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <button class="white-buttons" style="width:30%;" id="button-edit-education">Actualizar información</button>
+            </form>
+
+
+
+            <div class="data-experience-edit-container-button">
+              <button class="blue-buttons" id="cancel-editing-information-estudy">
+                Cancelar
+              </button>
+            </div>
+        </div>
+        <div class="button-experience-study" id="study">
+          <button class="blue-buttons" id="edit-education-user-information">Editar información</button>
+        </div>
+      </div>
+
+
+
+    </div>
+
+    <div class="information-documents" id="lenguajes">
+      <div class="documents">
+        <div class="docs-info">
+          <h5>Documentos subidos</h5>
+          
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="document-upload" onclick="openFileExplorerForCv()">
+              <p>
+                <label>
+                  {% if files.0 == '1' %}
+                    <input type="checkbox" class="" disabled checked/>
+                  {% else %}
+                    <input type="checkbox" class="filled-in" disabled/>
+                  {% endif %}
+                  <span id="upload">Subir CV</span>
+                </label>
+              </p>
+              <input type="file" id="fileInputCV" style="display: none;" onchange="handleFileSelected(event, 'CV')" accept=".pdf">
+            </div>
+          </form>
+          
+          <form enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <div class="document-upload" onclick="openFileExplorerForINE()">
+              <p>
+                <label>
+                  {% if files.1 == '1' %}
+                    <input type="checkbox" class="" disabled checked/>
+                  {% else %}
+                    <input type="checkbox" class="filled-in" disabled/>
+                  {% endif %}
+                  <span id="upload">Subir INE</span>
+                </label>
+              </p>
+              <input type="file" id="fileInputINE" style="display: none;" onchange="handleFileSelected(event, 'INE')" accept=".pdf">
+            </div>
+          </form>
+          <form method="post">
+            {% csrf_token %}
+            <div class="document-upload" onclick="openFileExplorerForActa()">
+              <p>
+                <label>
+                  {% if files.2 == '1' %}
+                    <input type="checkbox" class="" disabled checked/>
+                  {% else %}
+                    <input type="checkbox" class="filled-in" disabled/>
+                  {% endif %}
+                  <span id="upload">Subir Acta de Nacimiento</span>
+                </label>
+              </p>
+              <input type="file" id="fileInputActaNacimiento" style="display: none;" onchange="handleFileSelected(event, 'Acta_Nacimiento')" accept=".pdf">
+            </div>
+          </form>
+          <form method="post">
+            {% csrf_token %}
+            <div class="document-upload" onclick="openFileExplorerForPasaporte()">
+              <p>
+                <label>
+                  {% if files.3 == '1' %}
+                    <input type="checkbox" class="" disabled checked/>
+                  {% else %}
+                    <input type="checkbox" class="filled-in" disabled/>
+                  {% endif %}
+                  <span id="upload">Subir Pasaporte</span>
+                </label>
+              </p>
+              <input type="file" id="fileInputPasaporte" style="display: none;" onchange="handleFileSelected(event, 'Pasaporte')" accept=".pdf">
+            </div>
+          </form>
+          <form method="post">
+            {% csrf_token %}
+            <div class="document-upload" onclick="openFileExplorerForComprobante()">
+              <p>
+                <label>
+                  {% if files.4 == '1' %}
+                    <input type="checkbox" class="" disabled checked/>
+                  {% else %}
+                    <input type="checkbox" class="filled-in" disabled/>
+                  {% endif %}
+                  <span id="upload">Subir Comprobante de Domicilio</span>
+                </label>
+              </p>
+              <input type="file" id="fileInputComprobanteDomicilio" style="display: none;" onchange="handleFileSelected(event, 'Comprobante_Domicilio')" accept=".pdf">
+            </div>
+          </form>
+          <form method="post">
+            {% csrf_token %}
+            <div class="document-upload" onclick="openFileExplorerForCartaRecomendacion()">
+              <p>
+                <label>
+                  {% if files.5 == '1' %}
+                    <input type="checkbox" class="" disabled checked/>
+                  {% else %}
+                    <input type="checkbox" class="filled-in" disabled/>
+                  {% endif %}
+                  <span id="upload">Subir Carta de recomendacion </span>
+                </label>
+              </p>
+              <input type="file" id="fileInputCartaRecomendacion" style="display: none;" onchange="handleFileSelected(event, 'Carta_Recomendacion')" accept=".pdf">
+            </div>
+          </form>
+          <form method="post">
+            {% csrf_token %}
+            <div class="document-upload" onclick="openFileExplorerForF3()">
+              <p>
+                <label>
+                  {% if files.6 == '1' %}
+                    <input type="checkbox" class="" disabled checked/>
+                  {% else %}
+                    <input type="checkbox" class="filled-in" disabled/>
+                  {% endif %}
+                  <span id="upload">Subir F3</span>
+                </label>
+              </p>
+              <input type="file" id="fileInputF3" style="display: none;" onchange="handleFileSelected(event, 'F3')" accept=".pdf">
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="courses-moduls">
+        <div class="courses" id="courses-show-container">
+          <div class="data-courses">
+            <h5>Cursos y Certificaciones</h5>
+            <h6 id="title-courses">
+              Universidad Tecnologica de Tulancingo
+              <span class="material-symbols-outlined" id="edit-icon">
+                edit_square
+              </span>
+            </h6>
+            <h6 id="date-courses">Enero 2019 - Enero 2021</h6>
+            <h6 id="content-courses">Curso de Redes Convergentes</h6>
+            <hr />
+          </div>
+          <div class="button-experience-course" id="course">
+            <button class="blue-buttons" id="courses-edit-button">Editar información</button>
+          </div>
+        </div>
+      
+        <div class="courses" id="courses-edit-container" style="display: none;">
+          <div class="data-courses">
+            <h5>Cursos y Certificaciones</h5>
+            <form action="" style="margin-top: -26px; display:flex; flex-direction:column; align-items:center; justify-content:center">
+              <div class="row">
+                <div class="input-field col s8">
+                  <input id="name" type="text" class="validate" name="nameCertificate" />
+                  <label for="name">Nombre del curso / Certificado</label>
+                </div>
+                <div class="input-field col s6">
+                  <input id="institute" type="text" class="validate" name="institute" />
+                  <label for="institute">Institucion</label>
+                </div>
+                <div class="input-field col s6">
+                  <input id="kindCertificate" type="url" class="validate" name="kindCertificate" />
+                  <label for="kindCertificate">Enlace del certficado</label>
+                </div>
+                <div class="input-field col s12">
+                  <textarea id="textarea1" class="materialize-textarea" maxlength="400" minlength="20"></textarea>
+                  <label for="textarea1">Descripcion</label>
+                </div>
+                <div>
+                  <div class="input-field col s6">
+                    <label for="ageFinish" style="margin-top:-40px;">Año de Termino</label>
+                    <input id="ageFinish" type="month" class="datepicker validate" name="ageFinish" />
+                  </div>
+                </div>
+              </div>
+              <button class="white-buttons" style="width:30%;" id="">Actualizar información</button>
+            </form>
+          </div>
+          <div class="button-experience-course" id="course">
+            <button class="blue-buttons" id="courses-edit-button-cancel">Cancelar</button>
+          </div>
+        </div>
+
+
+        <div class="moduls-sap">
+          <h5 id="modulo-sap">Modulos que maneja en SAP</h5>
+          <div class="data-moduls">
+            <div class="container-table" style="display: none;">
+              <table class="centered responsive-table">
+                <thead>
+                  <tr>
+                    <th>Módulo</th>
+                    <th>Submódulo</th>
+                    <th>Nivel de Experiencia</th>
+                    <th>Editar</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td>Financial</td>
+                    <td>Legal Consolidation</td>
+                    <td class="label-experience">
+                      <div class="label-kUno">K1</div>
+                    </td>
+                    <td><button class="white-buttons2">Editar</button></td>
+                  </tr>
+                  <tr>
+                    <td>Financial</td>
+                    <td>Assets Managment</td>
+                    <td class="label-experience">
+                      <div class="label-kTres">K3</div>
+                    </td>
+                    <td><button class="white-buttons2">Editar</button></td>
+                  </tr>
+                  <tr>
+                    <td>Financial</td>
+                    <td>Banck Accounting</td>
+                    <td class="label-experience">
+                      <div class="label-kCuatro">K4</div>
+                    </td>
+                    <td><button class="white-buttons2">Editar</button></td>
+                  </tr>
+                  <tr>
+                    <td>Controlling</td>
+                    <td>Profit Center Accounting</td>
+                    <td class="label-experience">
+                      <div class="label-notE">No especificado</div>
+                    </td>
+                    <td><button class="white-buttons2">Editar</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="container-table">
+              <table class="centered responsive-table">
+                <thead>
+                  <tr>
+                    <th>Módulo</th>
+                    <th>Submódulo</th>
+                    <th>Nivel de Experiencia</th>
+                    <th>Editar</th>
+                  </tr>
+                </thead>
+                 <tbody>    
+                    <tr style="display: none;" id="sap-form-edit-1">
+                      <form action=""  id="sap-form-1">
+                        <td>
+                          <select class="browser-default">
+                            <option value="" disabled selected>Nivel</option>
+                            <option value="1">Option 1</option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                          </select>
+                        </td>
+                        <td><select class="browser-default">
+                          <option value="" disabled selected>Nivel</option>
+                          <option value="1">Option 1</option>
+                          <option value="2">Option 2</option>
+                          <option value="3">Option 3</option>
+                        </select></td>
+                        <td class="label-experience">
+                          <select class="browser-default">
+                            <option value="" disabled selected>Nivel</option>
+                            <option value="1">Option 1</option>
+                            <option value="2">Option 2</option>
+                            <option value="3">Option 3</option>
+                          </select>
+                        </td>
+                        <td><button class="white-buttons2">Actualizar</button></td>
+                      </form>
+                    </tr>
+                  <tr id="sap-form-show-1">
+                    <td>Financial</td>
+                    <td>Legal Consolidation</td>
+                    <td class="label-experience">
+                      <div class="label-kUno">K1</div>
+                    </td>
+                    <td><button class="white-buttons2" id="1" onclick="editRowSapId(this.id)">Editar</button></td>
+                  </tr>
+
+                  
+
+                  <form action="" style="display: none;" id="sap-form-2">
+                    <tr style="display: none;" id="sap-form-edit-2">
+                      <td>
+                        <select class="browser-default">
+                          <option value="" disabled selected>Nivel</option>
+                          <option value="1">Option 1</option>
+                          <option value="2">Option 2</option>
+                          <option value="3">Option 3</option>
+                        </select>
+                      </td>
+                      <td><select class="browser-default">
+                        <option value="" disabled selected>Nivel</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                      </select></td>
+                      <td class="label-experience">
+                        <select class="browser-default">
+                          <option value="" disabled selected>Nivel</option>
+                          <option value="1">Option 1</option>
+                          <option value="2">Option 2</option>
+                          <option value="3">Option 3</option>
+                        </select>
+                      </td>
+                      <td><button class="white-buttons2">Actualizar</button></td>
+                    </tr>
+                  </form>
+                  <tr id="sap-form-show-2">
+                    <td>Financial</td>
+                    <td>Assets Managment</td>
+                    <td class="label-experience">
+                      <div class="label-kTres">K3</div>
+                    </td>
+                    <td><button class="white-buttons2" id="2" onclick="editRowSapId(this.id)">Editar</button></td>
+                  </tr>
+
+
+
+                  <form action="" style="display: none;" id="sap-form-3">
+                    <tr style="display: none;" id="sap-form-edit-3">
+                      <td>
+                        <select class="browser-default">
+                          <option value="" disabled selected>Nivel</option>
+                          <option value="1">Option 1</option>
+                          <option value="2">Option 2</option>
+                          <option value="3">Option 3</option>
+                        </select>
+                      </td>
+                      <td><select class="browser-default">
+                        <option value="" disabled selected>Nivel</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                      </select></td>
+                      <td class="label-experience">
+                        <select class="browser-default">
+                          <option value="" disabled selected>Nivel</option>
+                          <option value="1">Option 1</option>
+                          <option value="2">Option 2</option>
+                          <option value="3">Option 3</option>
+                        </select>
+                      </td>
+                      <td><button class="white-buttons2">Actualizar</button></td>
+                    </tr>
+                  </form>                  
+                  <tr id="sap-form-show-3">
+                    <td>Financial</td>
+                    <td>Banck Accounting</td>
+                    <td class="label-experience">
+                      <div class="label-kCuatro">K4</div>
+                    </td>
+                    <td><button class="white-buttons2" id="3" onclick="editRowSapId(this.id)">Editar</button></td>
+                  </tr>
+
+                  <form action="" style="display: none;" id="sap-form-4">
+                    <tr style="display: none;" id="sap-form-edit-4">
+                      <td>
+                        <select class="browser-default">
+                          <option value="" disabled selected>Nivel</option>
+                          <option value="1">Option 1</option>
+                          <option value="2">Option 2</option>
+                          <option value="3">Option 3</option>
+                        </select>
+                      </td>
+                      <td><select class="browser-default">
+                        <option value="" disabled selected>Nivel</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                      </select></td>
+                      <td class="label-experience">
+                        <select class="browser-default">
+                          <option value="" disabled selected>Nivel</option>
+                          <option value="1">Option 1</option>
+                          <option value="2">Option 2</option>
+                          <option value="3">Option 3</option>
+                        </select>
+                      </td>
+                      <td><button class="white-buttons2">Actualizar</button></td>
+                    </tr>
+                  </form>                  
+                  <tr id="sap-form-show-4">
+                    <td>Controlling</td>
+                    <td>Profit Center Accounting</td>
+                    <td class="label-experience">
+                      <div class="label-notE">No especificado</div>
+                    </td>
+                    <td><button class="white-buttons2" id="4" onclick="editRowSapId(this.id)">Editar</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-pagination">
+              <p>Anterior</p>
+              <ul class="pagination">
+                <li class="disabled">
+                  <a href="#!"><i class="material-icons">chevron_left</i></a>
+                </li>
+                <li class="active"><a href="#!">1</a></li>
+                <li class="waves-effect"><a href="#!">2</a></li>
+                <li class="waves-effect"><a href="#!">3</a></li>
+                <li class="waves-effect"><a href="#!">4</a></li>
+                <li class="waves-effect"><a href="#!">5</a></li>
+                <li class="waves-effect">
+                  <a href="#!"><i class="material-icons">chevron_right</i></a>
+                </li>
+              </ul>
+              <p>Siguiente</p>
+            </div>
+          </div>
+          <div class="button-experience-modul" id="modul">
+            <button class="blue-buttons">Editar información</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="{% static 'js/miProfile.js' %}"></script>
+  <script>
+  </script>
+  {% endblock %}

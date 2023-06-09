@@ -1,0 +1,231 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="REGISTRATION STEP 2: PROFESION" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--Import Google Icon Font-->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GNOSIS | PROFESSION</title>
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <div
+          class="nav-wrapper white"
+          style="border: 1px solid rgba(192, 192, 192, 1)"
+        >
+          <img
+            class="responsive-img"
+            style="height: 100%; width: 10%; padding-left: 25px"
+            src="{% static 'images/logo.png' %}"
+            alt="Gnosis logo"
+          />
+        </div>
+      </nav>
+    </header>
+    <main class="principal">
+      <div class="principal col s12 m12 l12 row">
+        <div class="col s6 m6 l6 center">
+          <div class="col l12 center">
+            <img
+              class="responsive-img"
+              style="height: 100%; width: 50%; padding-top: 15px"
+              src="{% static 'images/fase2.png' %}"
+              alt="Fase2 procces"
+            />
+            <h5 class="black-text" style="text-align: left; padding-left: 25px">
+              <b>¿A que te dedicas?</b>
+            </h5>
+            <h6 style="text-align: left; padding-left: 25px">
+              Cuentanos sobre tu campo laboral
+            </h6>
+          </div>
+          <div class="col l12 center">
+            {% if error %}
+            <div style="width: 100%; height: 24px; background-color: tomato">
+              <p style="color: white">{{ error }}</p>
+            </div>
+            {% endif %}
+            <form class="col l12 login-form" method="POST">
+              {% csrf_token %}
+              <div class="col l12 input-field">
+                <label for="puesto" data-error="wrong" data-success="right"
+                  >Puesto</label
+                >
+                <input
+                  id="puesto"
+                  name="puesto"
+                  type="text"
+                  class="validate"
+                  pattern="[A-Za-záéíóúñÑ\s]{4,65}"
+                  minlength="4"
+                  maxlength="65"
+                  title="Use solo letras"
+                  required
+                />
+              </div>
+              
+              <div class="col l6 input-field">
+                <select name="tipo_moneda" required>
+                  <option value="" disabled selected>Escoge tu moneda de cobro</option>
+                  {% for moneda in monedaCobro %}
+                    <option value='{{moneda.id}}'>{{ moneda.tipo }}</option>
+                  {% endfor %}{
+                </select>
+                <label>Moneda de Cobro</label>
+              </div>
+              <div class="col l6 input-field">
+                <i class="material-icons prefix">attach_money</i>
+                <label for="Tarifa" data-error="wrong" data-success="right"
+                  >Tarifa por Hora</label
+                >
+                <input
+                  id="Tarifa"
+                  name="Tarifa"
+                  type="number"
+                  step="any"
+                  class="validate"
+                  pattern="[0-9]{5,6}"
+                  min="0.00"
+                  max="10000.00"
+                  title="Use solo numeros"
+                  required
+                />
+              </div>
+
+              <div class="col l6 input-field">
+                <select name="forma_cobro" required>
+                  <option value="" disabled selected>Escoge tu forma de cobro
+                  </option>
+                  {% for manera in maneraPago %}
+                    <option value={{manera.id}}>{{ manera.tipo }}</option>
+                  {% endfor %}
+
+                </select>
+                <label>Manera de Cobro</label>
+              </div>
+
+              <div class="col l6 input-field">
+                <i class="material-icons prefix">assignment</i>
+                <label for="RFC" data-error="wrong" data-success="right"
+                  >Registro Federal de Contribuyentes</label
+                >
+                <input
+                  id="RFC"
+                  name="RFC"
+                  type="text"
+                  pattern="[0-9A-Za-z]{12}"
+                  minlength="12"
+                  maxlength="12"
+                  title="El RFC consta de 12 caracteres"
+                  required
+                />
+              </div>
+
+              <div class="col l12 input-field">
+                <label for="SAP" data-error="wrong" data-success="right"
+                  >Submódulos de Especialidad en SAP</label
+                >
+                <input
+                  id="SAP"
+                  name="SAP"
+                  type="text"
+                  class="validate"
+                  pattern="[A-Za-z\s]{4,25}"
+                  minlength="4"
+                  maxlength="25"
+                  title="Minimo 4 caracteres"
+                  required
+                />
+              </div>
+
+              <br />
+              <br />
+              <div class="col l12">
+                <label>
+                  <input
+                    type="checkbox"
+                    value="on"
+                    name="accepted_emails"
+                    id="remind_user"
+                  />
+                  <span
+                    >Recibir correos sobre vacantes basadas en mis
+                    habilidades</span
+                  >
+                </label>
+              </div>
+              <br />
+              <br />
+              <br />
+              <br />
+              <button
+                class="btn-large grey darken-3 waves-effect waves-light"
+                type="submit"
+                name="action"
+              >
+                Guardar y Continuar
+                <i class="material-icons right">save</i>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col s12 m12 l6 center">
+          <h2>
+            <b>CUÉNTANOS SOBRE TU</b>
+            <br />
+            <b class="blue-text text-darken-4">ÁREA DE ESPECIALIDAD</b>
+          </h2>
+
+          <img
+            class="responsive-img"
+            style="height: 100%; width: 100%; padding-right: 155px"
+            src="{% static 'images/profession.png' %}"
+            alt="Profesion Ilustration"
+          />
+         
+        </div>
+      </div>
+    </main>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/js/materialize.min.js"></script>
+
+    <script>
+      (function ($) {
+        $(function () {
+          // Plugin initialization
+          $("select").not(".disabled").formSelect();
+        });
+      })(jQuery); // end of jQuery name space
+    </script>
+    <script>
+      window.addEventListener("load", () => {
+        const loader = document.querySelector(".loader");
+
+        loader.classList.add("loader--hidden");
+
+        loader.addEventListener("transitioned", () => {
+          document.body.removeChild(loader);
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,228 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="description" content="registry-activate part">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  
+  <link rel="stylesheet" href="{% static 'css/details.css' %}" />
+
+  <!-- Compiled and minified JavaScript -->
+  
+  <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>           
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/js/materialize.min.js"></script>
+
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <link rel="stylesheet" href="/Gnosis_SC/consultores/static/css/loader.css">
+  
+  <title>GNOSIS | DETALLLES-PROYECTO</title>
+
+</head>
+<body>
+
+  <!-- Nav Bar -->
+  <nav>
+    <div class="nav-wrapper">
+      <ul>
+        <li class="img">
+          <img src="{% static 'images/logo.png' %}" alt="Logo Gnosis" class="logo" />
+        </li>
+      </ul>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li class="bell">
+          <div>
+            <a href="sass.html"><span class="material-symbols-outlined">notifications</span></a>
+          </div>
+        </li>
+        <li class="dropdown-trigger" data-target="dropdown1">
+          <a href="#" class="dropdown-trigger-link">Jesus<i class="material-icons right">arrow_drop_down</i></a>
+        </li>
+        <li>
+          <a href="#">
+            <div class="img_profile">
+              <img src="{% static 'images/crea.jpg' %}" alt="Foto de Perfil" class="avatar" />
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Dropdown Structure -->
+  <ul id="dropdown1" class="dropdown-content">
+    <li><a href="p.html">Principal</a></li>
+    <li><a href="l.html">Mi perfil</a></li>
+    <li><a href="g.html">Configuración</a></li>
+  </ul>
+
+  <div id="sidebar">
+    <ul>
+      <li class="myprofile">
+        <span class="myprofile-span"> <i class="material-icons">home</i></span> &nbsp;Principal
+      </li>
+
+      <li >
+        <span>
+          <i class="material-icons bcw">assessment</i></span>
+        &nbsp;Mi perfil
+      </li>
+
+      <li>
+        <span> <i class="material-icons bcw">settings</i></span>
+        &nbsp;Configuración
+      </li>
+    </ul>
+  </div>
+
+  <main>
+    <div class="container_data">
+      <div class="my-data-name row">
+
+          <!-- Titulo  -->
+          <div class="col s12 l12">
+            <h3 class="indigo-text">Detalles del Proyecto no. #7</h3> 
+            <h5 class="grey-text" style="padding-bottom:45px;">Agrega la información necesaria para dar de alta al consultor</h5>
+          </div>
+
+          <!-- Barra negra  -->
+          <div class="col s12 l12 grey darken-4" style="height:100px">
+          </div>
+
+          <!--  Cabecera Proyecto  -->
+          <div class="col s12 l12 white">
+            <img src="{% static 'images/compay.png' %}" alt="Foto de Empresa" class="img-responsive white" style="width:280px; padding-left:75px; padding-top:35px;"/>
+
+            <div class="row white">
+              
+              <div class="col l6 white">
+
+                  <h4 class="white" style="font-weight: bold; padding-left:55px;" id="puesto">Consultor Master SAP</h4>
+                  <h5 class="blue-text white" style="font-weight: bold; padding-left:55px;" id="empresa">Umbrella Company</h5>
+                  <h5 class="grey-text white" style="font-weight: bold; padding-left:55px;" id="ubicacion" >CDMX México</h5>
+
+              </div>
+              <div class="col l6 white" style="display:flex; align-items:right; justify-content:right; padding-right:75px;">
+                  <a class="blue darken-4 waves-effect waves-light btn" >Postularme</a>
+              </div>
+              <div class="col l6 white">                  
+              </div>
+              <div class="col l6 white right" style="display:flex; align-items:right; justify-content:right; padding-right:75px;">
+                  <h6 class="grey-text">Fecha de Publicación: Hace 5 dias</h6>
+              </div>
+          </div>
+
+
+          <!-- Detalles Proyecto  -->
+          <div class="row white">
+                <div class="col l3 white" style="padding-left:75px;">
+                  <h6 class="white">Tiempo de Trabajo:</h6>
+                </div>
+                <div class="col l2 white" style="padding-right:75px;">
+                  <div class="chip blue white-text">
+                    5 meses
+                  </div>
+                </div>
+                <div class="col l3 white" style="padding-left:75px;">
+                    <h6 class="white">Moneda de manejo:</h6>
+                </div>
+                <div class="col l2 white" style="padding-right:75px;">
+                  <div class="chip green white-text">
+                    Dólares
+                  </div>
+                </div>
+          </div>
+
+            <!-- Descripcion genera, funciones laborales, Experiencia Requerida  -->
+            <div class="col s12 l12 white" style="padding-left:75px;">
+              <br>
+              <h6 class="white" style="font-weight: bold;">Descripcion general del Proyecto</h6>
+              <p style="text-align:justify; padding-right:75px; " id="description">Lorem Ipsum es simplemente el texto de relleno de las imprentas
+                 y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar
+                de las industrias desde el año 1500, cuando un impresor (N. del T. 
+                persona que se dedica a la imprenta) desconocido usó una galería de
+                textos y los mezcló de tal manera que logró hacer un libro de textos
+                    especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como 
+                    texto de relleno en documentos electrónicos, quedando esencialmente 
+                    igual al original. Fue popularizado en los 60s con la creación de las
+                     hojas "Letraset", las cuales contenian pasajes de Lorem Ipsum, y más
+                      recientemente con software de autoedición, como por ejemplo Aldus 
+                      PageMaker, el cual incluye versiones de Lorem Ipsum</p>
+              <br>
+              <h6 class="white" style="font-weight: bold;">Funciones Laborales</h6>
+              <p style="text-align:justify; padding-right:75px;" id="funciones laborales">Lorem Ipsum es simplemente el texto de relleno de las imprentas
+                         y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar
+                          de las industrias desde el año 1500, cuando un impresor (N. del T. 
+                          persona que se dedica a la imprenta) desconocido usó una galería de
+                           textos y los mezcló de tal manera que logró hacer un libro de textos
+                            especimen.</p>
+              <br>
+              <h6 class="white" style="font-weight: bold;">Experiencia Requerida</h6>
+              <div class="responsive-table bcw" style="width:350px; padding-right:75px; ">
+                <table>
+          
+                  <tbody>
+                    <tr>
+                      <td>Financial - [GL, AR, AP]</td>
+                      <td>  
+                        <div class="chip green white-text">
+                        K4
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Controlling - [IM, PC, PA]</td>
+                      <td>  
+                        <div class="chip blue white-text">
+                        K2
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>HR</td>
+                      <td>  
+                        <div class="chip yellow">
+                        K1
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </main>
+
+
+  <script src="{% static 'js/home.js' %}"></script>
+
+  <script>
+    var elem = document.querySelector('.collapsible.expandable');
+    var instance = M.Collapsible.init(elem, {
+      accordion: false
+    });
+  </script>
+
+  <script>
+  $(document).ready(function(){
+    $('.tooltipped').tooltip();
+  });
+  </script>
+
+</body>
+</html>
