@@ -1,0 +1,45 @@
+{% extends 'baseProyectos.html' %}
+{% load static %}
+{% block Content %}
+<section class="container-poyectos">
+    <div class="container" style="margin-top:20px; width:80%;">
+        <div class="row">
+
+            <!-- IMAGE -->
+            <div clasS="col s12 left">
+                <img src="{% static 'images/project_created.png' %}?v=1.0" alt="Foto de Perfil" class="responsive-img"
+                    style="width:30%;" />
+            </div>
+
+            <!-- TITULO -->
+            <div class="col s12" style="margin-bottom:-60px;">
+                <h1 style="font-weight:bold;">
+                    <span class="black-text" style="font-size:50px; font-weight:bold;">¡LISTO! TU PROYECTO YA</span>
+                    <span class="blue-text text-darken-4" style="font-size:50px; font-weight:bold;">ESTA
+                        PUBLICADO.</span>
+                </h1>
+            </div>
+
+
+            <!-- LEYEND -->
+            <div class="col s12 ">
+                <h1 class="grey-text" style="font-size:14pt; margin-bottom:-30px;">
+                    Tu proyecto ha sido recibido y Gnosis le dara un seguimiento para poderte ofrecer la solución que
+                    mejor se adapte a tus necesidades.
+
+                </h1>
+                <h1 class="grey-text" style="font-size:14pt; ">
+                    Los consultores podrán ver tu proyecto y podrás tener un mejor alcance.
+                </h1>
+            </div>
+
+
+            <!-- BUTTON CREATE NEW PROJECT-->
+            <div class="col s12">
+                <a href="{% url 'my_projectsCreateds' %}" class="waves-effect waves-light btn blue darken-4">Ver Mis Proyectos</a>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock Content %}

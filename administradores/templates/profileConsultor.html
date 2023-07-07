@@ -1,0 +1,945 @@
+{% extends 'baseAdministrador.html' %}
+{% load static %}
+{% block Content %}
+{{ status }}
+  <section class="container_data">
+    <div class="my-data-name">
+      <div class="information-data-name" id="information-profile">
+        <div class="information-profile-photo">
+          {% if image %}
+            <img src="{{ image }}" alt=""/>
+          {% else %}
+            {% if informationPersonalUser.sexo == 'M' %}
+              <img src="{% static 'images/profile/default.jpg' %}" alt=""/>
+            {% else %}
+              <img src="{% static 'images/profile/defaultF.png' %}" alt=""/>
+            {% endif %}
+          {% endif %}
+        </div>
+        <div class="information-user-profile">
+          <h5>{{ informationPersonalUser.nombre }} {{ informationPersonalUser.ape_pat }} {{ informationPersonalUser.ape_mat }}</h5>
+          {% if informationPersonalUser.sexo == 'M' %}
+            <h6>Hombre - {{ edad }} años</h6>
+          {% else %}
+            <h6>Mujer - {{ edad }} años</h6>
+          {% endif %}
+          <h6>{{ informationPersonalUser.municipio }}, {{ informationPersonalUser.estado }}</h6>
+          {% if informationPersonalUser.disponible == 1 %}
+            <h6>Disponible para trabajar</h6>
+          {% else %}
+            <h6 style="color:tomato;">No disponible para trabajar</h6>
+          {% endif %}
+          <div
+            style="width: 100%; height: 26px; background-color:white; display:flex; align-items:center; flex-direction:row; justify-content:center" class="container-stars">
+            <span class="material-icons" style="color: #D9D910;">star</span>
+            <span class="material-icons" style="color: #D9D910;">star</span>
+            <span class="material-icons" style="color: #D9D910;">star</span>
+            <span class="material-icons" style="color: #D9D910;">star</span>
+            <span class="material-icons" style="color: #E4E4DF;">star</span>
+            <p>4.0</p>
+          </div>
+          <h6>Calificacion del consultor</h6>
+        </div>
+        <div class="information-user-botomms-cv">
+          <button class="white-buttons">Generar CV</button>
+
+        </div>
+      </div>
+      <div class="information-data-name" id="information-profile-factors">
+        <div class="information-costs">
+          <div class="card-money-hour" id="card-money-hour" style="width: 20%;">
+            <div class="money-kind" id="money-kind-show"
+              style="width: 100%; padding-left:0px; padding-top:0px;align-items: center;">
+              <h6>Tipo de Moneda</h6>
+              <h5>{{ tipoMoneda }}</h5>
+            </div>
+            <div class="money-img" style="width: 100%;">
+              <div id="circle">
+                <span class="material-symbols-outlined"> paid </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-money-hour" id="card-money-hour2">
+            <div style="display: flex; width:100%; background-color:white;border-radius: 4px;">
+              <div class="money-kind" id="money-kind-show">
+                <h6>Costo por hora</h6>
+                <h5>${{informationConsultorUser.tarifa_hora}}</h5>
+                <h5 id="cost-money" style="display: none;">${{informationConsultorUser.tarifa_hora}} USD</h5>
+              </div>
+
+              <div class="money-img">
+                <div id="circle">
+                  <span class="material-symbols-outlined"> paid </span>
+                </div>
+              </div>
+            </div>
+            <div class="hour-porcentajes">
+              <p style="color: #01D176; padding-left:10px">3.5%</p> &nbsp;
+              <span class="material-icons" style="font-size: 20px; color: #01D176;">
+                arrow_upward
+              </span> &nbsp;
+              <p>Mas que el año pasado</p>
+            </div>
+          </div>
+
+          <div class="card-money-hour" style="margin-left: 20px">
+            <div style="display: flex; width:100%; background-color:white;border-radius: 4px;">
+              <div class="money-kind" id="hour-kind-show">
+                <h6>Proyectos con Gnosis</h6>
+                <h5>15</h5>
+              </div>
+
+              <div class="money-img">
+                <div id="circle">
+                  <span class="material-symbols-outlined"> people_alt </span>
+                </div>
+              </div>
+            </div>
+            <div class="hour-porcentajes">
+              <p style="color: #01D176; padding-left:10px">1.3%</p> &nbsp;
+              <span class="material-icons" style="font-size: 20px; color: #01D176;">
+                arrow_upward
+              </span> &nbsp;
+              <p>Mas que el año pasado</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="information-gnosis-notes">
+          <div class="facturation">
+            <h5>Notas de Gnosis</h5>
+          </div>
+          <div class="inputs" id="gnosis-note">
+            <h5>Anotaciones Iniciales de Gnosis</h5>
+            <h6 id="label">Enero 2019</h6>
+            <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+              fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+              mollit anim id est laborum.
+            </h6>
+          </div>
+          <div class="inputs" id="input-edit-factury" style="background-color: white; display:none;">
+              <div class="row">
+          </div>
+        </div>
+        <div class="buttons-rfc" id="buttons-show">
+          <button class="blue-buttons" id="edit-factory-information-activate">Mostrar Mas</button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="information-contact-experience">
+      <div  class="container-contact">
+        <div class="contact">
+          <h5 class="data-contact-tittle">Datos de contacto</h5>
+          <div id="contacto-info"
+            style="width: 100%; height: 100px; margin-top:6px; background-color: #fcf2d1; display: flex;  flex-direction:column;">
+            <strong>
+              <p style="background-color: #fcf2d1; color: #cdbc84; padding-left:4px">Forma de contacto</p>
+            </strong>
+            <p style="background-color: #fcf2d1; color: #cdbc84; padding-left:4px">Los datos del consultor fueron
+              obtenidos a través de referencia al consultor Miguel Angel. En la fecha 19/02/21</p>
+          </div>
+          <div class="contact-info">
+            <h6 id="labels">Telefono:</h6>
+            <h6>{{ informationPersonalUser.telefono }}</h6>
+            <h6 id="labels">Correo electronico:</h6>
+            <h6>{{ correo }}</h6>
+            <h6 id="labels">Dirección:</h6>
+            {% if informationPersonalUser.ciudad == 'NA' or informationPersonalUser.ciudad == ''  %}
+              <h6>{{ informationPersonalUser.colonia }}, {{ informationPersonalUser.cod_post }}, {{ informationPersonalUser.municipio }}, {{ informationPersonalUser.estado }}</h6>
+            {% else %}
+              <h6>{{ informationPersonalUser.colonia }}, {{ informationPersonalUser.cod_post }}, {{ informationPersonalUser.ciudad }}, {{ informationPersonalUser.estado }}</h6>
+            {% endif %}
+          </div>
+        </div>
+        <div class="idiomas" id="information-contact-experience-contact">
+          <h5>Idiomas</h5>
+          <div class="contact-info" id="languajes-description" style="overflow: auto;height:140px;">
+            {% if misIdiomas %}
+              {% for miIdioma in misIdiomas %}
+              <div
+              style="width: 100%; display: flex; flex-direction: row; flex-wrap: wrap; height: 40px; background-color: white; justify-content: space-between; border-top: 1px solid gray; border-right: 1px solid gray; border-left: 1px solid gray; border-bottom: none;border-bottom: 1px solid gray; box-sizing: border-box; overflow: hidden; align-items: center; padding: 6px;">
+              <p style="width: 20%; height: 26px; margin-top: 0px; background-color: white; margin-top:2px; margin-bottom:2px;">{{ miIdioma.1.nombre }}</p>
+              <p
+                style="width: 20%; height: 26px; margin-top: 0px; background-color: green; text-align: center; color: white; border-radius: 6px;">
+                {{ miIdioma.2 }}</p>
+            </div>
+              {% endfor %}
+            {% else %}
+              <div class="contact-info" id="languajes-description">
+                <p>Aun no hay idiomas registrados</p>
+              </div>
+            {% endif %}
+            
+            
+          </div>
+        </div>
+      </div>
+      <div class="experience">
+        <div class="data-experience">
+          <h5>Proyectos y Desempeño</h5>
+          <h6 id="date-requirement">Salario estimado por el consultor y precio pagado por proyecto</h6>
+          <div
+            style="width: 100%; height: 300px; background-color: white; display: flex; justify-content: center; align-items: center;">
+            <canvas id="myChart" style="width: 90%; height: 90%; background-color: white;"></canvas>
+          </div>
+          <h5>Proyectos y evaluaciones recibidas</h5>
+        </div>
+        <div style="width: 100%; background-color:white; display: flex; justify-content: center;">
+          <div class="container-table">
+            <table class="centered responsive-table">
+              <thead>
+                <tr>
+                  <th>Proyecto</th>
+                  <th>Empresa</th>
+                  <th>Fecha del proyecto</th>
+                  <th>Evaluacion general</th>
+                  <th>Mas detalles</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr id="sap">
+                  <td>John Liki</td>
+                  <td>Legal Consolidation</td>
+                  <td>September 14, 2013</td>
+                  <td><span class="material-icons" style="color: #D9D910; font-size:18px;">star</span><span
+                      class="material-icons" style="color: #D9D910; font-size:18px;">star</span><span
+                      class="material-icons" style="color: #D9D910;font-size:18px;">star</span><span
+                      class="material-icons" style="color: #D9D910;font-size:18px;">star</span><span
+                      class="material-icons" style="color: #E4E4DF;font-size:18px;">star</span>
+                    <p style="font-size:10px;">4.0</p>
+                  </td>
+                  <td><button class="white-buttons2" id="1" >Editar</button></td>
+                </tr>
+
+
+
+                <form action="" style="display: none;" id="sap-form-2">
+                  <tr style="display: none;" id="sap-form-ed">
+                    <td>
+                      <select class="browser-default">
+                        <option value="" disabled selected>Nivel</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                      </select>
+                    </td>
+                    <td><select class="browser-default">
+                        <option value="" disabled selected>Nivel</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                      </select></td>
+                    <td class="label-experience">
+                      <select class="browser-default">
+                        <option value="" disabled selected>Nivel</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                      </select>
+                    </td>
+                    <td><button class="white-buttons2">Actualizar</button></td>
+                  </tr>
+                </form>
+                <tr id="sap">
+                  <td>John Liki</td>
+                  <td>Legal Consolidation</td>
+                  <td>September 14, 2013</td>
+                  <td><span class="material-icons" style="color: #D9D910; font-size:18px;">star</span><span
+                      class="material-icons" style="color: #D9D910; font-size:18px;">star</span><span
+                      class="material-icons" style="color: #D9D910;font-size:18px;">star</span><span
+                      class="material-icons" style="color: #D9D910;font-size:18px;">star</span><span
+                      class="material-icons" style="color: #E4E4DF;font-size:18px;">star</span>
+                    <p style="font-size:10px;">4.0</p>
+                  </td>
+                  <td><button class="white-buttons2" id="2" >Editar</button></td>
+                </tr>
+
+
+
+                <form action="" style="display: none;" id="sap-for">
+                  <tr style="display: none;" id="sap-f">
+                    <td>
+                      <select class="browser-default">
+                        <option value="" disabled selected>Nivel</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                      </select>
+                    </td>
+                    <td><select class="browser-default">
+                        <option value="" disabled selected>Nivel</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                      </select></td>
+                    <td class="label-experience">
+                      <select class="browser-default">
+                        <option value="" disabled selected>Nivel</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                      </select>
+                    </td>
+                    <td><button class="white-buttons2">Actualizar</button></td>
+                  </tr>
+                </form>
+                <tr id="sap">
+                  <td>John Liki</td>
+                  <td>Legal Consolidation</td>
+                  <td>September 14, 2013</td>
+                  <td><span class="material-icons" style="color: #D9D910; font-size:18px;">star</span><span
+                      class="material-icons" style="color: #D9D910; font-size:18px;">star</span><span
+                      class="material-icons" style="color: #D9D910;font-size:18px;">star</span><span
+                      class="material-icons" style="color: #D9D910;font-size:18px;">star</span><span
+                      class="material-icons" style="color: #E4E4DF;font-size:18px;">star</span>
+                    <p style="font-size:10px;">4.0</p>
+                  </td>
+                  <td><button class="white-buttons2" id="3" >Editar</button></td>
+                </tr>
+
+                <form action="" style="display: none;" id="sap-f4">
+                  <tr style="display: none;" id="sap-it-4">
+                    <td>
+                      <select class="browser-default">
+                        <option value="" disabled selected>Nivel</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                      </select>
+                    </td>
+                    <td><select class="browser-default">
+                        <option value="" disabled selected>Nivel</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                      </select></td>
+                    <td class="label-experience">
+                      <select class="browser-default">
+                        <option value="" disabled selected>Nivel</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                      </select>
+                    </td>
+                    <td><button class="white-buttons2">Actualizar</button></td>
+                  </tr>
+                </form>
+                <tr id="sap">
+                  <td>John Liki</td>
+                  <td>Legal Consolidation</td>
+                  <td>September 14, 2013</td>
+                  <td><span class="material-icons" style="color: #D9D910; font-size:18px;">star</span><span
+                      class="material-icons" style="color: #D9D910; font-size:18px;">star</span><span
+                      class="material-icons" style="color: #D9D910;font-size:18px;">star</span><span
+                      class="material-icons" style="color: #D9D910;font-size:18px;">star</span><span
+                      class="material-icons" style="color: #E4E4DF;font-size:18px;">star</span>
+                    <p style="font-size:10px;">4.0</p>
+                  </td>
+                  <td><button class="white-buttons2" id="4">Editar</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="information-documents" id="lenguajes">
+      <div class="documents">
+        <div class="docs-info">
+          <h5>Documentos subidos</h5>
+          <div class="document-upload" onclick="openFileExplorerForCv()">
+            <p>
+              <label>
+                  {% if files.0 == '1' %}
+                    <input type="checkbox" class="" disabled checked/>
+                  {% else %}
+                    <input type="checkbox" class="filled-in" disabled/>
+                  {% endif %}
+                <span id="upload" onclick="window.open(`{% url 'consultorDocumentacion' %}?id={{ informationConsultorUser.id }}&pais={{ informationPersonalUser.pais }}&rfc={{ informationConsultorUser.rfc }}&file=CV&format=pdf`, '_blank');">Ver CV</span>
+              </label>
+            </p>
+          </div>
+          <div class="document-upload" onclick="openFileExplorerForINE()">
+            <p>
+              <label>
+                  {% if files.1 == '1' %}
+                    <input type="checkbox" class="" disabled checked/>
+                  {% else %}
+                    <input type="checkbox" class="filled-in" disabled/>
+                  {% endif %} 
+                <span id="upload" onclick="window.open(`{% url 'consultorDocumentacion' %}?id={{ informationConsultorUser.id }}&pais={{ informationPersonalUser.pais }}&rfc={{ informationConsultorUser.rfc }}&file=INE&format=pdf`, '_blank');">Ver INE</span>
+              </label>
+            </p>
+          </div>
+          <div class="document-upload" onclick="openFileExplorerForActa()">
+            <p>
+              <label>
+                  {% if files.2 == '1' %}
+                    <input type="checkbox" class="" disabled checked/>
+                  {% else %}
+                    <input type="checkbox" class="filled-in" disabled/>
+                  {% endif %}
+                <span id="upload" onclick="window.open(`{% url 'consultorDocumentacion' %}?id={{ informationConsultorUser.id }}&pais={{ informationPersonalUser.pais }}&rfc={{ informationConsultorUser.rfc }}&file=Acta_Nacimiento&format=pdf`, '_blank');">Ver Acta de Nacimiento</span>
+              </label>
+            </p>
+          </div>
+          <div class="document-upload" onclick="openFileExplorerForPasaporte()">
+            <p>
+              <label>
+                  {% if files.3 == '1' %}
+                    <input type="checkbox" class="" disabled checked/>
+                  {% else %}
+                    <input type="checkbox" class="filled-in" disabled/>
+                  {% endif %}
+                <span id="upload" onclick="window.open(`{% url 'consultorDocumentacion' %}?id={{ informationConsultorUser.id }}&pais={{ informationPersonalUser.pais }}&rfc={{ informationConsultorUser.rfc }}&file=Pasaporte&format=pdf`, '_blank');">Ver Pasaporte</span>
+              </label>
+            </p>
+          </div>
+          <div class="document-upload" onclick="openFileExplorerForComprobante()">
+            <p>
+              <label>
+                  {% if files.4 == '1' %}
+                    <input type="checkbox" class="" disabled checked/>
+                  {% else %}
+                    <input type="checkbox" class="filled-in" disabled/>
+                  {% endif %}
+                <span id="upload" onclick="window.open(`{% url 'consultorDocumentacion' %}?id={{ informationConsultorUser.id }}&pais={{ informationPersonalUser.pais }}&rfc={{ informationConsultorUser.rfc }}&file=Comprobante_Domicilio&format=pdf`, '_blank');">Ver Comprobante de Domicilio</span>
+              </label>
+            </p>
+          </div>
+          <div class="document-upload" onclick="openFileExplorerForCartaRecomendacion()">
+            <p>
+              <label>
+                  {% if files.5 == '1' %}
+                    <input type="checkbox" class="" disabled checked/>
+                  {% else %}
+                    <input type="checkbox" class="filled-in" disabled/>
+                  {% endif %}
+                <span id="upload" onclick="window.open(`{% url 'consultorDocumentacion' %}?id={{ informationConsultorUser.id }}&pais={{ informationPersonalUser.pais }}&rfc={{ informationConsultorUser.rfc }}&file=Carta_Recomendacion&format=pdf`, '_blank');">Ver Carta de recomendacion </span>
+              </label>
+            </p>
+          </div>
+          <div class="document-upload" onclick="openFileExplorerForF3()">
+            <p>
+              <label>
+                  {% if files.6 == '1' %}
+                    <input type="checkbox" class="" disabled checked/>
+                  {% else %}
+                    <input type="checkbox" class="filled-in" disabled/>
+                  {% endif %}
+                <span id="upload" onclick="window.open(`{% url 'consultorDocumentacion' %}?id={{ informationConsultorUser.id }}&pais={{ informationPersonalUser.pais }}&rfc={{ informationConsultorUser.rfc }}&file=F3&format=pdf`, '_blank');">Ver F3</span>
+              </label>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="courses-moduls">
+        <div class="courses" id="courses-show-container">
+          <div class="data-courses" id="experience-container-end" style="display: none;">
+            <h5>Experiencia Profesional</h5>
+            <h6 id="title-courses">No hay mas experiencias</h6>
+          </div>
+          {% if myExperience %}
+            {% for experience in myExperience %}
+              <div class="data-courses" id="container-data-experience-show-{{ experience.6 }}">
+                <h5>Experiencia Profesional</h5>
+                <h6 id="title-courses">{{ experience.3 }} en {{ experience.2 }}</h6>
+                <h6 id="date-courses">{{ experience.4 }} - {{ experience.5 }}</h6>
+                <h6 id="content-courses">{{ experience.1 }}</h6>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="data-courses">
+              <h5>Experiencia Profesional</h5>
+              <h6 id="title-courses">No hay experiencia registrada</h6>
+            </div>
+          {% endif %}
+          <div class="button-experience-course" id="course">
+            <button class="blue-buttons" id="courses-edit-button" onclick="viewExperiencia(viewExperiencias=viewExperiencias+1);">Mostrar Mas</button>
+          </div>
+        </div>
+        <div class="moduls-sap"> 
+          <h5 id="modulo-sap">Modulos que maneja en SAP</h5>
+          <div class="data-moduls">
+            <div class="container-table">
+              <table class="centered responsive-table">
+                <thead>
+                  <tr>
+                    <th>Módulo</th>
+                    <th>Submódulo</th>
+                    <th>Nivel de <br> Experiencia</th>
+                    <th>Experiencia que <br> asigna Gnosis</th>
+                    <th>Editar</th>
+                  </tr>
+                </thead>
+                <tbody id="tablaResultados">
+                  {% for moduls in misModulos %}
+                  <tr id="sap-form-show-{{ moduls.4 }}">
+                    <td>{{ moduls.1.nombre }}</td>
+                    <td>{{ moduls.2.nombre }}</td>
+                    <td>
+                      {% if moduls.3.nombre.1 == '0' %}
+                        <div class="label-kCero" id="nivel-{{ moduls.4}}">{{ moduls.3.nombre }}</div>
+                      {% elif moduls.3.nombre.1 == '1' %}
+                        <div class="label-kUno" id="nivel-{{ moduls.4}}">{{ moduls.3.nombre }}</div>
+                      {% elif moduls.3.nombre.1 == '2' %}
+                        <div class="label-kDos" id="nivel-{{ moduls.4}}">{{ moduls.3.nombre }}</div>
+                      {% elif moduls.3.nombre.1 == '3' %}
+                        <div class="label-kTres" id="nivel-{{ moduls.4}}">{{ moduls.3.nombre }}</div>
+                      {% elif moduls.3.nombre.1 == '4' %}
+                        <div class="label-kCuatro" id="nivel-{{ moduls.4}}">{{ moduls.3.nombre }}</div>
+                      {% endif %}
+                    </td>
+                    <td>
+                      {% if moduls.5.nombre.1 == '0' %}
+                        <div class="label-kCero" id="nivel-gnosis-{{ moduls.4}}">{{ moduls.5.nombre }}</div>
+                      {% elif moduls.5.nombre.1 == '1' %}
+                        <div class="label-kUno" id="nivel-gnosis-{{ moduls.4}}">{{ moduls.5.nombre }}</div>
+                      {% elif moduls.5.nombre.1 == '2' %}
+                        <div class="label-kDos" id="nivel-gnosis-{{ moduls.4}}">{{ moduls.3.nombre }}</div>
+                      {% elif moduls.5.nombre.1 == '3' %}
+                        <div class="label-kTres" id="nivel-gnosis-{{ moduls.4}}">{{ moduls.5.nombre }}</div>
+                      {% elif moduls.5.nombre.1 == '4' %}
+                        <div class="label-kCuatro" id="nivel-gnosis-{{ moduls.4}}">{{ moduls.5.nombre }}</div>
+                      {% endif %}
+                    </td>
+                    {% if moduls.6 == 'Validado'%}
+                      <td><button class="white-buttons2 dynamic-button" id=
+                      "{{moduls.4}}" value="{{moduls.4}}" name="{{moduls.0}}">Validado</button></td>
+                    {% else %}
+                      <td><button class="white-buttons2 dynamic-button" id=
+                      "{{moduls.4}}" value="{{moduls.4}}" name="{{moduls.0}}">Validar</button></td>
+                    {% endif %}
+                  </tr>
+                  
+                {% endfor %}
+                </tbody>
+                <tfoot style="display: none;">
+                  <form id="sap-form-content">
+                    {% csrf_token %}
+                    <tr id="sap-form-edit-4">
+                      <td>
+                        <select class="browser-default" name="modulo">
+                          <option value="" disabled selected>Módulo</option>
+                          {% for modulo in listaModulos %}
+                          <option value="{{ modulo.id }}">{{ modulo.nombre }}</option>
+                          {% endfor %}
+                        </select>
+                      </td>
+                      <td>
+                        <select class="browser-default" name="submodulo">
+                          <option value="" disabled selected>Submódulo</option>
+                          {% for submodulos in listaSubodulos %}
+                          <option value="{{ submodulos.id }}">{{ submodulos.nombre }}</option>
+                          {% endfor %}
+                        </select>
+                      </td>
+                      <td class="label-experience">
+                        <select class="browser-default" name="nivel">
+                          <option value="" disabled selected>Nivel</option>
+                          {% for niveles in listaNivelesConocimiento %}
+                          <option value="{{ niveles.id }}">{{ niveles.nombre }}</option>
+                          {% endfor %}
+                        </select>
+                      </td>
+                      <td><button class="white-buttons2" onclick="addModuleSAP()">Agregar</button></td>
+                    </tr>
+                  </form>
+                </tfoot>
+              </table>
+            </div>
+            <div class="table-pagination">
+              <p>Anterior</p>
+              <ul class="pagination">
+                <li class="disabled">
+                  <a href="#!" id="less"><i class="material-icons">chevron_left</i></a>
+                </li>
+                <li class="active"><a href="#!">1</a></li>
+                <li class="waves-effect">
+                  <a href="#!" id="more"><i class="material-icons">chevron_right</i></a>
+                </li>
+              </ul>
+              <p>Siguiente</p>
+            </div>
+          </div>
+          <div class="button-experience-modul" id="modul">
+            <button class="blue-buttons">Editar información</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="information-contact-experience" id="education">
+      <div class="education-hidden" id="" style="width: 28%;">
+      </div>
+      <div class="experience" id="information-contact-experience-contact-experience">
+        <div class="data-experience" id="data-experience-show-container">
+          {% if estudiosConsultor %}
+            <h5>Educación</h5>
+            <h6 id="title-requeriment">{{ institucion.nombre }}</h6>
+            <h6 id="date-requirement">{{educacionInicio }} - {{ educacionTermino }}</h6>
+            <h6 id="content-requirement">{{ estudiosConsultor.educacion }} - {{ estudiosConsultor.titulo_registrado }}
+            </h6>
+            <hr />
+          {% else %}
+            <h5>Educación</h5>
+            <h6 id="title-requeriment">Aun no hay educacion agregada</h6>
+          {% endif%}
+        </div>
+      </div>
+    </div>
+    <div class="information-contact-experience" id="cursos">
+      <div class="" id="" style="width: 28%;">
+      </div>
+      <div class="experience" id="information-contact-experience-contact-experience">
+        <div class="data-experience" id="curso-container-end" style="display: none;">
+          <h5>Cursos y Certificaciones</h5>
+          <h6 id="title-requeriment">No hay mas cursos registrados</h6>
+        </div>
+        {% if myCourses %}
+          {% for curso in myCourses %}
+            <div class="data-experience" id="container-curso-{{curso.6}}">
+              <h5>Cursos y Certificaciones</h5>
+              <h6 id="title-requeriment">{{ curso.5 }}</h6>
+              <h6 id="date-requirement">{{ curso.4 }}</h6>
+              <h6 id="content-requirement">{{ curso.1 }}</h6>
+              <hr />
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="data-experience" id="data-experience-show-container">
+            <h5>Cursos y Certificaciones</h5>
+            <h6 id="title-requeriment">No hay cursos registrados</h6>
+          </div>
+        {% endif %}
+        <div class="button-experience-study" id="study">
+          <button class="blue-buttons" id="edit-education-user-information" onclick="viewCursos(viewCurso=viewCurso+1);">Mostrar Mas</button>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <form id="sap-form-administrador">
+      {% csrf_token %}
+      <input type="hidden" name="saber" value="" id="saber">
+      <div class="modal-content">
+        <h6 style="background-color: white;
+        font-size: 22px;
+        font-weight: 700;
+        color: #6f6d77;margin-bottom:16px">Validar experiencia de consultor</h6>
+        <p>Experiencia agregada por el consultor</p>
+        <div class="input-field">
+            <select id="mySelect" name="nivelConsultor">
+                <option value="">Selecciona una opción</option>
+                {% for niveles in listaNivelesConocimiento %}
+                  <option value="{{ niveles.id }}" id="{{ niveles.nombre }}">{{ niveles.nombre }} - {{ niveles.descripcion }}</option>  
+                {% endfor %}
+            </select>
+            <label>Seleccionar</label>
+        </div>
+        <br>
+        <p>Experiencia agregada por Gnosis</p>
+        <div class="input-field">
+            <select id="mySelect2" name="nivelGnosis">
+                <option value="">Selecciona una opción</option>
+                {% for niveles in listaNivelesConocimiento %}
+                  <option value="{{ niveles.id }}" id="{{ niveles.nombre }}">{{ niveles.nombre }} - {{ niveles.descripcion }}</option>  
+                {% endfor %}
+            </select>
+            <label>Seleccionar</label>
+        </div>
+      </div>
+    </form>
+    <div class="modal-footer">
+        <button class="blue-buttons" onclick="addModuleSAPAdministrador()">Aceptar</button>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="{% static 'js/profileAdministrador.js' %}"></script>
+<script>
+
+  function addModuleSAPAdministrador(){
+    // Obtén el formulario
+    var form = document.getElementById("sap-form-administrador");
+   
+    // Crea un objeto FormData para recopilar los datos del formulario
+    var formData = new FormData(form);
+   
+    // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
+    fetch(`{% url 'updateModulosSAPAdmin' %}`, {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      if(response.status == 200){
+        Swal.fire({
+          icon: 'success',
+          title: '¡Éxito!',
+          text: 'Los cambios se han guardado correctamente.',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload()
+          }
+        });
+        form.reset();
+      }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Algo salio mal',
+        });
+      }
+    })
+    .catch(error => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Algo salio mal',
+      });
+      form.reset();
+    });
+  }
+
+
+
+    var dynamicButtons = document.querySelectorAll('.dynamic-button');
+        dynamicButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var param1 = this.id;
+            var param2 = this.value;
+            var param3 = this.name;
+            // console.log(param3)
+            var body = document.body;
+            openModal(param1, param2, param3);
+            });
+        });
+        function openModal(id, modulo, param3) {
+            var nivel = document.getElementById(`nivel-${modulo}`).innerText;
+            var nivelGnosis = document.getElementById(`nivel-gnosis-${modulo}`).innerText;
+            // console.log(nivel)
+            // console.log(nivelGnosis)
+            // Inicializa los elementos del modal
+            var nivelbase = document.getElementById(`${nivel}`).innerText;
+            console.log(document.getElementById(`${nivel}`).value);
+            // console.log(nivelbase)
+            var select = document.getElementById('mySelect');
+            var option = select.options[0]; // Obtén la primera opción
+            option.value = document.getElementById(`${nivel}`).value;
+            
+            option.text = `${nivelbase}`;
+            document.getElementById('saber').value = param3;
+            var nivelbaseGnosis = document.getElementById(`${nivelGnosis}`).innerText;
+            console.log(document.getElementById(`${nivelGnosis}`).value);
+            // console.log(nivelbaseGnosis)
+            var select = document.getElementById('mySelect2');
+            var option2 = select.options[0]; // Obtén la primera opción
+
+            option2.value = document.getElementById(`${nivelGnosis}`).value;
+            option2.text = `${nivelbaseGnosis}`;
+
+
+            var elems = document.querySelectorAll('.modal');
+            var instances = M.Modal.init(elems);
+        
+            var select = document.querySelector('#mySelect');
+            var selectInstance = M.FormSelect.init(select);
+        
+            var select2 = document.querySelector('#mySelect2');
+            var selectInstanc2 = M.FormSelect.init(select2);
+        
+            // Abre el modal
+            var modalInstance = M.Modal.getInstance(document.querySelector('#modal1'));
+            modalInstance.open();
+      }
+
+
+  function editRowSapId(id) {
+    console.log("Botón presionado: " + id);
+  
+    let form = document.querySelector(`#sap-form-${id}`);
+    //form.style.display = "flex";
+    // form.style.width = "100%";
+  
+    let formTrEdit = document.querySelector(`#sap-form-edit-${id}`);
+    formTrEdit.style.display = "";
+    formTrEdit.style.width = "100%";
+  
+    let formTrShow = document.querySelector(`#sap-form-show-${id}`);
+    formTrShow.style.display = "none";
+  }
+
+
+  function controlTableSAP(inicio, final) {
+    var tablaResultados = document.getElementById('tablaResultados');
+    var filas = tablaResultados.querySelectorAll('tr');
+    var contador = 0;
+    var inicioFilas = inicio; // Límite de filas a mostrar
+    var limiteFilas = final; // Límite de filas a mostrar
+    
+    for (var fila of filas) {
+      var id = fila.getAttribute('id');
+      var idDeseado = 'sap-form-show-';
+  
+      if (fila.id.startsWith(idDeseado)) {
+        contador++;
+        
+        if (contador < inicioFilas || contador > limiteFilas) {
+          fila.style.display = 'none';
+        } else {
+          fila.style.display = 'table-row';
+        }
+      }
+    }
+  }
+  
+  var inicio = 0;
+  var final = 3;
+  controlTableSAP(inicio, final);
+  
+  document.getElementById('less').addEventListener('click', function(e) {
+    e.preventDefault();
+    inicio -= 3;
+    final -= 2;
+    controlTableSAP(inicio, final);
+    console.log('less');
+    console.log(inicio);
+    console.log(final);
+  });
+  
+  document.getElementById('more').addEventListener('click', function(e) {
+    e.preventDefault();
+    inicio += 3;
+    final += 2;
+    controlTableSAP(inicio, final);
+    console.log('more');
+    console.log(inicio);
+    console.log(final);
+  });
+
+  // Obtén una referencia al elemento canvas
+  var ctx = document.getElementById('myChart').getContext('2d');
+  document.getElementById('myChart').style.width = '700px';
+  // Datos del gráfico
+  var data = {
+    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo'],
+    datasets: [
+      {
+        label: 'Costo',
+        data: [12, 19, 8, 15, 7],
+        //backgroundColor: 'rgba(255, 99, 132, 0.5)', // Color de fondo de las barras con transparencia
+        borderColor: 'rgba(255, 99, 132, 1)', // Color del borde de las barras
+        borderWidth: 2.5, // Ancho del borde de las barras
+        pointRadius: 4, // Tamaño de los puntos
+        pointBackgroundColor: 'rgba(255, 99, 132, 1)', // Color de fondo de los puntos
+        pointBorderColor: 'rgba(255, 255, 255, 1)', // Color del borde de los puntos
+        pointHoverRadius: 7, // Tamaño de los puntos al pasar el cursor
+        fill: 'origin', // Relleno del área debajo de la línea
+      },
+      {
+        label: 'Proyecto',
+        data: [7, 13, 9, 17, 15],
+        backgroundColor: 'rgba(54, 162, 235, 0.5)', // Color de fondo de las barras con transparencia
+        borderColor: 'rgba(54, 162, 235, 1)', // Color del borde de las barras
+        borderWidth: 2.5, // Ancho del borde de las barras
+        pointRadius: 4, // Tamaño de los puntos
+        pointBackgroundColor: 'rgba(54, 162, 235, 1)', // Color de fondo de los puntos
+        pointBorderColor: 'rgba(255, 255, 255, 1)', // Color del borde de los puntos
+        pointHoverRadius: 7, // Tamaño de los puntos al pasar el cursor
+        fill: 'origin' // Relleno del área debajo de la línea
+      },
+      {
+        label: 'Desempeño',
+        data: [9, 15, 12, 10, 8],
+        backgroundColor: 'rgba(75, 192, 192, 0.5)', // Color de fondo de las barras con transparencia
+        borderColor: 'rgba(75, 192, 192, 1)', // Color del borde de las barras
+        borderWidth: 2.5, // Ancho del borde de las barras
+        pointRadius: 4, // Tamaño de los puntos
+        pointBackgroundColor: 'rgba(75, 192, 192, 1)', // Color de fondo de los puntos
+        pointBorderColor: 'rgba(255, 255, 255, 1)', // Color del borde de los puntos
+        pointHoverRadius: 7, // Tamaño de los puntos al pasar el cursor
+        fill: 'origin' // Relleno del área debajo de la línea
+      }
+    ]
+  };
+
+  // Opciones del gráfico
+  var options = {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    },
+    elements: {
+      line: {
+        tension: 0.4 // Controla la suavidad de las líneas (0 = rectas, 1 = curvas)
+      }
+    }
+  };
+
+  // Crea el gráfico de barras lineal con líneas suavizadas, transparencia y área de relleno
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: data,
+    options: options
+  });
+
+
+  let viewExperiencias = 0;
+  viewExperiencia(viewExperiencias);
+  function viewExperiencia(view) {
+    console.log(view);
+    var containerCursos = document.querySelectorAll(
+      '[id^="container-data-experience-show-"]'
+    );
+    // Recorre los elementos encontrados
+    for (var i = 0; i < containerCursos.length; i++) {
+      var elemento = containerCursos[i];
+  
+      if (view >= containerCursos.length) {
+        document.getElementById("experience-container-end").style.display =
+          "block";
+      }
+      // Aplica el estilo "display: none" a todos los elementos excepto el primero
+      if (i !== view) {
+        elemento.style.display = "none";
+      } else {
+        elemento.style.display = "";
+      }
+    }
+  }
+  let viewCurso = 0;
+  viewCursos(viewCurso);
+  function viewCursos(view) {
+    console.log(view);
+    var containerCursos = document.querySelectorAll('[id^="container-curso-"]');
+    // Recorre los elementos encontrados
+    for (var i = 0; i < containerCursos.length; i++) {
+      var elemento = containerCursos[i];
+  
+      if (view >= containerCursos.length) {
+        document.getElementById("curso-container-end").style.display = "block";
+      }
+      // Aplica el estilo "display: none" a todos los elementos excepto el primero
+      if (i !== view) {
+        elemento.style.display = "none";
+      } else {
+        elemento.style.display = "";
+      }
+    }
+  }
+  
+</script>
+{% endblock %}

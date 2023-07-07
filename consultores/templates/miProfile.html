@@ -7,7 +7,15 @@
     <div class="my-data-name">
       <div class="information-data-name" id="information-profile">
         <div class="information-profile-photo">
-          <img src="{% static 'images/crea.jpg' %}" alt="" />
+          {% if image %}
+            <img src="{{ image }}" alt="" onclick="imageChange()"/>
+          {% else %}
+            {% if informationPersonalUser.sexo == 'M' %}
+              <img src="{% static 'images/profile/default.jpg' %}" alt="" onclick="imageChange()"/>
+            {% else %}
+              <img src="{% static 'images/profile/defaultF.png' %}" alt="" onclick="imageChange()"/>
+            {% endif %}
+          {% endif %}
         </div>
         <div class="information-user-profile">
           <h5>{{ informationPersonalUser.nombre }} {{ informationPersonalUser.ape_pat }} {{ informationPersonalUser.ape_mat }}</h5>
@@ -238,7 +246,6 @@
                       <option value="" disabled selected>Ciudad</option>
                     </select>
                   </div>
-                  
                 </div>
                 <div class="contact-options">
                   <div class="input-field col s6">
@@ -254,7 +261,6 @@
                     </select>
                   </div>
                 </div>
-                
               </div>
               <div id="button-information-user-profile">
                 <button class="white-buttons" id="button-update-contact">
@@ -276,22 +282,85 @@
         </div>
       </div>
       <div class="experience">
-        <div class="data-experience">
+        <div class="data-experience" id="experience-container-end" style="display: none;">
           <h5>Experiencia Profesional</h5>
-          <h6 id="title-requeriment">
-            {{ experienciasConsultor.puesto }} en {{ experienciasConsultor.empresa }}
-            <span class="material-symbols-outlined" id="edit-icon">
-              edit_square
-            </span>
-          </h6>
-          <h6 id="date-requirement">{{ experienciaInicio }} - {{ experienciaTermino }}</h6>
-          <h6 id="content-requirement">
-            {{ experienciasConsultor.descripcion }}
-          </h6>
+          <h6 id="date-requirement" style="font-size: 16px;
+            color: #6f6d77;
+            font-weight: 500;">No hay mas experiencias registradas</h6>
         </div>
-        <div class="button-experience">
-          <button class="blue-buttons">Editar información</button>
+        {% if myExperience %}
+          {% for experience in myExperience %}
+            <div class="data-experience" id="container-data-experience-show-{{ experience.6 }}">
+              <h5 id="">Experiencia Profesional</h5>
+              <input type="hidden" name="" id="puesto" value="{{ experience.3 }}">
+              <input type="hidden" name="" id="empresa" value="{{ experience.2 }}">
+              <input type="hidden" name="" id="experiencia-saber-show" value="{{ experience.0 }}">
+              <h6 id="title-requeriment" class="puesto-experiencia">{{ experience.3 }} en {{ experience.2 }}
+                <span class="material-symbols-outlined" id="edit-icon">
+                  edit_square
+                </span>
+              </h6>
+              <h6 id="date-requirement">{{ experience.4 }} - {{ experience.5 }}</h6>
+              <h6 id="content-requirement">
+                {{ experience.1 }}
+              </h6>
+              <span class="material-icons" style="float: right; margin-left: 10px; background-color:white; width:40px; text-align:center; color:#324080; border-radius: 4px; cursor:pointer;" onclick="viewExperiencia(viewExperiencias=viewExperiencias+1);">
+                arrow_forward
+              </span>
+            </div>
+            
+          {% endfor %}
+        {% else %}
+          <div class="data-experience" id="experience-container">
+            <h5>Experiencia Profesional</h5>
+            <h6 id="date-requirement" style="font-size: 16px;
+            color: #6f6d77;
+            font-weight: 500;">No hay mas experiencias registradas</h6>
+          </div>
+        {% endif %}
+        <div class="data-experience" style="display: none;" id="container-data-experience">
+          <h5>Experiencia Profesional</h5>
+          <form id="form-update-experiencia">
+            {% csrf_token %}
+            <input type="hidden" name="experiencia-saber" id="experiencia-saber" value="">
+           <div class="row" style="margin-top: -20px;">
+            <div class="input-field col s6">
+              <input id="puestoExperiencia" type="text" class="validate" name="puesto" />
+              <label for="institute">Puesto</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="puestoEmpresa" type="text" class="validate" name="empresa" />
+              <label for="institute">Empresa</label>
+            </div>
+            <div class="input-field col s4" style="margin-top: -10px;">
+              <input id="ageInit" type="text" class="datepicker validate" name="ageInit" />
+              <label for="institute">Fecha de entrada</label>
+            </div>
+            <div class="input-field col s4" style="margin-top: -10px;">
+              <input id="ageFinish" type="text" class="datepicker validate" name="ageFinish" />
+              <label for="ageFinish" id="span-study">Fecha de salida</label>
+            </div>
+            <div class="input-field col s4" style="margin-top: -10px;">
+              <label>
+                <input type="checkbox" onChange="comprobar(this);" name="check" />
+                <span>Sigo estudiando</span>
+              </label>
+            </div>
+            <div class="input-field  col s12" style="margin-top: -10px;">
+              <textarea id="textarea" class="materialize-textarea" placeholder="Actividades y logros" name="actividades" maxlength="300"></textarea>
+            </div>
+           </div>
+          </form>
+          <div id="button-information-user-profile">
+            <button class="white-buttons" id="button-experience-update" onclick="updateExperiencia()">Actualizar información</button>
+          </div>
+          <div class="button-experience" id="button-experience-cancel">
+            <button class="blue-buttons" id="cancel-information-experience">Cancelar</button>
+          </div>
         </div>
+          <div class="button-experience" id="button-experience">
+            <button class="blue-buttons" id="update-information-experience">Editar información</button>
+         </div>
       </div>
     </div>
 
@@ -339,7 +408,6 @@
                   <option value="Nivel B2 (Avanzado)">Nivel B2 (Avanzado)</option>
                   <option value="Nivel C1 (Dominio efectivo)">Nivel C1 (Dominio efectivo)</option>
                   <option value="Nivel C2 (Maestría)">Nivel C2 (Maestría)</option>
-
                 </select>
               </div>
             </div>
@@ -358,38 +426,44 @@
             Agregar información
           </button>
         </div>
+        
       </div>
 
-
       <div class="experience" id="information-contact-experience-contact-experience">
-        <div class="data-experience" id="data-experience-show-container">
-          <h5>Educación</h5>
-          <h6 id="title-requeriment">
-            {{ institucion.nombre }}
-            <span class="material-symbols-outlined" id="edit-icon">
-              edit_square
-            </span>
-          </h6>
-          <h6 id="date-requirement">{{ educacionInicio }} - {{ educacionTermino }}</h6>
-          <h6 id="content-requirement">
-            {{ estudiosConsultor.educacion }} - {{ estudiosConsultor.titulo_registrado }}
-          </h6>
-          <hr />
-        </div>
-
+        {% if estudiosConsultor %}
+          <div class="data-experience" id="data-experience-show-container">
+            <h5>Educación</h5>
+            <input type="hidden" name="educacion-saber-show" id="educacion-saber-show" value="{{ estudiosConsultor.id }}">
+            <h6 id="title-requeriment">
+              {{ institucion.nombre }}
+              <span class="material-symbols-outlined" id="edit-icon">
+                edit_square
+              </span>
+            </h6>
+            <h6 id="date-requirement">{{ educacionInicio }} - {{ educacionTermino }}</h6>
+            <h6 id="content-requirement">
+              {{ estudiosConsultor.educacion }} - {{ estudiosConsultor.titulo_registrado }}
+            </h6>
+            <hr />
+          </div>
+        {% else %}
+          <div class="data-experience" id="data-experience-show-container">
+            <h5>Educación</h5>
+            <h6 id="title-requeriment">No hay mas educacion registrada</h6>
+          </div>
+        {% endif%}
 
         <div class="data-experience" id="data-experience-edit-container" style="display: none;">
           <h5>Educación</h5>
           <h6 id="title-requeriment">
-            <input type="hidden" name="" id="fecha-nacimiento" value="{{informationPersonalUser.fecha_nacimiento}}">
-          
-          
-            <form style="margin-top: -20px;  display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%;">
+            <input type="hidden" name="" id="fecha-nacimiento" value="{{informationPersonalUser.fecha_nacimiento}}">      
+            <form style="margin-top: -20px;  display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%;" id="form-update-educacion">
             {% csrf_token %}
+            <input type="hidden" name="education-saber" id="education-saber" value="">
               <div class="row" style="margin-left:-10px; width:100%">
                 <label style="font-size: 14px; padding-left:10px">Nivel</label>
                 <div class="input-field col s12">
-                  <select class="browser-default">
+                  <select class="browser-default" name="nivelEducacion">
                     <option value="" disabled selected>Selecciona tu nivel</option>
                     <option value="Bachiller">Educación Media Superior - Bachiller</option>
                     <option value="Técnico">Educación Media Superior Técnica - Técnico</option>
@@ -401,36 +475,36 @@
                   </select>
                 </div>
                 <div class="input-field col s6">
-                  <input id="institute" type="text" class="validate" name="institute" />
+                  <input id="institute" type="text" class="validate" name="instituteEducacion" />
                   <label for="institute">Institucion</label>
                 </div>
                 <div class="input-field col s6">
-                  <input id="kindCertificate" type="text" class="validate" name="titulo " />
+                  <input id="kindCertificate" type="text" class="validate" name="tituloEducacion" />
                   <label for="titulo  ">Titulo o Carrera</label>
                 </div>
                 <div>
                   <div class="input-field col s6">
-                    <label for="ageInit" style="margin-top:-10px;">Año de Inicio</label>
-                    <input id="ageInit" type="text" class="datepicker validate" name="ageInit" />
+                    <label for="ageInit2" style="margin-top:-10px;">Año de Inicio</label>
+                    <input id="ageInit2" type="text" class="datepicker  validate" name="ageInitEducacion" />
                   </div>
                   <div class="input-field col s6">
-                    <label for="ageFinish" style="margin-top:-10px;" id="span-study">Año de Termino</label>
-                    <input id="ageFinish" type="text" class="datepicker validate" name="ageFinish" />
+                    <label for="ageFinish2" style="margin-top:-10px;" id="span-study">Año de Termino</label>
+                    <input id="ageFinish2" type="text" class="datepicker validate" name="ageFinish" />
                   </div>
                   <div class="input-field col s6">
                     <p>
                       <label>
-                        <input type="checkbox" class="filled-in" onChange="comprobar(this);"/>
+                        <input type="checkbox" class="filled-in" onChange="comprobar(this);" name="check"/>
                         <span>Sigo Estudiando</span>
                       </label>
                     </p>
                   </div>
                 </div>
               </div>
-              <button class="white-buttons" style="width:30%;" id="button-edit-education">Actualizar información</button>
             </form>
-
-
+            <div style="width: 100%; display:flex; align-items:center; justify-content:center">
+              <button class="white-buttons" style="width:30%;"  id="button-edit-education" onclick="updateEducacion(event)">Actualizar información</button>
+            </div>
 
             <div class="data-experience-edit-container-button">
               <button class="blue-buttons" id="cancel-editing-information-estudy">
@@ -442,9 +516,6 @@
           <button class="blue-buttons" id="edit-education-user-information">Editar información</button>
         </div>
       </div>
-
-
-
     </div>
 
     <div class="information-documents" id="lenguajes">
@@ -569,52 +640,67 @@
       </div>
       <div class="courses-moduls">
         <div class="courses" id="courses-show-container">
-          <div class="data-courses">
+          <div class="data-courses" id="curso-container-end" style="display: none;">
             <h5>Cursos y Certificaciones</h5>
-            <h6 id="title-courses">
-              Universidad Tecnologica de Tulancingo
-              <span class="material-symbols-outlined" id="edit-icon">
-                edit_square
-              </span>
-            </h6>
-            <h6 id="date-courses">Enero 2019 - Enero 2021</h6>
-            <h6 id="content-courses">Curso de Redes Convergentes</h6>
-            <hr />
+            <h6 id="title-courses">No hay mas cursos registrados</h6>        
           </div>
-          <div class="button-experience-course" id="course">
+          {%  if myCourses %}
+            {% for curso in myCourses %}
+              <div class="data-courses" id="container-curso-{{curso.6}}">
+                <h5>Cursos y Certificaciones</h5>
+                <input type="hidden" name="" id="id_certificado" value="{{ curso.0 }}">
+                <h6 id="title-courses">{{ curso.5 }}<span class="material-symbols-outlined" id="edit-icon">edit_square</span></h6>
+                <h6 id="date-courses">{{ curso.4 }}</h6>
+                <h6 id="content-courses">{{ curso.1 }}</h6>
+                <hr />
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="data-courses" id="container-curso-{{c}}">
+              <h5>Cursos y Certificaciones</h5>
+              <h6 id="title-courses">Aun no tienes ningun curso registrado</h6>        
+            </div>
+          {% endif %}
+            <div class="button-experience-course" id="course">
             <button class="blue-buttons" id="courses-edit-button">Editar información</button>
           </div>
+          <span class="material-icons" style="float: right; margin-left: 10px; background-color:white; width:40px; text-align:center; color:#324080; border-radius: 4px; cursor:pointer;" onclick="viewCursos(viewCurso=viewCurso+1);">
+            arrow_forward
+          </span>
         </div>
       
         <div class="courses" id="courses-edit-container" style="display: none;">
           <div class="data-courses">
             <h5>Cursos y Certificaciones</h5>
-            <form action="" style="margin-top: -26px; display:flex; flex-direction:column; align-items:center; justify-content:center">
+            <form style="margin-top: -26px; display:flex; flex-direction:column; align-items:center; justify-content:center" id="update-certifcado-cursos">
+              {% csrf_token %}
+              <input type="hidden" name="id_certificadoQuery" id="id_certificadoQuery" value="">
               <div class="row">
                 <div class="input-field col s8">
-                  <input id="name" type="text" class="validate" name="nameCertificate" />
+                  <input id="nameCertificate" type="text" class="validate" name="nameCertificate" required/>
                   <label for="name">Nombre del curso / Certificado</label>
                 </div>
                 <div class="input-field col s6">
-                  <input id="institute" type="text" class="validate" name="institute" />
+                  <input id="instituteCertificate" type="text" class="validate" name="institute" required/>
                   <label for="institute">Institucion</label>
                 </div>
                 <div class="input-field col s6">
-                  <input id="kindCertificate" type="url" class="validate" name="kindCertificate" />
+                  <input id="kindCertificate" type="url" class="validate" name="linkCertificate" required/>
                   <label for="kindCertificate">Enlace del certficado</label>
                 </div>
+                
                 <div class="input-field col s12">
-                  <textarea id="textarea1" class="materialize-textarea" maxlength="400" minlength="20"></textarea>
+                  <textarea id="textarea1" class="materialize-textarea" name="descripcion" maxlength="200" minlength="20" required></textarea>
                   <label for="textarea1">Descripcion</label>
                 </div>
                 <div>
                   <div class="input-field col s6">
-                    <label for="ageFinish" style="margin-top:-40px;">Año de Termino</label>
-                    <input id="ageFinish" type="month" class="datepicker validate" name="ageFinish" />
+                    <label for="ageFinish" style="margin-top:0px;">Año de Termino</label>
+                    <input id="ageFinish" required type="text" class="datepicker" name="termino" />
                   </div>
                 </div>
               </div>
-              <button class="white-buttons" style="width:30%;" id="">Actualizar información</button>
+              <button class="white-buttons" style="width:30%;" id="" onclick="updateCertificados()">Actualizar información</button>
             </form>
           </div>
           <div class="button-experience-course" id="course">
@@ -622,239 +708,117 @@
           </div>
         </div>
 
-
         <div class="moduls-sap">
           <h5 id="modulo-sap">Modulos que maneja en SAP</h5>
           <div class="data-moduls">
-            <div class="container-table" style="display: none;">
-              <table class="centered responsive-table">
-                <thead>
-                  <tr>
-                    <th>Módulo</th>
-                    <th>Submódulo</th>
-                    <th>Nivel de Experiencia</th>
-                    <th>Editar</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <tr>
-                    <td>Financial</td>
-                    <td>Legal Consolidation</td>
-                    <td class="label-experience">
-                      <div class="label-kUno">K1</div>
-                    </td>
-                    <td><button class="white-buttons2">Editar</button></td>
-                  </tr>
-                  <tr>
-                    <td>Financial</td>
-                    <td>Assets Managment</td>
-                    <td class="label-experience">
-                      <div class="label-kTres">K3</div>
-                    </td>
-                    <td><button class="white-buttons2">Editar</button></td>
-                  </tr>
-                  <tr>
-                    <td>Financial</td>
-                    <td>Banck Accounting</td>
-                    <td class="label-experience">
-                      <div class="label-kCuatro">K4</div>
-                    </td>
-                    <td><button class="white-buttons2">Editar</button></td>
-                  </tr>
-                  <tr>
-                    <td>Controlling</td>
-                    <td>Profit Center Accounting</td>
-                    <td class="label-experience">
-                      <div class="label-notE">No especificado</div>
-                    </td>
-                    <td><button class="white-buttons2">Editar</button></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="container-table">
-              <table class="centered responsive-table">
-                <thead>
-                  <tr>
-                    <th>Módulo</th>
-                    <th>Submódulo</th>
-                    <th>Nivel de Experiencia</th>
-                    <th>Editar</th>
-                  </tr>
-                </thead>
-                 <tbody>    
-                    <tr style="display: none;" id="sap-form-edit-1">
-                      <form action=""  id="sap-form-1">
-                        <td>
-                          <select class="browser-default">
-                            <option value="" disabled selected>Nivel</option>
-                            <option value="1">Option 1</option>
-                            <option value="2">Option 2</option>
-                            <option value="3">Option 3</option>
-                          </select>
-                        </td>
-                        <td><select class="browser-default">
-                          <option value="" disabled selected>Nivel</option>
-                          <option value="1">Option 1</option>
-                          <option value="2">Option 2</option>
-                          <option value="3">Option 3</option>
-                        </select></td>
+              <div class="container-table">
+                <table class="centered responsive-table">
+                  <thead>
+                    <tr>
+                      <th>Módulo</th>
+                      <th>Submódulo</th>
+                      <th>Nivel de Experiencia</th>
+                      <th>Editar</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tablaResultados"> 
+                    {% for moduls in misModulos %}
+                      <tr style="display: none;" id="sap-form-edit-{{ moduls.4 }}">
+                        <form id="sap-form-{{ moduls.4 }}">
+                          {% csrf_token %}
+                          <td>
+                            <select class="browser-default" name="modulo" required>
+                              <option value="" disabled selected>Modulo</option>
+                              {% for modulo in listaModulos %}
+                                <option value='{{modulo.id}}'>{{ modulo.nombre }}</option>
+                              {% endfor %}
+                            </select>
+                          </td>
+                          <td><select class="browser-default" name="submodulo" required>
+                            <option value="" disabled selected>Submódulo</option>
+                            {% for submodulos in listaSubodulos %}
+                              <option value='{{submodulos.id}}'>{{ submodulos.nombre }}</option>
+                            {% endfor %}
+                          </select></td>
+                          <td class="label-experience">
+                            <select class="browser-default" name="nivel" required>
+                              <option value="" disabled selected>Nivel</option>
+                              {% for niveles in listaNivelesConocimiento %}
+                                <option value='{{niveles.id}}'>{{ niveles.nombre }}</option>
+                              {% endfor %}
+                            </select>
+                          </td>
+                          <td><button class="white-buttons2" id="boton-{{moduls.4}}" onclick="sendModuleSAP(event,this.id)">Actualizar</button></td>
+                        </form>
+                      </tr>
+                      <tr id="sap-form-show-{{ moduls.4 }}" ondblclick="deleteModuleSAP(this.id)">
+                        <td>{{ moduls.1.nombre }}</td>
+                        <td>{{ moduls.2.nombre }}</td>
                         <td class="label-experience">
-                          <select class="browser-default">
-                            <option value="" disabled selected>Nivel</option>
-                            <option value="1">Option 1</option>
-                            <option value="2">Option 2</option>
-                            <option value="3">Option 3</option>
+                          {% if moduls.3.nombre.1 == '0' %}
+                            <div class="label-kCero">{{ moduls.3.nombre }}</div>
+                          {% elif moduls.3.nombre.1 == '1' %}
+                            <div class="label-kUno">{{ moduls.3.nombre }}</div>
+                          {% elif moduls.3.nombre.1 == '2' %}
+                            <div class="label-kDos">{{ moduls.3.nombre }}</div>
+                          {% elif moduls.3.nombre.1 == '3' %}
+                            <div class="label-kTres">{{ moduls.3.nombre }}</div>
+                          {% elif moduls.3.nombre.1 == '4' %}
+                            <div class="label-kCuatro">{{ moduls.3.nombre }}</div>
+                          {% endif %}
+                        </td>
+                        <td><button class="white-buttons2" id="{{moduls.4}}" onclick="editRowSapId(this.id)">Editar</button></td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                  <tfoot>
+                    <form id="sap-form-content">
+                      {% csrf_token %}
+                      <tr id="sap-form-edit-4">
+                        <td>
+                          <select class="browser-default" name="modulo">
+                            <option value="" disabled selected>Módulo</option>
+                            {% for modulo in listaModulos %}
+                            <option value="{{ modulo.id }}">{{ modulo.nombre }}</option>
+                            {% endfor %}
                           </select>
                         </td>
-                        <td><button class="white-buttons2">Actualizar</button></td>
-                      </form>
-                    </tr>
-                  <tr id="sap-form-show-1">
-                    <td>Financial</td>
-                    <td>Legal Consolidation</td>
-                    <td class="label-experience">
-                      <div class="label-kUno">K1</div>
-                    </td>
-                    <td><button class="white-buttons2" id="1" onclick="editRowSapId(this.id)">Editar</button></td>
-                  </tr>
-
-                  
-
-                  <form action="" style="display: none;" id="sap-form-2">
-                    <tr style="display: none;" id="sap-form-edit-2">
-                      <td>
-                        <select class="browser-default">
-                          <option value="" disabled selected>Nivel</option>
-                          <option value="1">Option 1</option>
-                          <option value="2">Option 2</option>
-                          <option value="3">Option 3</option>
-                        </select>
-                      </td>
-                      <td><select class="browser-default">
-                        <option value="" disabled selected>Nivel</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                      </select></td>
-                      <td class="label-experience">
-                        <select class="browser-default">
-                          <option value="" disabled selected>Nivel</option>
-                          <option value="1">Option 1</option>
-                          <option value="2">Option 2</option>
-                          <option value="3">Option 3</option>
-                        </select>
-                      </td>
-                      <td><button class="white-buttons2">Actualizar</button></td>
-                    </tr>
-                  </form>
-                  <tr id="sap-form-show-2">
-                    <td>Financial</td>
-                    <td>Assets Managment</td>
-                    <td class="label-experience">
-                      <div class="label-kTres">K3</div>
-                    </td>
-                    <td><button class="white-buttons2" id="2" onclick="editRowSapId(this.id)">Editar</button></td>
-                  </tr>
-
-
-
-                  <form action="" style="display: none;" id="sap-form-3">
-                    <tr style="display: none;" id="sap-form-edit-3">
-                      <td>
-                        <select class="browser-default">
-                          <option value="" disabled selected>Nivel</option>
-                          <option value="1">Option 1</option>
-                          <option value="2">Option 2</option>
-                          <option value="3">Option 3</option>
-                        </select>
-                      </td>
-                      <td><select class="browser-default">
-                        <option value="" disabled selected>Nivel</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                      </select></td>
-                      <td class="label-experience">
-                        <select class="browser-default">
-                          <option value="" disabled selected>Nivel</option>
-                          <option value="1">Option 1</option>
-                          <option value="2">Option 2</option>
-                          <option value="3">Option 3</option>
-                        </select>
-                      </td>
-                      <td><button class="white-buttons2">Actualizar</button></td>
-                    </tr>
-                  </form>                  
-                  <tr id="sap-form-show-3">
-                    <td>Financial</td>
-                    <td>Banck Accounting</td>
-                    <td class="label-experience">
-                      <div class="label-kCuatro">K4</div>
-                    </td>
-                    <td><button class="white-buttons2" id="3" onclick="editRowSapId(this.id)">Editar</button></td>
-                  </tr>
-
-                  <form action="" style="display: none;" id="sap-form-4">
-                    <tr style="display: none;" id="sap-form-edit-4">
-                      <td>
-                        <select class="browser-default">
-                          <option value="" disabled selected>Nivel</option>
-                          <option value="1">Option 1</option>
-                          <option value="2">Option 2</option>
-                          <option value="3">Option 3</option>
-                        </select>
-                      </td>
-                      <td><select class="browser-default">
-                        <option value="" disabled selected>Nivel</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                      </select></td>
-                      <td class="label-experience">
-                        <select class="browser-default">
-                          <option value="" disabled selected>Nivel</option>
-                          <option value="1">Option 1</option>
-                          <option value="2">Option 2</option>
-                          <option value="3">Option 3</option>
-                        </select>
-                      </td>
-                      <td><button class="white-buttons2">Actualizar</button></td>
-                    </tr>
-                  </form>                  
-                  <tr id="sap-form-show-4">
-                    <td>Controlling</td>
-                    <td>Profit Center Accounting</td>
-                    <td class="label-experience">
-                      <div class="label-notE">No especificado</div>
-                    </td>
-                    <td><button class="white-buttons2" id="4" onclick="editRowSapId(this.id)">Editar</button></td>
-                  </tr>
-                </tbody>
-              </table>
+                        <td>
+                          <select class="browser-default" name="submodulo">
+                            <option value="" disabled selected>Submódulo</option>
+                            {% for submodulos in listaSubodulos %}
+                            <option value="{{ submodulos.id }}">{{ submodulos.nombre }}</option>
+                            {% endfor %}
+                          </select>
+                        </td>
+                        <td class="label-experience">
+                          <select class="browser-default" name="nivel">
+                            <option value="" disabled selected>Nivel</option>
+                            {% for niveles in listaNivelesConocimiento %}
+                            <option value="{{ niveles.id }}">{{ niveles.nombre }}</option>
+                            {% endfor %}
+                          </select>
+                        </td>
+                        <td><button class="white-buttons2" onclick="addModuleSAP()">Agregar</button></td>
+                      </tr>
+                    </form>
+                  </tfoot>
+                </table>
+              </div>
+              <div class="table-pagination">
+                <p>Anterior</p>
+                <ul class="pagination">
+                  <li class="disabled">
+                    <a href="#!" id="less"><i class="material-icons">chevron_left</i></a>
+                  </li>
+                  <li class="active"><a href="#!">1</a></li>
+                  <li class="waves-effect">
+                    <a href="#!" id="more"><i class="material-icons">chevron_right</i></a>
+                  </li>
+                </ul>
+                <p>Siguiente</p>
+              </div>
             </div>
-            <div class="table-pagination">
-              <p>Anterior</p>
-              <ul class="pagination">
-                <li class="disabled">
-                  <a href="#!"><i class="material-icons">chevron_left</i></a>
-                </li>
-                <li class="active"><a href="#!">1</a></li>
-                <li class="waves-effect"><a href="#!">2</a></li>
-                <li class="waves-effect"><a href="#!">3</a></li>
-                <li class="waves-effect"><a href="#!">4</a></li>
-                <li class="waves-effect"><a href="#!">5</a></li>
-                <li class="waves-effect">
-                  <a href="#!"><i class="material-icons">chevron_right</i></a>
-                </li>
-              </ul>
-              <p>Siguiente</p>
-            </div>
-          </div>
-          <div class="button-experience-modul" id="modul">
-            <button class="blue-buttons">Editar información</button>
-          </div>
         </div>
       </div>
     </div>
@@ -865,9 +829,49 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
-  <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-  <script src="{% static 'js/miProfile.js' %}"></script>
+  <script src="{% static 'js/miProfile.js' %}?v=4.5"></script>
   <script>
+    function deleteModuleSAP(id){
+      const partes = id.split("-");
+      Swal.fire({
+        title: '¿Quieres eliminar el modulo?',
+        showDenyButton: true,
+        confirmButtonText: 'Si, eliminalo',
+        denyButtonText: `Cancelar `,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          const csrftoken = getCookie('csrftoken');
+          fetch(`deleteModuloSAP/${partes[3]}/`, {
+            method: 'DELETE',
+            headers: {
+              'X-CSRFToken': csrftoken
+            }
+          })
+            .then(response => {
+              if (response.ok) {
+                // La eliminación fue exitosa
+                Swal.fire('Eliminado', '', 'success');
+                location.reload;
+              } else {
+                // Hubo un error en la eliminación
+                Swal.fire('Hubo un error al eliminar', '', 'error');
+              }
+            })
+            .catch(error => {
+              Swal.fire('Hubo un error al eliminar', '', 'error');;
+            });
+        } else if (result.isDenied) {
+          Swal.fire('No se elimino', '', 'info')
+        }
+      })
+    }
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
   </script>
+    
   {% endblock %}

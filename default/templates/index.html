@@ -1,13 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title> MYAPP | INDEX </title>
+    <meta charset="UTF-8" />
+    <meta name="description" content="REGISTRATION STEP 1: CONTACTO" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- AXIOS -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>GNOSIS | INDEX</title>
 </head>
 <body>
-    <header>
-        <h1>Bienvenido a Index</h1>
-        <h1>{{ title }}</h1>
+    <header style="width: 80%; margin:0 auto; text-align:center">
+        <h2>Bienvenido a Gnosis</h2>
+        <div style="margin-top: 100px;">
+            <a class="waves-effect waves-light btn" href="{% url 'registre' %}"><i class="material-icons left">add</i>Agregar Consultor</a>
+            <a class="waves-effect waves-light btn" href="{% url 'registroAdministrador' %}"><i class="material-icons left">add_box</i>Agregar Administrador</a>
+            <a class="waves-effect waves-light btn" href="{% url 'registroEmpresa' %}"><i class="material-icons left">add_circle</i>Agregar Empresa</a>
+            <hr>
+            <a class="waves-effect waves-light btn" href="{% url 'login' %}"><i class="material-icons left">send</i>Iniciar sesión</a>
+        </div>
     </header>
     <main>
     </main>

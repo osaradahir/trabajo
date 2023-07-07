@@ -1,0 +1,175 @@
+{% extends 'baseProyectos.html' %}
+{% load static %}
+{% block Content %}
+<section class="container-poyectos">
+    <div class="container" style="margin-top:20px; width:80%;">
+        <div class="row">
+
+
+            <!-- CONTROL PAGES -->
+            <div class="col l4 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">
+                <a href="{% url 'my_projectsCreateds' %}">Mis proyectos</a>
+                <a class="grey-text pl7">/</a>
+                <a class="grey-text pl7"> Nuevo proyecto</a>
+            </div>
+
+
+            <!-- TITLE PAGE -->
+            <div class="col s12 ">
+                <h3 class="blue-text col l12 s12 text-darken-4">Nuevo Proyecto</h3>
+            </div>
+
+
+            <!-- LEYEND -->
+            <div class="col s12 ">
+                <span class="grey-text" style="font-size:14pt;">Complete los datos necesarios para dar de alta su nuevo
+                    proyecto</span>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <div class="container white" style="margin-top:20px;  width:80%;">
+        <div class="row white" style="margin-right:20px; margin-left:20px;">
+            <!--PAGE SUBTITLE -->
+            <div class="col s12 white">
+                <h4 class="blue-text text-darken-4 white">Información Básica</h4>
+                <h6 class="grey-text white pbtm20">Información basica del proyecto (Datos que vera el Consultor)</h6>
+            </div>
+
+            <!-- FORM START -->
+            <form id="form-new-project" action="{% url 'addNewProject' %}"  method="POST">
+                {% csrf_token %}
+                <!-- CHOOSE A TITLE PROJECT -->
+                <div class="input-field col s6 white">
+                    <input placeholder="EJ. Requerimiento Consultor SAP" id="title_project" type="text"
+                        class="validate white" pattern="^[a-zA-Z\s]*$" minlength="15" maxlength="50"
+                        title="Titulo con solo letras no mayor a 50 caracteres ni menor de 15" name="titulo" required>
+                    <label for="title_project" class="white black-text">Titulo del Proyecto</label>
+                </div>
+
+
+                <!--CHOOSE A CATEORY PROJECT -->
+                <div class="input-field col s6 white">
+                    <select class="white" name="categoria" id="categoria" required>
+                        <option value="" disabled selected>Categorias</option>
+                        {% for categoria in categorias %}
+                        <option value='{{categoria.id}}'>{{ categoria.categoria_nombre }}</option>
+                        {% endfor %}{
+                    </select>
+                    </select>
+                    <label class="black-text white">Categoria del Proyecto</label>
+                </div>
+
+                <!-- CHOOSE A DATE START -->
+                <div class="col s3 input-field">
+                    <i class="large material-icons prefix ">date_range</i>
+                    <input id="date_start" placeholder="15/05/1998" name="date_start" type="text" class="datepicker"
+             title="El formato no es el correcto" required>
+                    <label for="title_project" class="black-text">Fecha Inicio</label>
+                </div>
+
+
+                <!-- CHOOSE A DATE END -->
+                <div class="col s3 input-field">
+                    <i class="large material-icons prefix ">date_range</i>
+                    <input id="date-end" placeholder="15/05/1998" name="date-end" type="text" class="datepicker"
+                        name="fecha_nacimiento" title="El formato no es el correcto" required>
+                    <label for="title_project" class="black-text">Fecha Fin</label>
+                </div>
+
+
+                <!-- CHOOSE A COIN -->
+                <div class="input-field col s6 white">
+                    <select class="white" name="moneda" id="moneda" required>
+                        <option value="" disabled selected>Moneda de cobro</option>
+                        {% for moneda in monedaCobro %}
+                        <option value='{{moneda.id}}'>{{ moneda.tipo }}</option>
+                        {% endfor %}{
+                    </select>
+                    <label class="black-text white">Moneda que se manejara</label>
+                </div>
+
+                <!-- DESCRIPTION PROJECT -->
+                <div class="input-field col s12 pbtm20">
+                    <input placeholder="Agregar información, como una breve problematica a resolver"
+                        id="description_project" type="text" class="validate white" minlength="25"
+                        maxlength="75" title="Use solo letras NO numeros" name="descripcion" required>
+                    <label for="description_project" class="white black-text">Descripción del Proyecto</label>
+                </div>
+
+
+                <!-- FUNTIONS PROJECT  -->
+                <div class="input-field col s12 pbtm20">
+                    <input placeholder="Agregar información, como las actividades a resolver por parte del consultor"
+                        id="functions_project" type="text" class="validate white" minlength="25"
+                        maxlength="75" title="Use solo letras NO numeros" name="funciones" required>
+                    <label for="description_project" class="white black-text">Funciones Laborales</label>
+                </div>
+
+
+                <!-- SUBMIT FORM -->
+                <div class="col s12 center white pbtm20">
+                    <button class="waves-effect waves-light btn-large grey darken-4 white">
+                        <i class="material-icons right grey darken-4">arrow_forward</i>
+                        Guardar y Continuar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<script>
+    // Inicializar el select
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+    });
+
+    function addNewProject(event) {
+        event.preventDefault();
+        var form = document.getElementById('form-new-project');
+        var formData = new FormData(form);
+        if(document.getElementById('title_project').value != '' && document.getElementById('categoria').value != '' && document.getElementById('date_start').value != '' && document.getElementById('date-end').value != '' && document.getElementById('moneda').value != '' && document.getElementById('description_project').value != '' && document.getElementById('functions_project').value != ''){
+            // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
+           fetch('addNewProject', {
+               method: 'POST',
+               body: formData
+           })
+               .then(response => {
+                   if (response.status == 500) {
+                       Swal.fire({
+                           icon: 'error',
+                           title: 'Oops...',
+                           text: 'Algo salio mal',
+                       });
+                   }
+               })
+               .catch(error => {
+                   Swal.fire({
+                       icon: 'error',
+                       title: 'Oops...',
+                       text: 'Algo salio mal',
+                   });
+                   form.reset();
+               });
+       }else{
+           Swal.fire({
+               title: 'Oops ...',
+               text: 'Debes llenar todos los campos',
+           });
+       }
+        
+
+    }
+
+
+
+</script>
+{% endblock Content %}
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="{% static 'js/projects.js' %}?v=1.0"></script>
+{% endblock scripts %}

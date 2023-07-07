@@ -1,92 +1,9 @@
+{% extends 'basePrincipal.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="registry-activate part">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    
-    <link rel="stylesheet" href="{% static 'css/principal.css' %}" />
-
-    <!-- Compiled and minified JavaScript -->
-    
-    <script type = "text/javascript" src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>           
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/js/materialize.min.js"></script>
-
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-    <link rel="stylesheet" href="/Gnosis_SC/consultores/static/css/loader.css">
-    
-    <title>GNOSIS | PRINCIPAL</title>
-
-  </head>
-<body>
-  <nav>
-    <div class="nav-wrapper">
-      <ul>
-        <li class="img">
-          <img src="{% static 'images/logo.png' %}" alt="Logo Gnosis" class="logo" />
-        </li>
-      </ul>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li class="bell">
-          <div>
-            <a href="sass.html"><span class="material-symbols-outlined">notifications</span></a>
-          </div>
-        </li>
-        <li class="dropdown-trigger" data-target="dropdown1">
-          <a href="#" class="dropdown-trigger-link">Jesus<i class="material-icons right">arrow_drop_down</i></a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="img_profile">
-              <img src="{% static 'images/crea.jpg' %}" alt="Foto de Perfil" class="avatar" />
-            </div>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- Dropdown Structure -->
-  <ul id="dropdown1" class="dropdown-content">
-    <li><a href="p.html">Principal</a></li>
-    <li><a href="l.html">Mi perfil</a></li>
-    <li><a href="g.html">Configuración</a></li>
-  </ul>
-
-  <div id="sidebar">
-    <ul>
-      <li class="myprofile">
-        <span class="myprofile-span"> <i class="material-icons">home</i></span> &nbsp;Principal
-      </li>
-
-      <li >
-        <span>
-          <i class="material-icons bcw">assessment</i></span>
-        &nbsp;Mi perfil
-      </li>
-
-      <li>
-        <span> <i class="material-icons bcw">settings</i></span>
-        &nbsp;Configuración
-      </li>
-    </ul>
-  </div>
-
+{% block Content %}
+{{ status }}
   <section class="container_data">
-
     <div class="my-data-name">
-
       <!-- Titulo pagina -->
       <div class="title">
         <div class="row" >
@@ -110,7 +27,7 @@
             </div>
             <div class="input-field seeker1">
               <button href="/Gnosis_SC/consultores/templates/login/profession.html" class="btn-large grey darken-3 waves-effect waves-light" type="submit" name="action">BUSCAR
-                <i class="material-icons right grey darken-3 ">search</i>
+                <i class="material-icons right grey darken-3" style="color: white;">search</i>
               </button>
             </div>
           </form>
@@ -129,7 +46,7 @@
           <div class="col l12 bcw">
             <div class="row bcw">
               <div class="col l5 center bcw" >
-                <li class="img bcw">
+                <li class="img bcw" style="list-style-type: none;">
                   <img class="responsive-img bcw" src="{% static 'images/compay.png' %}" alt="Logo Gnosis" style="width:50%; padding-top:25px;"/>
                 </li>
                 <a class="waves-effect waves-light grey darken-3 btn-large" href="{% url 'detalles_proyecto' %}">DETALLES</a>
@@ -146,12 +63,12 @@
                 <h6 id="tiempo" >4 meses</h6>
               </div>
             </div>
-              <div class="col l12 row bcw">
-                <div class="col l6 bcw" >
+            <div class="col l12 row bcw" style="margin-top: -20px; height:80px; padding-top:14px">
+                <div class="col l4 bcw">
                   <h6 class="black-text">Experiencia Requerida:</h6>
                 </div>
                 
-                <div class="col l5 bcw" >
+                <div class="col l7 bcw" style="margin-left:40px">
                   <div class="wrapper bcw">
                     <div class="chip yellow item white-text">
                       K1
@@ -174,40 +91,42 @@
                   </div>
   
                 </div>
-              </div>
             </div>
+          </div>
         </div>
         <br>
+
+
         <!-- Card Proyecto 2 -->
         <div class="card z-depth-3">
           <div class="col l12 bcw">
             <div class="row bcw">
               <div class="col l5 center bcw" >
-                <li class="img bcw">
+                <li class="img bcw" style="list-style-type: none;">
                   <img class="responsive-img bcw" src="{% static 'images/compay.png' %}" alt="Logo Gnosis" style="width:50%; padding-top:25px;"/>
                 </li>
                 <a class="waves-effect waves-light grey darken-3 btn-large" href="{% url 'detalles_proyecto' %}">DETALLES</a>
               </div>
               <div class="col l7 bcw">
-                <h6 class="flow-text">Umbrella Company SA. de CV.</h6>
+                <h6 class="flow-text" id="empresa" >Umbrella Company SA. de CV.</h6>
                 <h6 class="grey-text">Ubicacion</h6>
-                <h6>CDMX, México</h6>
+                <h6 id="ubicacion" >CDMX, México</h6>
                 <br>
                 <h6 class="grey-text">Actividades</h6>
-                <h6>Configuración sobre SD y MM</h6>
+                <h6 id="actividades" >Configuración sobre SD y MM</h6>
                 <br>
                 <h6 class="grey-text">Periodo de tiempo</h6>
-                <h6>4 meses</h6>
+                <h6 id="tiempo" >4 meses</h6>
               </div>
             </div>
-              <div class="col l12 row bcw">
-                <div class="col l6 bcw" >
+            <div class="col l12 row bcw" style="margin-top: -20px; height:80px; padding-top:14px">
+                <div class="col l4 bcw">
                   <h6 class="black-text">Experiencia Requerida:</h6>
                 </div>
                 
-                <div class="col l5 bcw" >
+                <div class="col l7 bcw" style="margin-left:40px">
                   <div class="wrapper bcw">
-                    <div class="chip yellow item">
+                    <div class="chip yellow item white-text">
                       K1
                     </div>
                     <div class="chip green item white-text">
@@ -228,8 +147,8 @@
                   </div>
   
                 </div>
-              </div>
             </div>
+          </div>
         </div>
         <br>
         <!-- Card Proyecto 3 -->
@@ -237,31 +156,31 @@
           <div class="col l12 bcw">
             <div class="row bcw">
               <div class="col l5 center bcw" >
-                <li class="img bcw">
+                <li class="img bcw" style="list-style-type: none;">
                   <img class="responsive-img bcw" src="{% static 'images/compay.png' %}" alt="Logo Gnosis" style="width:50%; padding-top:25px;"/>
                 </li>
                 <a class="waves-effect waves-light grey darken-3 btn-large" href="{% url 'detalles_proyecto' %}">DETALLES</a>
               </div>
               <div class="col l7 bcw">
-                <h6 class="flow-text">Umbrella Company SA. de CV.</h6>
+                <h6 class="flow-text" id="empresa" >Umbrella Company SA. de CV.</h6>
                 <h6 class="grey-text">Ubicacion</h6>
-                <h6>CDMX, México</h6>
+                <h6 id="ubicacion" >CDMX, México</h6>
                 <br>
                 <h6 class="grey-text">Actividades</h6>
-                <h6>Configuración sobre SD y MM</h6>
+                <h6 id="actividades" >Configuración sobre SD y MM</h6>
                 <br>
                 <h6 class="grey-text">Periodo de tiempo</h6>
-                <h6>4 meses</h6>
+                <h6 id="tiempo" >4 meses</h6>
               </div>
             </div>
-              <div class="col l12 row bcw">
-                <div class="col l6 bcw" >
+            <div class="col l12 row bcw" style="margin-top: -20px; height:80px; padding-top:14px">
+                <div class="col l4 bcw">
                   <h6 class="black-text">Experiencia Requerida:</h6>
                 </div>
                 
-                <div class="col l5 bcw" >
+                <div class="col l7 bcw" style="margin-left:40px">
                   <div class="wrapper bcw">
-                    <div class="chip yellow item">
+                    <div class="chip yellow item white-text">
                       K1
                     </div>
                     <div class="chip green item white-text">
@@ -282,8 +201,8 @@
                   </div>
   
                 </div>
-              </div>
             </div>
+          </div>
         </div>
         <div class="row center bcw" style="padding-top:55px; padding-bottom:55px;">
           <a class="waves-effect waves-light btn" >Cargar más</a>
@@ -366,7 +285,7 @@
             </ul>
             <div class="center white">
             <button href="/Gnosis_SC/consultores/templates/login/profession.html" class="btn-large grey darken-3 waves-effect waves-light" type="submit" name="action">Actualizar
-              <i class="material-icons right grey darken-3">autorenew</i>
+              <i class="material-icons right grey darken-3" style="color: white;">autorenew</i>
             </button>
           </div>
           </form>
@@ -375,20 +294,15 @@
   </div>
   </section>
 
-  <script src="{% static 'js/home.js' %}"></script>
-
+  <script src="{% static 'js/principal.js' %}?v=1.1"></script>
   <script>
     var elem = document.querySelector('.collapsible.expandable');
     var instance = M.Collapsible.init(elem, {
       accordion: false
     });
-  </script>
-
-  <script>
+    
   $(document).ready(function(){
     $('.tooltipped').tooltip();
   });
   </script>
-
-</body>
-</html>
+  {% endblock %}

@@ -1,3 +1,5 @@
 from django.contrib import admin
+from default.models import NotificationConsultor, NotificationAdministrador
 
-# Register your models here.
+admin.site.register(NotificationConsultor)
+admin.site.register(NotificationAdministrador)

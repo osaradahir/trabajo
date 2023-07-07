@@ -1,1072 +1,1115 @@
 * {
-    margin: 0px;
-    padding: 0px;
-    background-color: #f0eff6;
-    font-weight: 500;
-    font-size: 14px;
-  }
-  
-  nav {
-    background-color: white;
-    border-radius: 6px;
-    box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
-    height: 71px;
-  }
-  
-  nav * {
-    background-color: white;
-  }
-  
-  nav li a {
-    color: #324080;
-  }
-  
-  #sidebar {
-    position: fixed;
-    width: 200px;
-    background: white;
-    border-radius: 6px;
-    box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
-    left: -200px;
-    transition: all 500ms linear;
-  }
-  
-  #sidebar.active {
-    left: 0px;
-    top: 71px;
-    position: absolute;
-    height: 2000px;
-  }
-  
-  #sidebar ul li {
-    color: #324080;
-    font-weight: 500;
-    font-size: 14px;
-    list-style: none;
-    padding: 6px 20px;
-    text-align: center;
-    background-color: white;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-  
+  margin: 0px;
+  padding: 0px;
+  font-weight: 500;
+  font-size: 14px;
+}
 
-  
-  #sidebar ul li span {
-    color: #324080;
-    background-color: white;
-  }
-  
-  .logo {
-    margin-left: 80%;
-    margin-top: 5px;
-    width: 80px;
-    height: 55px;
-    background-color: transparent;
-  }
-  
-  .nav-wrapper ul li.img {
-    background-color: transparent;
-  }
-  
-  #sidebar .toggle-btn {
-    position: absolute;
-    left: 230px;
-    top: 20px;
-    cursor: pointer;
-  }
-  
-  #sidebar .toggle-btn span {
-    display: block;
-    width: 40px;
-    text-align: center;
-    font-size: 30px;
-    border: 3px solid #000;
-  }
-  
-  nav div.nav-wrapper a:hover {
-    background-color: white;
-  }
-  
-  li.bell a {
-    background-color: transparent;
-  }
-  
-  ul#nav-mobile {
-    background-color: transparent;
-  }
-  
-  span.material-symbols-outlined {
-    color: #324080;
-    margin-top: 20px;
-    background-color: transparent;
-  }
-  
-  div#sidebar ul li.myprofile {
-    background-color: #e5e5e5;
-  }
-  
-  div.seeker {
-    display:flex;
-    flex-direction:row;
-    background-color: white;
-    justify-content:space-between;
-  }
+body{
+  background-color: #f0eff6;
+}
 
-  div.seeker1 {
-    display:flex;
-    background-color: white;
-    padding-right:62px;
-  }
+nav {
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
+  height: 71px;
+}
 
-  .labels {
-    background-color: white;
-  }
+nav * {
+  background-color: white;
+}
 
-  .card {
-    background-color: white;
-    width: 100%;
-  }
+nav li a {
+  color: #324080;
+}
 
-  .wrapper{
-    max-height: 1200px;
-    display: flex;
-    overflow-x: auto;
+#sidebar {
+  position: fixed;
+  width: 200px;
+  background: white;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
+  left: -200px;
+  transition: all 500ms linear;
+}
 
-  }
+#sidebar.active {
+  left: 0px;
+  top: 71px;
+  position: absolute;
+  height: 2000px;
+}
 
-  .wrapper::-webkit-scrollbar{
-    width:1;
-  }
+#sidebar ul li {
+  color: #324080;
+  font-weight: 500;
+  font-size: 14px;
+  list-style: none;
+  padding: 6px 20px;
+  text-align: center;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 
-  .wrapper .item{
-    min-width:80px;
-    height: 28px;
-    line-height:110px;
-    text-align:center;
-    background-color: #ddd;
-  }
+div#sidebar ul li{
+  cursor: pointer;
+}
+span i.material-icons{
+  margin-top: 4px;
+  background-color: white;
+}
 
-  .bcw {
-    background-color: white;
-  }
+#sidebar ul li span {
+  color: #324080;
+  background-color: white;
+}
+
+.logo {
+  margin-left: 80%;
+  margin-top: 5px;
+  width: 80px;
+  height: 55px;
+  background-color: transparent;
+}
+div#sidebar ul li{
+  cursor: pointer;
+}
+.nav-wrapper ul li.img {
+  background-color: transparent;
+}
+
+#sidebar .toggle-btn {
+  position: absolute;
+  left: 230px;
+  top: 20px;
+  cursor: pointer;
+}
+
+#sidebar .toggle-btn span {
+  display: block;
+  width: 40px;
+  text-align: center;
+  font-size: 30px;
+  border: 3px solid #000;
+}
+
+nav div.nav-wrapper a:hover {
+  background-color: white;
+}
+
+li.bell a {
+  background-color: transparent;
+}
+
+ul#nav-mobile {
+  background-color: transparent;
+}
+
+span.material-symbols-outlined {
+  color: #324080;
+  margin-top: 20px;
+  background-color: transparent;
+}
+
+div#sidebar ul li.myprofile {
+  background-color: #e5e5e5;
+}
+div#sidebar ul li.active-position {
+  background-color: #e5e5e5;
+}
+
+div#sidebar ul li.active-position span.active-position-span i {
+  background-color: #e5e5e5;
+}
+
+div#sidebar ul li.active-position span.active-position-span {
+  background-color: #e5e5e5;
+}
+
+i.material-icons {
+  color: #324080;
+  background-color: white;
+}
+
+#sidebar ul li span {
+  color: #324080;
+  background-color: white;
+}
+div.seeker {
+  display:flex;
+  flex-direction:row;
+  background-color: white;
+  justify-content:space-between;
+}
+
+div.seeker1 {
+  display:flex;
+  background-color: white;
+  padding-right:62px;
+}
+
+.labels {
+  background-color: white;
+}
+
+.card {
+  background-color: white;
+  width: 100%;
+}
+
+.wrapper{
+  max-height: 1200px;
+  display: flex;
+  overflow-x: auto;
+
+}
+
+.wrapper::-webkit-scrollbar{
+  width:1;
+}
+
+.wrapper .item{
+  min-width:80px;
+  height: 28px;
+  line-height:110px;
+  text-align:center;
+  background-color: #ddd;
+}
+
+.bcw {
+  background-color: white;
+}
 
 
-  div#sidebar ul li.myprofile span.myprofile-span i {
-    background-color: #e5e5e5;
-  }
-  
-  div#sidebar ul li.myprofile span.myprofile-span {
-    background-color: #e5e5e5;
-  }
-  
-  .dropdown-content li a {
-    color: #324080;
-  }
-  
-  .img_profile {
-    width: auto;
-    height: 70px;
-  }
-  
-  .dropdown-trigger:hover .bell {
-    transform: translateX(-10px);
-  }
-  
-  .dropdown-trigger:hover .bell span {
-    font-weight: bold;
-  }
-  
-  .dropdown-trigger:hover {
-    transform: scale(1.3);
-  }
-  
-  .avatar {
-    border-radius: 50%;
-    height: 30px;
-    margin-top: 16px;
-    object-fit: cover;
-    object-position: center;
-    width: 30px;
-  }
-  
-  .container_data {
-    width: 100%;
-    margin-top: 40px;
-    padding: 0px;
-    display: flex;
-    justify-content: center;
-  }
-  
+div#sidebar ul li.myprofile span.myprofile-span i {
+  background-color: #e5e5e5;
+}
+
+div#sidebar ul li.myprofile span.myprofile-span {
+  background-color: #e5e5e5;
+}
+
+.dropdown-content li a {
+  color: #324080;
+}
+
+.img_profile {
+  width: auto;
+  height: 70px;
+}
+
+.dropdown-trigger:hover .bell {
+  transform: translateX(-10px);
+}
+
+.dropdown-trigger:hover .bell span {
+  font-weight: bold;
+}
+
+.dropdown-trigger:hover {
+  transform: scale(1.3);
+}
+
+.avatar {
+  border-radius: 50%;
+  height: 30px;
+  margin-top: 16px;
+  object-fit: cover;
+  object-position: center;
+  width: 30px;
+}
+
+.container_data {
+  width: 100%;
+  margin-top: 40px;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+}
+
+.my-data-name {
+  display: flex;
+  flex-direction: row;
+  width: 86%;
+  height: 350px;
+  position: absolute;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.information-data-name {
+  padding-top: 0px;
+  margin-top: 0px;
+}
+#information-profile {
+  width: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
+}
+
+#information-profile .information-profile-photo {
+  background-color: white;
+}
+
+#information-profile .information-profile-photo img {
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  margin-top: 15px;
+  width: 150px;
+  height: 150px;
+}
+
+#information-profile .information-user-profile {
+  display: flex;
+  background-color: white;
+  align-items: center;
+  text-align: center;
+  flex-direction: row;
+  padding-top: 25px;
+}
+
+#information-profile .seeker-part {
+  display: flex;
+  background-color: red;
+  flex-direction: row;
+}
+
+#information-profile .information-user-profile h5 {
+  background-color: white;
+  font-size: 30px;
+  font-weight: 700;
+  color: #6f6d77;
+}
+#information-profile .information-user-profile h6 {
+  background-color: white;
+  font-size: 16px;
+  color: #6f6d77;
+  justify-content: center;
+  align-items: center;
+}
+#information-profile .information-user-botomms-cv {
+  background-color: white;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+#information-profile .information-user-botomms-cv button {
+  width: 70%;
+  height: 30px;
+  margin: 3px;
+}
+.white-buttons {
+  border: 2px solid #324080;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 16px;
+  color: #324080;
+  height: 30px;
+}
+
+.blue-buttons {
+  border: 2px solid #324080;
+  border-radius: 4px;
+  background-color: #324080;
+  font-size: 16px;
+  color: white;
+}
+
+#information-profile-factors {
+  width: 68%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#information-profile-factors .information-costs {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  height: 30%;
+}
+
+#information-profile-factors .information-costs .card-money-hour {
+  width: 40%;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
+}
+
+#information-profile-factors .information-facturation {
+  width: 100%;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
+}
+
+#information-profile-factors .information-facturation {
+  width: 100%;
+  height: 65%;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
+}
+
+.card-money-hour {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  justify-content: flex-start;
+}
+
+.card-money-hour h5,
+h6,
+.money-kind,
+.money-img,
+.money-change {
+  background-color: white;
+}
+
+.card-money-hour .money-kind {
+  width: 71%;
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+  padding-top: 26px;
+  align-items: center;
+}
+.card-money-hour .money-kind h6 {
+  font-size: 16px;
+  color: #6f6d77;
+  font-weight: 500;
+}
+.card-money-hour .money-kind h5 {
+  font-size: 24px;
+  color: black;
+  font-weight: 600;
+  padding-left: 50px;
+  margin-top: 0px;
+  padding-left: 0px;
+}
+
+.card-money-hour .money-img {
+  width: 20%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.card-money-hour .money-change {
+  width: 5%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: end;
+  padding-bottom: 5px;
+}
+
+#circle {
+  background: #e4eaff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+}
+#circle span {
+  margin-top: 14px;
+}
+div.facturation {
+  margin-top: 30px;
+}
+div.facturation h5 {
+  background-color: white;
+  font-size: 22px;
+  font-weight: 700;
+  color: #6f6d77;
+  padding-left: 20px;
+}
+div.inputs {
+  width: 98%;
+}
+div.inputs input,
+label,
+div.row,
+div.inputs div.input-field {
+  padding-left: 20px;
+}
+div.inputs label {
+  padding-left: 10px;
+}
+
+div.buttons-rfc {
+  background-color: white;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+div.buttons-rfc .white-buttons,
+.blue-buttons {
+  width: auto;
+  padding: 0px 20px;
+  margin: 10px;
+  height: 30px;
+}
+
+div.information-contact-experience {
+  width: 100%;
+  margin-top: 30px;
+  height: 350px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+div.information-contact-experience#lenguajes {
+  height: 250px;
+}
+div.information-contact-experience div.contact {
+  width: 60%;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+div.information-contact-experience div.contact div.contact-info {
+  background-color: white;
+}
+div.information-contact-experience div.contact h5 {
+  background-color: white;
+  font-size: 22px;
+  font-weight: 700;
+  color: #6f6d77;
+}
+div.information-contact-experience div.contact h6#labels {
+  color: #6f6d77;
+  font-size: 13px;
+}
+div.contact-button {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+div.contact-button button {
+  width: 80%;
+  height: 30px;
+  margin: 3px;
+  margin-top: 10px;
+}
+
+div.information-contact-experience div.experience {
+  width: 35%;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+div.experience h5,
+h6,
+div.button-experience,
+div.data-experience {
+  background-color: white;
+}
+
+div.data-experience h5 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #6f6d77;
+  margin-bottom: 30px;
+}
+div.experience h6#title-requeriment {
+  font-size: 16px;
+  color: #6f6d77;
+  font-weight: 600;
+}
+div.data-experience h6#date-requirement {
+  font-size: 12px;
+  color: #6f6d77;
+}
+div.data-experience h6#content-requirement {
+  font-size: 15px;
+}
+div.button-experience {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+div.contact-info p {
+  margin-top: 20px;
+  background-color: white;
+  font-size: 16px;
+  color: #6f6d77;
+}
+div.button-experience-study#study {
+  width: 100%;
+  background-color: white;
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+div.information-documents {
+  width: 100%;
+  margin-top: 30px;
+  height: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+div.courses-moduls {
+  width: 68%;
+}
+div.courses {
+  margin-top: 0px;
+  padding-top: 8px;
+}
+#edit-icon {
+  font-size: 18px;
+  margin-top: -26px;
+}
+div.moduls-sap {
+  margin-top: 30px;
+  padding-top: 8px;
+}
+
+div.documents {
+  height: 340px;
+}
+div.information-documents#lenguajes {
+  height: 750px;
+}
+div.information-documents div.documents {
+  width: 28%;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+div.information-documents div.documents div.docs-info {
+  background-color: white;
+}
+div.information-documents div.documents h5 {
+  background-color: white;
+  font-size: 22px;
+  font-weight: 700;
+  color: #6f6d77;
+}
+div.information-documents div.documents h6#labels {
+  color: #6f6d77;
+  font-size: 13px;
+}
+div.contact-button {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+div.contact-button button {
+  width: 80%;
+  height: 30px;
+  margin: 3px;
+  margin-top: 10px;
+}
+
+div.information-documents div.courses {
+  width: 100%;
+  height: 250px;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+div.information-documents div.moduls-sap {
+  width: 100%;
+  height: 500px;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 80px;
+}
+
+div.courses h5,
+h6,
+div.button-experience,
+div.data-courses {
+  background-color: white;
+}
+div.moduls-sap h5,
+h6,
+div.button-experience,
+div.data-courses {
+  background-color: white;
+}
+div.data-courses h5 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #6f6d77;
+  margin-bottom: 30px;
+}
+#modulo-sap {
+  font-size: 22px;
+  font-weight: 700;
+  color: #6f6d77;
+  margin-bottom: 30px;
+}
+div.courses h6#title-requeriment {
+  font-size: 16px;
+  color: #6f6d77;
+  font-weight: 600;
+}
+div.data-courses h6#date-requirement {
+  font-size: 12px;
+  color: #6f6d77;
+}
+div.data-courses h6#content-requirement {
+  font-size: 15px;
+}
+
+div.data-moduls h5 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #6f6d77;
+  margin-bottom: 30px;
+}
+div.moduls-sap h6#title-moduls {
+  font-size: 16px;
+  color: #6f6d77;
+  font-weight: 600;
+}
+div.data-moduls h6#date-moduls {
+  font-size: 12px;
+  color: #6f6d77;
+}
+div.data-moduls h6#content-moduls {
+  font-size: 15px;
+}
+
+div.button-experience {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+div.docs-info {
+  width: 100%;
+  flex-direction: column;
+}
+div.document-upload {
+  width: 100%;
+  height: 35px;
+  border: 0.5px solid #6f6d77;
+  background-color: white;
+  padding-left: 10px;
+  margin-top: 4px;
+  padding-top: 5px;
+}
+div.document-upload span,
+p {
+  background-color: white;
+}
+input.filled-in {
+  padding-top: 5px;
+}
+span#upload {
+  font-size: 13px;
+  color: blue; /* Cambia el color del texto a azul */
+  text-decoration: underline; /* Agrega un subrayado al texto */
+  cursor: pointer;
+}
+div.button-experience-study#study {
+  width: 100%;
+  background-color: white;
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+div.courses h6#title-courses {
+  font-size: 16px;
+  color: #6f6d77;
+  font-weight: 600;
+}
+div.data-courses h6#date-courses {
+  font-size: 12px;
+  color: #6f6d77;
+}
+div.data-courses h6#content-courses {
+  font-size: 15px;
+}
+
+div.button-experience-course#course {
+  width: 100%;
+  background-color: white;
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+div.button-experience-modul#modul {
+  width: 100%;
+  background-color: white;
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+div.data-moduls {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+div.information-documents div.moduls-sap div.data-moduls div.container-table {
+  width: 85%;
+  display: flex;
+  justify-content: center;
+}
+
+table.centered.responsive-table th {
+  font-weight: bold;
+}
+.material-symbols-outlined#editAllow {
+  cursor: pointer;
+}
+
+.material-symbols-outlined#editAllow:hover {
+  background-color: lightgray;
+  box-shadow: 0 0 5px gray;
+}
+
+table.centered.responsive-table tbody,
+tr,
+td {
+  background-color: white;
+}
+table.centered.responsive-table tr{
+  width: 100%;
+}
+.label-experience {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.label-kUno {
+  width: 30%;
+  border-radius: 8px;
+  background-color: #fcb908;
+}
+.label-kTres {
+  width: 30%;
+  border-radius: 8px;
+  background-color: #0b5ed4;
+  color: white;
+}
+.label-kCuatro {
+  width: 30%;
+  border-radius: 8px;
+  background-color: #1d8b41;
+  color: white;
+}
+.label-notE {
+  width: 67%;
+  border-radius: 8px;
+  background-color: #b0aeb2;
+  color: white;
+}
+
+.white-buttons2 {
+  border: 2px solid #0b5ed4;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 12px;
+  color: #0b5ed4;
+  width: 90%;
+  height: 30px;
+}
+
+div.table-pagination {
+  width: 85%;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: end;
+}
+div.table-pagination p {
+  margin-top: 5px;
+  color: #0b5ed4;
+}
+.dropdown-trigger:hover,
+.dropdown-trigger-link:hover {  
+  background-color: inherit;
+  transform: none;
+}
+
+
+.pagination li{
+  height: 50px;
+}
+.pagination li.active {
+  background-color: white;
+}
+
+.pagination li.active a{
+  color: #000;
+  background-color:#0b5ed4;
+}
+
+#genero {
+  font-size: 16px;
+  padding-left: 10px;
+}
+#button-information-user-profile {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#button-information-user-profile button.white-buttons {
+  width: 80%;
+  height: 30px;
+}
+.input-information-user-profile div.row,
+form,
+form p,
+label,
+span,
+
+
+.container-edit-experience div.row form.col.s12 div.input-field.col.s12 {
+  height: 35px;
+}
+.contact-options {
+  width: 100%;
+  margin-top: 5px;
+}
+.container-options {
+  width: 100%;
+  margin-bottom: 100px;
+}
+.contact-options label {
+  font-size: 16px;
+  padding-left: 10px;
+}
+
+.data-experience-edit-container-button{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+span#upload::after{
+  background-color: white;
+  border: 2px solid black;
+}
+
+
+@media (max-width: 1200px) {
   .my-data-name {
+    margin-left: 3%;
     display: flex;
     flex-direction: row;
-    width: 86%;
+    width: 80%;
     height: 350px;
     position: absolute;
     justify-content: space-between;
     flex-wrap: wrap;
   }
-  .information-data-name {
-    padding-top: 0px;
-    margin-top: 0px;
-  }
-  #information-profile {
-    width: 100%;
-    background-color: white;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    border-radius: 4px;
-    box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
-  }
-  
-  #information-profile .information-profile-photo {
-    background-color: white;
-  }
-  
-  #information-profile .information-profile-photo img {
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center;
-    margin-top: 15px;
-    width: 150px;
-    height: 150px;
-  }
-  
-  #information-profile .information-user-profile {
-    display: flex;
-    background-color: white;
-    align-items: center;
-    text-align: center;
-    flex-direction: row;
-    padding-top: 25px;
-  }
 
-  #information-profile .seeker-part {
-    display: flex;
-    background-color: red;
-    flex-direction: row;
-  }
-
-  #information-profile .information-user-profile h5 {
-    background-color: white;
-    font-size: 30px;
-    font-weight: 700;
-    color: #6f6d77;
-  }
-  #information-profile .information-user-profile h6 {
-    background-color: white;
-    font-size: 16px;
-    color: #6f6d77;
-    justify-content: center;
-    align-items: center;
-  }
-  #information-profile .information-user-botomms-cv {
-    background-color: white;
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-  }
   #information-profile .information-user-botomms-cv button {
-    width: 70%;
-    height: 30px;
-    margin: 3px;
-  }
-  .white-buttons {
-    border: 2px solid #324080;
-    border-radius: 4px;
-    background-color: white;
-    font-size: 16px;
-    color: #324080;
-    height: 30px;
-  }
-  
-  .blue-buttons {
-    border: 2px solid #324080;
-    border-radius: 4px;
-    background-color: #324080;
-    font-size: 16px;
-    color: white;
-  }
-  
-  #information-profile-factors {
-    width: 68%;
+    height: 42px;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  #information-profile-factors .information-costs {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    height: 30%;
-  }
-  
-  #information-profile-factors .information-costs .card-money-hour {
-    width: 40%;
-    background-color: white;
-    border-radius: 6px;
-    box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
-  }
-  
-  #information-profile-factors .information-facturation {
-    width: 100%;
-    background-color: white;
-    border-radius: 6px;
-    box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
-  }
-  
-  #information-profile-factors .information-facturation {
-    width: 100%;
-    height: 65%;
-    background-color: white;
-    border-radius: 6px;
-    box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
-  }
-  
-  .card-money-hour {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    background-color: white;
-    justify-content: flex-start;
-  }
-  
-  .card-money-hour h5,
-  h6,
-  .money-kind,
-  .money-img,
-  .money-change {
-    background-color: white;
-  }
-  
-  .card-money-hour .money-kind {
-    width: 71%;
-    display: flex;
-    flex-direction: column;
-    padding-left: 10px;
-    padding-top: 26px;
     align-items: center;
+    justify-content: center;
   }
-  .card-money-hour .money-kind h6 {
-    font-size: 16px;
-    color: #6f6d77;
-    font-weight: 500;
+
+
+
+  .blue-buttons{
+    height: 42px;
   }
-  .card-money-hour .money-kind h5 {
+
+  div.buttons-rfc .white-buttons, .blue-buttons {
+    height: 42px;
+  }
+
+  div.contact-button button {
+    width: 90%;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  div.information-contact-experience#lenguajes {
+    margin-top: 66px;
+  }
+
+  #information-profile .information-profile-photo img {
+    width: 100px;
+    height: 100px;
+  }
+
+  #information-profile .information-user-profile h5{
     font-size: 24px;
-    color: black;
-    font-weight: 600;
-    padding-left: 50px;
-    margin-top: 0px;
-    padding-left: 0px;
   }
-  
-  .card-money-hour .money-img {
-    width: 20%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+
+  div.document-upload {
+      width: 100%;
+      height: 25px;
+      border: 0.5px solid #6f6d77;
+      background-color: transparent;
+      padding-left: 4px;
+      margin-top: 4px;
+      padding-top: 1px;
+      overflow: hidden; /* Recortar el contenido que se desborda */
   }
-  .card-money-hour .money-change {
-    width: 5%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: end;
-    padding-bottom: 5px;
-  }
-  
+
   #circle {
     background: #e4eaff;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height:30px;
     display: flex;
     justify-content: center;
     align-items: start;
   }
-  #circle span {
-    margin-top: 14px;
-  }
-  div.facturation {
-    margin-top: 30px;
-  }
-  div.facturation h5 {
-    background-color: white;
-    font-size: 22px;
-    font-weight: 700;
-    color: #6f6d77;
-    padding-left: 20px;
-  }
-  div.inputs {
-    width: 98%;
-  }
-  div.inputs input,
-  label,
-  div.row,
-  div.inputs div.input-field {
-    padding-left: 20px;
-  }
-  div.inputs label {
-    padding-left: 10px;
-  }
-  
-  div.buttons-rfc {
-    background-color: white;
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 15px;
-  }
-  
-  div.buttons-rfc .white-buttons,
-  .blue-buttons {
-    width: auto;
-    padding: 0px 20px;
-    margin: 10px;
-    height: 30px;
-  }
-  
-  div.information-contact-experience {
-    width: 100%;
-    margin-top: 30px;
-    height: 350px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  
-  div.information-contact-experience#lenguajes {
-    height: 250px;
-  }
-  div.information-contact-experience div.contact {
-    width: 60%;
-    border-radius: 4px;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  div.information-contact-experience div.contact div.contact-info {
-    background-color: white;
-  }
-  div.information-contact-experience div.contact h5 {
-    background-color: white;
-    font-size: 22px;
-    font-weight: 700;
-    color: #6f6d77;
-  }
-  div.information-contact-experience div.contact h6#labels {
-    color: #6f6d77;
-    font-size: 13px;
-  }
-  div.contact-button {
-    margin-top: 10px;
-    margin-bottom: 15px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-  }
-  
-  div.contact-button button {
-    width: 80%;
-    height: 30px;
-    margin: 3px;
-    margin-top: 10px;
-  }
-  
-  div.information-contact-experience div.experience {
-    width: 35%;
-    border-radius: 4px;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-  
-  div.experience h5,
-  h6,
-  div.button-experience,
-  div.data-experience {
-    background-color: white;
-  }
-  
-  div.data-experience h5 {
-    font-size: 22px;
-    font-weight: 700;
-    color: #6f6d77;
-    margin-bottom: 30px;
-  }
-  div.experience h6#title-requeriment {
-    font-size: 16px;
-    color: #6f6d77;
-    font-weight: 600;
-  }
-  div.data-experience h6#date-requirement {
-    font-size: 12px;
-    color: #6f6d77;
-  }
-  div.data-experience h6#content-requirement {
-    font-size: 15px;
-  }
-  div.button-experience {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  div.contact-info p {
-    margin-top: 20px;
-    background-color: white;
-    font-size: 16px;
-    color: #6f6d77;
-  }
-  div.button-experience-study#study {
-    width: 100%;
-    background-color: white;
-    margin-top: 18px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  div.information-documents {
-    width: 100%;
-    margin-top: 30px;
-    height: 300px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
 
-  div.courses-moduls {
-    width: 68%;
-  }
-  div.courses {
-    margin-top: 0px;
-    padding-top: 8px;
-  }
-  #edit-icon {
-    font-size: 18px;
-    margin-top: -26px;
-  }
-  div.moduls-sap {
-    margin-top: 30px;
-    padding-top: 8px;
-  }
-  
-  div.documents {
-    height: 340px;
-  }
-  div.information-documents#lenguajes {
-    height: 750px;
-  }
-  div.information-documents div.documents {
-    width: 28%;
-    border-radius: 4px;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  div.information-documents div.documents div.docs-info {
-    background-color: white;
-  }
-  div.information-documents div.documents h5 {
-    background-color: white;
-    font-size: 22px;
-    font-weight: 700;
-    color: #6f6d77;
-  }
-  div.information-documents div.documents h6#labels {
-    color: #6f6d77;
-    font-size: 13px;
-  }
-  div.contact-button {
-    margin-top: 10px;
-    margin-bottom: 15px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-  }
-  
-  div.contact-button button {
-    width: 80%;
-    height: 30px;
-    margin: 3px;
-    margin-top: 10px;
-  }
-  
-  div.information-documents div.courses {
-    width: 100%;
-    height: 250px;
-    border-radius: 4px;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  div.information-documents div.moduls-sap {
-    width: 100%;
-    height: 500px;
-    border-radius: 4px;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-bottom: 80px;
-  }
-  
-  div.courses h5,
-  h6,
-  div.button-experience,
-  div.data-courses {
-    background-color: white;
-  }
-  div.moduls-sap h5,
-  h6,
-  div.button-experience,
-  div.data-courses {
-    background-color: white;
-  }
-  div.data-courses h5 {
-    font-size: 22px;
-    font-weight: 700;
-    color: #6f6d77;
-    margin-bottom: 30px;
-  }
-  #modulo-sap {
-    font-size: 22px;
-    font-weight: 700;
-    color: #6f6d77;
-    margin-bottom: 30px;
-  }
-  div.courses h6#title-requeriment {
-    font-size: 16px;
-    color: #6f6d77;
-    font-weight: 600;
-  }
-  div.data-courses h6#date-requirement {
-    font-size: 12px;
-    color: #6f6d77;
-  }
-  div.data-courses h6#content-requirement {
-    font-size: 15px;
-  }
-  
-  div.data-moduls h5 {
-    font-size: 22px;
-    font-weight: 700;
-    color: #6f6d77;
-    margin-bottom: 30px;
-  }
-  div.moduls-sap h6#title-moduls {
-    font-size: 16px;
-    color: #6f6d77;
-    font-weight: 600;
-  }
-  div.data-moduls h6#date-moduls {
-    font-size: 12px;
-    color: #6f6d77;
-  }
-  div.data-moduls h6#content-moduls {
-    font-size: 15px;
-  }
-  
-  div.button-experience {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  div.docs-info {
-    width: 100%;
-    flex-direction: column;
-  }
-  div.document-upload {
-    width: 100%;
-    height: 35px;
-    border: 0.5px solid #6f6d77;
-    background-color: white;
-    padding-left: 10px;
-    margin-top: 4px;
-    padding-top: 5px;
-  }
-  div.document-upload span,
-  p {
-    background-color: white;
-  }
-  input.filled-in {
-    padding-top: 5px;
-  }
-  span#upload {
-    font-size: 13px;
-    color: blue; /* Cambia el color del texto a azul */
-    text-decoration: underline; /* Agrega un subrayado al texto */
-    cursor: pointer;
-  }
-  div.button-experience-study#study {
-    width: 100%;
-    background-color: white;
-    margin-top: 18px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  div.courses h6#title-courses {
-    font-size: 16px;
-    color: #6f6d77;
-    font-weight: 600;
-  }
-  div.data-courses h6#date-courses {
-    font-size: 12px;
-    color: #6f6d77;
-  }
-  div.data-courses h6#content-courses {
-    font-size: 15px;
-  }
-  
-  div.button-experience-course#course {
-    width: 100%;
-    background-color: white;
-    margin-top: 18px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  div.button-experience-modul#modul {
-    width: 100%;
-    background-color: white;
-    margin-top: 18px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  div.data-moduls {
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  div.information-documents div.moduls-sap div.data-moduls div.container-table {
-    width: 85%;
-    display: flex;
-    justify-content: center;
-  }
-  
-  table.centered.responsive-table th {
-    font-weight: bold;
-  }
-  .material-symbols-outlined#editAllow {
-    cursor: pointer;
-  }
-  
-  .material-symbols-outlined#editAllow:hover {
-    background-color: lightgray;
-    box-shadow: 0 0 5px gray;
-  }
-  
-  table.centered.responsive-table tbody,
-  tr,
-  td {
-    background-color: white;
-  }
-  table.centered.responsive-table tr{
-    width: 100%;
-  }
-  .label-experience {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .label-kUno {
-    width: 30%;
-    border-radius: 8px;
-    background-color: #fcb908;
-  }
-  .label-kTres {
-    width: 30%;
-    border-radius: 8px;
-    background-color: #0b5ed4;
-    color: white;
-  }
-  .label-kCuatro {
-    width: 30%;
-    border-radius: 8px;
-    background-color: #1d8b41;
-    color: white;
-  }
-  .label-notE {
-    width: 67%;
-    border-radius: 8px;
-    background-color: #b0aeb2;
-    color: white;
-  }
-  
-  .white-buttons2 {
-    border: 2px solid #0b5ed4;
-    border-radius: 4px;
-    background-color: white;
-    font-size: 12px;
-    color: #0b5ed4;
-    width: 90%;
-    height: 30px;
-  }
-  
-  div.table-pagination {
-    width: 85%;
-    margin-top: 16px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: end;
-  }
-  div.table-pagination p {
-    margin-top: 5px;
-    color: #0b5ed4;
-  }
-  
-
-  
-  .pagination li.active {
-    background-color: #0b5ed4;
-  }
-
-  #genero {
-    font-size: 16px;
-    padding-left: 10px;
-  }
-  #button-information-user-profile {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  #circle span{
+    margin-top: 3px;
   }
   #button-information-user-profile button.white-buttons {
     width: 80%;
-    height: 30px;
+    height: 26px;
+    overflow: hidden;
   }
-  .input-information-user-profile div.row,
-  form,
-  form p,
-  label,
-  span,
 
-  
-  .container-edit-experience div.row form.col.s12 div.input-field.col.s12 {
-    height: 35px;
+  .white-buttons{
+    height: 42px;
   }
-  .contact-options {
+
+  #sidebar.active {
+    z-index: 3;
+  }
+}
+
+
+
+@media (max-width: 620px) {
+  button#edit-languajes-user-information.blue-buttons, button#edit-contact-user-information.blue-buttons{
     width: 100%;
-    margin-top: 5px;
   }
-  .container-options {
+
+  div.information-contact-experience{  
+    height: 730px;
+  }
+  div.information-contact-experience div.contact{  
     width: 100%;
-    margin-bottom: 100px;
+    height: 300px;
   }
-  .contact-options label {
-    font-size: 16px;
-    padding-left: 10px;
-  }
-  
-  .data-experience-edit-container-button{
-    display: flex;
+  div.information-contact-experience div.experience{
     width: 100%;
-    flex-direction: column;
-    align-items: center;
+    height: 400px;
+    margin-top: 30px;
   }
-  span#upload::after{
-    background-color: white;
-    border: 2px solid black;
+
+  div.information-contact-experience#lenguajes {
+    height: 600px;
+    margin-top: 30px;
   }
-  
-  
-  @media (max-width: 1200px) {
-    .my-data-name {
-      margin-left: 3%;
-      display: flex;
-      flex-direction: row;
-      width: 80%;
-      height: 350px;
-      position: absolute;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-  
-    #information-profile .information-user-botomms-cv button {
-      height: 42px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  
-  
-  
-    .blue-buttons{
-      height: 42px;
-    }
-  
-    div.buttons-rfc .white-buttons, .blue-buttons {
-      height: 42px;
-    }
-  
-    div.contact-button button {
-      width: 90%;
-      height: 42px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  
-    div.information-contact-experience#lenguajes {
-      margin-top: 66px;
-    }
-  
-    #information-profile .information-profile-photo img {
-      width: 100px;
-      height: 100px;
-    }
-  
-    #information-profile .information-user-profile h5{
-      font-size: 24px;
-    }
-  
-    div.document-upload {
-        width: 100%;
-        height: 25px;
-        border: 0.5px solid #6f6d77;
-        background-color: transparent;
-        padding-left: 4px;
-        margin-top: 4px;
-        padding-top: 1px;
-        overflow: hidden; /* Recortar el contenido que se desborda */
-    }
-  
-    #circle {
-      background: #e4eaff;
-      border-radius: 50%;
-      width: 30px;
-      height:30px;
-      display: flex;
-      justify-content: center;
-      align-items: start;
-    }
-  
-    #circle span{
-      margin-top: 3px;
-    }
-    #button-information-user-profile button.white-buttons {
-      width: 80%;
-      height: 26px;
-      overflow: hidden;
-    }
-  
-    .white-buttons{
-      height: 42px;
-    }
-  
-    #sidebar.active {
-      z-index: 3;
-    }
+
+
+  div.information-documents#lenguajes{
+    height: 1300px;
   }
-  
-  
-  
-  @media (max-width: 620px) {
-    button#edit-languajes-user-information.blue-buttons, button#edit-contact-user-information.blue-buttons{
-      width: 100%;
-    }
-  
-    div.information-contact-experience{  
-      height: 730px;
-    }
-    div.information-contact-experience div.contact{  
-      width: 100%;
-      height: 300px;
-    }
-    div.information-contact-experience div.experience{
-      width: 100%;
-      height: 400px;
-      margin-top: 30px;
-    }
-  
-    div.information-contact-experience#lenguajes {
-      height: 600px;
-      margin-top: 30px;
-    }
-  
-  
-    div.information-documents#lenguajes{
-      height: 1300px;
-    }
-  
-    div.information-documents div.documents{
-      width: 100%;
-      height: 300px;
-      margin-top: 30px;
-  
-    }
-  
-    div.courses-moduls{
-      width: 100%;
-      margin-top: -70px;
-    }
-  
-    div#courses-show-container.courses{
-      margin-top: 10px;
-    }
-  
-    #information-profile .information-user-profile h5{
-      font-size: 18px;
-    }
-    #information-profile .information-user-profile h6{
-      font-size: 14px;
-    }
-  
-    div.buttons-rfc .white-buttons, .blue-buttons{
-      overflow: hidden;
-      text-align: center;
-      justify-content: center;
-      height: 25px;
-    }
-  
-    #information-profile .information-user-botomms-cv button {
-      height: 25px;
-      overflow: hidden;
-      padding-top: 16px;
-    }
-    .card-money-hour .money-kind h6 {
-      margin-top: -10px;
-    }
-  
-    #sidebar.active {
-      z-index: 3;
-      height: 3400px;
-    }
+
+  div.information-documents div.documents{
+    width: 100%;
+    height: 300px;
+    margin-top: 30px;
+
   }
+
+  div.courses-moduls{
+    width: 100%;
+    margin-top: -70px;
+  }
+
+  div#courses-show-container.courses{
+    margin-top: 10px;
+  }
+
+  #information-profile .information-user-profile h5{
+    font-size: 18px;
+  }
+  #information-profile .information-user-profile h6{
+    font-size: 14px;
+  }
+
+  div.buttons-rfc .white-buttons, .blue-buttons{
+    overflow: hidden;
+    text-align: center;
+    justify-content: center;
+    height: 25px;
+  }
+
+  #information-profile .information-user-botomms-cv button {
+    height: 25px;
+    overflow: hidden;
+    padding-top: 16px;
+  }
+  .card-money-hour .money-kind h6 {
+    margin-top: -10px;
+  }
+
+  #sidebar.active {
+    z-index: 3;
+    height: 3400px;
+  }
+}

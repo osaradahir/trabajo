@@ -1,0 +1,225 @@
+{% extends 'baseProyectos.html' %}
+{% load static %}
+{% block Content %}
+<section class="container-poyectos">
+    <div class="container" style="margin-top:20px; width:80%;">
+        <div class="row">
+
+            <!-- CONTROL PAGES -->
+            <div class="col l4 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">
+                <a href="{% url 'my_projectsCreateds' %}">Mis proyectos</a>
+                <a class="grey-text pl7">/</a>
+                <a class="grey-text pl7"> Nuevo proyecto</a>
+            </div>
+
+
+            <!-- TITLE PAGE -->
+            <div class="col s12 ">
+                <h3 class="blue-text col l12 s12 text-darken-4">Nuevo Proyecto</h3>
+            </div>
+
+
+            <!-- LEYEND -->
+            <div class="col s12">
+                <span class="grey-text" style="font-size:14pt;">Complete los datos necesarios para dar de alta su nuevo
+                    proyecto</span>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <!-- CONTENT CENTRAL -->
+    <div class="container white" style="margin-top:20px;  width:80%;">
+        <div class="row white" style="margin-right:20px; margin-left:20px;">
+
+
+            <!-- CLICK TO RETURN PAGE BEFORE -->
+            <div class="col s12 white" style="padding-top:15px;">
+                <a onclick="window.history.back();" style="cursor: pointer;"> ← Volver</a>
+            </div>
+
+
+            <!--PAGE SUBTITLE-->
+            <div class="col s12 white">
+                <h4 class="blue-text text-darken-4 white">Requerimientos de Proyecto</h4>
+                <h6 class="grey-text white pbtm20">Información sobre los recursos y las areas que requiere el proyecto
+                </h6>
+            </div>
+            <!-- FORM START -->
+            <form method="POST">
+                {% csrf_token %}
+                <!-- CHOOSE A BUDGET-->
+                <div class="input-field col s7 white">
+                    <input placeholder="EJ. $150,000.00" id="title_project" type="number" class="validate white"
+                        pattern="[0-9]" min="100" max="150000" title="Unicamente cantidades entre 100 y 150000"
+                        required name="presupuesto">
+                    <label for="title_project" class="white black-text">Tope presupuestal del proyecto</label>
+                </div>
+
+                <!-- CHOOSE A MODULE -->
+                <div class="input-field col s6 white">
+                    <select class="white" name="modulo" required>
+                        <option value="" disabled selected>Modulo</option>
+                            {% for modulo in listaModulos %}
+                            <option value='{{modulo.id}}'>{{ modulo.nombre }}</option>
+                            {% endfor %}
+                    </select>
+                    <label class="black-text white">Modulo Requerido</label>
+                </div>
+
+
+                <!-- CHOOSE A SUBMODULE -->
+                <div class="input-field col s6 white">
+                    <select class="white" name="submodulo" required>
+                        <option value="" disabled selected>Submódulo</option>
+                        {% for submodulos in listaSubodulos %}
+                            <option value='{{submodulos.id}}'>{{ submodulos.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                    <label class="black-text white">Submódulo Requerido</label>
+                </div>
+
+
+                <!-- CHOOSE A EXPERIENCE REQUIRED-->
+                <div class="input-field col s6 white pbtm20">
+                    <select class="white" name="experienciaRequerida" required>
+                        <option value="">Selecciona una opción</option>
+                            {% for niveles in listaNivelesConocimiento %}
+                        <option value="{{ niveles.id }}" id="{{ niveles.nombre }}">{{ niveles.nombre }} - {{ niveles.descripcion }}</option>  
+                        {% endfor %}
+                    </select>
+                    <label class="black-text white">Experiencia Requerida</label>
+                </div>
+
+
+                <!-- CHOOSE A MODULE REQUIRED-->
+                <div class="input-field col s6 white" required>
+                    <select class="white" name="experienciaDesesada" required>
+                        <option value="">Selecciona una opción</option>
+                            {% for niveles in listaNivelesConocimiento %}
+                        <option value="{{ niveles.id }}" id="{{ niveles.nombre }}">{{ niveles.nombre }} - {{ niveles.descripcion }}</option>  
+                        {% endfor %}
+                    </select>
+                    <label class="black-text white">Experiencia Deseada</label>
+                </div>
+
+
+                <!-- ADD REQUIREMENTS BUTTON -->
+                <div class="col s12 white pbtm20">
+                    <a class="waves-effect waves-light btn-large white black-text" id="showButton">Agregar
+                        Requerimiento</a>
+                </div>
+
+
+                <!-- HIDDEN CONTENT -->
+                <div class="col s12  white hidden-content" id="content">
+                    <div class="row bcw">
+
+
+                        <!-- TITLE -->
+                        <h5 class="grey-text white black-text" style="margin-top:1cm;">Módulos requeridos para el
+                            proyecto</h5>
+
+
+                        <!-- START TABLE -->
+                        <table class="centered highlight" style="margin-top:1cm; padding-right:1cm;">
+                            <thead>
+                                <tr>
+                                    <th>Módulo</th>
+                                    <th>Submódulo</th>
+                                    <th>Experiencia Requerida</th>
+                                    <th>Experiencia Deseada</th>
+                                    <th>Editar</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>Financial</td>
+                                    <td>Legal Consolidation</td>
+                                    <td>
+                                        <div class="chip yellow" style="width:1cm;">K1</div>
+                                    </td>
+                                    <td>
+                                        <div class="chip yellow">K1</div>
+                                    </td>
+                                    <td><a class="btn waves-effect waves-light">Editar</a></td>
+                                </tr>
+                                <tr>
+                                    <td>Financial</td>
+                                    <td>Asset Managment</td>
+                                    <td>
+                                        <div class="chip blue">K3</div>
+                                    </td>
+                                    <td>
+                                        <div class="chip green">K4</div>
+                                    </td>
+                                    <td><a class="btn waves-effect waves-light">Editar</a></td>
+                                </tr>
+                                <tr>
+                                    <td>Financial</td>
+                                    <td>Bank Accounting</td>
+                                    <td>
+                                        <div class="chip green">K4</div>
+                                    </td>
+                                    <td>
+                                        <div class="chip green">K4</div>
+                                    </td>
+                                    <td><a class="btn waves-effect waves-light">Editar</a></td>
+
+                                </tr>
+                                <tr>
+                                    <td>Controlling</td>
+                                    <td>Profit Center Accounting</td>
+                                    <td>
+                                        <div class="chip yellow">K1</div>
+                                    </td>
+                                    <td>
+                                        <div class="chip blue">K3</div>
+                                    </td>
+                                    <td><a class="btn waves-effect waves-light">Editar</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <!-- SUBMIT FORM -->
+                <div class="col s12 center white pbtm20">
+                    <button class="waves-effect waves-light btn-large grey darken-4 white">
+                        <i class="material-icons right grey darken-4">arrow_forward</i>
+                        Guardar y Continuar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<script>
+        // Inicializar el select
+        document.addEventListener('DOMContentLoaded', function () {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems);
+        });
+        var showButton = document.getElementById('showButton');
+    var content = document.getElementById('content');
+
+    showButton.addEventListener('click', function(){
+        if (content.classList.contains('hidden-content')){
+            content.classList.remove('hidden-content');
+            showButton.textContent ="Ocultar";
+        } else {
+            content.classList.add('hidden-content');
+            showButton.textContent = "Agregar Requerimiento";
+        }
+    });
+</script>
+{% endblock Content %}
+<!-- SECTION SCRIPTS -->
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="{% static 'js/projects.js' %}"></script>
+{% endblock scripts %}

@@ -16,17 +16,27 @@ CREATE TABLE proyectos (
     `fecha_fin` DATETIME NOT NULL,
     `num_consultores` int(3) NOT NULL,
     `presupuesto_base` DECIMAL(10, 2) NOT NULL,
-    `tipo_moneda` varchar(25) NOT NULL,
+    `id_tipo_moneda` int(10) NULL,
     `status` varchar(1) NOT NULL,
     `description` varchar(150) NOT NULL,
     `experiencia` varchar(150) NOT NULL,
     `fun_laborales` varchar(250) NOT NULL,
+    `fecha_publicacion` DATE DEFAULT CURRENT_TIMESTAMP,
     `id_categoria` int(10) NULL,
     `id_proyecto_consultor` int(10) NULL,
     `id_empresa_proyecto` int(10) NULL,
+    `id_modulo` int(10),
+    `id_submodulo` int(10),
+    `id_experiencia_requerida` int(10),
+    `id_experiencia_deseable` int(10),
     FOREIGN KEY (id_categoria) REFERENCES categorias(id),
     FOREIGN KEY (id_proyecto_consultor) REFERENCES proyecto_consultor(id),
-    FOREIGN KEY (id_empresa_proyecto) REFERENCES empresa_proyecto(id)
+    FOREIGN KEY (id_empresa_proyecto) REFERENCES empresa_proyecto(id),
+    FOREIGN KEY (id_tipo_moneda) REFERENCES tipo_moneda(id),
+    FOREIGN KEY (id_modulo) REFERENCES modulos (id),
+  FOREIGN KEY (id_submodulo) REFERENCES submodulos (id),
+  FOREIGN KEY (id_experiencia_requerida) REFERENCES niveles_conocimiento (id),
+  FOREIGN KEY (id_experiencia_deseable) REFERENCES niveles_conocimiento (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -58,7 +68,7 @@ CREATE TABLE proyecto_consultor (
     `id_contrato` int(10) NULL,
     FOREIGN KEY (id_proyecto) REFERENCES proyectos(id),
     FOREIGN KEY (id_consultor) REFERENCES consultores(id),
-    FOREIGN KEY (id_contrato) REFERENCES contrato(id)
+    FOREIGN KEY (id_contrato) REFERENCES contratos(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -106,6 +116,27 @@ CREATE TABLE clientes_empresas (
     FOREIGN KEY (id_giro) REFERENCES giro(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Estructura para la tabla `modulos`
+--
+DROP TABLE IF EXISTS modulos;
+CREATE TABLE modulos (
+  id int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(150) NOT NULL,
+  description VARCHAR(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+--
+-- Estructura para la tabla `submodulos`
+--
+DROP TABLE IF EXISTS submodulos;
+CREATE TABLE submodulos (
+  id int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(150) NOT NULL,
+  description VARCHAR(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 
 --
@@ -128,17 +159,6 @@ CREATE TABLE inmuebles(
     `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `nombre` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Estructura para la tabla `empresas`
---
-
-DROP TABLE IF EXISTS empresas;
-CREATE TABLE empresas(
-    `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `nombre` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 
 
 
@@ -173,11 +193,10 @@ CREATE TABLE requerimiento_personal (
 
 
 --
--- Estructura para la tabla `contrato`
+-- Estructura para la tabla `contratos`
 --
-DROP TABLE IF EXISTS contrato;
-
-CREATE TABLE contrato (
+DROP TABLE IF EXISTS contratos;
+CREATE TABLE contratos (
     `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `titulo` varchar(120) NOT NULL,
     `fecha_firma` varchar(250) NOT NULL,
@@ -276,7 +295,7 @@ CREATE TABLE consultores (
     `rfc` varchar(13) NULL,
     `visa` varchar(20) NULL,
     `licencia` varchar(20) NOT NULL,
-    `tarifa_dia` BOOLEAN NOT NULL,
+    `tarifa_hora` BOOLEAN NOT NULL,
     `id_persona` int(10) NULL,
     `id_categoria_consultor` int(10) NULL,
     `id_manera_pago` int(10) NULL,
@@ -299,6 +318,8 @@ CREATE TABLE experiencias_consultor (
     `id_experiencia` varchar(150) NOT NULL,
     `empresa` varchar(200) NOT NULL,
     `puesto` varchar(200) NOT NULL,
+    `fecha_entrada` DATE DEFAULT CURRENT_TIMESTAMP,
+    `fecha_salida` DATE DEFAULT CURRENT_TIMESTAMP,
     `descripcion` varchar(200) NOT NULL,
     `tiempo_experiencia` varchar(150) NOT NULL,
     `id_consultor` int(10) NOT NULL,
@@ -313,10 +334,7 @@ CREATE TABLE experiencias_consultor (
 DROP TABLE IF EXISTS instituciones;
 CREATE TABLE instituciones (
     `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `nombre` varchar(150) NOT NULL,
-    `nombreEstudios` varchar(150) NOT NULL,
-    `fecha_ingreso` DATETIME NOT NULL,
-    `fecha_terminacion` DATETIME NOT NULL 
+    `nombre` varchar(150) NOT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -340,7 +358,8 @@ CREATE TABLE estudios (
     `no_cedula` varchar(150) NOT NULL,
     `titulo_registrado` varchar(60) NULL,
     `libro` varchar(60) NOT NULL,
-    `fecha` DATETIME NOT NULL,
+    `fecha_termino` varchar(60) NULL,
+    `fecha_ingreso` DATETIME NOT NULL,
     `educacion` varchar(60) NULL,
     `id_consultor` int(10) NOT NULL,
     FOREIGN KEY (id_institucion) REFERENCES instituciones(id),
@@ -361,21 +380,35 @@ CREATE TABLE experiencias (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
+--
+-- Estructura para la tabla `niveles_conocimiento`
+--
+DROP TABLE IF EXISTS niveles_conocimiento;
+CREATE TABLE niveles_conocimiento (
+    `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    `nombre` varchar(150) NOT NULL,
+    `descripcion` varchar(200) NOT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 
 --
 -- Estructura para la tabla `conocimientos_consultor`
 --
 DROP TABLE IF EXISTS conocimientos_consultor;
-
 CREATE TABLE conocimientos_consultor (
-    `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `id_conocimiento` int(10) NOT NULL,
-    `id_nivel` int(10) NOT NULL,
-    `id_consultor` int(10) NOT NULL,
-    FOREIGN KEY (id_conocimiento) REFERENCES conocimientos(id),
-    FOREIGN KEY (id_nivel) REFERENCES niveles(id),
-    FOREIGN KEY (id_consultor) REFERENCES consultores(id)
+  `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `id_modulo` int(10),
+  `id_submodulo` int(10),
+  `id_nivel` int(10),
+  `id_consultor` int(10),
+  `id_nivelGnosis` int(10) DEFAULT 1,
+  `estatus` VARCHAR(150) DEFAULT 'Sin Validar',
+  FOREIGN KEY (id_modulo) REFERENCES modulos (id),
+  FOREIGN KEY (id_submodulo) REFERENCES submodulos (id),
+  FOREIGN KEY (id_nivel) REFERENCES niveles_conocimiento (id),
+  FOREIGN KEY (id_consultor) REFERENCES consultores (id),
+  FOREIGN KEY (id_nivelGnosis) REFERENCES niveles_conocimiento (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -481,7 +514,8 @@ CREATE TABLE personas(
     `telefono` varchar(10) NOT NULL,
     `ext` varchar(4) NULL,
     `nacionalidad` varchar(200) NOT NULL,
-    `sexo` varchar(50) NOT NULL
+    `sexo` varchar(50) NOT NULL,
+    `disponible` varchar(1) NOT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -531,3 +565,122 @@ CREATE TABLE tipo_moneda (
     `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     `tipo` varchar(40) NOT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+--
+-- Estructura para la tabla `idiomas`
+--
+DROP TABLE IF EXISTS idiomas;
+CREATE TABLE idiomas (
+    `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    `nombre` varchar(40) NOT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+
+--
+-- Estructura para la tabla `idiomas_consultor`
+--
+DROP TABLE IF EXISTS idiomas_consultor;
+CREATE TABLE idiomas_consultor (
+    `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    `id_idioma` int(10) NOT NULL,
+    `id_consultor` int(10) NOT NULL,
+    `nivel` varchar(40) NOT NULL,
+    FOREIGN KEY (id_idioma) references idiomas(id),
+    FOREIGN KEY (id_consultor) references consultores(id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+--
+-- Estructura para la tabla `cursos_consultor`
+--
+DROP TABLE IF EXISTS cursos_consultor;
+CREATE TABLE cursos_consultor (
+    `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    `id_consultor` int(10) NOT NULL,
+    `id_institucion_curso` int(10) NOT NULL,
+    `nombre_curso` varchar(80) NOT NULL,
+    `enlace_certificado` varchar(80) NOT NULL,
+    `descripcion` varchar(80) NOT NULL,
+    `fecha_termino` DATETIME NOT NULL,
+    FOREIGN KEY (id_consultor) references consultores(id),
+    FOREIGN KEY (id_institucion_curso) references instituciones(id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+--
+-- Estructura para la tabla `notification_consultor`
+--
+DROP TABLE IF EXISTS notification_consultor;
+CREATE TABLE notification_consultor (
+    `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    `id_consultor_destinatary` int(10) NOT NULL,
+    `name` varchar(100) NOT NULL,
+    `email` varchar(100) NOT NULL,
+    `subject` varchar(100) NOT NULL,
+    `message` varchar(100) NOT NULL,
+    `status` ENUM('Pending', 'Read') NOT NULL DEFAULT 'Pending',
+    `created_at` DATE DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_consultor_destinatary) references consultores(id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+--
+-- Estructura para la tabla `notification_administrador`
+--
+DROP TABLE IF EXISTS notification_administrador;
+CREATE TABLE notification_administrador (
+    `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    `id_persona_destinatary` int(10) NOT NULL,
+    `name` varchar(100) NOT NULL,
+    `email` varchar(100) NOT NULL,
+    `subject` varchar(100) NOT NULL,
+    `message` varchar(100) NOT NULL,
+    `status` ENUM('Pending', 'Read') NOT NULL DEFAULT 'Pending',
+    `created_at` DATE DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_persona_destinatary) references consultores(id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+--
+-- Estructura para la tabla `notification_empresa`
+--
+DROP TABLE IF EXISTS notification_empresa;
+CREATE TABLE notification_empresa (
+    `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    `id_empresa_destinatary` int(10) NOT NULL,
+    `name` varchar(100) NOT NULL,
+    `email` varchar(100) NOT NULL,
+    `subject` varchar(100) NOT NULL,
+    `message` varchar(100) NOT NULL,
+    `status` ENUM('Pending', 'Read') NOT NULL DEFAULT 'Pending',
+    created_at DATE DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_empresa_destinatary) references consultores(id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+--
+-- Estructura para la tabla `empresas`
+--
+DROP TABLE IF EXISTS empresas;
+CREATE TABLE empresas (
+    `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    `id_usuario` int(10) NOT NULL,
+    `empresa` varchar(80) NOT NULL,
+    `nivel` varchar(100) NOT NULL,
+    `nombre` varchar(100) NOT NULL,
+    `ape_pat` varchar(100) NOT NULL,
+    `ape_mat` varchar(100) NOT NULL,
+    `telefono` varchar(12) NOT NULL,
+    `tamano` varchar(100) NOT NULL,
+    `industria` varchar(40) NOT NULL,
+    `versionSAP` varchar(20) NOT NULL,
+    FOREIGN KEY (id_usuario) references usuarios(id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+

@@ -1,0 +1,287 @@
+{% extends 'baseProyectos.html' %}
+{% load static %}
+{% block Content %}
+<section class="container-poyectos">
+  <div class="container" style="margin-top:20px; width:80%;">
+    <div class="row">
+
+      <!-- CONTROL PAGES -->
+      <div class="col l4 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">
+        <a href="">Principal</a>
+        <a class="grey-text pl7">/</a>
+        <a href="" class="pl7">Mis proyectos</a>
+        <a class="grey-text pl7">/</a>
+        <a class="grey-text pl7">Validar entrevista</a>
+      </div>
+
+
+      <!-- TITLE PAGE -->
+      <div class="col s12 ">
+        <h3 class="blue-text col l12 s12 text-darken-4">Validar entrevista del proyecto "Consultor SAP CO"</h3>
+      </div>
+
+
+      <!-- LEYEND -->
+      <div class="col s12 ">
+        <span class="grey-text" style="font-size:14pt;">Completa la información para validar los acuerdos a los que se
+          llena con el consultor</span>
+      </div>
+
+
+    </div>
+  </div>
+
+
+  <div class="container white" style="margin-top:20px;  width:80%;">
+    <div class="row white" style="margin-right:20px; margin-left:20px;">
+      <div class="col s12 l5 center">
+
+
+
+        <img src="{% static 'images/mujer_avatar.png' %}" alt="Logo Gnosis" style="  border-radius: 50%;
+            height: 120px;
+            margin-top: 16px;
+            object-fit: cover;
+            object-position: center;
+            width: 120px;
+            " />
+
+
+        <!-- GENDER AND AGE-->
+        <div class="col s12 l12 white">
+          <h6 class="fw-190">Mujer / 32 años</h6>
+        </div>
+
+
+        <!-- STARS CONSULTER -->
+        <div class="col s12 l12 white pbtm20">
+          <i class="material-icons amber-text">star</i>
+          <i class="material-icons amber-text">star</i>
+          <i class="material-icons amber-text">star</i>
+          <i class="material-icons amber-text">star</i>
+          <i class="material-icons grey-text">star_border</i>
+          <p>(4.2)</p>
+        </div>
+
+
+        <div class="col s12 l12">
+          <a class="waves-effect waves-light btn blue darken-4"><i class="material-icons white-text right trans"
+              style="background-color: transparent;">picture_as_pdf</i>
+            Ver CV
+          </a>
+        </div>
+      </div>
+
+
+      <div class="col s12 l7" style="padding-top: 1cm;">
+
+
+        <!-- TITLE DESCRIPTION -->
+        <div class="col s12 l12 white pbtm20">
+          <h6 class="fw-190">Acuerdos generales del proyecto</h6>
+        </div>
+
+
+        <!-- START FORM -->
+        <form action="">
+
+
+          <!-- CHOOSE A CURRENCY -->
+          <div class="col s12 l6 white pbtm20">
+            <div class="input-field col s12">
+              <select>
+                <option value="1">Dolar</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+              </select>
+              <label>Moneda</label>
+            </div>
+          </div>
+
+
+          <!-- FEE -->
+          <div class="col s12 l6 white pbtm20">
+            <div class="input-field col s12">
+              <select>
+                <option value="1">$15.00</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+              </select>
+              <label>Tarifa Acordada</label>
+            </div>
+          </div>
+
+
+          <!-- CHOOSE A DATE START -->
+          <div class="col s12 l6 input-field">
+            <label for="title_project" class="black-text">Fecha Inicio</label>
+            <i class="large material-icons prefix ">date_range</i>
+            <input id="date-end" placeholder="15/05/1998" name="date-end" type="text" class="datepicker"
+              name="date_start" title="El formato no es el correcto" required>
+          </div>
+
+
+          <!-- CHOOSE A DATE END -->
+          <div class="col s12 l6 input-field">
+            <label for="title_project" class="black-text">Fecha de Terminación</label>
+            <i class="large material-icons prefix ">date_range</i>
+            <input id="date-end" placeholder="15/05/1998" name="date-end" type="text" class="datepicker" name="date_end"
+              title="El formato no es el correcto" required>
+          </div>
+
+
+          <!-- BUSINESS DAYS -->
+          <div class="col s12 l12 white pbtm20">
+            <h7>Días Laborales</h7>
+            <div class="horizont" style="display: flex; flex-direction: row;">
+              <p>
+                <label>
+                  <input type="checkbox" />
+                  <span>Lun</span>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" />
+                  <span>Mar</span>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" />
+                  <span>Mie</span>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" />
+                  <span>Jue</span>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" />
+                  <span>Vie</span>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" />
+                  <span>Sab</span>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" />
+                  <span>Dom</span>
+                </label>
+              </p>
+            </div>
+          </div>
+
+
+          <!-- START TIME-->
+          <div class="col s12 l6 white pbtm20">
+            <div class="input-field col s12 l6">
+              <select>
+                <option value="1">7 am</option>
+                <option value="2">8 am</option>
+                <option value="3">9 am</option>
+                <option value="4">10 am</option>
+                <option value="5">11 am</option>
+                <option value="6">12 pm</option>
+                <option value="7">1 pm</option>
+                <option value="8">2 pm</option>
+                <option value="9">3 pm</option>
+                <option value="10">4 pm</option>
+                <option value="11">5 pm</option>
+                <option value="12">6 pm</option>
+                <option value="13">7 pm</option>
+                <option value="14">8 pm</option>
+
+              </select>
+              <label>Hora Inicio</label>
+            </div>
+            <div class="input-field col s12 l6">
+              <select>
+                <option value="1">0 min</option>
+                <option value="1">10 min</option>
+                <option value="1">20 min</option>
+                <option value="1">30 min</option>
+                <option value="1">40 min</option>
+                <option value="1">50 min</option>
+
+              </select>
+            </div>
+          </div>
+
+
+          <!-- END TIME-->
+          <div class="col s12 l6 white pbtm20">
+            <div class="input-field col s12 l6">
+              <select>
+                <option value="1">7 am</option>
+                <option value="2">8 am</option>
+                <option value="3">9 am</option>
+                <option value="4">10 am</option>
+                <option value="5">11 am</option>
+                <option value="6">12 pm</option>
+                <option value="7">1 pm</option>
+                <option value="8">2 pm</option>
+                <option value="9">3 pm</option>
+                <option value="10">4 pm</option>
+                <option value="11">5 pm</option>
+                <option value="12">6 pm</option>
+                <option value="13">7 pm</option>
+                <option value="14">8 pm</option>
+
+              </select>
+              <label>Hora Fin</label>
+            </div>
+            <div class="input-field col s12 l6">
+              <select>
+                <option value="1">0 min</option>
+                <option value="1">10 min</option>
+                <option value="1">20 min</option>
+                <option value="1">30 min</option>
+                <option value="1">40 min</option>
+                <option value="1">50 min</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- JOB FUNCTIONS -->
+          <div class="col s12 l12 white pbtm20">
+            <h7>Funciones Laborales</h7>
+            <div class="input-field col s12">
+              <textarea placeholder="Descripción de las funciones que desempeñara el consultor" id="textarea1"
+                class="materialize-textarea" pattern="[a-zA-Z]*" minlength="15" maxlength="50"
+                title="Descripción solo letras no mayor a 50 caracteres ni menor de 15" required>
+
+                        </textarea>
+            </div>
+          </div>
+
+
+        </form>
+      </div>
+
+
+      <div class="col s12 l12 white center pbtm20">
+        <a class="waves-effect waves-light btn white black-text">Agendar otra entrevista</a>
+
+        <a class="waves-effect waves-light btn blue darken-4 white-text">Validar entrevista y aceptar en proyecto</a>
+
+      </div>
+
+    </div>
+  </div>
+
+  {% endblock Content %}
+
+  {% block scripts %}
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="{% static 'js/projects.js' %}"></script>
+
+  {% endblock scripts %}

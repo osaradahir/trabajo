@@ -22,7 +22,9 @@ nav * {
 nav li a {
   color: #324080;
 }
-
+ul#nav-mobile {
+  background-color: transparent;
+}
 #sidebar {
   position: fixed;
   width: 200px;
@@ -52,6 +54,15 @@ nav li a {
   flex-direction: row;
   align-items: center;
 }
+li.dropdown-trigger:hover, li.dropdown-trigger-link:hover {  
+  background-color: inherit;
+  transform: none;
+}
+
+a.dropdown-trigger:hover, a.dropdown-trigger-link:hover {  
+  background-color: inherit;
+  transform: none;
+}
 
 i.material-icons {
   color: #324080;
@@ -62,7 +73,9 @@ i.material-icons {
   color: #324080;
   background-color: white;
 }
-
+div#sidebar ul li{
+  cursor: pointer;
+}
 .logo {
   margin-left: 80%;
   margin-top: 5px;
@@ -79,6 +92,9 @@ i.material-icons {
   position: absolute;
   left: 230px;
   top: 20px;
+  cursor: pointer;
+}
+div#sidebar ul li{
   cursor: pointer;
 }
 
@@ -476,6 +492,22 @@ div.data-experience h6#date-requirement {
 div.data-experience h6#content-requirement {
   font-size: 15px;
 }
+div.table-pagination {
+  width: 85%;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: end;
+}
+div.table-pagination p {
+  margin-top: 5px;
+  color: #0b5ed4;
+}
+
+.pagination li.active {
+  background-color: #0b5ed4;
+}
 div.button-experience {
   width: 100%;
   display: flex;
@@ -764,10 +796,20 @@ table.centered.responsive-table tr{
   justify-content: center;
   align-items: center;
 }
+.label-kCero {
+  width: 30%;
+  border-radius: 8px;
+  background-color: #ecc760;
+}
 .label-kUno {
   width: 30%;
   border-radius: 8px;
   background-color: #fcb908;
+}
+.label-kDos {
+  width: 30%;
+  border-radius: 8px;
+  background-color: #08fcf0;
 }
 .label-kTres {
   width: 30%;
@@ -1015,6 +1057,7 @@ span#upload::after{
 
   div#courses-show-container.courses{
     margin-top: 10px;
+    background-color: red;
   }
 
   #information-profile .information-user-profile h5{

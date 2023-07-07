@@ -1,0 +1,144 @@
+{% extends 'basePrincipal.html' %}
+{% load static %}
+        {% block Content %}
+        <div class="container" id="notifications-all-container" style="margin-top:20px; width:80%;">
+            <div class="row">
+                <div class="col l4 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">
+                    <a href="{% url 'miProfile' %}">Home </a> 
+                    <a class="grey-text pl7">/</a>
+                    <a class="{% url 'all_notifications' %}"> Notificaciones </a>
+                </div>
+                <div class="col s12 ">
+                <h3 class="text-darken-4">Notificaciones</h3>
+                </div>
+                <div class="col s12">
+                    <span class="grey-text">Consulta y gestiona todas tus notificaciones</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container col l12" style="width:80%;" id="notifications-all-container2">
+            <!-- ### TABLA DEL CONTENIDO ### -->
+            <div class="col l12" >
+                <table class="responsive-table centered higlight">
+                    <thead>
+                        <tr>
+                            <th>Remitente</th>
+                            <th>De</th>
+                            <th>Asunto</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th colspan="2" class="bg-dark-light" style="width: 10%;">Ver</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for notification in notification %}
+                    <tr >
+                        <td>{{notification.name}}</td>
+                        <td>{{notification.email}}</td>
+                        <td>{{notification.subject}}</td>
+                        <td>{{notification.created_at|date:"d/m/Y"}}</td>
+
+                        {% if notification.status == 'Pending' %}
+                            <td class="red-text">{{ notification.status }}</td>
+                        {% else %}
+                            <td>{{ notification.status }}</td>
+                        {% endif %}
+                            
+                        <td>
+                            <a href="{% url 'view_notification' id=notification.id %}" class="btn btn-primary cyan">
+                                <i class="material-icons cyan">remove_red_eye</i>
+                            </a>
+                            
+                         </td>
+                    </tr>
+                    {% endfor %} 
+                    </tbody>
+                </table>
+
+                <!-- ### PAGINACION ### -->
+                <nav style="display:flex; justify-content:center; margin-top:35px; align-items:center;">
+                    {% if notification.has_other_pages %}
+                    <ul class="pagination">
+
+                        {% if notification.has_previous %}
+                        <!-- <li class="page-item"><a class="waves-effect waves-light btn" href="?page={{ notification.previous_page_number }}"><i class="material-icons">arrow_forward</i></a></li> -->
+                        <li class="disabled hg50"><a href="?page={{ notification.previous_page_number }}"><i  class="material-icons">chevron_left</i></a></li>
+                        {% else %}
+                        <li class="page-item disabled"></li>
+                        {% endif %}
+
+                        {% for i in notification.paginator.page_range %}
+                        {% if notification.number == i  %}
+                        <!-- <li class="waves-effect waves-light btn"><span class="page-link">{{ i }}<span class="sr-only"></span></span></li> -->
+                        <li class="waves-effect active hgt90"><a  href="#!">{{ i }}</a></li>
+                        
+                        {% else %}
+                        <!-- <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li> -->
+                        <li class="waves-effect hgt90"><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                        
+                        {% if notification.has_next %}
+                        <!-- <li class="page-item"><a class="page-link" href="?page={{ notification.next_page_number }}"><i class="bi bi-arrow-right-short"></i></a></li> -->
+                        <li class="waves-effect hgt90"><a href="?page={{ notification.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+                        {% else %} 
+                        <li class="page-item disabled"></li>
+                        {% endif %}   
+                    </ul>
+                    {% endif %}
+                </nav>
+
+                <!-- ### POP UP DE NOTIFICACIONES ### -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">
+                                    <i class="bi bi-bell-fill"></i>&nbsp;&nbsp; Notificaciones
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Mensage</th>
+                                        <th scope="col">Fecha</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for notification in pending %}
+                                    <tr style="font-size: 13px;">
+                                        <td>{{notification.name}}</td>
+                                        <td>{{notification.email}}</td>
+                                        <td>{{notification.created_at|date:"d/m/Y"}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                  </table>
+                                  <hr>
+                                    {% if pending.count == 0 %}
+                                    <div>
+                                        Sin notificaciones pendientes
+                                    </div>
+                                    <br>
+                                    {% else %}  
+                                    <div>
+
+                                    {{ pending.count }} notificaciones pendientes
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <script src="{% static 'js/notifications.js' %}?v=4.8"></script>
+        </div>
+        {% endblock Content %}

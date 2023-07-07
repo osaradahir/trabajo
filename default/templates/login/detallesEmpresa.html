@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="REGISTRATION STEP 1: CONTACTO" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- AXIOS -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>GNOSIS | DETALLES</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-wrapper white" style="border: 1px solid rgba(192, 192, 192, 1)">
+                <img class="responsive-img" style="height: 100%; width: 10%; padding-left: 25px"
+                    src="{% static 'images/logo.png' %}" alt="Gnosis logo" />
+            </div>
+        </nav>
+    </header>
+    <main class="principal">
+        <div class="principal col s12 m12 l12 row">
+            <div class="col s6 m6 l6 center">
+                <div class="col l12 center">
+    
+                    <h5 class="black-text" style="text-align: left; padding-left: 25px">
+                        <b>Detalles de la empresa</b>
+                    </h5>
+                    <h6 class="grey-text" style="text-align: left; padding-left: 25px">
+                        Actualice constantemente sus datos para que podamos contactarlo
+                    </h6>
+                </div>
+                <div class="col l12 center">
+                    {% if error %}
+                    <div style="width: 100%; height: 24px; background-color: tomato">
+                        <p style="color: white">{{ error }}</p>
+                    </div>
+                    {% endif %}
+                    <form class="col l12 login-form" method="POST">
+                        {% csrf_token %}
+                        <div class="col l6 input-field">
+                            <i class="material-icons prefix">business</i>
+                            <label for="nombre" data-error="wrong" data-success="right"
+                              >Nombre de empresa</label
+                            >
+                            <input
+                              id="nombreEmpresa"
+                              name="nombreEmpresa"
+                              type="text"
+                              class="validate"
+                              pattern="[A-Za-záéíóúñÑ\s]{3,25}"
+                              minlength="3"
+                              maxlength="25"
+                              title="Use solo letras con un minimo de 3 caracteres"
+                              required
+                            />
+                        </div>
+                        <div class="col l6 input-field">
+                            <i class="material-icons prefix">filter_frames</i>
+                            <label for="nivel" data-error="wrong" data-success="right">Nivel</label>
+                            <input id="nivel" name="nivel" type="text" class="validate"
+                                title="Use solo letras"
+                                required
+                                placeholder="Consultor de Negocios y Estadísitcas" />
+                        </div>
+                        <div class="col l12 input-field">
+                            <i class="material-icons prefix">business_center</i>
+                            <label for="industria" data-error="wrong" data-success="right">Industria</label>
+                            <input id="industria" name="industria" type="text" class="validate"
+                                title="Use solo letras"
+                                required
+                                placeholder="Telecomunicaciones" />
+                        </div>
+                        <div class="col l6 input-field">
+                            <i class="material-icons prefix">call</i>
+                            <label for="telefono" data-error="wrong" data-success="right">Telefono</label>
+                            <input id="telefono" name="telefono" type="tel" class="validate"
+                                pattern="[0-9]{3}[ -][0-9]{3}[ -][0-9]{4}"
+                                title="Use solo numeros y deje un espacio entre las series de digitos: 000-000-0000"
+                                required />
+                        </div>
+                        <div class="col l6 input-field">
+                            <i class="material-icons prefix">linear_scale</i>
+                            <label for="sapVersion" data-error="wrong" data-success="right">Versión de SAP</label>
+                            <input id="sapVersion" name="sapVersion" type="text" class="validate"
+                                title="Use solo números y letras"
+                                required
+                                placeholder="4.60b" />
+                        </div>
+                        
+                        <div class="col l12 input-field">
+                            <i class="material-icons prefix">location_city</i>
+                            <textarea id="textarea" class="materialize-textarea" name="tamano" maxlength="120"></textarea>
+                            <label for="textarea">Tamaño de la empresa</label>
+                          </div>
+                        
+                        <br />
+                        <button class="btn-large grey darken-3 waves-effect waves-light" type="submit" name="action">
+                            Guardar y Continuar
+                            <i class="material-icons right">save</i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col s12 m12 l6 center">
+                <h2>
+                    <b>AGREGA LOS DETALLES</b>
+                    <b class="blue-text text-darken-4">DE LA </b>
+                    <b>EMPRESA</b>
+                    <b>PARA COMUNICARNOS CONTIGO</b>
+                </h2>
+
+                <img class="responsive-img" style="height: 100%; width: 100%; padding-right: 155px"
+                    src="{% static 'images/contact.png' %}" alt="Contact Ilustration" />
+            </div>
+        </div>
+    </main>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/js/materialize.min.js"></script>
+
+    <script>
+        (function ($) {
+            $(function () {
+                // Plugin initialization
+                $("select").not(".disabled").formSelect();
+            });
+        })(jQuery); // end of jQuery name space
+    </script>
+</body>
+
+</html>

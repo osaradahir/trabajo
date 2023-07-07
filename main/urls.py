@@ -21,6 +21,7 @@ from consultores import views
 import default
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('', default.views.index, name="index"),
     path('gnosis/', include('default.urls')),
 ]

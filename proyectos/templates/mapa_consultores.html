@@ -1,0 +1,166 @@
+{% extends 'baseProyectos.html' %}
+{% load static %}
+
+
+    {% block Content %}
+    <div class="container" style="margin-top:20px; width:80%;">
+        <div class="row">
+
+            
+            <!-- CONTROL PAGES -->
+            <div class="col l5 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">
+                <a href="">Principal</a> 
+                <a class="grey-text pl7">/ </a>
+                <a class="pl7" href=""> Mis Proyectos</a> 
+                <a class="grey-text pl7">/ </a>
+                <a class="pl7" href=""> Detalles de Proyecto</a> 
+                <a class="grey-text pl7">/</a>
+                <a class="grey-text pl7" > Mapa de Consultores  </a>
+            </div>
+
+            <!-- TITLE -->
+            <div class="col s12 l12">
+                <h3 class="blue-text col l12 s12 text-darken-4" >Mapa de Consultores Proyecto: Consultor SAP CO</h3>
+            </div>
+            
+            
+            <!-- LEYEND -->
+            <div class="col s12 l12 pbtm20">
+                <span class="grey-text" style="font-size:14pt;">Información sobre la localizacion de los consultores</span>
+            </div>
+
+
+            <!-- MAP AND CONSULTOR TARJET -->
+            <div class="col s12 left">
+
+                
+                <!-- IMAGEN DEL MAPA -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d303.71189505125903!2d-98.37237453588615!3d20.080582872077073!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d05717336a33f5%3A0xba6214de7914f641!2sXiimbal%20S%20de%20RL%20de%20CV!5e0!3m2!1sen!2smx!4v1688268252923!5m2!1sen!2smx" width="1200" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>                
+                
+                
+                <!-- CONSULTOR TARJET -->
+                <div class="col l3 white" style="border: 5px solid rgba(0, 128, 0, 0.415); position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%);">
+                    
+
+                    <!-- AVATAR -->
+                    <div class="col l3">
+                        <img src="{% static 'images/crea.jpg' %}" alt="Foto de Perfil" style="width: 80px;" />
+                    </div>
+
+
+                    <!-- INFO -->
+                    <div class="col l9">
+
+                        
+                        <div class="col l7 fw-bold">
+                            ABAP EXPERT          
+                        </div>
+
+                        <div class="col l5 fw-bold">
+                            NIVEL K2 
+                        </div>
+
+                        <div class="col s12 l12 grey-text">Coyocan, CDMX</div>
+
+                        <div class="col s12 l12">
+                            <p>
+                                En los modulos de C0 con submódulos MON-CEL OM-ABC 
+                            </h7>
+                        </div>
+
+                        <div class="col s12 l12">
+                            <i class="material-icons amber-text">star</i><h7 class="grey-text">(4.5)</h7>
+                        </div>
+
+                    </div>
+
+
+                    <!-- BUTTON MORE CONTENT-->
+                    <div class="col s12 l12 center" style="padding-top: 15px; padding-bottom: 15px;">
+                        <button class="waves-effect btn-small blue darken-3" id="mostrarBtn">
+                            Ver mas
+                        </button>
+                                        </div>
+                </div>
+
+
+
+                <!-- HIDDEN CONTENT -->
+                <div class="col s12 l4 white hidden-content" id="contenidoOculto" style="position: absolute; top:50%; left: 50%; transform: translate(-50%, -50%);">
+                    <div class="row bcw">  
+
+                        <div class="col s12 l12 white pbtm20" style="padding-top: 20px;">
+                            <button id="ocultarBtn"><i class="material-icons">close</i></button>
+                        </div>
+
+                        <div class="col l6">SAP SENIOR DEVELOPER</div>
+
+                        <div class="col l6">
+                            <i class="material-icons amber-text">star</i>
+                            <i class="material-icons amber-text">star</i>
+                            <i class="material-icons amber-text">star</i>
+                            <i class="material-icons amber-text">star</i>
+                            <i class="material-icons amber-text">star_half</i>
+                            <h7 class="grey-text">(4.5)</h7>
+                        </div>
+
+
+                        <div class="col l12 pbtm20">
+                            Edad:26
+                        </div>
+
+                        <div class="col s12 l12 white pbtm20">
+                            Coyoacan,CDMX
+                        </div>
+
+
+                        <div class="col l11" style="border: 2px solid rgb(0, 0, 0);">
+                            <h6>Disponibilidad: Inmediata</h6>
+                            <h6>Tarifa: $ 1,000 US</h6>
+                            <h6>Descripcion:</h6>
+                            <h6 class="pbtm20">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores deserunt aut earum laborum, asperiores illo quod tempore suscipit sunt quibusdam. Eos facilis libero inventore fuga natus consectetur delectus non ratione.</h6>
+                            <h6>Comentarios:</h6>
+                            <h6 class="pbtm20">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores deserunt aut earum laborum, asperiores illo quod tempore suscipit sunt quibusdam. Eos facilis libero inventore fuga natus consectetur delectus non ratione.</h6>
+                        </div>
+
+                        <div class="col 12 l12 white center" style="padding-top: 15px;">
+                            <a class="waves-effect btn-small">
+                                Seleccionar Para Entrevista
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col s12 l12" style="padding-bottom: 12cm;"> 
+            </div>
+    </div>
+
+    {% endblock Content %}
+
+            <!-- SECTION SCRIPTS -->
+            {% block scripts %}
+    
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+            <script src="{% static 'js/projects.js' %}"></script>
+          
+            <script>
+                                // Obtén los elementos por su id
+                var mostrarBtn = document.getElementById("mostrarBtn");
+                var ocultarBtn = document.getElementById("ocultarBtn");
+                var contenidoOculto = document.getElementById("contenidoOculto");
+
+                // Agrega un evento click al botón de mostrar
+                mostrarBtn.addEventListener("click", function() {
+                contenidoOculto.style.display = "block";
+                });
+
+                // Agrega un evento click al botón de ocultar
+                ocultarBtn.addEventListener("click", function() {
+                contenidoOculto.style.display = "none";
+                });
+
+            </script>
+            {% endblock scripts %}

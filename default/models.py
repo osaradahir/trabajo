@@ -1,21 +1,28 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils import timezone
+from django.utils.html import format_html
+from datetime import date
 
 class Proyectos(models.Model):
     proyecto_nombre = models.CharField(max_length=150)
     fecha_inicio = models.DateTimeField()
     fecha_fin = models.DateTimeField()
-    num_consultores = models.IntegerField()
+    num_consultores = models.IntegerField(null=True)
     presupuesto_base = models.DecimalField(max_digits=10, decimal_places=2)
-    tipo_moneda = models.CharField(max_length=25)
-    status = models.CharField(max_length=1)
-    description = models.CharField(max_length=150)
-    experiencia = models.CharField(max_length=150)
-    fun_laborales = models.CharField(max_length=250)
+    id_tipo_moneda = models.ForeignKey('TipoMoneda', null=True, on_delete=models.SET_NULL, default=1)
+    status = models.CharField(max_length=20, null=True)
+    description = models.CharField(max_length=250, null=True)
+    fun_laborales = models.CharField(max_length=250, null=True)
+    fecha_publicacion = models.DateField(default=date.today)
     id_categoria = models.ForeignKey('Categorias', null=True, on_delete=models.SET_NULL)
     id_proyecto_consultor = models.ForeignKey('ProyectoConsultor', null=True, on_delete=models.SET_NULL)
     id_empresa_proyecto = models.ForeignKey('EmpresaProyecto', null=True, on_delete=models.SET_NULL)
+    id_modulo = models.ForeignKey('Modulos', null=True, on_delete=models.SET_NULL)
+    id_submodulo = models.ForeignKey('Submodulos', null=True, on_delete=models.SET_NULL)
+    id_experiencia_requerida = models.ForeignKey('NivelesConocimiento', null=True, on_delete=models.SET_NULL, related_name='experiencia_requerida', default=1)
+    id_experiencia_deseable = models.ForeignKey('NivelesConocimiento', null=True, on_delete=models.SET_NULL, related_name='experiencia_deseable', default=1)
+
 
     class Meta:
         db_table = 'proyectos'
@@ -76,21 +83,33 @@ class ClientesEmpresas(models.Model):
         db_table = 'clientes_empresas'
 
 
-class Conocimientos(models.Model):
+class Modulos(models.Model):
     nombre = models.CharField(max_length=150)
     description = models.CharField(max_length=150)
 
     class Meta:
-        db_table = 'conocimientos'
+        db_table = 'modulos'
+
+
+class Submodulos(models.Model):
+    nombre = models.CharField(max_length=150)
+    description = models.CharField(max_length=150)
+
+    class Meta:
+        db_table = 'submodulos'
 
 
 class ConocimientosConsultor(models.Model):
-    id_conocimiento = models.ForeignKey('Conocimientos', null=True, on_delete=models.SET_NULL)
-    id_nivel = models.ForeignKey('Niveles', null=True, on_delete=models.SET_NULL)
+    id_modulo = models.ForeignKey('Modulos', null=True, on_delete=models.SET_NULL)
+    id_submodulo = models.ForeignKey('Submodulos', null=True, on_delete=models.SET_NULL)
+    id_nivel = models.ForeignKey('NivelesConocimiento', null=True, on_delete=models.SET_NULL, related_name='conocimientosconsultor_nivel')
     id_consultor = models.ForeignKey('Consultores', null=True, on_delete=models.SET_NULL)
+    id_nivelGnosis = models.ForeignKey('NivelesConocimiento', null=True, on_delete=models.SET_NULL, default=1, related_name='conocimientosconsultor_nivelgnosis')
+    estatus = models.CharField(max_length=150, default='Sin Validar')
 
     class Meta:
         db_table = 'conocimientos_consultor'
+
 
 
 class Consultores(models.Model):
@@ -100,7 +119,7 @@ class Consultores(models.Model):
     rfc = models.CharField(max_length=13, blank=True, null=True)
     visa = models.CharField(max_length=20, blank=True, null=True)
     licencia = models.CharField(max_length=20)
-    tarifa_hora = models.CharField(max_length=20)
+    tarifa_hora = models.IntegerField(null=True, default=0)
     id_persona = models.ForeignKey('Personas', null=True, on_delete=models.SET_NULL)
     id_categoria_consultor = models.ForeignKey('Categorias', null=True, on_delete=models.SET_NULL)
     id_manera_pago = models.ForeignKey('ManeraPago', null=True, on_delete=models.SET_NULL, default=1)
@@ -153,7 +172,7 @@ class Documentacion(models.Model):
 
 class EmpresaProyecto(models.Model):
     id_proyecto = models.ForeignKey('Proyectos', null=True, on_delete=models.SET_NULL)
-    id_empresas = models.ForeignKey('ClientesEmpresas', null=True, on_delete=models.SET_NULL)
+    id_empresa = models.ForeignKey('Empresas', null=True, on_delete=models.SET_NULL)
 
     class Meta:
         db_table = 'empresa_proyecto'
@@ -172,12 +191,6 @@ class Inmuebles(models.Model):
     class Meta:
         db_table = 'inmuebles'
 
-
-class Empresas(models.Model):
-    nombre = models.CharField(max_length=150)
-
-    class Meta:
-        db_table = 'Empresas'
 
 class Estudios(models.Model):
     id_institucion = models.ForeignKey('Instituciones', null=True, on_delete=models.SET_NULL)
@@ -237,6 +250,14 @@ class Hijos(models.Model):
         db_table = 'hijos'
 
 
+class NivelesConocimiento(models.Model):
+    nombre = models.CharField(max_length=150)
+    descripcion = models.CharField(max_length=200)
+
+    class Meta:
+        db_table = 'niveles_conocimiento'
+
+
 
 class Niveles(models.Model):
     nombre = models.CharField(max_length=150)
@@ -264,6 +285,7 @@ class Personas(models.Model):
     ext = models.CharField(max_length=4, blank=True, null=True)
     nacionalidad = models.CharField(max_length=200)
     sexo = models.CharField(max_length=50)
+    disponible = models.BooleanField(default=True)
 
     class Meta:
         db_table = 'personas'
@@ -352,7 +374,7 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     correo = models.EmailField(max_length=100, unique=True)
     password = models.CharField(max_length=100)
     image = models.CharField(max_length=100)
-    rol = models.CharField(max_length=2)
+    rol = models.CharField(max_length=16)
     id_persona = models.ForeignKey('Personas', null=True, on_delete=models.SET_NULL)
     is_staff = models.BooleanField(default=False)
 
@@ -394,3 +416,107 @@ class IdiomasConsultor(models.Model):
     
     class Meta:
         db_table = 'idiomas_consultor'
+
+
+class CursosConsultor(models.Model):
+    id_consultor = models.ForeignKey('Consultores', null=True, on_delete=models.SET_NULL)
+    nombre_curso = models.CharField(max_length=80, default="")
+    id_institucion_curso = models.ForeignKey('Instituciones', null=True, on_delete=models.SET_NULL)
+    enlace_certificado = models.CharField(max_length=100, default="")
+    descripcion = models.CharField(max_length=400, default="")
+    fecha_termino = models.DateField()
+
+    class Meta:
+        db_table = 'cursos_consultor'
+
+
+class NotificationConsultor(models.Model):
+    
+    STATUS = (
+        ('Pending', 'Pending'),
+        ('Read', 'Read'),
+    )
+    name=models.CharField(max_length=100)
+    #correo
+    email=models.CharField(max_length=100)
+    # asusnto
+    subject=models.CharField(max_length=100)
+    # contenido 
+    message = models.TextField(max_length=200)
+    # fecha en que se creo
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10, choices=STATUS)
+    # id consultor 
+    id_consultor_destinatary = models.ForeignKey('Consultores', null=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        db_table="notification_consultor" 
+
+
+
+class NotificationAdministrador(models.Model):
+    
+    STATUS = (
+        ('Pending', 'Pending'),
+        ('Read', 'Read'),
+    )
+    name=models.CharField(max_length=100)
+    #correo
+    email=models.CharField(max_length=100)
+    # asusnto
+    subject=models.CharField(max_length=100)
+    # contenido 
+    message = models.TextField(max_length=200)
+    # fecha en que se creo
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10, choices=STATUS)
+    # id consultor 
+    id_persona_destinatary = models.ForeignKey('Personas', null=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        db_table="notification_administrador" 
+
+
+class NotificationEmpresa(models.Model):
+    
+    STATUS = (
+        ('Pending', 'Pending'),
+        ('Read', 'Read'),
+    )
+    name=models.CharField(max_length=100)
+    #correo
+    email=models.CharField(max_length=100)
+    # asusnto
+    subject=models.CharField(max_length=100)
+    # contenido 
+    message = models.TextField(max_length=200)
+    # fecha en que se creo
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10, choices=STATUS)
+    # id consultor 
+    id_empresa_destinatary = models.ForeignKey('Empresas', null=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        db_table="notification_empresa" 
+
+
+
+class Empresas(models.Model):
+    empresa = models.CharField(max_length=80, default="")
+    nivel = models.CharField(max_length=80, default="")
+    nombre = models.CharField(max_length=100, default="")
+    ape_pat = models.CharField(max_length=200, default="")
+    ape_mat = models.CharField(max_length=200, default="")
+    telefono = models.CharField(max_length=12, default="")
+    tamano = models.CharField(max_length=120, default="")
+    industria = models.CharField(max_length=40, default="")
+    versionSAP = models.CharField(max_length=20, default="")
+    id_usuario = models.ForeignKey('Usuarios', null=True, on_delete=models.SET_NULL)
+    
+    class Meta:
+        db_table = 'empresas'
+
+"""
+Id usuario: 106
+INSERT INTO `empresas`(`nombre`, `empresa`, `id_usuario_id`, `industria`, `nivel`, `tamano`, `telefono`, `versionSAP`) VALUES ('Eduardo Galindo Bernal','Bayer de México, S.A. de C.V.',106,'Telecomunicaciones','Consultor de Negocios y Estadísitcas', '','5728-3000', '4.60b');
+"""

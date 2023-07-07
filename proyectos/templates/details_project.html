@@ -1,0 +1,861 @@
+{% extends 'baseProyectos.html' %}
+{% load static %}
+{% block Content %}
+<section class="container-poyectos">
+    <div class="container" style="margin-top:20px; width:86%;">
+        <div class="row">
+
+            <!-- CONTROL PAGES -->
+            <div class="col l4 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">
+                <a href="">Principal</a> 
+                <a class="grey-text pl7">/</a>
+                <a class="pl7" href="">Mis Proyectos</a> 
+                <a class="grey-text pl7">/</a>
+                <a class="grey-text pl7" > Detalles del Proyecto</a>
+            </div>
+
+
+            <!-- TITLE -->
+            <div class="col s12 ">
+                <h3 class="blue-text col l12 s12 text-darken-4" >Detalles del Proyecto: Consultor SAP CO</h3>
+            </div>
+
+
+            <!-- LEYEND -->
+            <div class="col s12">
+                <span class="grey-text" style="font-size:14pt;">Información completa aserca del proyecto en curso</span>
+            </div>
+            
+        </div>
+    </div>
+
+
+    
+    <div class="container" style="margin-top:20px; width:86%;">
+        <div class="row">
+
+
+            <div class="col s12 l12 white pbtm20" style="padding-top: 1cm;">
+                <ul class="tabs">
+                    <li class="tab col s2.4"><a href="#information_basic" class="active">Información Basica</a></li>
+                    <li class="tab col s2.4"><a href="#requirements">Requerimientos</a></li>
+                    <li class="tab col s2.4"><a href="#postulated_consultants"  >Consultores Postulados (7)</a></li>
+                    <li class="tab col s2.4"><a href="#interviews">Entrevistas</a></li>
+                    <li class="tab col s2.4"><a href="#consultants_project" >Consultores en Proyecto </a></li>
+
+                </ul>
+            </div>
+
+  
+              <!-- INFORMACION BASICA -->
+            <div class="col s12 l12 white" id="information_basic" >
+
+
+                <!-- TITLE AND CORPORATION -->
+                <div class="col s12 l9">
+                    <h5 class="black-text text-darken-4" style="font-weight:bold;">Consultor Master SAP</h5>
+                    <h6 class="blue-text">J&A SA de CV</h6>
+                </div>
+
+
+                <!-- STATUS AND DATE -->
+                <div class="col s12 l3 right">
+
+
+                    <h6 class="grey-text">Estado del Proyecto:
+                        
+                        {% if status_project == 'no se trabajo' %}
+
+                            <div class="chip amber black-text">No se trabajo</div></h6>
+                    
+                        {% elif status_project == 'terminado' %}
+                        
+                            <div class="chip green white-text">Terminado</div></h6>
+
+                        {% else %}
+
+                            <div class="chip blue white-text">Staffing</div></h6>
+
+                        {% endif %}
+                    
+                    <h7 class="grey-text">Fecha de Publicación: Hace 5 dias</h7>
+                </div>
+            
+
+                <!-- TAGS -->
+
+                {% if status_project == 'no se trabajo' %}
+                    <div class="col s12 l12 orange lighten-4 pbtm20">
+                        <h5 class="orange lighten-4 amber-text darken-1-text ">¡El proyecto no se puede llevar a cabo! No se cuentan con los recursos suficientes.  😔</h5>
+                        <h6 class="orange lighten-4 black-text">Por el momento el proyecto esta en pausa, para poder ser retomado más adelante.</h6>
+                    </div>
+
+                {% elif status_project == 'terminado' %}
+                    <div class="col s12 l12 green lighten-4 pbtm20">
+                        <h5 class="green lighten-4 green-text darken-1-text ">¡El proyecto está Terminado! 😁</h5>
+                        <h6 class="green lighten-4 black-text">El proyecto se concluyó exitosamente, puede ver los detalles de su proyecto finalizado.</h6>
+                    </div>
+                {% else %}
+                {% endif %}
+
+
+                <!-- WORKING TIME -->
+                <div class="col s12 l4 white">
+                    <h5>
+                        <span class="grey-text">Tiempo de Trabajo</span>
+                        <div class="chip blue white-text"> 5 meses</div>
+                    </h5>                 
+                </div>
+
+
+                <!-- COIN -->
+                <div class="col s12 l4 white">
+                    <h5>
+                        <span class="grey-text">Moneda</span>
+                        <div class="chip green white-text"> Dólares</div>
+                    </h5> 
+                </div>
+
+
+                <!-- CONSULTANTS -->
+                <div class="col s12 l4 white">
+                    <h5>
+                        <span class="grey-text">No. de Consultores</span>
+                        <div class="chip blue white-text wid-2cm center"> 5 </div>
+                    </h5>                 
+                </div>
+
+                <div class="col s12 l12 white">
+                    <h6 class="black-text text-darken-4" style="font-weight:bold;">Descripción general del Proyecto</h6>
+                </div>
+
+                <div class="col s12 l12 white pbtm20">
+                    <h6 class="black-text" >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet aliquam temporibus at excepturi nulla voluptatum aliquid unde quaerat deleniti dolores, quidem consectetur explicabo magni mollitia officia ut? Temporibus, explicabo eaque?</h6>
+                </div>
+
+                <div class="col s12 l12 white">
+                    <h6 class="black-text text-darken-4" style="font-weight:bold;">Funciones Laborales</h6>
+                </div>
+
+                <div class="col s12 l12 white pbtm20">
+                    <h6 class="black-text" >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet aliquam temporibus at excepturi nulla voluptatum aliquid unde quaerat deleniti dolores, quidem consectetur explicabo magni mollitia officia ut? Temporibus, explicabo eaque?</h6>
+                </div>
+
+                                <!-- BUTTON DETAILS -->
+                <div class="col s12 l12 white pbtm20">
+                    <a href="" class="waves-effect waves-light btn grey darken-4">
+                    Editar Información Basica
+                    </a>        
+                </div>
+            </div>
+
+
+            <!-- REQUERIMIENTOS -->
+            <div class="col s12 l12 white" id="requirements" >
+               
+                    <div class="aligner" style="margin-left: 1cm; margin-right: 1cm;">
+
+                        <!-- TITLE AND CORPORATION -->
+                        <div class="col s12 l9 pbtm20" >
+                            <h5 class="black-text text-darken-4" style="font-weight:bold;">Requerimientos de Proyecto</h5>
+                            <h6 class="grey-text">Información sobre los recursos y las areas que requiere el proyecto</h6>
+                        </div>
+                
+                        <!-- HIDDEN CONTENT -->
+                        <div class="col s12 white hidden-content" id="content">
+                            <div class="row bcw">
+                                
+
+                                <div class="input-field col s12 l6">
+                                    <select>
+                                    <option value="1">Controlling</option>
+                                    <option value="2">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                    </select>
+                                    <label>Modulo requerido</label>
+                                </div>
+
+                                <div class="input-field col s12 l6">
+                                    <select>
+                                    <option value="1">Órdenes internas</option>
+                                    <option value="2">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                    </select>
+                                    <label>Submódulo requerido</label>
+                                </div>
+
+                                <div class="input-field col s12 l6">
+                                    <select>
+                                    <option value="1">k2- De 3 a 5 proyectos, prox de 3 a 5 años</option>
+                                    <option value="2">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                    </select>
+                                    <label>Experiencia Requerida</label>
+                                </div>
+
+                                <div class="input-field col s12 l6">
+                                    <select>
+                                        <option value="1">k2- De 3 a 5 proyectos, prox de 3 a 5 años</option>
+                                        <option value="2">Option 2</option>
+                                        <option value="3">Option 3</option>
+                                    </select>
+                                    <label>Experiencia Deseable</label>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <!-- ADD REQUIREMENTS BUTTON -->
+                        <div class="col s12 white pbtm20">
+                            <a class="waves-effect waves-light btn grey darken-4" id="showButton">Agregar Requerimiento</a>
+                        </div>
+
+
+                        <!-- START TABLE -->
+                        <table class="centered highlight" style="margin-top:1cm; padding-right:1cm;"> 
+                            <thead>
+                            <tr>
+                                <th class="fw-bold">Módulo</th>
+                                <th class="fw-bold">Submódulo</th>
+                                <th class="fw-bold">Experiencia Requerida</th>
+                                <th class="fw-bold">Experiencia Deseada</th>
+                                <th class="fw-bold">Editar</th>
+                                <th class="fw-bold">Eliminar</th>
+                            </tr>
+                            </thead>
+                    
+                            <tbody>
+                            <tr>
+                                <td>Financial</td>
+                                <td>Legal Consolidation</td>
+                                <td><div class="chip amber wid-2cm">K1</div></td>
+                                <td><div class="chip amber wid-2cm">K1</div></td>
+                                <td><a class="btn waves-effect waves-light white cyan-text border-cyan">Editar</a></td>
+                                <td><a class="btn waves-effect waves-light white red-text border-red">Eliminar</a></td>
+                            </tr>
+                            <tr>
+                                <td>Financial</td>
+                                <td>Asset Managment</td>
+                                <td><div class="chip blue white-text wid-2cm">K3</div></td>
+                                <td><div class="chip green white-text wid-2cm">K4</div></td>
+                                <td><a class="btn waves-effect waves-light white cyan-text border-cyan">Editar</a></td>
+                                <td><a class="btn waves-effect waves-light white red-text border-red">Eliminar</a></td>
+                            </tr>
+                            <tr>
+                                <td>Financial</td>
+                                <td>Bank Accounting</td>
+                                <td><div class="chip green white-text wid-2cm">K4</div></td>
+                                <td><div class="chip green white-text wid-2cm">K4</div></td>
+                                <td><a class="btn waves-effect waves-light white cyan-text border-cyan">Editar</a></td>
+                                <td><a class="btn waves-effect waves-light white red-text border-red">Eliminar</a></td>
+
+                            </tr>
+                            <tr>
+                                <td>Controlling</td>
+                                <td>Profit Center Accounting</td>
+                                <td><div class="chip amber wid-2cm">K1</div></td>
+                                <td><div class="chip blue white-text wid-2cm">K3</div></td>
+                                <td><a class="btn waves-effect waves-light white cyan-text border-cyan">Editar</a></td>
+                                <td><a class="btn waves-effect waves-light white red-text border-red">Eliminar</a></td>
+                            </tr>
+                            </tbody>
+                        </table> 
+                        
+                        
+                        <!-- TITLE AND CORPORATION -->
+                        <div class="col s12 l9 pbtm20">
+                            <h5 class="black-text text-darken-4" style="font-weight:bold;">Requerimientos de Educación</h5>
+                            <h6 class="grey-text">Información sobre las certificaciones o idiomas que los consultores necesitan para el proyecto.</h6>
+                        </div>
+                
+
+                        <!-- BUTTON REQUIREMENTS -->
+                        <div class="col s12 l12 white pbtm20">
+                            <a href="" class="waves-effect waves-light btn grey darken-4">
+                            Agregar Requerimiento
+                            </a>        
+                        </div>
+
+                        <form method="">
+
+                            <!-- INPUT CERTIFICACIONES-->
+                            <div class="input-field col s12 l4 white">
+                                <input placeholder="ABAP" id="certifications" type="text" class="validate">
+                                <label for="certifications">Certificaciones Requeridas</label>
+                            </div>
+
+
+                            <!-- INPUT ESTUDIOS-->
+                            <div class="input-field col s12 l4 white">
+                                <input placeholder="Titulo Universitario" id="Estudios" type="text" class="validate">
+                                <label for="Estudios">Estudios Profesionales</label>
+                            </div>
+
+
+                            <!-- UPDATE BUTTON -->
+                            <div class="col s12 l4 white center ">
+                                <a href="" class="waves-effect waves-light btn grey darken-4">
+                                ACTUALIZAR
+                                </a>        
+                            </div>
+
+                        </form>
+                    
+
+                        <!-- START TABLE -->
+                        <table class="centered highlight"> 
+                            <thead>
+                            <tr>
+                                <th class="fw-bold">Idioma</th>
+                                <th class="fw-bold">Nivel Requerido</th>
+                                <th class="fw-bold">Nivel Deseado</th>
+                                <th class="fw-bold">Editar</th>
+                                <th class="fw-bold">Eliminar</th>
+                            </tr>
+                            </thead>
+                    
+                            <tbody>
+                            <tr>
+                                <td>Ingles</td>
+                                <td>C2</td>
+                                <td>B2</td>
+                                <td><a class="btn waves-effect waves-light white cyan-text border-cyan">Editar</a></td>
+                                <td><a class="btn waves-effect waves-light white red-text border-red">Eliminar</a></td>
+                            </tr>
+                            <tr>
+                                <td>Frances</td>
+                                <td>B2</td>
+                                <td>A2</td>
+                                <td><a class="btn waves-effect waves-light white cyan-text border-cyan">Editar</a></td>
+                                <td><a class="btn waves-effect waves-light white red-text border-red">Eliminar</a></td>
+                            </tr>
+                            <tr>
+                                <td>Italiano</td>
+                                <td>C1</td>
+                                <td>B2</td>
+                                <td><a class="btn waves-effect waves-light white cyan-text border-cyan">Editar</a></td>
+                                <td><a class="btn waves-effect waves-light white red-text border-red">Eliminar</a></td>
+                            </tr>
+                            </tbody>
+                        </table> 
+                    </div>
+            </div>
+
+
+            <!-- CONSULTORES POSTULADOS -->
+            <div class="col s12 l12 white pbtm20" id="postulated_consultants" >
+                
+                <div class="aligner" style="margin-left: 1cm; margin-right: 1cm;">
+
+                <!-- TITLE AND CORPORATION -->
+                <div class="col s12 l9">
+                    <h5 class="black-text text-darken-4" style="font-weight:bold;">Solicitud de consultores para el proyecto</h5>
+                </div>
+
+
+                <!-- START TABLE -->
+                <table class="centered highlight" style="margin-top:1cm; padding-right:1cm;"> 
+                    <thead>
+                        <tr>
+                            <th class="fw-bold">Sexo y Edad</th>
+                            <th class="fw-bold">Experiencia</th>
+                            <th class="fw-bold">Tarifa por hora / Disponibilidad</th>
+                            <th class="fw-bold">Recomendación de Gnosis</th>
+                            <th class="fw-bold">Mas detalles</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        <tr>
+                            <td>Hombre / 35 años</td>
+                            <td>Modulos CO, CS</td>
+                            <td>$15 USD / Inmediata </td>
+                            <td> 
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star</i>
+                            </td>
+                            <td> 
+                                <a class='dropdown-trigger btn grey darken-3' href='#' data-target='mas-acciones'><i class="material-icons white-text right trans" style="background-color: transparent;">arrow_drop_down</i>Acciones</a>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table> 
+
+                <!-- TITLE AND CORPORATION -->
+                <div class="col s12 l9" style="padding-top: 2cm;">
+                    <h5 class="black-text text-darken-4" style="font-weight:bold;">Consultores propuestos por Gnosis</h5>
+                </div>
+
+
+                <!-- START TABLE -->
+                <table class="centered highlight" style="margin-top:1cm; padding-right:1cm;"> 
+                    <thead>
+                        <tr>
+                            <th class="fw-bold">Sexo y Edad</th>
+                            <th class="fw-bold">Experiencia</th>
+                            <th class="fw-bold">Tarifa por hora / Disponibilidad</th>
+                            <th class="fw-bold">Recomendación de Gnosis</th>
+                            <th class="fw-bold">Mas detalles</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        <tr>
+                            <td>Hombre / 35 años</td>
+                            <td>Modulos CO, CS</td>
+                            <td>$15 USD / Inmediata </td>
+                            <td> 
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star_border</i>
+                            </td>
+                            <td> 
+                                <!-- Dropdown Trigger -->
+                                <a class='dropdown-trigger btn grey darken-3' href='#' data-target='mas-acciones'><i class="material-icons white-text right trans" style="background-color: transparent;">arrow_drop_down</i>Acciones</a>
+
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>                 
+            </div>
+            </div>
+
+
+            <!-- ENTREVISTAS -->
+            <div  class="col s12 l12 white pbtm20" id="interviews">
+                <div class="aligner" style="margin-left: 1cm; margin-right: 1cm;">
+
+                    <!-- TITLE -->
+                    <div class="col s12 l12 white pbtm20">
+                        <h5 class="black-text text-darken-4" style="font-weight:bold;">Entrevistas NO agendadas</h5>
+                    </div>
+
+
+                    <!-- TARGET -->
+                    <div class="col s12 l5 white" style="border: 3px solid rgba(61, 62, 61, 0.433); margin-right: 2cm;">
+
+
+                        <!-- AVATAR GENERO EDAD STARS -->
+                        <div class="col l7 center">
+                            <div class="col l12">
+                                <img src="{% static 'images/mujer_avatar.png' %}" alt="Logo Gnosis" style="  border-radius: 50%;
+                                height: 70px;
+                                margin-top: 16px;
+                                object-fit: cover;
+                                object-position: center;
+                                width: 70px;" />
+                            </div>
+                            <div class="col l12 fw-bold">Mujer / 25 años</div>
+                            <div class="col l12">
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star_border</i>
+                                <p>(4.2)</p>
+                            </div>
+                            <div class="col l12">
+                                $35.00 USD / Coyoacan CDMX
+                            </div>
+                        </div>
+                        
+
+                        <div class="col l5" style="border-left: 2px solid rgba(61, 62, 61, 0.373);">
+                            <div class="col l12">
+                                <h6>
+                                    <span class="fw-bold">Experiencia:</span>
+                                    <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente adipisci quam non suscipit.</span>
+                                </h6>
+                            </div>
+
+
+                            <div class="col s12 l12 white pbtm20">
+                                <a class="waves effect btn-small blue darken-3 white-text" id="mostrarBtn">Agendar</a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <!-- TARGET -->
+                    <div class="col s12 l5 white" style="border: 3px solid rgba(61, 62, 61, 0.433); margin-right: 2cm;">
+
+
+                        <!-- AVATAR GENERO EDAD STARS -->
+                        <div class="col l7 center">
+                            <div class="col l12">
+                                <img src="{% static 'images/hombre_avatar.jpg' %}" alt="Logo Gnosis" style="  border-radius: 50%;
+                                height: 70px;
+                                margin-top: 16px;
+                                object-fit: cover;
+                                object-position: center;
+                                width: 70px;" />
+                            </div>
+                            <div class="col l12 fw-bold">Mujer / 25 años</div>
+                            <div class="col l12">
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star</i>
+                                <p>(4.2)</p>
+                            </div>
+                            <div class="col l12">
+                                $35.00 USD / Coyoacan CDMX
+                            </div>
+                        </div>
+                        
+
+                        <div class="col l5" style="border-left: 2px solid rgba(61, 62, 61, 0.373);">
+                            <div class="col l12">
+                                <h6>
+                                    <span class="fw-bold">Experiencia:</span>
+                                    <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente adipisci quam non suscipit.</span>
+                                </h6>
+                            </div>
+
+
+                            <div class="col s12 l12 white pbtm20">
+                                <a class="waves effect btn-small blue darken-3 white-text" id="mostrarBtn">Agendar</a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="col s12 l12 white-text">.</div>
+
+                    <!-- TARGET -->
+                    <div class="col s12 l5 white" style="border: 3px solid rgba(61, 62, 61, 0.433); margin-right: 12cm;">
+
+
+                        <!-- AVATAR GENERO EDAD STARS -->
+                        <div class="col l7 center">
+                            <div class="col l12">
+                                <img src="{% static 'images/hombre_avatar.jpg' %}" alt="Logo Gnosis" style="  border-radius: 50%;
+                                height: 70px;
+                                margin-top: 16px;
+                                object-fit: cover;
+                                object-position: center;
+                                width: 70px;" />
+                            </div>
+                            <div class="col l12 fw-bold">Mujer / 25 años</div>
+                            <div class="col l12">
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star</i>
+                                <i class="material-icons amber-text">star_border</i>
+                                <p>(4.2)</p>
+                            </div>
+                            <div class="col l12">
+                                $35.00 USD / Coyoacan CDMX
+                            </div>
+                        </div>
+                        
+
+                        <div class="col l5" style="border-left: 2px solid rgba(61, 62, 61, 0.373);">
+                            <div class="col l12">
+                                <h6>
+                                    <span class="fw-bold">Experiencia:</span>
+                                    <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente adipisci quam non suscipit.</span>
+                                </h6>
+                            </div>
+
+
+                            <div class="col s12 l12 white pbtm20">
+                                <a class="waves effect btn-small blue darken-3 white-text" id="mostrarBtn">Agendar</a>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                                    <!-- HIDDEN CONTENT -->
+                    <div class="col s12 l4 white hidden-content" id="contenidoOculto" style="position: absolute; top:50%; left: 50%; transform: translate(-50%, -50%);">
+                        <div class="row bcw"> 
+                            <div class="col s12 l10">
+                                <h5>Agendar Entrevista con Consultor</h5> 
+                            </div>
+                            <div class="col s12 l2">
+                                <div class="col s12 l12 white pbtm20" style="padding-top: 20px;">
+                                    <button id="ocultarBtn"><i class="material-icons">close</i></button>
+                                </div>
+                            </div>
+
+                            <form action="">
+                                                <!-- CHOOSE A DATE START -->
+                                <div class="col s12 l10 input-field">
+                                    <label for="title_project" class="black-text">Fecha Inicio</label>
+                                    <i class="large material-icons prefix ">date_range</i>
+                                    <input id="date-end" placeholder="15/05/1998" name="date-end" type="text" class="datepicker" name="date_start" 
+                                    title="El formato no es el correcto" required>  
+                                </div>
+
+                                <!-- START TIME-->
+                                <div class="col s12 l6 white pbtm20">
+                                    <div class="input-field col s12 l6">
+                                        <select>
+                                            <option value="1">7 am</option>
+                                            <option value="2">8 am</option>
+                                            <option value="3">9 am</option>
+                                            <option value="4">10 am</option>
+                                            <option value="5">11 am</option>
+                                            <option value="6">12 pm</option>
+                                            <option value="7">1 pm</option>
+                                            <option value="8">2 pm</option>
+                                            <option value="9">3 pm</option>
+                                            <option value="10">4 pm</option>
+                                            <option value="11">5 pm</option>
+                                            <option value="12">6 pm</option>
+                                            <option value="13">7 pm</option>
+                                            <option value="14">8 pm</option>
+
+                                        </select>
+                                        <label>Hora Inicio</label>
+                                    </div>
+                                    <div class="input-field col s12 l6">
+                                        <select>
+                                            <option value="1">0 min</option>
+                                            <option value="1">10 min</option>
+                                            <option value="1">20 min</option>
+                                            <option value="1">30 min</option>
+                                            <option value="1">40 min</option>
+                                            <option value="1">50 min</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col s12 l7">
+                                    <div class="col s12 l12 white pbtm20" style="padding-top: 20px;">
+                                        <button class="waves-effect btn blue" id="ocultarBtn">Cancelar</button>
+                                    </div>
+                                </div>
+                                <div class="col s12 l5">
+                                    <div class="col s12 l12 white pbtm20" style="padding-top: 20px;">
+                                        <button class="waves-effect btn blue">Aceptar</button>
+                                    </div>
+
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                    <!-- TITLE -->
+                    <div class="col s12 l12 white pbtm20">
+                        <h5 class="black-text text-darken-4" style="font-weight:bold;">Entrevistas YA agendadas</h5>
+                    </div>
+
+                    <!-- START TABLE -->
+                    <table class="centered highlight" style="margin-top:1cm; padding-right:1cm;"> 
+                        <thead>
+                            <tr>
+                                <th class="fw-bold">Sexo y Edad</th>
+                                <th class="fw-bold">Fecha y Hora</th>
+                                <th class="fw-bold">Ubicacion</th>
+                                <th class="fw-bold">Estatus de la Entrevista</th>
+                                <th class="fw-bold">Mas detalles</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+                            <tr>
+                                <td>Hombre / 35 años</td>
+                                <td>25/02/2021 13:00</td>
+                                <td>Coyoacan CDMX </td>
+                                <td> 
+                                    <div class="chip green white-text">Concluida</div>
+                                </td>
+                                <td> 
+                                    <!-- Dropdown Trigger -->
+                                    <a class='dropdown-trigger btn grey darken-3' href='#' data-target='interviews-actions'><i class="material-icons white-text right trans" style="background-color: transparent;">arrow_drop_down</i>Acciones</a>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Hombre / 35 años</td>
+                                <td>25/02/2021 13:00</td>
+                                <td>Coyoacan CDMX </td>
+                                <td> 
+                                    <div class="chip blue white-text">Esperando Confirmación</div>
+                                </td>
+                                <td> 
+                                    <!-- Dropdown Trigger -->
+                                    <a class='dropdown-trigger btn grey darken-3' href='#' data-target='interviews-actions'><i class="material-icons white-text right trans" style="background-color: transparent;">arrow_drop_down</i>Acciones</a>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Mujer / 28 años</td>
+                                <td>25/02/2021 13:00</td>
+                                <td>Coyoacan CDMX </td>
+                                <td> 
+                                    <div class="chip grey white-text">Cancelada</div>
+                                </td>
+                                <td> 
+                                    <!-- Dropdown Trigger -->
+                                    <a class='dropdown-trigger btn grey darken-3' href='#' data-target='interviews-actions'><i class="material-icons white-text right trans" style="background-color: transparent;">arrow_drop_down</i>Acciones</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table> 
+                </div>
+            </div>
+
+
+            <!-- CONSULTANTS PROJECT -->
+            <div class="col s12 l12 white pbtm20" id="consultants_project" >
+
+                <div class="aligner" style="margin-left: 1cm; margin-right: 1cm;">
+
+                    <!-- TITLE AND CORPORATION -->
+                    <div class="col s12 l9">
+                        <h5 class="black-text text-darken-4" style="font-weight:bold;">Consultores en Proyecto</h5>
+                    </div>
+
+
+                        <!-- START TABLE -->
+                        <table class="centered highlight" style="margin-top:1cm; padding-right:1cm;"> 
+                            <thead>
+                            <tr>
+                                <th class="fw-bold">Sexo y edad</th>
+                                <th class="fw-bold">Horario de Trabajo</th>
+                                <th class="fw-bold">Modulos y Submodulos</th>
+                                <th class="fw-bold">Estatus de la entrevista</th>
+                                <th class="fw-bold">Más detalles</th>
+                            </tr>
+                            </thead>
+                    
+                            <tbody>
+                            <tr>
+                                <td>Hombre / 35 años</td>
+                                <td>Lun - Vier 13:00-18:00</td>
+                                <td> CO: OM-CEL,OM-ABC,PC</td>
+                                <td><div class="chip green white-text wid-2cm">Aceptado</div></td>
+                                <td>
+                                    <a class='dropdown-trigger btn grey darken-3' href='#' data-target='consultores_project'><i class="material-icons white-text right trans" style="background-color: transparent;">arrow_drop_down</i>Acciones</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Mujer / 28 años</td>
+                                <td>Lun - Vier 13:00-18:00</td>
+                                <td>SS con submodulos SCS,MC,HD</td>
+                                <td><div class="chip blue white-text wid-45cm">Esperando Confirmación</div></td>
+                                <td>
+                                    <a class='dropdown-trigger btn grey darken-3' href='#' data-target='consultores_project'><i class="material-icons white-text right trans" style="background-color: transparent;">arrow_drop_down</i>Acciones</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Mujer / 28 años</td>
+                                <td>Lun - Vier 13:00-18:00</td>
+                                <td>SS con submodulos SCS,MC,HD</td>
+                                <td><div class="chip grey white-text wid-2cm">Eliminado</div></td>
+                                <td>
+                                    <a class='dropdown-trigger btn grey darken-3' href='#' data-target='consultores_project'><i class="material-icons white-text right trans" style="background-color: transparent;">arrow_drop_down</i>Acciones</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Hombre / 35 años</td>
+                                <td>Lun - Vier 13:00-18:00</td>
+                                <td> CO: OM-CEL,OM-ABC,PC</td>
+                                <td><div class="chip green white-text wid-2cm">Aceptado</div></td>
+                                <td>
+                                    <a class='dropdown-trigger btn grey darken-3' href='#' data-target='consultores_project'><i class="material-icons white-text right trans" style="background-color: transparent;">arrow_drop_down</i>Acciones</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Hombre / 35 años</td>
+                                <td>Lun - Vier 13:00-18:00</td>
+                                <td> CO: OM-CEL,OM-ABC,PC</td>
+                                <td><div class="chip green white-text wid-2cm">Aceptado</div></td>
+                                <td>
+                                    <a class='dropdown-trigger btn grey darken-3' href='#' data-target='consultores_project'><i class="material-icons white-text right trans" style="background-color: transparent;">arrow_drop_down</i>Acciones</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table> 
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <td> 
+        <!-- Dropdown Structure -->
+      <ul id='interviews-actions' class='dropdown-content'>
+
+          <li><a href="">Validar Entrevista</a></li>
+
+
+          <li><a href="#!">Añadir nueva entrevista</a></li>
+
+          <li><a href="">Cancelar entrevista</a></li>
+
+      </ul>
+
+    </td>
+    
+    <td> 
+        <!-- Dropdown Structure -->
+        
+        <ul id='mas-acciones' class='dropdown-content'>
+
+            <li><a href="#!">Ver CV</a></li>
+
+
+            <li><a href="#!">Eliminar Consultor</a></li>
+
+            <li><a href="">Ver en Mapa</a></li>
+
+           <li><a href="#!">Solicitar Entrevista</a></li>
+
+        </ul>
+    </td>
+  
+    <td> 
+        <!-- Dropdown Structure -->
+        
+        <ul id='consultores_project' class='dropdown-content'>
+
+            <li><a href="#!">Solicitar R. de Horas</a></li>
+
+            <li><a href="#!">Ver Facturas</a></li>
+
+            <li><a href="#!">Detalles Consultor</a></li>
+
+           <li><a href="#!">Eliminar Consultor</a></li>
+
+        </ul>
+    </td>
+
+  
+    <script>
+      $(document).ready(function(){
+    $('.tabs').tabs();
+  });
+    </script>
+
+
+
+
+
+    {% endblock Content %}
+
+    <!-- SECTION SCRIPTS -->
+    {% block scripts %}
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="{% static 'js/projects.js' %}"></script>
+      
+    {% endblock scripts %}

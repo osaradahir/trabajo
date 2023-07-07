@@ -1,6 +1,5 @@
 const tokenP = "pruebas";
-const token = "10f78047-7096-49c9-b3a6-62af09e2c7a2";
-
+const token = "";
 
 function queryCP(cp) {
     const selectEstado = document.getElementById("estado");

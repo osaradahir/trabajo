@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% if pending_total.count == 0 %}
+    <title>Gnosis</title>
+    {% else %}
+    <title>({{pending_total.count}}) Gnosis</title>
+    {% endif %}
+    <!-- Compiled and minified CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link rel="stylesheet" href="{% static 'css/base.css' %}?v=3.1" />
+    <link rel="stylesheet" href="{% static 'css/notifications.css' %}?v=1.3" />
+    <!-- AXIOS -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <ul>
+                <li class="img">
+                    <img src="{% static 'images/logo.png' %}" alt="Logo Gnosis" class="logo" />
+                </li>
+            </ul>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li>
+                    <a class="dropdown-trigger" href="#" data-target="notifications-dropdown">
+                    <div>
+                        {% if pending_total.count > 9 %}
+                            <i class="material-icons">notifications</i>
+                            <span class="plus_nine"></span>
+                            <span class="align-number2">+9</<span>
+                        
+                        {% elif pending_total.count == 0 %}
+                            <i class="material-icons">notifications</i>
+                        {% else %}
+                            <i class="material-icons">notifications</i>
+                            <span class="pending"></span>
+                            <span class="align-number">{{pending_total.count}}</<span>
+
+                        {% endif %}
+                    </div>
+                    </a>
+                </li>
+                <li class="dropdown-trigger" data-target="dropdown1">
+                    <a href="#" class="dropdown-trigger-link">{{ informationPersonalUser.nombre }}<i
+                            class="material-icons right">arrow_drop_down</i></a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="img_profile">
+                            {% if image %}
+                                <img src="{{ image }}" alt="Foto de Perfil" class="avatar" />
+                            {% else %}
+                                {% if informationPersonalUser.sexo == 'M' %}
+                                    <img src="{% static 'images/profile/default.jpg' %}" alt="Foto de Perfil" class="avatar" />
+                                {% else %}
+                                    <img src="{% static 'images/profile/defaultF.png' %}" alt="Foto de Perfil" class="avatar" />
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+            <!-- Dropdown Notifications -->
+            <ul id="notifications-dropdown" class="dropdown-content">
+                <li><a href="{% url 'all_notifications' %}">Notificaciónes</a></li>
+                <li class="divider" tabindex="-1"></li>
+                    <!-- lista de notificaciones -->
+                    <div class="notification-list bcw">    
+    
+                        <!-- notification-1    -->
+                        {% if pending.count == 0 %}
+                        <li>
+                            <a href="{% url 'all_notifications' %}" class="bcw">
+                                <h7 class="bcw blue-text">Mas notificaciones</h7>
+                            </a>
+                        </li>
+                        <li class="divider" tabindex="-1"></li>
+                        {% else %}
+                            {% for notification in pending %}
+                                    <li>
+                                        <a href="{% url 'view_notification' id=notification.id %}" class="bcw">
+                                            <b class="bcw">De: {{notification.name}}</b>
+                                            <br>
+                                            {{notification.subject}}
+                                            <br>
+                                            <h7 class="bcw grey-text">{{notification.created_at|date:"d/m/Y"}}</h7>
+                                        </a>
+                                    </li>
+                                    <li class="divider" tabindex="-1"></li>
+                            {% endfor %}
+                            <li>
+                                <a href="{% url 'all_notifications' %}" class="bcw">
+                                    <h7 class="bcw blue-text">Mas notificaciones</h7>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </div>
+                </div>                        
+            </ul>
+        
+    <!-- Dropdown Structure -->
+    <ul id="dropdown1" class="dropdown-content">
+        <li><a href="{% url 'principal' %}">Principal</a></li>
+        <li><a href="{% url 'miProfile' %}">Mi perfil</a></li>
+        <li><a href="g.html">Configuración</a></li>
+        <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+    </ul>
+    <div id="sidebar">
+        <ul>
+            {% if indice == 'Principal' %}
+            <li class="active-position" onclick="window.location.href = `{% url 'principal' %}`">
+                <span class="active-position-span"> <i class="material-icons">home</i></span> &nbsp;Principal
+            </li>
+            {% else %}
+            <li onclick="window.location.href = `{% url 'principal' %}`">
+                <span> <i class="material-icons">home</i></span> &nbsp;Principal
+            </li>
+            {% endif %}
+
+            {% if indice == 'Perfil' %}
+            <li class="active-position" onclick="window.location.href = `{% url 'miProfile' %}`">
+                <span class="active-position-span">
+                    <i class="material-icons">assessment</i></span>
+                &nbsp;Mi perfil
+            </li>
+            {% else %}
+            <li onclick="window.location.href = `{% url 'miProfile' %}`">
+                <span>
+                    <i class="material-icons">assessment</i></span>
+                &nbsp;Mi perfil
+            </li>
+            {% endif %}
+
+            {% if indice == 'Configuracion' %}
+            <li class="active-position">
+                <span class="active-position-span"><i class="material-icons">settings</i></span>
+                &nbsp;Configuración
+            </li>
+            {% else %}
+            <li>
+                <span> <i class="material-icons">settings</i></span>
+                &nbsp;Configuración
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    {% block Content %}
+
+    {% endblock %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.dropdown-trigger');
+            var instances = M.Dropdown.init(elems, {
+                constrainWidth: false,
+                coverTrigger: false
+            });
+            });
+    </script>
+</body>
+</html>

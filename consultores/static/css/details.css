@@ -103,19 +103,24 @@
     background-color: transparent;
   }
   
-  div#sidebar ul li.myprofile {
+  div#sidebar ul li.active-position {
     background-color: #e5e5e5;
   }
-  
+  div#sidebar ul li{
+    cursor: pointer;
+  }
   div.seeker {
     display:flex;
     flex-direction:row;
     background-color: white;
     justify-content:space-between;
   }
-
+  span i.material-icons{
+    margin-top: 4px;
+    background-color: white;
+  }
   div.seeker1 {
-    display:flex;
+    display:flex; 
     background-color: white;
     padding-right:62px;
   }
@@ -170,11 +175,11 @@
     background-color:white;
 }
 
-  div#sidebar ul li.myprofile span.myprofile-span i {
+  div#sidebar ul li.active-position span.active-position-span i {
     background-color: #e5e5e5;
   }
   
-  div#sidebar ul li.myprofile span.myprofile-span {
+  div#sidebar ul li.active-position span.active-position-span {
     background-color: #e5e5e5;
   }
   

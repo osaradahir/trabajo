@@ -1,0 +1,509 @@
+{% extends 'baseAdministradorPrincipal.html' %}
+  {% load static %}
+  {% block Content %}
+  <section class="container_data">
+  <style>
+      .hidden-content{
+    display:none;
+  }
+  </style>
+    <div class="my-data-name">
+
+    <!-- Titulo pagina -->
+    <div class="title">
+        <div class="row" >
+          <h3 class="blue-text text-darken-4">Consultores</h3>
+          <span class="grey-text text-darken-3">Busca consultores o filtra segun los criterios de busqueda</span>
+        </div>
+    </div>
+
+    <!-- Contenedor Principal -->
+    <div class="container" id="information-profile">
+      <div class="information-user-profile" style="width: 100%;">
+        <div class="seeker"> 
+          <div class="seeker-container row bcw">
+
+            <!-- Barra menu del buscador -->
+            <ul class="tabs tabs-fixed-width tab-demo z-depth-1 bcw">
+  
+              <li class="tab bcw"><a class="active black-text" href="#all">Todos</a></li>
+              <li class="tab bcw"><a  class="black-text" onclick="queryConsultoresDisponibles()">Consultores Disponibles</a></li>
+            </ul>
+                  
+          <div id="all" class="col s12 bcw"><p>      
+            <div class="col l12 s12 bcw">
+              <div class="col l6 s6 white">
+                <br>
+                <form class="bcw" style="padding-bottom:15px;" id="form-query-name">
+                  {% csrf_token %}
+                  <div class="col l6 s12">
+                    <input class="bcw" placeholder="Buscar por nombre" id="first_name" type="text" name="nombre">
+                  </div>
+                  <div class="col l6 s12">
+                    <input class="bcw" placeholder="Buscar por apellido paterno" id="last_name" type="text" name="apepa">
+                  </div>
+                  <div class="col l6 s12">
+                    <input class="bcw" placeholder="Buscar por apellido materno" id="apema" type="text" name="apema">
+                  </div>
+                </form>
+              </div>
+              <div class="col l6 s12 white" style="padding-top:30px; padding-bottom:15px;">
+                <button class="waves-effect waves-light btn" onclick="queyForName()">Buscar</button>
+              </div>
+              <div class="col l6 s12 white" style="padding-top:30px; padding-bottom:15px;">
+                <a class="waves-effect waves-light btn" id="showButton">Mas filtros</a>
+              </div>
+              <br>
+              <br>   
+              <div id="content" class="hidden-content white">
+                <div class="row bcw">
+                  <form class="bcw" id="form-query-filters">
+                    {% csrf_token %}
+                  <!-- modulos que mangeja -->
+                  <div class="input-field col l3 s12 white">
+                    <select class="bcw" name="modulo-filter">
+                      <option value="" disabled selected>Módulo</option>
+                      {% for modulo in listaModulos %}
+                        <option value='{{modulo.id}}'>{{ modulo.nombre }}</option>
+                      {% endfor %}
+                    </select> 
+                    <label for="modulos" class="bcw">Modulos que maneja</label>
+                  </div>
+
+                  <!-- submodulos que mangeja -->
+                  <div class="input-field col l3 s12 white">
+                    <select class="bcw" name="submodulo-filter">
+                      <option value="" disabled selected>Submódulo</option>
+                        {% for submodulos in listaSubodulos %}
+                          <option value='{{submodulos.id}}'>{{ submodulos.nombre }}</option>
+                        {% endfor %}
+                    </select> 
+                    <label class="bcw">Submodulos que maneja</label>
+                  </div>
+
+                  <!-- nivel de experiencia -->
+                  <div class="input-field col l6 s12 white">
+                    <select class="bcw" name="nivel-filter">
+                      <option value="" disabled selected>Nivel</option>
+                      {% for niveles in listaNivelesConocimiento %}
+                        <option value='{{niveles.id}}'>{{ niveles.nombre }}</option>
+                      {% endfor %}
+                    </select>
+                    <label class="bcw">Experiencia Requerida</label>
+                  </div>
+
+                  <!-- tarifas -->
+                  <div class="input-field col l5 s12 white">
+                    <br>
+                    <label for="tarifa-controller" class="bcw" id="tarifa-label">Tarifas por debajo de ($51.00 USD/ Hora )</label>
+                    <br>
+                    <p class="range-field bcw">
+                      <input class="bcw" type="range"name="tarifa-filter" id="tarifa-controller" min="1" max="100" onchange="document.getElementById('tarifa-label').innerHTML = `Tarifas por debajo de ($${document.getElementById('tarifa-controller').value}.00 USD/ Hora )`"/>
+                    </p>
+          
+                  </div>
+
+                  <!-- disponibilidad -->
+                  <div class="input-field col l7 s12 white row">
+                    <label class="bcw">Disponibilidad</label>
+                    <p>
+                      <label class="bcw">
+                        <input class="bcw" type="checkbox" name="disponible-filter" value="1" checked id="disponible-filter" onclick="document.getElementById('Ndisponible-filter').checked = false;"/>
+                        <span class="bcw">Disponible</span>
+                      </label>
+                    </p>
+                    <p>
+                      <label class="bcw">
+                        <input class="bcw" type="checkbox" name="Ndisponible-filter" value="0" id="Ndisponible-filter" onclick="document.getElementById('disponible-filter').checked = false;"/>
+                        <span class="bcw" >No disponible</span>
+                      </label>
+                    </p>
+                  </div>
+
+                  <div class="col l12 s12 bcw">
+                    
+                    <!-- nivel de ingles -->
+                    <div class="input-field col l4 s12 white">
+                      <select class="bcw" name="nivelIngles-filter">
+                        <option value="" disabled selected>Selecciona tu</option>
+                        <option value="Nivel A1 (Principiante)">Nivel A1 (Principiante)</option>
+                        <option value="Nivel A2 (Básico)">Nivel A2 (Básico)</option>
+                        <option value="Nivel B1 (Umbral)">Nivel B1 (Umbral)</option>
+                        <option value="Nivel B2 (Avanzado)">Nivel B2 (Avanzado)</option>
+                        <option value="Nivel C1 (Dominio efectivo)">Nivel C1 (Dominio efectivo)</option>
+                        <option value="Nivel C2 (Maestría)">Nivel C2 (Maestría)</option>
+                      </select>
+                      <label class="bcw">Nivel de Ingles</label>
+                    </div>
+
+                    <!-- estudios profesionales -->
+                    <div class="input-field col l4 s12 white">
+                      <select class="bcw" name="nivelEstudios-filter">
+                        <option value="" disabled selected>Selecciona tu nivel</option>
+                        <option value="Bachiller">Bachiller</option>
+                        <option value="Técnico">Técnico</option>
+                        <option value="Técnico Superior Universitario">Técnico Superior Universitario</option>
+                        <option value="Licenciatura">Licenciatura</option>
+                        <option value="Ingeniería">Ingenieria</option>
+                        <option value="Maestría">Maestría</option>
+                        <option value="Doctorado">Doctorado</option>
+                      </select>
+                    
+                      <label class="bcw">Estudios Profesionales</label>
+                    </div>
+
+                    <!-- certificaciones -->
+                    <div class="input-field col l4 s12 white">
+                      <!--<select class="bcw">
+                        <option value="" disabled selected>Master ABAP</option>
+                        <option value="1">ABAP</option>
+                        <option value="2">K2</option>
+                        <option value="3">K3</option>
+                      </select>-->
+                      <input type="text" name="certificados-filter" id="certificado">
+                      <label class="" for="certificado" >Certificaciones</label>
+                    </div>
+                  </div>
+                </form> 
+                <div class="col l12 s12 bcw">
+                  <a class="waves-effect btn-large blue" type="submit" onclick="getConsultoresDisponiblesWithFilters()">Actualizar</a>
+                </div>
+                </div>
+
+
+
+              </div>
+              
+            </div>
+            
+          </div>
+          
+          <div id="availables" class="col s12 bcw"><p style="display:none;">Test 2</p>
+          
+          </div>
+          
+        </div>
+
+      
+      
+      </div>
+      
+    </div>
+      
+  </div>
+
+      <!-- Consultores Mostrados -->
+      
+    <div class="information-contact-experience bcw" style="display:flex; justify-content:center;">
+        <div class="proyects bcw" style="display:flex; justify-content:center;">
+          <h5 class="tittle bcw" id="result-busqueda" style="display:flex; padding-left:56px;">Sin ninguna busqueda reciente</h5>
+          <br>
+
+          <div class="container-consultores col l12 s12">
+            <div class="row bcw" id="alineador" >
+              
+            
+            </div>
+          </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="{% static 'js/principalConsultores.js' %}?v=1.5"></script>
+  
+  <script>
+
+
+    // Agregar el listener al evento resize
+    window.addEventListener("resize", aparece);
+    function aparece() {
+      var anchoPantalla = window.innerWidth;
+      if (anchoPantalla <= 500){
+        console.log("shsh")
+        
+        
+        var test =document.querySelectorAll('#user1')
+        for(var i=0;i<test.length;i++)  
+        {
+            test[i].style.width = '';
+            test[i].style.marginLeft = '0px';
+            test[i].style.marginRight = '0px';
+        }
+      }
+      else {
+        console.log("jjjh")
+        var test =document.querySelectorAll('#user1');
+        for(var i=0;i<test.length;i++)
+        {
+            test[i].style.width = '23%';
+            test[i].style.marginLeft = '9px';
+            test[i].style.marginRight = '9px';
+        }
+      }
+    }
+    aparece();
+    function getConsultoresDisponiblesWithFilters(){
+      // Obtén el formulario
+      var form = document.getElementById("form-query-filters");
+
+      // Crea un objeto FormData para recopilar los datos del formulario
+      var formData = new FormData(form);
+
+      // Realiza una solicitud HTTP utilizando fetch
+      fetch('getconsultoresdisponibleswithfilters', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          return response.json();  // Convertir la respuesta a JSON
+        } else {
+          throw new Error('Error en la solicitud');
+        }
+      })
+      .then(data => {
+        if (data.status === 200) {
+          // Búsqueda exitosa
+          console.log(data);
+          console.log(data.results);
+          
+          document.getElementById('result-busqueda').innerHTML = `Mostrando consultores en base a filtros (${data.results.length})` 
+          const alineadorDiv = document.getElementById('alineador');
+          const elementos = document.querySelectorAll('[id^="user"]');
+          elementos.forEach(elemento => {
+            elemento.remove(); // O utiliza elemento.parentNode.removeChild(elemento);
+          });
+
+          for (let key in data.results) {
+            if (data.results.hasOwnProperty(key)) {
+              const item = data.results[key];
+              // console.log(`Elemento ${key}:`, item.nombre, item.ape_pat);
+              
+              if(item.ciudad == ''){
+                var ubicacion = (item.colonia ?? "") + " " + (item.municipio ?? "");
+              }else{
+                var ubicacion = (item.colonia ?? "") + " " + (item.ciudad ?? "");
+              }
+
+              var nombre = (item.nombre ?? "") + " " + (item.ape_pat ?? "");
+
+              const userCard = createUserCard(item.id,nombre, ubicacion, 'SAP SENIOR DEVELOPER', 4, item.image);
+              alineadorDiv.appendChild(userCard);
+            }
+          } 
+          
+          
+        } else {
+          // Búsqueda fallida
+          // Acciones adicionales aquí
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        // Manejo del error en caso de que ocurra algún problema en la solicitud
+      });
+
+    }
+
+
+
+
+
+
+
+
+    function queryConsultoresDisponibles(){
+      fetch('getconsultoresdisponibles')  // URL de la API
+      .then(response => response.json())  // Convertir la respuesta a JSON
+      .then(data => {
+        // Aquí puedes trabajar con los datos obtenidos
+        console.log(data);
+        document.getElementById('result-busqueda').innerHTML = `Mostrando consultores en base a filtros (${data.results.length})` 
+          const alineadorDiv = document.getElementById('alineador');
+          const elementos = document.querySelectorAll('[id^="user"]');
+          elementos.forEach(elemento => {
+            elemento.remove(); // O utiliza elemento.parentNode.removeChild(elemento);
+          });
+
+          for (let key in data.results) {
+            if (data.results.hasOwnProperty(key)) {
+              const item = data.results[key];
+              // console.log(`Elemento ${key}:`, item.nombre, item.ape_pat);
+              
+              if(item.ciudad == ''){
+                var ubicacion = (item.colonia ?? "") + " " + (item.municipio ?? "");
+              }else{
+                var ubicacion = (item.colonia ?? "") + " " + (item.ciudad ?? "");
+              }
+
+              var nombre = (item.nombre ?? "") + " " + (item.ape_pat ?? "");
+
+              const userCard = createUserCard(item.id,nombre, ubicacion, 'SAP SENIOR DEVELOPER', 4, item.image);
+              alineadorDiv.appendChild(userCard);
+            }
+          }
+      })
+      .catch(error => {
+        // Manejar cualquier error ocurrido durante la petición
+        console.error('Error:', error);
+      });
+
+
+    }
+
+
+    function queyForName(){
+      // Obtén el formulario
+      var form = document.getElementById("form-query-name");
+
+      // Crea un objeto FormData para recopilar los datos del formulario
+      var formData = new FormData(form);
+
+      // Realiza una solicitud HTTP utilizando fetch
+      fetch('queryforname', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          return response.json();  // Convertir la respuesta a JSON
+        } else {
+          throw new Error('Error en la solicitud');
+        }
+      })
+      .then(data => {
+        if (data.status === 200) {
+          // Búsqueda exitosa
+          // console.log(data.results);
+          document.getElementById('result-busqueda').innerHTML = `Mostrando consultores en base a filtros (${data.results.length})` 
+          const alineadorDiv = document.getElementById('alineador');
+          const elementos = document.querySelectorAll('[id^="user"]');
+          elementos.forEach(elemento => {
+            elemento.remove(); // O utiliza elemento.parentNode.removeChild(elemento);
+          });
+
+          for (let key in data.results) {
+            if (data.results.hasOwnProperty(key)) {
+              const item = data.results[key];
+              // console.log(`Elemento ${key}:`, item.nombre, item.ape_pat);
+              
+              if(item.ciudad == ''){
+                var ubicacion = (item.colonia ?? "") + " " + (item.municipio ?? "");
+              }else{
+                var ubicacion = (item.colonia ?? "") + " " + (item.ciudad ?? "");
+              }
+
+              var nombre = (item.nombre ?? "") + " " + (item.ape_pat ?? "");
+
+              const userCard = createUserCard(item.id,nombre, ubicacion,'SAP SENIOR DEVELOPER', 4, item.image);
+              alineadorDiv.appendChild(userCard);
+            }
+          } 
+          
+        } else {
+          // Búsqueda fallida
+          // Acciones adicionales aquí
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        // Manejo del error en caso de que ocurra algún problema en la solicitud
+      });
+
+    }
+
+    function createUserCard(id,name, location, position, stars, img){
+      const cardDiv = document.createElement('div');
+      cardDiv.classList.add('user-tarjet', 'card', 'z-depth-3', 'col', 'l2', 's12');
+      cardDiv.id = 'user1';
+      cardDiv.addEventListener("dblclick", function() {
+        // Código a ejecutar cuando se hace clic en el botón
+        window.location.href = "{% url 'miConsultorProfile' id=123 %}".replace('123', id);
+      });
+      const imageDiv = document.createElement('div');
+      imageDiv.classList.add('image', 'bcw');
+    
+      const image = document.createElement('img');
+      
+      image.src = `${img}`;
+      
+      image.alt = 'Foto de Perfil';
+      image.classList.add('img-consultor', 'bcw');
+    
+      imageDiv.appendChild(image);
+    
+      const nameDiv = document.createElement('div');
+      nameDiv.classList.add('col', 'name', 'bcw');
+      nameDiv.style.textAlign = 'center';
+    
+      const nameHeader = document.createElement('h5');
+      nameHeader.classList.add('bcw');
+      nameHeader.id = 'name';
+      nameHeader.textContent = name;
+    
+      nameDiv.appendChild(nameHeader);
+    
+      const starsDiv = document.createElement('div');
+      starsDiv.classList.add('stars', 'bcw', 'col', 's12');
+      starsDiv.style.textAlign = 'center';
+    
+      for (let i = 1; i <= 5; i++) {
+        const starIcon = document.createElement('i');
+        starIcon.classList.add('material-icons', 'bcw');
+        starIcon.style.color = i <= stars ? '#D9D910' : '#E4E4DF';
+        starIcon.textContent = 'star';
+        starsDiv.appendChild(starIcon);
+      }
+    
+      const locationDiv = document.createElement('div');
+      locationDiv.classList.add('ubication', 'bcw');
+    
+      const locationHeader = document.createElement('h6');
+      locationHeader.id = 'ubication';
+      locationHeader.textContent = location;
+      locationHeader.style.textAlign = 'center';
+    
+      locationDiv.appendChild(locationHeader);
+    
+      const positionDiv = document.createElement('div');
+      positionDiv.classList.add('puesto', 'bcw');
+    
+      const hr = document.createElement('hr');
+      const positionHeader = document.createElement('h6');
+      positionHeader.classList.add('bcw', 'fw');
+      positionHeader.id = 'posicion';
+      positionHeader.textContent = position;
+    
+      positionDiv.appendChild(hr);
+      positionDiv.appendChild(positionHeader);
+    
+      cardDiv.appendChild(imageDiv);
+      cardDiv.appendChild(nameDiv);
+      cardDiv.appendChild(starsDiv);
+      cardDiv.appendChild(locationDiv);
+      cardDiv.appendChild(positionDiv);
+      cardDiv.style.height = '300px';
+      return cardDiv;
+    }
+    
+    /*const alineadorDiv = document.getElementById('alineador');
+    const userCard = createUserCard('Teresa Susana', 'Coyoacan CDMX', 'SAP SENIOR DEVELOPER', 4);
+    const userCard2 = createUserCard('Teresa Susana', 'Coyoacan CDMX', 'SAP SENIOR DEVELOPER', 4);
+    const userCard3 = createUserCard('Teresa Susana', 'Coyoacan CDMX', 'SAP SENIOR DEVELOPER', 4);
+    const userCard4 = createUserCard('Teresa Susana', 'Coyoacan CDMX', 'SAP SENIOR DEVELOPER', 4);
+    const userCard5 = createUserCard('Teresa Susana', 'Coyoacan CDMX', 'SAP SENIOR DEVELOPER', 4);
+    const userCard6 = createUserCard('Teresa Susana', 'Coyoacan CDMX', 'SAP SEIOR DEVELOPER', 4);
+    const userCard7 = createUserCard('Teresa Susana', 'Coyoacan CDMX', 'SAP SENIOR DEVELOPER', 4);
+    const userCard8 = createUserCard('Teresa Susana', 'Coyoacan CDMX', 'SAP SENIOR DEVELOPER', 4);
+    alineadorDiv.appendChild(userCard);
+    alineadorDiv.appendChild(userCard2);
+    alineadorDiv.appendChild(userCard3);
+    alineadorDiv.appendChild(userCard4);
+    alineadorDiv.appendChild(userCard5);
+    alineadorDiv.appendChild(userCard6);
+    alineadorDiv.appendChild(userCard7);
+    alineadorDiv.appendChild(userCard8);*/
+  </script>
+{% endblock %}

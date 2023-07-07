@@ -1,4 +1,3 @@
-// sidebar toggle
 const btnToggle = document.querySelector(".logo");
 const mainContainer = document.querySelector(".container_data");
 const myDataName = document.querySelector(".my-data-name");
@@ -36,12 +35,32 @@ const editEducationUserInformation = document.querySelector(
 const cancelEditingInformationEstudy = document.querySelector(
   "#cancel-editing-information-estudy"
 );
+const updateInformationExperience = document.querySelector(
+  "#update-information-experience"
+);
+
+const cancelInformationExperience = document.querySelector(
+  "#cancel-information-experience"
+);
 var anchoPantalla = window.innerWidth;
 var alturaPantalla = window.innerHeight;
-
 var widgetOn = false;
-
 let barOn = false;
+let viewExperiencias = 0;
+let viewCurso = 0;
+var previousWidth = window.innerWidth;
+document.getElementById("ageFinish").value = "";
+document.getElementById("ageInit").value = "";
+const tokenP = "pruebas";
+const token = "";
+var longPressTimer;
+var inicio = 0;
+var final = 3;
+openNav();
+viewExperiencia(viewExperiencias);
+viewCursos(viewCurso);
+controlTableSAP(inicio, final);
+
 btnToggle.addEventListener("click", function openNav() {
   console.log("clik");
   if (barOn == false) {
@@ -66,6 +85,31 @@ btnToggle.addEventListener("click", function openNav() {
   }
 });
 
+
+function openNav() {
+  console.log("clik");
+  if (barOn == false) {
+    document.getElementById("sidebar").classList.toggle("active");
+    // console.log(document.getElementById('sidebar'));
+    console.log("Abierto");
+    mainContainer.style.width = "68%";
+    myDataName.style.width = "78%";
+    mainContainer.style.marginLeft = "18%";
+    mainContainer.style.marginRight = "13%";
+    mainContainer.style.justifyContent = "initial";
+    barOn = true;
+  } else {
+    console.log("cerrado");
+    //btnToggle.classList.remove('activate');
+    document.getElementById("sidebar").classList.remove("active");
+    barOn = false;
+    mainContainer.style.width = "100%";
+    mainContainer.style.marginLeft = "0%";
+    mainContainer.style.justifyContent = "center";
+    myDataName.style.width = "86%";
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   var elems = document.querySelectorAll(".dropdown-trigger");
   var instances = M.Dropdown.init(elems, {
@@ -89,6 +133,83 @@ editProfileUserInformation.addEventListener("click", function () {
     informationUserBotommsCv.style.display = "none";
     widgetOn = true;
   }
+});
+
+function viewExperiencia(view) {
+  console.log(view);
+  var containerCursos = document.querySelectorAll(
+    '[id^="container-data-experience-show-"]'
+  );
+  // Recorre los elementos encontrados
+  for (var i = 0; i < containerCursos.length; i++) {
+    var elemento = containerCursos[i];
+
+    if (view >= containerCursos.length) {
+      document.getElementById("experience-container-end").style.display =
+        "block";
+    }
+    // Aplica el estilo "display: none" a todos los elementos excepto el primero
+    if (i !== view) {
+      elemento.style.display = "none";
+    } else {
+      elemento.style.display = "";
+    }
+  }
+}
+
+
+updateInformationExperience.addEventListener("click", function () {
+  console.log("Hola")
+  var currentContainer = document.getElementById(
+    `container-data-experience-show-${viewExperiencias + 1}`
+  );
+
+  if(currentContainer != null){
+    var currentContainer = document.getElementById(
+      `container-data-experience-show-${viewExperiencias + 1}`
+    );
+    console.log(currentContainer);
+    document.getElementById("puestoExperiencia").value =
+      currentContainer.querySelector("#puesto").value;
+    document.getElementById("puestoEmpresa").value =
+      currentContainer.querySelector("#empresa").value;
+    document.getElementById("experiencia-saber").value =
+      currentContainer.querySelector("#experiencia-saber-show").value;
+
+  }
+
+
+  if (widgetOn == false) {
+    var containerCursos = document.querySelectorAll(
+      '[id^="container-data-experience-show-"]'
+    );
+    // Recorre los elementos encontrados
+    for (var i = 0; i < containerCursos.length; i++) {
+      var elemento = containerCursos[i];
+      elemento.style.display = "none";
+    }
+    if(currentContainer == null){
+      try {
+        document.getElementById("experience-container").style.display = "none";
+      } catch (error) {
+        document.getElementById('experience-container-end').style.display = "none";
+        console.error("Ha ocurrido un error al ocultar el elemento:", error);
+      }      
+    }
+    document.getElementById("button-experience").style.display = "none";
+    document.getElementById("container-data-experience").style.display = "";
+    document.getElementById("button-experience-update").style.display = "";
+  }
+  widgetOn = true;
+});
+
+cancelInformationExperience.addEventListener("click", function () {
+  document.getElementById("form-update-experiencia").reset();
+  viewExperiencia(viewExperiencias);
+  document.getElementById("button-experience").style.display = "";
+  document.getElementById("container-data-experience").style.display = "none";
+  document.getElementById("button-experience-update").style.display = "none";
+  widgetOn = false;
 });
 
 cancelEditingInformationProfile.addEventListener("click", function () {
@@ -258,7 +379,6 @@ cancelEditingInformationLanguajes.addEventListener("click", function () {
     divLenguajes.style.height = "550px";
   } else {
     divLenguajes.style.height = "260px";
-    
   }
 
   let languajesContainer = document.querySelector(".languajes-container");
@@ -289,9 +409,43 @@ editFactoryInformationActivate.addEventListener("click", function () {
   }
 });
 
+
+function viewCursos(view) {
+  console.log(view);
+  var containerCursos = document.querySelectorAll('[id^="container-curso-"]');
+  // Recorre los elementos encontrados
+  for (var i = 0; i < containerCursos.length; i++) {
+    var elemento = containerCursos[i];
+
+    if (view >= containerCursos.length) {
+      document.getElementById("curso-container-end").style.display = "block";
+    }
+    // Aplica el estilo "display: none" a todos los elementos excepto el primero
+    if (i !== view) {
+      elemento.style.display = "none";
+    } else {
+      elemento.style.display = "";
+    }
+  }
+}
+
 coursesEditButton.addEventListener("click", function () {
+  var currentContainer = document.getElementById(
+    `container-curso-${viewCurso + 1}`
+  );
+
+  if(currentContainer != null){
+      var titleNode = currentContainer.querySelector("#title-courses");
+    console.log(titleNode);
+    document.getElementById("instituteCertificate").value =
+      titleNode.childNodes[0].textContent.trim();
+    document.getElementById("nameCertificate").value =
+      currentContainer.querySelector("#content-courses").textContent;
+    document.getElementById("id_certificadoQuery").value =
+      currentContainer.querySelector("#id_certificado").value;
+  }
+
   if (widgetOn == false) {
-    console.log("olalalalalalal");
     let coursesEditContainer = document.querySelector(
       "#courses-edit-container"
     );
@@ -323,6 +477,8 @@ coursesEditButton.addEventListener("click", function () {
 });
 
 coursesEditButtonCancel.addEventListener("click", function () {
+  document.getElementById("update-certifcado-cursos").reset();
+
   let coursesEditContainer = document.querySelector("#courses-edit-container");
   coursesEditContainer.style.display = "none";
 
@@ -343,6 +499,15 @@ coursesEditButtonCancel.addEventListener("click", function () {
 });
 
 editEducationUserInformation.addEventListener("click", function () {
+  try {
+    document.getElementById("education-saber").value = document.getElementById(
+      "educacion-saber-show"
+    ).value;
+  } catch (error) {
+    // Manejar el error aquí
+    console.error(error);
+  }
+  
   if (widgetOn == false) {
     let educationContainer = document.querySelector(
       "#data-experience-show-container"
@@ -382,6 +547,7 @@ editEducationUserInformation.addEventListener("click", function () {
 });
 
 cancelEditingInformationEstudy.addEventListener("click", function () {
+  document.getElementById("form-update-educacion").reset();
   let divLenguajes = document.querySelector(
     "div.information-contact-experience#lenguajes"
   );
@@ -534,14 +700,8 @@ function openFileExplorerForF3() {
   fileInputF3.click();
 }
 
-// console.log("Ancho de la pantalla: " + anchoPantalla);
-// console.log("Altura de la pantalla: " + alturaPantalla);
-
-var previousWidth = window.innerWidth;
-
 function handleWindowResize() {
   var currentWidth = window.innerWidth;
-
   if (
     (previousWidth >= 600 && currentWidth < 600) ||
     (previousWidth < 600 && currentWidth >= 600)
@@ -549,677 +709,1204 @@ function handleWindowResize() {
     // Si el tamaño previo era mayor o igual a 600 y el tamaño actual es menor a 600, o viceversa, recargar la página
     location.reload();
   }
-
   previousWidth = currentWidth;
 }
 
 // Agregar el listener al evento resize
 window.addEventListener("resize", handleWindowResize);
 
-
-function comprobar(obj)
-{   
-    if (obj.checked){
-       document.getElementById("ageFinish").value = "";
-       document.getElementById('ageFinish').style.display = "none";
-       document.getElementById('span-study').style.display = "none";
-   } else{
-     document.getElementById('span-study').style.display = "";
-     document.getElementById("ageFinish").value = "";
-       document.getElementById('ageFinish').style.display = "";
-   }     
+function comprobar(obj) {
+  if (obj.checked) {
+    document.getElementById("ageFinish").value = "";
+    document.getElementById("ageFinish").style.display = "none";
+    document.getElementById("span-study").style.display = "none";
+  } else {
+    document.getElementById("span-study").style.display = "";
+    document.getElementById("ageFinish").value = "";
+    document.getElementById("ageFinish").style.display = "";
+  }
 }
-document.getElementById("ageFinish").value = "";
-document.getElementById("ageInit").value = "";
+
+
 function handleFileSelected(event, kindFile) {
- console.log(kindFile)
- const file = event.target.files[0];
- const rfcValue = document.getElementById('data_rfc').value;
- // Verificar que se haya seleccionado un archivo
- if (file) {
-   // Crear una instancia de FormData
-   const formData = new FormData();
-   formData.append('file', file);
-   formData.append('name', kindFile);
-   formData.append('rfc', rfcValue);
+  console.log(kindFile);
+  const file = event.target.files[0];
+  const rfcValue = document.getElementById("data_rfc").value;
+  // Verificar que se haya seleccionado un archivo
+  if (file) {
+    // Crear una instancia de FormData
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("name", kindFile);
+    formData.append("rfc", rfcValue);
 
+    // Obtener el token CSRF del formulario
+    const csrfToken = document.getElementsByName("csrfmiddlewaretoken")[0]
+      .value;
+    formData.append("csrfmiddlewaretoken", csrfToken);
 
-   // Obtener el token CSRF del formulario
-   const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-   formData.append('csrfmiddlewaretoken', csrfToken);
-
-   // Realizar la solicitud POST usando fetch
-   fetch('upload', {
-     method: 'POST',
-     body: formData,
-     headers: {
-       'X-CSRFToken': csrfToken
-     }
-   })
-   .then(response => {
-     const body = document.querySelector('body');
-     Swal.fire({
-       icon: 'success',
-       title: 'Archivo subido',
-       text: 'El archivo se envio correctamente',
-     }).then((result) => {
-       if (result.isConfirmed) {
-         window.location.reload()
-       }
-     });
-   })
-   .catch(error => {
-     Swal.fire({
-       icon: 'error',
-       title: 'Oops...',
-       text: 'Algo salio mal',
-     })
-   });
- }
+    // Realizar la solicitud POST usando fetch
+    fetch("upload", {
+      method: "POST",
+      body: formData,
+      headers: {
+        "X-CSRFToken": csrfToken,
+      },
+    })
+      .then((response) => {
+        const body = document.querySelector("body");
+        Swal.fire({
+          icon: "success",
+          title: "Archivo subido",
+          text: "El archivo se envio correctamente",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Algo salio mal",
+        });
+      });
+  }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
- var dates = document.querySelectorAll('#ageFinish');
- M.Datepicker.init(dates, {
-     format: 'yyyy-mm-dd',
-     setDefaultDate: true,
-     autoClose: true,
-     showClearBtn: true,
-     firstDay: 1,
-     minDate: new Date(1969, 1, 12),
-     maxDate: new Date(2023, 11, 31),
-     i18n: {
-         cancel: "Cancelar",
-         clear: "Limpiar",
-         done: "Listo",
-         today: "Hoy",
-         previousMonth: "Mes anterior",
-         nextMonth: "Siguiente mes",
-         months: [
-           "Enero",
-           "Febrero",
-           "Marzo",
-           "Abril",
-           "Mayo",
-           "Junio",
-           "Julio",
-           "Agosto",
-           "Septiembre",
-           "Octubre",
-           "Noviembre",
-           "Diciembre",
-         ],
-         monthsShort: [
-           "Ene",
-           "Feb",
-           "Mar",
-           "Abr",
-           "May",
-           "Jun",
-           "Jul",
-           "Ago",
-           "Sep",
-           "Oct",
-           "Nov",
-           "Dic",
-         ],
-         weekdays: [
-           "Domingo",
-           "Lunes",
-           "Martes",
-           "Miércoles",
-           "Jueves",
-           "Viernes",
-           "Sábado",
-         ],
-         weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-         weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
-       },onClose: function () {
-         setTimeout(function () {
-           let fechaEntrada = document.getElementById("ageInit").value;
-           let fechaSalida = document.getElementById("ageFinish").value;
-           var fechaNacInput = document.getElementById('fecha-nacimiento').value;
-           console.log(fechaNacInput)
-           var dateEntrada = new Date(fechaEntrada);
-           var dateSalida = new Date(fechaSalida);
-           var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
-           var fechaNac = moment(fechaNacInput, "MMM. DD, YYYY, h:mm a");
-           var fechaDate = fechaNac.toDate();
-           fechaDate.setFullYear(fechaDate.getFullYear() + 18);
-           console.log(fechaDate);
+async function imageChange(){
+  const { value: file } = await Swal.fire({
+    title: 'Select image',
+    input: 'file',
+    inputAttributes: {
+      'accept': 'image/*',
+      'aria-label': 'Upload your profile picture'
+    }
+  })
+  
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = async (e) => {
+      const imageData = e.target.result
+      const formData = new FormData()
+      formData.append('imagen', file)
+      // Obtener el token CSRF del formulario
+      const csrfToken = document.getElementsByName("csrfmiddlewaretoken")[0]
+      .value;
+      formData.append("csrfmiddlewaretoken", csrfToken);
+      try {
+        const response = await fetch('uploadImage', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            "X-CSRFToken": csrfToken,
+          },
+        })
 
-           if (dateSalida <= fechaDate) {
-             document.getElementById("ageFinish").value = "";
-             Swal.fire('La fecha de salida no debe ser menor que tu edad minima requerida');
-           }
+        if (response.ok) {
+          Swal.fire('Listo', 'La imagen se subio correctamente', 'success')
+          // Recargar la página después de 3 segundos
 
-           
-           if (dateSalida == dateEntrada) {
-             document.getElementById("ageFinish").value = "";
-             Swal.fire('La fecha de entrada no debe igual que la de salida');
-           }
+        } else {
+          Swal.fire('Error', 'Ocurrio un error al subir la imagen', 'error')
+        }
+        setTimeout(function() {
+          location.reload(); // Recargar la página actual
+        }, 1000);
+      } catch (error) {
+        Swal.fire('Error', 'Ocurrio un error al subir la imagen', 'error')
+      }
+    }
+    reader.readAsDataURL(file)
+  }
+}
 
 
-           if (dateSalida >= fechaHoy) {
-             document.getElementById("ageFinish").value = "";
-             Swal.fire('La fecha de salida no debe ser mayor a la fecha actual');
-           }
-
-           console.log(fechaHoy)
-         }, 1000);
-       },
- })
-})
 
 
 document.addEventListener("DOMContentLoaded", function () {
-       var fechaSalidaInput = document.getElementById("ageInit");
-       M.Datepicker.init(fechaSalidaInput, {
-         format: "yyyy-mm-dd",
-         autoClose: true,
-           autoClose:true,
-           showClearBtn:true,
-           firstDay: 1,
-           minDate: new Date(1969,1,12),
-           maxDate: new Date(2023,11,31),
-           i18n: {
-               cancel: "Cancelar",
-               clear: "Limpiar",
-               done: "Listo",
-               today: "Hoy",
-               previousMonth: "Mes anterior",
-               nextMonth: "Siguiente mes",
-               months: [
-                 "Enero",
-                 "Febrero",
-                 "Marzo",
-                 "Abril",
-                 "Mayo",
-                 "Junio",
-                 "Julio",
-                 "Agosto",
-                 "Septiembre",
-                 "Octubre",
-                 "Noviembre",
-                 "Diciembre",
-               ],
-               monthsShort: [
-                 "Ene",
-                 "Feb",
-                 "Mar",
-                 "Abr",
-                 "May",
-                 "Jun",
-                 "Jul",
-                 "Ago",
-                 "Sep",
-                 "Oct",
-                 "Nov",
-                 "Dic",
-               ],
-               weekdays: [
-                 "Domingo",
-                 "Lunes",
-                 "Martes",
-                 "Miércoles",
-                 "Jueves",
-                 "Viernes",
-                 "Sábado",
-               ],
-               weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-               weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
-             },
-         onClose: function () {
-           setTimeout(function () {
-           let fechaEntrada = document.getElementById("ageInit").value;
-           let fechaSalida = document.getElementById("ageFinish").value;
-           var fechaNacInput = document.getElementById('fecha-nacimiento').value;
-           console.log(fechaNacInput)
+  var dates = document.querySelectorAll("#ageFinish");
+  M.Datepicker.init(dates, {
+    format: "yyyy-mm-dd",
+    setDefaultDate: true,
+    autoClose: true,
+    showClearBtn: true,
+    firstDay: 1,
+    minDate: new Date(1969, 1, 12),
+    maxDate: new Date(2023, 11, 31),
+    i18n: {
+      cancel: "Cancelar",
+      clear: "Limpiar",
+      done: "Listo",
+      today: "Hoy",
+      previousMonth: "Mes anterior",
+      nextMonth: "Siguiente mes",
+      months: [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+      ],
+      monthsShort: [
+        "Ene",
+        "Feb",
+        "Mar",
+        "Abr",
+        "May",
+        "Jun",
+        "Jul",
+        "Ago",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dic",
+      ],
+      weekdays: [
+        "Domingo",
+        "Lunes",
+        "Martes",
+        "Miércoles",
+        "Jueves",
+        "Viernes",
+        "Sábado",
+      ],
+      weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+      weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+    },
+    onClose: function () {
+      setTimeout(function () {
+        let fechaEntrada = document.getElementById("ageInit").value;
+        let fechaSalida = document.getElementById("ageFinish").value;
+        var fechaNacInput = document.getElementById("fecha-nacimiento").value;
+        console.log(fechaNacInput);
+        var dateEntrada = new Date(fechaEntrada);
+        var dateSalida = new Date(fechaSalida);
+        var fechaHoy = new Date(); // Crear un objeto Date con la fecha y hora actuales
+        var fechaNac = moment(fechaNacInput, "MMM. DD, YYYY, h:mm a");
+        var fechaDate = fechaNac.toDate();
+        fechaDate.setFullYear(fechaDate.getFullYear() + 18);
+        console.log(fechaDate);
 
-             var dateEntrada = new Date(fechaEntrada);
-             var dateSalida = new Date(fechaSalida);
-             var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
-             var fechaNac = moment(fechaNacInput, "MMM. DD, YYYY, h:mm a");
-             var fechaDate = fechaNac.toDate();
-             fechaDate.setFullYear(fechaDate.getFullYear() + 18);
-             console.log(fechaDate);
+        if (dateSalida <= fechaDate) {
+          document.getElementById("ageFinish").value = "";
+          Swal.fire(
+            "La fecha de salida no debe ser menor que tu edad minima requerida"
+          );
+        }
 
-             if (dateEntrada <= fechaDate) {
-               document.getElementById("ageInit").value = "";
-               Swal.fire('La fecha de entrada no debe ser menor que tu edad minima requerida');
-             }
-             if (dateEntrada >= fechaHoy) {
-               document.getElementById("ageInit").value = "";
-               console.log(document.getElementById("ageInit").value)
-               Swal.fire('La fecha de entrada no debe ser mayor a la fecha actual');
-             }
-             if (dateEntrada == dateSalida) {
-               document.getElementById("ageFinish").value = "";
-               Swal.fire('La fecha de entrada no debe igual que la de salida');
-             }
-             if (dateEntrada >= dateSalida) {
-               document.getElementById("ageInit").value = "";
-               Swal.fire('La fecha de salida no debe ser mayor que la de entrada');
-             }
+        if (dateSalida == dateEntrada) {
+          document.getElementById("ageFinish").value = "";
+          Swal.fire("La fecha de entrada no debe ser igual que la de salida");
+        }
 
-             console.log(fechaHoy)
-           }, 1000);
-         },
-       });
-     });
+        if (dateSalida >= fechaHoy) {
+          document.getElementById("ageFinish").value = "";
+          Swal.fire("La fecha de salida no debe ser mayor a la fecha actual");
+        }
+        if (dateSalida <= dateEntrada) {
+          document.getElementById("ageFinish").value = "";
+          Swal.fire(
+            "La fecha de salida no debe ser menor a la fecha de entrada"
+          );
+        }
 
-document.getElementById("button-information-user-profile").addEventListener("click", function(event) {
- event.preventDefault(); // Evita el comportamiento predeterminado del botón
-
- // Obtén el formulario
- var form = document.getElementById("update-information-personal");
-
- // Crea un objeto FormData para recopilar los datos del formulario
- var formData = new FormData(form);
-
- // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
- fetch('updateprofileinformation', {
-   method: 'POST',
-   body: formData
- })
- .then(response => {
-   if(response.status == 200){
-     Swal.fire({
-       icon: 'success',
-       title: '¡Éxito!',
-       text: 'Los cambios se han guardado correctamente.',
-     }).then((result) => {
-       if (result.isConfirmed) {
-         window.location.reload()
-       }else{
-         Swal.fire({
-           icon: 'error',
-           title: 'Oops...',
-           text: 'Algo salio mal',
-         });
-       }
-     });
-     form.reset();
-   }
- })
- .catch(error => {
-   Swal.fire({
-     icon: 'error',
-     title: 'Oops...',
-     text: 'Algo salio mal',
-   });
-   form.reset();
- });
+        console.log(fechaHoy);
+      }, 1000);
+    },
+  });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+  var fechaSalidaInput = document.getElementById("ageInit");
+  M.Datepicker.init(fechaSalidaInput, {
+    format: "yyyy-mm-dd",
+    autoClose: true,
+    autoClose: true,
+    showClearBtn: true,
+    firstDay: 1,
+    minDate: new Date(1969, 1, 12),
+    maxDate: new Date(2023, 11, 31),
+    i18n: {
+      cancel: "Cancelar",
+      clear: "Limpiar",
+      done: "Listo",
+      today: "Hoy",
+      previousMonth: "Mes anterior",
+      nextMonth: "Siguiente mes",
+      months: [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+      ],
+      monthsShort: [
+        "Ene",
+        "Feb",
+        "Mar",
+        "Abr",
+        "May",
+        "Jun",
+        "Jul",
+        "Ago",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dic",
+      ],
+      weekdays: [
+        "Domingo",
+        "Lunes",
+        "Martes",
+        "Miércoles",
+        "Jueves",
+        "Viernes",
+        "Sábado",
+      ],
+      weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+      weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+    },
+    onClose: function () {
+      setTimeout(function () {
+        let fechaEntrada = document.getElementById("ageInit").value;
+        let fechaSalida = document.getElementById("ageFinish").value;
+        var fechaNacInput = document.getElementById("fecha-nacimiento").value;
+        console.log(fechaNacInput);
 
-function saveKindMoney(){
- // Obtén el formulario
- var form = document.getElementById("update-moneda-cobro");
+        var dateEntrada = new Date(fechaEntrada);
+        var dateSalida = new Date(fechaSalida);
+        var fechaHoy = new Date(); // Crear un objeto Date con la fecha y hora actuales
+        var fechaNac = moment(fechaNacInput, "MMM. DD, YYYY, h:mm a");
+        var fechaDate = fechaNac.toDate();
+        fechaDate.setFullYear(fechaDate.getFullYear() + 18);
+        console.log(fechaDate);
 
- // Crea un objeto FormData para recopilar los datos del formulario
- var formData = new FormData(form);
+        if (dateEntrada <= fechaDate) {
+          document.getElementById("ageInit").value = "";
+          Swal.fire(
+            "La fecha de entrada no debe ser menor que tu edad minima requerida"
+          );
+        }
+        if (dateEntrada >= fechaHoy) {
+          document.getElementById("ageInit").value = "";
+          console.log(document.getElementById("ageInit").value);
+          Swal.fire("La fecha de entrada no debe ser mayor a la fecha actual");
+        }
+        if (dateEntrada == dateSalida) {
+          document.getElementById("ageFinish").value = "";
+          Swal.fire("La fecha de entrada no debe igual que la de salida");
+        }
+        if (dateEntrada >= dateSalida) {
+          document.getElementById("ageInit").value = "";
+          Swal.fire("La fecha de salida no debe ser mayor que la de entrada");
+        }
 
- // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
- fetch('updateconsultorinformation', {
-   method: 'POST',
-   body: formData
- })
- .then(response => {
-   if(response.status == 200){
-     Swal.fire({
-       icon: 'success',
-       title: '¡Éxito!',
-       text: 'Los cambios se han guardado correctamente.',
-     }).then((result) => {
-       if (result.isConfirmed) {
-         window.location.reload()
-       }else{
-         Swal.fire({
-           icon: 'error',
-           title: 'Oops...',
-           text: 'Algo salio mal',
-         });
-       }
-     });
-     form.reset();
-   }
- })
- .catch(error => {
-   Swal.fire({
-     icon: 'error',
-     title: 'Oops...',
-     text: 'Algo salio mal',
-   });
-   form.reset();
- });
+        console.log(fechaHoy);
+      }, 1000);
+    },
+  });
+});
+
+document
+  .getElementById("button-information-user-profile")
+  .addEventListener("click", function (event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado del botón
+
+    // Obtén el formulario
+    var form = document.getElementById("update-information-personal");
+
+    // Crea un objeto FormData para recopilar los datos del formulario
+    var formData = new FormData(form);
+
+    // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
+    fetch("updateprofileinformation", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        if (response.status == 200) {
+          Swal.fire({
+            icon: "success",
+            title: "¡Éxito!",
+            text: "Los cambios se han guardado correctamente.",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload();
+            }
+          });
+          form.reset();
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Algo salio mal",
+          });
+        }
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Algo salio mal",
+        });
+        form.reset();
+      });
+  });
+
+function updateEducacion(event) {
+  event.preventDefault();
+  // Obtén el formulario
+  var form = document.getElementById("form-update-educacion");
+
+  // Crea un objeto FormData para recopilar los datos del formulario
+  var formData = new FormData(form);
+
+  // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
+  fetch("updateeducacion", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => {
+      if (response.status == 200) {
+        Swal.fire({
+          icon: "success",
+          title: "¡Éxito!",
+          text: "Los cambios se han guardado correctamente.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
+        form.reset();
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Algo salio mal",
+        });
+      }
+    })
+    .catch((error) => {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Algo salio mal",
+      });
+      form.reset();
+    });
 }
 
+function updateExperiencia() {
+  // Obtén el formulario
+  var form = document.getElementById("form-update-experiencia");
 
-function saveCostHour(){
- // Obtén el formulario
- var form = document.getElementById("update-manera-cobro");
+  // Crea un objeto FormData para recopilar los datos del formulario
+  var formData = new FormData(form);
 
- // Crea un objeto FormData para recopilar los datos del formulario
- var formData = new FormData(form);
-
- // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
- fetch('updateconsultorinformation', {
-   method: 'POST',
-   body: formData
- })
- .then(response => {
-   if(response.status == 200){
-     Swal.fire({
-       icon: 'success',
-       title: '¡Éxito!',
-       text: 'Los cambios se han guardado correctamente.',
-     }).then((result) => {
-       if (result.isConfirmed) {
-         window.location.reload()
-       }else{
-         Swal.fire({
-           icon: 'error',
-           title: 'Oops...',
-           text: 'Algo salio mal',
-         });
-       }
-       form.reset();
-     });
-     form.reset();
-   }
- })
- .catch(error => {
-   Swal.fire({
-     icon: 'error',
-     title: 'Oops...',
-     text: 'Algo salio mal',
-   });
-   form.reset();
- });
+  // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
+  fetch("updateexperiencia", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => {
+      if (response.status == 200) {
+        Swal.fire({
+          icon: "success",
+          title: "¡Éxito!",
+          text: "Los cambios se han guardado correctamente.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
+        form.reset();
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Algo salio mal",
+        });
+      }
+    })
+    .catch((error) => {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Algo salio mal",
+      });
+      form.reset();
+    });
 }
 
-document.getElementById("button-update-rfc").addEventListener("click", function(event) {
- event.preventDefault(); // Evita el comportamiento predeterminado del botón
+function saveKindMoney() {
+  // Obtén el formulario
+  var form = document.getElementById("update-moneda-cobro");
 
- // Obtén el formulario
- var form = document.getElementById("update-rfc-honorarios");
+  // Crea un objeto FormData para recopilar los datos del formulario
+  var formData = new FormData(form);
 
- // Crea un objeto FormData para recopilar los datos del formulario
- var formData = new FormData(form);
+  // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
+  fetch("updateconsultorinformation", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => {
+      if (response.status == 200) {
+        Swal.fire({
+          icon: "success",
+          title: "¡Éxito!",
+          text: "Los cambios se han guardado correctamente.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
+        form.reset();
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Algo salio mal",
+        });
+      }
+    })
+    .catch((error) => {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Algo salio mal",
+      });
+      form.reset();
+    });
+}
 
- // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
- fetch('updateconsultorinformation', {
-   method: 'POST',
-   body: formData
- })
- .then(response => {
-   if(response.status == 200){
-     Swal.fire({
-       icon: 'success',
-       title: '¡Éxito!',
-       text: 'Los cambios se han guardado correctamente.',
-     }).then((result) => {
-       if (result.isConfirmed) {
-         window.location.reload()
-       }
-     });
-     form.reset();
-   }else{
-     Swal.fire({
-       icon: 'error',
-       title: 'Oops...',
-       text: 'Algo salio mal',
-     }); 
-     form.reset(); 
-   }
- })
- .catch(error => {
-   Swal.fire({
-     icon: 'error',
-     title: 'Oops...',
-     text: 'Algo salio mal',
-   });
-   form.reset();
- });
-});
+function saveCostHour() {
+  // Obtén el formulario
+  var form = document.getElementById("update-manera-cobro");
 
+  // Crea un objeto FormData para recopilar los datos del formulario
+  var formData = new FormData(form);
 
-document.getElementById("button-update-contact").addEventListener("click", function(event) {
- event.preventDefault(); // Evita el comportamiento predeterminado del botón
+  // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
+  fetch("updateconsultorinformation", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => {
+      if (response.status == 200) {
+        Swal.fire({
+          icon: "success",
+          title: "¡Éxito!",
+          text: "Los cambios se han guardado correctamente.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
+        });
+        form.reset();
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Algo salio mal",
+        });
+      }
+    })
+    .catch((error) => {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Algo salio mal",
+      });
+      form.reset();
+    });
+}
 
- // Obtén el formulario
- var form = document.getElementById("update-contact-form");
+document
+  .getElementById("button-update-rfc")
+  .addEventListener("click", function (event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado del botón
 
- // Crea un objeto FormData para recopilar los datos del formulario
- var formData = new FormData(form);
+    // Obtén el formulario
+    var form = document.getElementById("update-rfc-honorarios");
 
- // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
- fetch('updateprofileinformation', {
-   method: 'POST',
-   body: formData
- })
- .then(response => {
-   if(response.status == 200){
-     Swal.fire({
-       icon: 'success',
-       title: '¡Éxito!',
-       text: 'Los cambios se han guardado correctamente.',
-     }).then((result) => {
-       if (result.isConfirmed) {
-         window.location.reload()
-       }
-     });
-     form.reset();
-   }else if(response.status == 400){
-     Swal.fire({
-       icon: 'error',
-       title: 'Oops...',
-       text: 'El correo proporcionado ya esta en uso',
-     });  
-     form.reset();
+    // Crea un objeto FormData para recopilar los datos del formulario
+    var formData = new FormData(form);
 
-   }
-   else{
-     Swal.fire({
-       icon: 'error',
-       title: 'Oops...',
-       text: 'Algo salio mal',
-     });  
-     form.reset();
-   }
-   
- })
- .catch(error => {
-   Swal.fire({
-     icon: 'error',
-     title: 'Oops...',
-     text: 'Algo salio mal',
-   });
-   form.reset();
- });
-});
+    Swal.fire({
+      title: '¿Quieres cambiar tu RFC?',
+      text: 'Tu documentacion tambien se borrara',
+      showDenyButton: true,
+      confirmButtonText: 'Aceptar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
+        fetch("updateconsultorinformation", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => {
+            if (response.status == 200) {
+              Swal.fire({
+                icon: "success",
+                title: "¡Éxito!",
+                text: "Los cambios se han guardado correctamente.",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.reload();
+                }
+              });
+              form.reset();
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Algo salio mal",
+              });
+              form.reset();
+            }
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Algo salio mal",
+            });
+            form.reset();
+          });
+      } else if (result.isDenied) {
+        Swal.fire('No ocurrio ningun cambio', '', 'info')
+      }
+    })
+  });
 
-document.getElementById("button-update-idiomas").addEventListener("click", function(event) {
- event.preventDefault(); // Evita el comportamiento predeterminado del botón
+document
+  .getElementById("button-update-contact")
+  .addEventListener("click", function (event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado del botón
 
- // Obtén el formulario
- var form = document.getElementById("update-idiomas-form");
+    // Obtén el formulario
+    var form = document.getElementById("update-contact-form");
 
- // Crea un objeto FormData para recopilar los datos del formulario
- var formData = new FormData(form);
+    // Crea un objeto FormData para recopilar los datos del formulario
+    var formData = new FormData(form);
 
- // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
- fetch('updateidiomaconsultor', {
-   method: 'POST',
-   body: formData
- })
- .then(response => {
-   if(response.status == 200){
-     Swal.fire({
-       icon: 'success',
-       title: '¡Éxito!',
-       text: 'Los cambios se han guardado correctamente.',
-     }).then((result) => {
-       if (result.isConfirmed) {
-         window.location.reload();
-       }
-     });
-     form.reset();
-   }else if(response.status == 400){
-     Swal.fire({
-       icon: 'error',
-       title: 'Oops...',
-       text: 'El correo proporcionado ya esta en uso',
-     });  
-     form.reset();
+    // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
+    fetch("updateprofileinformation", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        if (response.status == 200) {
+          Swal.fire({
+            icon: "success",
+            title: "¡Éxito!",
+            text: "Los cambios se han guardado correctamente.",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload();
+            }
+          });
+          form.reset();
+        } else if (response.status == 400) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "El correo proporcionado ya esta en uso",
+          });
+          form.reset();
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Algo salio mal",
+          });
+          form.reset();
+        }
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Algo salio mal",
+        });
+        form.reset();
+      });
+  });
 
-   }
-   else{
-     Swal.fire({
-       icon: 'error',
-       title: 'Oops...',
-       text: 'Algo salio mal',
-     });  
-     form.reset();
-   }
-   
- })
- .catch(error => {
-   Swal.fire({
-     icon: 'error',
-     title: 'Oops...',
-     text: 'Algo salio mal',
-   });
-   form.reset();
- });
-});
+document
+  .getElementById("button-update-idiomas")
+  .addEventListener("click", function (event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado del botón
 
+    // Obtén el formulario
+    var form = document.getElementById("update-idiomas-form");
 
-const tokenP = "pruebas";
-const token = "";
+    // Crea un objeto FormData para recopilar los datos del formulario
+    var formData = new FormData(form);
+
+    // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
+    fetch("updateidiomaconsultor", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        if (response.status == 200) {
+          Swal.fire({
+            icon: "success",
+            title: "¡Éxito!",
+            text: "Los cambios se han guardado correctamente.",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload();
+            }
+          });
+          form.reset();
+        } else if (response.status == 400) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "El correo proporcionado ya esta en uso",
+          });
+          form.reset();
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Algo salio mal",
+          });
+          form.reset();
+        }
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Algo salio mal",
+        });
+        form.reset();
+      });
+  });
 
 function queryCP(cp) {
-const selectEstado = document.getElementById("estado");
-const selectColonia = document.getElementById("colonia");
-//selectEstado.innerHTML = "";
-selectColonia.innerHTML = "";
-const url = `https://api.copomex.com/query/info_cp/${cp}?token=${tokenP}`;
-axios
-   .get(url)
-   .then((response) => {
-       if (response.status === 200) {
-           // 200 significa que la solicitud fue exitosa
-           const resultado = response.data; // Obtener los datos de la respuesta
+  const selectEstado = document.getElementById("estado");
+  const selectColonia = document.getElementById("colonia");
+  //selectEstado.innerHTML = "";
+  selectColonia.innerHTML = "";
+  const url = `https://api.copomex.com/query/info_cp/${cp}?token=${tokenP}`;
+  axios
+    .get(url)
+    .then((response) => {
+      if (response.status === 200) {
+        // 200 significa que la solicitud fue exitosa
+        const resultado = response.data; // Obtener los datos de la respuesta
 
-           // Trabajar con los datos recibidos
-           resultado.forEach((data) => {
-               llenarSelect(data.response); // Agregar opciones al <select>
-           });
-       } else {
-           console.log("Error en la solicitud:", response.status);
-       }
-   })
-   .catch((error) => {
-       console.log("Error en la solicitud:", error.message);
-   });
+        // Trabajar con los datos recibidos
+        resultado.forEach((data) => {
+          llenarSelect(data.response); // Agregar opciones al <select>
+        });
+      } else {
+        console.log("Error en la solicitud:", response.status);
+      }
+    })
+    .catch((error) => {
+      console.log("Error en la solicitud:", error.message);
+    });
 }
 
 function llenarSelect(data) {
-const selectEstado = document.getElementById("estado");
-const selectColonia = document.getElementById("colonia");
-const selectCiudad = document.getElementById("ciudad");
-const selectMunicipio = document.getElementById("municipio");
+  const selectEstado = document.getElementById("estado");
+  const selectColonia = document.getElementById("colonia");
+  const selectCiudad = document.getElementById("ciudad");
+  const selectMunicipio = document.getElementById("municipio");
 
-// Limpiar las opciones existentes
-selectEstado.innerHTML = "";
-selectCiudad.innerHTML = "";
-selectMunicipio.innerHTML = "";
-//selectCiudad.innerHTML = "";
-console.log(data)
-const opcion = document.createElement("option");
-opcion.value = data.estado;
-opcion.textContent = data.estado;
-selectEstado.appendChild(opcion);
+  // Limpiar las opciones existentes
+  selectEstado.innerHTML = "";
+  selectCiudad.innerHTML = "";
+  selectMunicipio.innerHTML = "";
+  //selectCiudad.innerHTML = "";
+  console.log(data);
+  const opcion = document.createElement("option");
+  opcion.value = data.estado;
+  opcion.textContent = data.estado;
+  selectEstado.appendChild(opcion);
 
-const opcion2 = document.createElement("option");
-opcion2.value = data.asentamiento;
-opcion2.textContent = data.asentamiento;
-selectColonia.appendChild(opcion2);
+  const opcion2 = document.createElement("option");
+  opcion2.value = data.asentamiento;
+  opcion2.textContent = data.asentamiento;
+  selectColonia.appendChild(opcion2);
 
-const opcion3 = document.createElement("option");
-opcion3.value = data.ciudad;
-opcion3.textContent = data.ciudad;
-selectCiudad.appendChild(opcion3);
+  const opcion3 = document.createElement("option");
+  opcion3.value = data.ciudad;
+  opcion3.textContent = data.ciudad;
+  selectCiudad.appendChild(opcion3);
 
-const opcion4 = document.createElement("option");
-opcion4.value = data.municipio;
-opcion4.textContent = data.municipio;
-selectMunicipio.appendChild(opcion4);
+  const opcion4 = document.createElement("option");
+  opcion4.value = data.municipio;
+  opcion4.textContent = data.municipio;
+  selectMunicipio.appendChild(opcion4);
 
-M.FormSelect.init(selectEstado);
-M.FormSelect.init(selectColonia);
-M.FormSelect.init(selectCiudad);
-M.FormSelect.init(selectMunicipio);
+  M.FormSelect.init(selectEstado);
+  M.FormSelect.init(selectColonia);
+  M.FormSelect.init(selectCiudad);
+  M.FormSelect.init(selectMunicipio);
 }
 
 
-var longPressTimer;
-
 function startLongPress(element) {
-longPressTimer = setTimeout(function() {
- console.log('Clic prolongado en:', element.id);
- elemento = element.id
- Swal.fire({
-   title: '¿Estas seguro?',
-   text: "Este idioma se borrara de tu experiencia",
-   icon: 'warning',
-   showCancelButton: true,
-   confirmButtonColor: '#3085d6',
-   cancelButtonColor: '#d33',
-   confirmButtonText: 'Si, quiero borrarlo',
-   cancelButtonText: 'Cancelar'
- }).then((result) => {
-   if (result.isConfirmed) {
-     var csrftoken = Cookies.get('csrftoken');
-     fetch('deleteidiomaconsultor', {
-       method: 'POST',
-       headers: {
-         'X-CSRFToken': csrftoken,
-         'Content-Type': 'application/x-www-form-urlencoded'  // Agrega este encabezado
-       },
-       body:'elemento=' + encodeURIComponent(elemento)
-     })
-     .then(response => {
-       if(response.status == 200){
-         Swal.fire(
-           'Eliminado',
-           'El idioma se ha borrado de tu experiencia',
-           'success'
-         );
-         setTimeout(() => {
-           window.location.reload();
-         }, 1000);
-       }else{
-         Swal.fire({
-           icon: 'error',
-           title: 'Oops...',
-           text: 'Algo salio mal',
-         });
-       }
-     })
-     .catch(error => {
-       Swal.fire({
-         icon: 'error',
-         title: 'Oops...',
-         text: 'Algo salio mal',
-       });
-     });
-   }
- });
-}, 600);
+  longPressTimer = setTimeout(function () {
+    console.log("Clic prolongado en:", element.id);
+    elemento = element.id;
+    Swal.fire({
+      title: "¿Estas seguro?",
+      text: "Este idioma se borrara de tu experiencia",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, quiero borrarlo",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        var csrftoken = Cookies.get("csrftoken");
+        fetch("deleteidiomaconsultor", {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": csrftoken,
+            "Content-Type": "application/x-www-form-urlencoded", // Agrega este encabezado
+          },
+          body: "elemento=" + encodeURIComponent(elemento),
+        })
+          .then((response) => {
+            if (response.status == 200) {
+              Swal.fire(
+                "Eliminado",
+                "El idioma se ha borrado de tu experiencia",
+                "success"
+              );
+              setTimeout(() => {
+                window.location.reload();
+              }, 1000);
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Algo salio mal",
+              });
+            }
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Algo salio mal",
+            });
+          });
+      }
+    });
+  }, 600);
 }
 
 function endLongPress() {
   clearTimeout(longPressTimer);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  var dates = document.querySelectorAll("#ageFinish2");
+  M.Datepicker.init(dates, {
+    format: "yyyy-mm-dd",
+    setDefaultDate: true,
+    autoClose: true,
+    showClearBtn: true,
+    firstDay: 1,
+    minDate: new Date(1969, 1, 12),
+    maxDate: new Date(2023, 11, 31),
+    i18n: {
+      cancel: "Cancelar",
+      clear: "Limpiar",
+      done: "Listo",
+      today: "Hoy",
+      previousMonth: "Mes anterior",
+      nextMonth: "Siguiente mes",
+      months: [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+      ],
+      monthsShort: [
+        "Ene",
+        "Feb",
+        "Mar",
+        "Abr",
+        "May",
+        "Jun",
+        "Jul",
+        "Ago",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dic",
+      ],
+      weekdays: [
+        "Domingo",
+        "Lunes",
+        "Martes",
+        "Miércoles",
+        "Jueves",
+        "Viernes",
+        "Sábado",
+      ],
+      weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+      weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+    },
+    onClose: function () {
+      setTimeout(function () {
+        let fechaEntrada = document.getElementById("ageInit2").value;
+        let fechaSalida = document.getElementById("ageFinish2").value;
+        var fechaNacInput = document.getElementById("fecha-nacimiento").value;
+        console.log(fechaNacInput);
+        var dateEntrada = new Date(fechaEntrada);
+        var dateSalida = new Date(fechaSalida);
+        var fechaHoy = new Date(); // Crear un objeto Date con la fecha y hora actuales
+        var fechaNac = moment(fechaNacInput, "MMM. DD, YYYY, h:mm a");
+        var fechaDate = fechaNac.toDate();
+        fechaDate.setFullYear(fechaDate.getFullYear() + 18);
+        console.log(fechaDate);
+
+        if (dateSalida <= fechaDate) {
+          document.getElementById("ageFinish").value = "";
+          Swal.fire(
+            "La fecha de salida no debe ser menor que tu edad minima requerida"
+          );
+        }
+
+        if (dateSalida == dateEntrada) {
+          document.getElementById("ageFinish").value = "";
+          Swal.fire("La fecha de entrada no debe ser igual que la de salida");
+        }
+
+        if (dateSalida >= fechaHoy) {
+          document.getElementById("ageFinish").value = "";
+          Swal.fire("La fecha de salida no debe ser mayor a la fecha actual");
+        }
+        if (dateSalida <= dateEntrada) {
+          document.getElementById("ageFinish").value = "";
+          Swal.fire(
+            "La fecha de salida no debe ser menor a la fecha de entrada"
+          );
+        }
+
+        console.log(fechaHoy);
+      }, 1000);
+    },
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  var fechaSalidaInput = document.getElementById("ageInit2");
+  M.Datepicker.init(fechaSalidaInput, {
+    format: "yyyy-mm-dd",
+    autoClose: true,
+    autoClose: true,
+    showClearBtn: true,
+    firstDay: 1,
+    minDate: new Date(1969, 1, 12),
+    maxDate: new Date(2023, 11, 31),
+    i18n: {
+      cancel: "Cancelar",
+      clear: "Limpiar",
+      done: "Listo",
+      today: "Hoy",
+      previousMonth: "Mes anterior",
+      nextMonth: "Siguiente mes",
+      months: [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+      ],
+      monthsShort: [
+        "Ene",
+        "Feb",
+        "Mar",
+        "Abr",
+        "May",
+        "Jun",
+        "Jul",
+        "Ago",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dic",
+      ],
+      weekdays: [
+        "Domingo",
+        "Lunes",
+        "Martes",
+        "Miércoles",
+        "Jueves",
+        "Viernes",
+        "Sábado",
+      ],
+      weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+      weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+    },
+    onClose: function () {
+      setTimeout(function () {
+        let fechaEntrada = document.getElementById("ageInit2").value;
+        let fechaSalida = document.getElementById("ageFinish2").value;
+        var fechaNacInput = document.getElementById("fecha-nacimiento").value;
+        console.log(fechaNacInput);
+
+        var dateEntrada = new Date(fechaEntrada);
+        var dateSalida = new Date(fechaSalida);
+        var fechaHoy = new Date(); // Crear un objeto Date con la fecha y hora actuales
+        var fechaNac = moment(fechaNacInput, "MMM. DD, YYYY, h:mm a");
+        var fechaDate = fechaNac.toDate();
+        fechaDate.setFullYear(fechaDate.getFullYear() + 18);
+        console.log(fechaDate);
+
+        if (dateEntrada <= fechaDate) {
+          document.getElementById("ageInit").value = "";
+          Swal.fire(
+            "La fecha de entrada no debe ser menor que tu edad minima requerida"
+          );
+        }
+        if (dateEntrada >= fechaHoy) {
+          document.getElementById("ageInit").value = "";
+          console.log(document.getElementById("ageInit").value);
+          Swal.fire("La fecha de entrada no debe ser mayor a la fecha actual");
+        }
+        if (dateEntrada == dateSalida) {
+          document.getElementById("ageFinish").value = "";
+          Swal.fire("La fecha de entrada no debe igual que la de salida");
+        }
+        if (dateEntrada >= dateSalida) {
+          document.getElementById("ageInit").value = "";
+          Swal.fire("La fecha de salida no debe ser mayor que la de entrada");
+        }
+
+        console.log(fechaHoy);
+      }, 1000);
+    },
+  });
+});
+
+
+function controlTableSAP(inicio, final) {
+  var tablaResultados = document.getElementById('tablaResultados');
+  var filas = tablaResultados.querySelectorAll('tr');
+  var contador = 0;
+  var inicioFilas = inicio; // Límite de filas a mostrar
+  var limiteFilas = final; // Límite de filas a mostrar
+  
+  for (var fila of filas) {
+    var id = fila.getAttribute('id');
+    var idDeseado = 'sap-form-show-';
+
+    if (fila.id.startsWith(idDeseado)) {
+      contador++;
+      
+      if (contador < inicioFilas || contador > limiteFilas) {
+        fila.style.display = 'none';
+      } else {
+        fila.style.display = 'table-row';
+      }
+    }
+  }
+}
+
+
+document.getElementById('less').addEventListener('click', function(e) {
+  e.preventDefault();
+  inicio -= 3;
+  final -= 2;
+  controlTableSAP(inicio, final);
+  console.log('less');
+  console.log(inicio);
+  console.log(final);
+});
+
+document.getElementById('more').addEventListener('click', function(e) {
+  e.preventDefault();
+  inicio += 3;
+  final += 2;
+  controlTableSAP(inicio, final);
+  console.log('more');
+  console.log(inicio);
+  console.log(final);
+});
+
+
+function updateCertificados(){
+  // Obtén el formulario
+  var form = document.getElementById("update-certifcado-cursos");
+ 
+  // Crea un objeto FormData para recopilar los datos del formulario
+  var formData = new FormData(form);
+ 
+  // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
+  fetch('updatecertificados', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    if(response.status == 200){
+      Swal.fire({
+        icon: 'success',
+        title: '¡Éxito!',
+        text: 'Los cambios se han guardado correctamente.',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload()
+        }
+      });
+      form.reset();
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Algo salio mal',
+      });
+    }
+  })
+  .catch(error => {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Algo salio mal',
+    });
+    form.reset();
+  });
+}
+
+
+function addModuleSAP(){
+  // Obtén el formulario
+  var form = document.getElementById("sap-form-content");
+ 
+  // Crea un objeto FormData para recopilar los datos del formulario
+  var formData = new FormData(form);
+ 
+  // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
+  fetch('updateModulosSAP', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => {
+    if(response.status == 200){
+      Swal.fire({
+        icon: 'success',
+        title: '¡Éxito!',
+        text: 'Los cambios se han guardado correctamente.',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload()
+        }
+      });
+      form.reset();
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Algo salio mal',
+      });
+    }
+  })
+  .catch(error => {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Algo salio mal',
+    });
+    form.reset();
+  });
+}
+
+function sendModuleSAP(event,id){
+  event.preventDefault();
+  var separado = id.split("-");
+  // Obtén el formulario
+  
+  var form = document.getElementById(`sap-form-${separado[1]}`);
+  console.log(`sap-form-${separado[1]}`)
+  // Crea un objeto FormData para recopilar los datos del formulario
+  var formData = new FormData(form);
+
+  var valorCampo1 = formData.get('modulo');
+  var valorCampo2 = formData.get('submodulo');
+  var valorCampo3 = formData.get('nivel');
+  console.log(valorCampo1)
+  if (valorCampo1 === null || valorCampo2 === null || valorCampo3 === null) {
+    Swal.fire('Debes llenar todos los campos');
+  } else {
+    // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
+    fetch('updateModulosSAP', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => {
+      if(response.status == 200){
+        Swal.fire({
+          icon: 'success',
+          title: '¡Éxito!',
+          text: 'Los cambios se han guardado correctamente.',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload()
+          }
+        });
+        form.reset();
+      }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Algo salio mal',
+        });
+      }
+    })
+    .catch(error => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Algo salio mal',
+      });
+      form.reset();
+    });
+    }
 }
