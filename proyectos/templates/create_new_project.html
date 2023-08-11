@@ -76,7 +76,7 @@
                 <div class="col s3 input-field">
                     <i class="large material-icons prefix ">date_range</i>
                     <input id="date-end" placeholder="15/05/1998" name="date-end" type="text" class="datepicker"
-                        name="fecha_nacimiento" title="El formato no es el correcto" required>
+                        title="El formato no es el correcto" value="" required>
                     <label for="title_project" class="black-text">Fecha Fin</label>
                 </div>
 
@@ -94,20 +94,22 @@
 
                 <!-- DESCRIPTION PROJECT -->
                 <div class="input-field col s12 pbtm20">
-                    <input placeholder="Agregar información, como una breve problematica a resolver"
-                        id="description_project" type="text" class="validate white" minlength="25"
-                        maxlength="75" title="Use solo letras NO numeros" name="descripcion" required>
+                    <textarea placeholder="Agregar información, como una breve problematica a resolver"
+                              id="description_project" class="materialize-textarea validate white" minlength="25"
+                              maxlength="990" title="Use solo letras NO numeros" name="descripcion" required></textarea>
                     <label for="description_project" class="white black-text">Descripción del Proyecto</label>
                 </div>
+                  
 
 
                 <!-- FUNTIONS PROJECT  -->
                 <div class="input-field col s12 pbtm20">
-                    <input placeholder="Agregar información, como las actividades a resolver por parte del consultor"
-                        id="functions_project" type="text" class="validate white" minlength="25"
-                        maxlength="75" title="Use solo letras NO numeros" name="funciones" required>
-                    <label for="description_project" class="white black-text">Funciones Laborales</label>
-                </div>
+                    <textarea placeholder="Agregar información, como las actividades a resolver por parte del consultor"
+                              id="functions_project" class="materialize-textarea validate white" minlength="25"
+                              maxlength="990" title="Use solo letras NO numeros" name="funciones" required></textarea>
+                    <label for="functions_project" class="white black-text">Funciones Laborales</label>
+                  </div>
+                  
 
 
                 <!-- SUBMIT FORM -->

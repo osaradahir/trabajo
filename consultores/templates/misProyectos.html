@@ -1,0 +1,79 @@
+{% extends 'basePrincipal.html' %}
+{% load static %}
+{% block Content %}
+{{ status }}
+<main>
+    <div class="container_data" style="display: flex; flex-direction:column;">
+    <div class="" style="width:110%; height:160px">
+        <div class="my-data-name col s12 m6">
+            <div class="title">
+                <h3 class="blue-text text-darken-4">Mis proyectos</h3>
+                <span class="grey-text text-darken-3">Explora los proyectos en los que estás participando, sube,
+                    actualiza y modifica tus reportes o contratos.</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="" style="width: 110%; display:flex; flex-direction:row;">
+        <div class="row" style="margin-left: -30px;">
+            {% if proyectoConsultor %}
+                {% if cantidad_proyectos == 1 %}
+                    {% for proyecto in proyectoConsultor %}
+                        <div class="col s12 m10">
+                            <div style="margin-right: 20px; width:450px;">
+                                <div class="card medium">
+                                    <div class="card-image">
+                                        <img src="{% static 'images/empresasProfile.jpeg' %}">
+                                        <span class="card-title" style="margin-bottom: 25px;">{{proyecto.id_proyecto.proyecto_nombre}}</span>
+                                        <a class="btn-floating halfway-fab waves-effect waves-light red" style="margin-bottom: 30px;" href="{% url 'miProyecto' id=proyecto.id_proyecto.id %}"><i
+                                                class="material-icons">chevron_right</i></a>
+                                    </div>
+                                    <div class="card-content">
+                                        <h6>{{proyecto.id_proyecto.id_empresa_proyecto.id_empresa.empresa}}</h6>
+                                        <p>{{proyecto.id_proyecto.description}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {% for proyecto in proyectoConsultor %}
+                        <div class="col s12 m6">
+                            <div style="margin-right: 20px;">
+                                <div class="card medium">
+                                    <div class="card-image">
+                                        <img src="{% static 'images/empresasProfile.jpeg' %}">
+                                        <span class="card-title" style="margin-bottom: 25px;">{{proyecto.id_proyecto.proyecto_nombre}}</span>
+                                        <a class="btn-floating halfway-fab waves-effect waves-light red" style="margin-bottom: 30px;" href="{% url 'miProyecto' id=proyecto.id_proyecto.id %}"><i
+                                                class="material-icons">chevron_right</i></a>
+                                    </div>
+                                    <div class="card-content">
+                                        <h6>{{proyecto.id_proyecto.id_empresa_proyecto.id_empresa.empresa}}</h6>
+                                        <p>{{proyecto.id_proyecto.description}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% else %}
+                <h5 style="margin-left:8px;">Aun no estas participando en ningun proyecto</h5>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+</main>
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="{% static 'js/principal.js' %}?v=1.1"></script>
+
+<script>
+
+
+</script>
+{% endblock %}

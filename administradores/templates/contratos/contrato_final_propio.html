@@ -1,0 +1,872 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="cv in pdf">
+        <title>GNOSIS-CONTRATO</title>
+    </head>
+    
+    <style>
+        
+        p {
+            line-height:1.2;
+        }
+
+        body {
+            margin-left: 1.5cm;
+            margin-right: 1.5cm;
+            text-align:justify;
+            font-size:12pt;
+        }
+
+        .title {
+            font-family: 'Courier New', monospace;
+            font-size:12pt;
+            font-weight:bold;
+            text-align:center;
+            color:black;
+            line-height: 1;
+        }
+        
+        .font-normal {
+            font-family: 'Courier New', monospace;
+            font-size:12pt;
+            text-align:justify;
+            color:black;
+            line-height: 1;
+        }
+
+        .font-normal-no-align {
+            font-family: 'Courier New', monospace;
+            font-size:12pt;
+            color:black;
+            line-height: 1;
+        }
+
+        .fontbold {
+            font-family: 'Courier New', monospace;
+            font-size:12pt;
+            font-weight:bold;
+            text-align:justify;
+            color:black;
+            line-height: 1;
+        }
+
+        .fontbold-no-align {
+            font-family: 'Courier New', monospace;
+            font-size:12pt;
+            font-weight:bold;
+            color:black;
+            line-height: 1;
+        }
+
+        p.comic{
+            font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+            font-size:12pt;
+            text-align:justify;
+            line-height: 1;
+        }
+
+        .number{
+            font-family: 'Times New Roman', Times, serif;
+            font-size:12pt;
+            text-align:right;
+            color:black;
+            line-height: 1;
+        }
+
+        .divider{
+            display:flex;
+            flex-direction:row;
+            justify-content:center;
+        }
+
+        .table-design{
+            font-size:10pt;
+            width:100%;
+            margin-left:1cm;
+        }
+
+        .table-number{
+            font-family: 'Courier New', monospace;
+            font-weight:bold;
+            font-size:10pt;
+            width:2cm; 
+            text-align:end;  
+        }
+
+        .table-number-no-bold{
+            font-family: 'Courier New', monospace;
+            font-size:10pt;
+            width:2cm; 
+            text-align:end;  
+        }
+
+        .table-content{
+            font-family: 'Courier New', monospace;
+            font-size:10.5pt;
+            width:100%; 
+            text-align:start;  
+            text-align:justify; 
+        }
+
+
+    </style>
+
+    <body>
+        <div class="container">
+            <section id="hoja1" >
+                <br>
+                <p class="fontbold">CONTRATO DE PRESTACION DE SERVICIOS PROFESIONALES QUE CELEBRAN 
+                    POR UNA PARTE GNOSIS CONSULTORIA, S.C., REPRESENTADA EN ESTE ACTO 
+                    POR LA LIC. MARIA DE LA LUZ BALLESTEROS FLORES, A QUIEN EN LO SUCESIVO 
+                    SE LE DENOMINARA “GNOSIS”; Y, POR LA OTRA PARTE, (EL/LA) C. {{personas.nombre}} {{personas.ape_pat}} {{personas.ape_mat}}, 
+                    A QUIEN EN LO SUBSECUENTE SE LE DENOMINABA COMO EL “CONSULTOR”, AL 
+                    TENOR DE LAS SIGUIENTES DECLARACIONES Y CLAUSULAS:
+                </p>
+                <br>
+                <p class="title">DECLARACIONES</p>
+                <br>
+                <p>
+                    <span class="fontbold">I.</span>
+                    <span class="font-normal"> Declara "GNOSIS", a través de su Representante Legal:</span>
+                </p>
+                <p>
+                    <span class="fontbold">a)</span>
+                    <span class="font-normal"> 
+                        Que es una persona moral legalmente constituida conforme a las 
+                        leyes de la República Mexicana, como se acredita con la Escritura 
+                        Pública No. 28,449 de fecha 26 de Octubre de 2001, otorgada ante 
+                        la fe del Lic. Emmanuel Villicaña Estrada, Notario Público No. 35
+                         del Distrito Judicial de Tlalnepantla, Estado de México y del 
+                         Patrimonio del Inmueble Federal. Instrumento debidamente inscrito 
+                         en el Registro Público de Personales Morales del Registro Público 
+                         de la Propiedad y de Comercio del Distrito Federal, bajo el Folio 
+                         Número 57546 de fecha 2 de abril de 2002.
+                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">b)</span>
+                    <span class="font-normal">
+                        Que quien comparece a la celebración de este instrumento cuenta con 
+                        las facultades suficientes para obligar a su representada en los 
+                        términos de este instrumento, pues sus facultades no le han sido revocadas,
+                         modificadas ni limitadas en forma alguna, como lo acredita con la Escritura
+                          Pública señalada en el inciso a) anterior de las presentes declaraciones.
+                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">c)</span>
+                    <span class="font-normal">
+                        Que dentro de sus actividades empresariales se encuentra entre otros aspectos,
+                         la asesoría, gestoría, consultoría en materia de tecnología de información y 
+                         factor humano, así como la venta de servicios dirigidos al personal.                    
+                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">d)</span>
+                    <span class="font-normal">
+                        Que requiere los servicios para llevar a cabo las acciones materiales 
+                        consistentes en Consultoría en procesos, en el sistema SAP R/3 del módulo
+                         de <strong>{{proyectos.id_proyecto.id_modulo.nombre}}</strong> y las ligas de integración con el resto de los módulos a la Empresa 
+                         <strong>{{empresas.empresa}}</strong>, como los proporcionados por el “CONSULTOR”.  
+                    </span>              
+                </p>
+                <p>
+                    <span class="fontbold">e)</span>
+                    <span class="font-normal">
+                        Que es su deseo celebrar el presente contrato con el “CONSULTOR”. 
+                    </span>              
+                </p>
+                <br>
+                <br>
+                <br>
+                <br>
+            </section>
+            
+            <section id="hoja2">
+                <p class="number">
+                    2
+                </p>
+                <p>
+                    <span class="fontbold">II.</span>
+                    <span class="font-normal">
+                        Declara el “CONSULTOR”, bajo protesta de decir verdad:
+                    </span>              
+                </p>
+                <p>
+                    <span class="fontbold">a.)</span>
+                    <span class="font-normal">
+                        Que es una persona física mayor de edad, de nacionalidad mexicana, legalmente capacitada para celebrar cualquier tipo de acto jurídico, 
+                        con R.F.C. <strong>{{consultores.rfc}}</strong> y con clave CURP <strong>{{consultores.curp}}</strong>
+                        .
+                    </span>              
+                </p>
+                <p>
+                    <span class="fontbold">b.)</span>
+                    <span class="font-normal">
+                        Que cuenta con la experiencia y conocimientos necesarios para 
+                        proporcionar los servicios profesionales que “GNOSIS” requiere 
+                        en los términos del presente instrumento. Como se demuestra con
+                        el <strong>Anexo</strong> marcado con el número <strong> Uno </strong> denominado “Formulario” que
+                        firmado por las partes forma parte integral de este instrumento.
+                    </span>              
+                </p>
+                <p>
+                    <span class="fontbold">c)</span>
+                    <span class="font-normal">
+                        Que ostenta Título de <strong>{{estudios.titulo_registrado}}</strong>, cuyos estudios fueron realizados en <strong>{{estudios.id_institucion.nombre}}</strong>, 
+                        lo que acredita con la Cédula Profesional Número 
+                        
+                        {% if estudios.no_cedula %}
+                            <strong>{{estudios.no_cedula}},</strong>
+                        {% else %}
+                            <strong>n/d,</strong>
+                        {% endif %} 
+                        
+                        expedida por la Dirección 
+                        General de Profesiones de la Secretaría de Educación Pública, cuyo Título quedó 
+                        registrado a Fojas 
+                        {% if estudios.fojas %}
+                            <strong>{{estudios.fojas}},</strong>
+                        {% else %}
+                            <strong>n/d,</strong>
+                        {% endif %}                        
+                        del Libro
+                        {% if estudios.libro %}
+                            <strong>{{estudios.libro}}</strong>
+                        {% else %}
+                            <strong>n/d</strong>
+                        {% endif %}
+                        de fecha <strong>{{estudios.fecha_termino}}</strong>. 
+                    </span>              
+                </p>
+                <p>
+                    <span class="fontbold">d)</span>
+                    <span class="font-normal">
+                        Que es su deseo celebrar el presente contrato con “GNOSIS”.
+                    </span>              
+                </p>
+
+                <p class="fontbold-no-align">
+                    DE CONFORMIDAD CON LAS DECLARACIONES ANTERIORES, LAS PARTES OTORGAN LAS SIGUIENTES:
+                </p>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+            </section>
+
+            <section id="hoja3">
+                <p class="number">
+                    3
+                </p>
+                <p class="title">
+                    C L A U S U L A S
+                </p>
+                <p>
+                    <span class="fontbold">PRIMERA. OBJETO.-</span>
+                    <span class="font-normal">
+                        El “CONSULTOR” acepta y se obliga ante “GNOSIS” a proporcionar servicios de Consultoría en procesos en el sistema
+                        SAP R/3 del módulo de 
+                        <strong>{{proyectos.id_proyecto.id_modulo.nombre}}</strong>
+                        (en adelante el “Proyecto”), así como en las ligas de integración con el resto de los módulos a la Empresa
+                        <strong>{{empresas.empresa}}</strong> (en adelante la “Empresa”), especificados de manera enunciativa más no limitativa (en adelante los “Servicios”) en el <strong>Anexo Dos </strong>, 
+                        con toda su capacidad, profesionalismo, honestidad, eficiencia y confidencialidad.<strong>Anexo Dos </strong>, que firmado por las partes forma parte integral del presente instrumento.
+                    </span>              
+                </p>
+                <p>
+                    <span class="font-normal">
+                        No obstante lo dispuesto en el <strong>Anexo Dos</strong> de este contrato, el “CONSULTOR” acepta y se obliga a:
+                    </span>
+                </p>
+                <table class="table-design">
+                    <tr>
+                        <td class="table-number" style="padding-bottom:4.5cm;">(i)</td>
+                        <td class="table-content" >                         
+                            Cuidar, proteger y custodiar las instalaciones de la Empresa, incluyendo su mobiliario, equipo y materiales que en ella se encuentren, así como cualesquier equipo electrónico que se le entregue 
+                            para desarrollar los servicios materia del presente instrumento, dándole buen uso a los mismos, por lo que el “CONSULTOR” se compromete al día siguiente de fenecer el término de este instrumento 
+                            o rescisión de este contrato o terminación anticipada, a devolver de manera enunciativa más no limitativa, cualesquier equipo electrónico y/o de cómputo, documentación, discos, expedientes, material 
+                            y cualesquier otro elemento que la Empresa le haya proporcionado con motivo de los “Servicios” materia del presente contrato o, en su caso, al pago de una pena convencional de $1,000.00 usd (Mil 00/100 Dólares de 
+                            los Estados Unidos de América) por cada periodo de 5 días que transcurra hasta la entrega material de los mismos.
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <table class="table-design">
+                    <tr>
+                        <td class="table-number" style="padding-bottom:10px;">
+                            (ii)
+                        </td>
+                        <td class="table-content">                         
+                            Mantener respeto con todos y cada uno de los colaboradores de “GNOSIS” o la Empresa o ambas.
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <table class="table-design">
+                    <tr>
+                        <td class="table-number" style="padding-bottom:40px;">
+                            (iii)
+                        </td>
+                        <td class="table-content">                         
+                            Ejecutar todas las instrucciones que le señale directamente 
+                            la Empresa o indirectamente a través de cualesquier colaborador
+                            de “GNOSIS”, o conjuntamente la Empresa y “GNOSIS”, para el debido
+                            cumplimiento del presente contrato de prestación de servicios
+                            profesionales.                          
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <table class="table-design">
+                    <tr>
+                        <td class="table-number" style="padding-bottom:30px;">
+                            (iv)
+                        </td>
+                        <td class="table-content">                         
+                            A desarrollar los Servicios en <strong> {{empresas.empresa}} </strong> durante la vigencia
+                            de este instrumento o en el Lugar de Ubicación que señale la Empresa por escrito y por el periodo que en su oportunidad se le haga saber.                
+                           </td>
+                    </tr>
+                </table>
+                <br>
+            </section>
+
+            <section id="hoja4">
+                <p class="number">
+                    4
+                </p>
+                <table class="table-design">
+                    <tr>
+                        <td class="table-number" style="padding-bottom:19px;">
+                            (v)
+                        </td>
+                        <td class="table-content">                         
+                            A cumplir con las disposiciones reglamentarias que la Empresa tenga para ingresar a sus instalaciones en los días y horas que ella indique.                    
+                        </td>
+                    </tr>
+                </table>
+                <p>
+                    <span class="fontbold" style="width:50px; padding-right:50px;">
+                        SEGUNDA. VIGENCIA.
+                    </span>
+                    <span class="font-normal">
+                        La duración del presente contrato será de <strong>{{contratos.tiempo_vigencia}}</strong>, contados a partir de la fecha de firma del mismo.
+                         Asimismo, podrá prorrogarse el mismo por términos menores, iguales o mayores, previo convenio modificatorio 
+                         que al respecto firmen las partes, mismo que deberá negociarse 30 días antes de fenecer el término del presente 
+                         instrumento o se tendrá por definitivamente concluido, otorgándose el más amplio finiquito que en derecho proceda.                    
+                    </span>
+                </p>
+                <p>
+                    <span class="font-normal">
+                    No obstante lo anterior, “GNOSIS” podrá dar terminado el presente 
+                    contrato en cualquier tiempo sin necesidad de declaración judicial,
+                    previa notificación por escrito dado con 30 días de anticipación.
+                    Lo anterior sin perjuicio de que “GNOSIS” pueda ejercitar las acciones 
+                    civiles y penales a que hubiere lugar.
+                    </span>
+                </p>
+
+                <p class="comic">
+                    El párrafo siguiente podrá cambiarse dependiendo de la negociación con el consultor con el anterior.
+                </p>
+                <p>
+                    <span class="font-normal">
+                    No obstante lo anterior, ambas parte podrán dar terminado el presente contrato en cualquier tiempo
+                     sin necesidad de declaración judicial, previa notificación por escrito dado con 30 días de anticipación. 
+                     Para estos efectos, el “CONSULTOR” acepta y se obliga a no ejercitar ni reclamar los beneficios consignados 
+                     en la Cláusula Séptima de este instrumento y “GNOSIS” acepta y se obliga a observar lo dispuesto por la Cláusula Décima Cuarta de este Contrato.                
+                </p>
+
+                <p>
+                    <span class="fontbold">
+                        TERCERA. REPORTE DE TIEMPOS.-
+                    </span>
+                    <span class="font-normal">
+                        El “CONSULTOR” acepta y se obliga a presentar un “Reporte de Tiempos” mensual del cumplimiento de los “Servicios” 
+                        durante los tres primeros días hábiles del siguiente mes, señalando nombre, Proyecto, periodo, departamento, Empresa 
+                        en la cual se está llevando a cabo los Servicios, estatus, actividades realizadas, código, clave, día, número de horas
+                        utilizadas en la prestación de los “Servicios”, descripción o comentarios adicionales, las acciones inmediatas por    
+                        realizar, aspectos que pudieran incidir en el desarrollo del objeto del presente contrato, etc., basándose en el 
+                        formato que firmado por ambas partes forma parte integral del presente contrato y que corre agregado como <strong>Anexo Tres.</strong> 
+                        En el entendido de que dicho <strong>Anexo Tres</strong> deberá estar firmado                         por el Supervisor de la Empresa en la cual desarrolla el proyecto y por “GNOSIS”, para estar en  
+                    </span>
+                </p>
+                <br>
+                <br>
+                <br>
+            </section>
+
+            <section id="hoja5">
+                <p class="number">
+                    5
+                </p>
+                <p>
+                    <span class="font-normal">
+                        posibilidad de determinar concretamente los días que se utilizaron para el desarrollo de los Servicios materia del presente instrumento.
+                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">CUARTA. GASTOS DE VIAJE.-</span>
+                    <span class="font-normal">
+                        En el supuesto de que el “CONSULTOR” tenga que desarrollar los “Servicios” 
+                        materia del presente instrumento en otra ciudad o país, ambas partes aceptan 
+                        y reconocen que los gastos que originen por dicho concepto estarán a cargo de 
+                        la Empresa, por lo que el “CONSULTOR” acepta y se obliga a cumplir y ajustarse en
+                         términos y condiciones a las políticas de gastos que dicha Empresa maneje al respecto.
+                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">QUINTA. REPORTE DE ACTIVIDADES.-</span>
+                    <span class="font-normal">
+                        El “CONSULTOR” acepta y se obliga a presentar un informe mensual de las actividades llevadas 
+                        a cabo para el cumplimiento de los Servicios materia del presente instrumento, dentro de los
+                        primeros dos días hábiles del siguiente mes, señalando el mes, periodo, Proyecto, roles, las 
+                        horas utilizadas, las acciones realizadas, las acciones inmediatas por realizar, aspectos que 
+                        pudieran incidir en el desarrollo de los Servicios objeto del presente contrato, entre otros,
+                        basándose en el formato que firmado por las partes forma parte integral del presente instrumento 
+                        como <strong> Anexo Cuatro. </strong> En el entendido de que dicho <strong>Anexo Cuarto </strong> deberá estar firmado por el Supervisor
+                         de la Empresa en la cual desarrolla el proyecto y por “GNOSIS”, ello sin perjuicio de que “GNOSIS” en 
+                        cualquier tiempo le requiera informes específicos o generales o ambos, de dichas actividades, por lo que 
+                        el “CONSULTOR” acepta y se obliga sin demora a rendirlos dentro del plazo que aquél le fije, atendiendo la urgencia que se tenga en cada caso.
+                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">SEXTA. PAGOS.</span>
+                    <span class="font-normal">
+                        “GNOSIS” acepta y se obliga a pagar al “CONSULTOR” por los servicios objeto del presente contrato la cantidad determinada en el
+                         <strong> Anexo Tres </strong> denominado Reporte de Tiempos, bajo una tarifa diaria de <strong>{{tarifaDiariaUSD}}</strong> usd ({{contratos.tipoCambio}}),00/100 dólares de los 
+                         Estados Unidos de América) menos las deducciones legales correspondientes. Al tenor de lo siguiente:                    
+                    </span>
+                </p>
+                <table class="table-design">
+                    <tr>
+                        <td class="table-number-no-bold" style="padding-bottom:14px;">(i)</td>
+                        <td class="table-content" style="font-size:12pt;">                         
+                            Ambas partes acuerdan que los pagos serán por meses vencidos.                    
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <table class="table-design">
+                    <tr>
+                        <td class="table-number-no-bold" style="padding-bottom:50px;">(ii)</td>
+                        <td class="table-content" style="font-size:12pt;">                         
+                            El “CONSULTOR” acepta y se obliga a entregar dentro de los dos primeros
+                            días del mes inmediato siguiente del mes vencido el <strong>(la)</strong>
+                             recibo de honorarios <strong>(factura)</strong> correspondiente que cumpla 
+                             con los requisitos legales respectivos.                
+                           </td>
+                    </tr>
+                </table>
+                <br>
+            </section>
+
+            <section id="hoja 6">
+                <p class="number">
+                    6
+                </p>
+                <table class="table-design">
+                    <tr>
+                        <td class="table-number-no-bold" style="padding-bottom:39px;">(iii)</td>
+                        <td class="table-content" style="font-size:12pt;">                         
+                            “GNOSIS” acepta y se obliga a realizar el pago a que se refiere
+                            la presente cláusula a los 30 días siguientes de la entrega del 
+                            <strong>(de la)</strong> recibo de honorarios <strong> (factura)</strong> respectiv (o/<strong>a).</strong>                               
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <table class="table-design">
+                    <tr>
+                        <td class="table-number-no-bold" style="padding-bottom:63px;">(iv)</td>
+                        <td class="table-content" style="font-size:12pt;">                         
+                            El lugar de pago podrá ser en el domicilio legal de “GNOSIS” o a través de un depósito bancario a la 
+                            cuenta número 
+                            <strong>{{datos_bancarios.no_cuenta_clabe}}</strong>,
+                            plaza
+                            
+                            {% if datos_bancarios.plaza %}
+                            <strong>{{datos_bancarios.plaza}},</strong>
+                            {% else %}
+                            <strong>n/d,</strong>
+                            {% endif %} 
+                            
+                            sucursal 
+                            <strong>{{datos_bancarios.sucursal}}</strong> 
+                            de la Institución Bancaria  
+                            <strong>{{datos_bancarios.id_banco.nombre}}</strong>.
+                            
+                            Y en ambos casos deberá cumplir con lo dispuesto por los incisos (i), (ii) y (iii) de la presente cláusula.                    </span>
+                        </td>
+                    </tr>
+                </table>
+
+                <p>
+                    <span class="fontbold">
+                        SEPTIMA. GRATIFICACION DE TERMINACION SATISFACTORIA.-
+                    </span>
+                    <span class="font-normal">
+                        Una vez que “CONSULTOR” cumpla con los Servicios materia del presente contrato y Proyecto
+                        satisfactoriamente, entendiendo por esto la cobertura total del tiempo de este contrato en forma puntual,
+                        y firma de satisfacción del Supervisor del Proyecto en la Empresa asignada, “GNOSIS” se compromete a pagar 
+                        una Gratificación de Terminación Satisfactoria a razón de <strong>{{gratificacion}}</strong> usd ({{contratos.tipoCambio}}) 00/100 Dólares
+                        de los Estados Unidos de América) diarios por los días reflejados en el Anexo Tres Reporte de Tiempos mencionado 
+                        en el cuerpo de este instrumento.                    
+                    </span>
+                </p>
+
+                <p>
+                    <span class="fontbold">
+                        OCTAVA. ACTOS URGENTES.-
+                    </span>
+                    <span class="font-normal">
+                        El “CONSULTOR” acepta y se obliga a realizar los actos urgentes
+                         necesarios que la Empresa o “GNOSIS” o ambas, le encomienden
+                          para el cumplimiento del objeto del presente contrato, 
+                          debiendo actuar con la prudencia y diligencia necesarias, 
+                          cuidando el negocio como si fuera propio; por lo que si la
+                           omisión o incumplimiento conjunta o separadamente les ocasionan daños y perjuicios a “GNOSIS” o la Empresa, el “CONSULTOR” acepta y se obliga a cubrir los mismos en su totalidad al día hábil siguiente del la requerimiento que por escrito le haga “GNOSIS” o la Empresa por dichos conceptos.                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">
+                        NOVENA. CALIDAD DEL SERVICIO.-
+                    </span>
+                    <span class="font-normal">
+                        El “CONSULTOR” se compromete y se obliga a prestar sus “Servicios” 
+                        con un máximo índice de calidad y adecuados a los requerimientos de
+                         la Empresa y de “GNOSIS”, por lo que se compromete formalmente a 
+                         atender y corregir de inmediato, en su caso, todas las 
+                         observaciones que le haga la directamente la Empresa o a través
+                          del Lider de Grupo o indirectamente a través de “GNOSIS”, a fin
+                           de que se logre la eficiencia requerida.                    
+                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">
+                        DECIMA. CONFIDENCIALIDAD.-
+                    </span>
+                    <span class="font-normal">
+                        Toda información y documentación que genere el “CONSULTOR” o que 
+                        sea proporcionada por “GNOSIS” o la Empresa derivadas del presente
+                        instrumento,
+                    </span>
+                </p>
+
+            </section>
+       
+            <section id="hoja 7">
+                <br>
+                <p class="number">
+                    7
+                </p>
+
+                <p>
+                    <span class="font-normal">
+                         serán propiedad única y exclusiva de la Empresa, 
+                         la cual deberá:                    
+                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">
+                        (i)
+                    </span>
+                    <span class="font-normal">
+                        Ser tratada confidencialmente por el “CONSULTOR”.
+                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">
+                        (ii)
+                    </span>
+                    <span class="font-normal">
+                        No ser reproducida o copiada total o parcialmente en provecho del
+                         “CONSULTOR” o para fines distintos a los establecidos en el 
+                         presente contrato.
+                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">
+                        (iii)
+                    </span>
+                    <span class="font-normal">
+                        Junto con las copias resultantes de la información y documentación
+                         que se originen serán devueltas, o en su caso, ser borradas si
+                          están contenidas en un sistema de software de registro borrable. 
+                    </span>
+                </p>
+                <p>
+                    <span class="font-normal">
+                    El “CONSULTOR” conviene en que toda la información o diseños que se generen
+                     o sean proporcionados por “GNOSIS” o la Empresa en relación con la prestación 
+                     de los servicios convenidos en el presente contrato serán manejados confidencial,
+                      ya sea que se presente en forma escrita, verbal, visual o cualquier otro medio,
+                       por lo que el “CONSULTOR” no la podrá directa e indirectamente ni a través de 
+                       terceros y en ninguna otra forma proporcionar, transferir, publicar, reproducir
+                        o hacer del conocimiento de terceros, en ningún tiempo, únicamente al personal
+                         propio que tenga la necesidad de conocer dicha información y diseño, para proceder
+                          a realizar los fines especificados en el Contrato que nos ocupa.
+                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">
+                        DECIMA PRIMERA. PROPIEDAD INTELECTUAL.-
+                    </span>
+                    <span class="font-normal">
+                        Todas las ideas que en materia de consultoría elabore el “CONSULTOR” con motivo
+                         del presente contrato, serán única y exclusivamente propiedad de la Empresa, 
+                         quien podrá utilizarlos o emplearlos en la forma que considere pertinente.
+                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">
+                        DECIMA SEGUNDA. RESPONSABILIDAD PROFESIONAL.- 
+                    </span>
+                    <span class="font-normal">
+                        EL <strong> “CONSULTOR” </strong> acepta y se obliga a responder por los daños y 
+                        perjuicios que sufra “GNOSIS” con motivo de su actuación en
+                         forma negligente, de impericia o dolosa a que se refiere el 
+                         Artículo 2615 del Código Civil para el Distrito Federal.                    </span>
+                </p>
+                <p>
+                    <span class="font-normal">
+                    Dada la naturaleza de los “Servicios” materia del presente contrato, 
+                    el “CONSULTOR” tendrá acceso a secretos industriales de “GNOSIS” y/o 
+                    sus clientes en la cual desempeñará los “Servicios” materia de este 
+                    instrumento, de los cuales se le haya prevenido sobre su 
+                    confidencialidad, deberá abstenerse de revelarlos o apoderarse de 
+                    ellos, sin causa justificada y sin consentimiento de la persona que 
+                    guarde dicho secreto, o de su 
+                    </span>
+                </p>
+                <br>
+                <br>
+            </section>
+       
+            <section id="hoja8">
+                <br>
+                <br>
+                <p class="number">
+                    8
+                </p>
+                <p>
+                    <span class="font-normal">
+                        usuario autorizado, como lo establece 
+                        el Artículo 85 de la Ley de la Propiedad Industrial.
+                    </span>
+                </p>
+                <p>
+                    <span class="font-normal">
+                    Para los efectos de esta Cláusula se considera secreto industrial a toda información de aplicación industrial o mercantil que guarde una persona física o moral con carácter confidencial, que le signifique obtener o mantener una ventaja competitiva o económica frente a terceros que en la realización de actividades económicas y respecto de la cual haya adoptado los medios o sistemas suficientes para preservar su confidencialidad y el acceso restringido a la misma; como lo establece el Artículo 82 de la Ley de la Propiedad Industrial. 
+                    </span>
+                </p>
+             
+                <p>
+                    <span class="fontbold">
+                        DECIMA TERCERA. RESPONSABILIDAD LABORAL.- 
+                    </span>
+                    <span class="font-normal">
+                        Las partes reconocen y aceptan que las únicas relaciones jurídicas existentes entre ellas son las derivadas del presente contrato, razón por la cual no existe ninguna relación obrero-patronal entre ellas, así como tampoco con el personal que utilicen para el cumplimiento de este instrumento obligándose cada una de las partes a responder por cualquier reclamación de carácter laboral o derivada de prestaciones sociales que su personal ejercite en contra de cada una, y en su caso se obligan a sacar en paz y a salvo de cualquier demanda o reclamación que se ejercite en su contra, y en su caso, a resarcirle de cualquier daño o perjuicio que se le causare a la otra parte por tal motivo.
+                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">
+                        DECIMA CUARTA. TERMINACION ANTICIPADA DEL PROYECTO Y/O SERVICIOS.-
+                    </span>
+                    <span class="font-normal">
+                        Ambas partes aceptan y convienen que la Empresa podrá dar por terminado anticipadamente el Proyecto y/o Servicios objeto del presente contrato, quedando este instrumento definitivamente concluido en la fecha que señale la Empresa, no reservándose ninguna de las partes derecho o acción alguna entre ellos, otorgándose el finiquito más amplio que en derecho proceda.                    </span>
+                </p>   
+                <p>
+                    <span class="font-normal">
+                    Por lo que “GNOSIS” se compromete con el “CONSULTOR” a: (i) notificarle por escrito con por lo menos 30 días de anticipación a la fecha de terminación anticipada del Proyecto o Servicios; (ii) cubrirle el Pago a que se refiere la Cláusula Sexta del presente instrumento hasta el último día en que se brindaron los Servicios; y, (iii) pagarle la Gratificación de Terminación Satisfactoria como si se hubiera concluido el Proyecto o Servicios satisfactoriamente, este punto (iii), siempre y cuando la terminación anticipada no
+                    </span>
+                </p>
+                <br>
+                <br>
+            </section>
+
+            <section id="hoja9">
+                <p class="number">
+                    9
+                </p>
+                <p>
+                    <span class="font-normal">
+                        haya sido causa de incumplimiento, mal servicio o negligencia por parte del “CONSULTOR”.
+                    </span>
+                </p>
+                <p>
+                    <span class="font-normal">
+                    Asimismo, el “CONSULTOR” acepta y se obliga a estar presente en la Empresa hasta el último día en que tengan a su cargo el Proyecto o Servicios materia del presente contrato, así como, a cumplir en todos sus términos lo acordado en los incisos (i), (ii) y (iii) de la Cláusula Primera de este instrumento y que en obvio de repetición se tienen por reproducidos como si a la letra se insertasen.
+                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">
+                        DECIMA QUINTA. AFILIADA.-
+                    </span>
+                    <span class="font-normal">
+                        El “CONSULTOR” acepta y se obliga a no contratarse por su cuenta directa o indirectamente ni ofrecer los Servicios de un tercero directa o indirectamente, con la Empresa <strong> {{empresas.empresa}} </strong> ni con una Afiliada de esta, durante la vigencia del presente contrato y hasta un año después de fenecer el término de instrumento o contados a partir de la fecha de Terminación Anticipada o Rescisión de este instrumento.                   
+                     </span>
+                </p>
+                <p>
+                    <span class="font-normal">
+                        Por lo que ambas partes acuerdan que para los efectos del presente contrato y Cláusula Décima Cuarta los siguientes términos tengan los significados que a continuación se indican:
+                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">
+                        AFILIADA (S)
+                    </span>
+                    <span class="font-normal">
+                        significa (i) Cualquier ENTIDAD que Controle directamente a una segunda, tercera o ulterior ENTIDADES, o que las controle indirectamente a través de una o más ENTIDADES; (ii) La primera ENTIDAD también deberá considerarse como Afiliada de las ENTIDADES que Controle directa o indirectamente, en los términos apuntados; (iii) A su vez las ENTIDADES que Controlen directa o indirectamente a la primera ENTIDAD, deberán considerarse como Afiliadas entre sí; (iv) Afiliadas de las ENTIDADES que las Controlen en forma directa o indirecta; y, (v) Cualesquier ENTIDAD del mismos Grupo y/o Holding en los términos apuntados en todos los incisos anteriores.                     </span>
+                </p>
+                <p>
+                    <span class="fontbold">
+                        ENTIDAD (ES)
+                    </span>
+                    <span class="font-normal">
+                        significa cualquier Persona Física o Moral, Compañía, Sociedad Mercantil, Empresa, Sociedad Civil, Asociación Civil o Fideicomiso, nacional o extranjera.         
+                </p>
+                <p>
+                    <span class="fontbold">
+                        CONTROL (E) (EN)
+                    </span>
+                    <span class="font-normal">
+                        significará las facultades de dirigir, directa o indirectamente, la administración, o para emitir resoluciones o políticas de cualquier ENTIDAD o el poder de vetar cualquier decisión de cualquiera de dichas ENTIDADES, ya sea a través de la propiedad de acciones y derechos de veto correspondientes, a través de un contrato, o de cualquier otra manera.               
+                 </p>
+                 <br>
+                 <br>
+            </section>
+
+            <section id="hoja 10">
+
+                <p class="number">
+                    10
+                </p>
+
+                <p>
+                    <span class="font-normal"> 
+                    En caso de incumplimiento de la presente Cláusula, el “CONSULTOR” acepta y se obliga sin necesidad de declaración judicial a pagar por concepto de Pena Convencional la cantidad $22,000.00 usd (Veintidos Mil 00/100 Dólares de los Estados Unidos de América), pagaderos al día hábil siguiente de la notificación que por escrito y/o vía e-mail y/o vía facsímil le haga “GNOSIS” y/o quien sus derechos represente.
+                    </span>
+                </p>
+                 <p>
+                    <span class="fontbold">
+                        DECIMA SEXTA. CONVENIOS MODIFICATORIOS.-
+                    </span>
+                    <span class="font-normal">
+                        A efecto de asegurar la congruencia de las acciones que se lleven a cabo en el cumplimiento del presente contrato, ambas partes convienen en celebrar los convenios modificatorios necesarios para aclarar, precisar o modificar el contenido y alcance de las cláusulas del presente instrumento.
+                     </span>
+                </p>
+                <p>
+                    <span class="fontbold">
+                        DECIMA SEPTIMA. CESION.-
+                    </span>
+                    <span class="font-normal">
+                        Ninguna de las partes podrá ceder, gravar, traspasar, dar o en cualquier otra forma transferir, en todo o en parte, los derechos y obligaciones del presente instrumento, sin el consentimiento previo y por escrito, de su contraparte.
+                    </span>
+                </p>
+                <p>
+                    <span class="font-normal">
+                        En caso de que cualesquiera de las partes otorgue su consentimiento ya sea en términos del presente contrato o de los que al efecto convinieren, la parte que lo solicite seguirá siendo la responsable ante su contraparte, en forma solidaria y subsidiariamente, del cumplimiento del presente contrato hasta que ésta se dé por recibida.
+                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">
+                        DECIMA OCTAVA. DOMICILIOS.-
+                    </span>
+                    <span class="font-normal">
+                        Ninguna de las partes podrá ceder, gravar, traspasar, dar o en cualquier otra forma transferir, en todo o en parte, los derechos y obligaciones del presente instrumento, sin el consentimiento previo y por escrito, de su contraparte.
+                    </span>
+                </p>
+                <p class="font-normal">
+                    EL “CONSULTOR”	
+                </p>
+                <p class="font-normal">
+                    “GNOSIS”	
+                </p>
+                <p>
+                    <span  class="font-normal">
+                        Ambas partes convienen en notificarse en forma indubitable cualquier cambio en los domicilios antes citados, en el entendido que toda comunicación que esté dirigida al último domicilio, igualmente surtirá los mismos efectos legales.
+                    </span>
+                </p>
+                <p>
+                    <span class="fontbold">
+                        DECIMA. NOVENA. RECISION.- 
+                    </span>
+                    <span class="font-normal">
+                        “GNOSIS” podrá rescindir en cualquier momento y sin necesidad de declaración judicial el presente contrato en el caso de incumplimiento de cualesquiera de las cláusulas de este instrumento por parte del “CONSULTOR”, independientemente de cualquier responsabilidad en que pudieran incurrir el “CONSULTOR” y, en ambos casos, el pago de daños y perjuicios que se hubieren causado por el incumplimiento de las obligaciones de este instrumento.
+                    </span>
+                </p>
+
+            </section>
+
+            <section id="hoja 11">
+                <br>
+                <p class="number">
+                    11
+                </p>
+                <p>
+                    <span class="fontbold">
+                        VIGESIMA. JURISDICION.-
+                    </span>
+                    <span class="font-normal">
+                        Para la interpretación y cumplimiento del presente contrato, las partes se someten a la jurisdicción de los Tribunales del Fuero Común del Distrito Federal, renunciando a cualquier otro fuero que pudiera corresponderles en razón de sus domicilios presentes o futuros.
+                    </span>
+                </p>
+                <p class="fontbold" style="padding-bottom:30px">
+                    AMBAS PARTES MANIFIESTAN QUE SU VOLUNTAD TRANSCRITA EN EL PRESENTE INSTRUMENTO, NO SE VIO INFLUENCIADA POR NINGUN VICIO QUE PUDIERA NULIFICARLO EN TODO O EN PARTE, POR LO QUE ENTERADOS DE SU CONTENIDO, ALCANCE Y FUERZA LEGAL, LO SUSCRIBEN EN DOS TANTOS EL PRIMERO DE OCTUBRE DE DOS MIL DOS.
+                </p> 
+                <table>
+                    <tr>
+                        <th class="fontbold-no-align">"GNOSIS"</th>
+                        <th class="fontbold-no-align"> EL "CONSULTOR"</th>
+                    </tr>
+                </table>
+                <br>
+                <br>
+                <br>
+                <br>
+                <table>
+                    <tr>
+                        <th>______________________________________</th>
+                        <th>______________________________________</th>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th class="font-normal-no-align" >LIC. MARIA DE LA LUZ BALLESTEROS FLORES</th>
+                        <th class="font-normal-no-align" style="color: white";>.</th>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th class="font-normal-no-align">Representante Legal</th>
+                        <th style="color: white";>.</th>
+                    </tr>
+                </table>
+
+            </section>
+
+        </div>
+    </body>
+</html>

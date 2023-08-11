@@ -1,0 +1,907 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="cv in pdf" />
+    <title>{{titulo}}</title>
+  </head>
+
+  <style>
+    p {
+      line-height: 1;
+    }
+
+    body {
+      margin-top: 1cm;
+
+      margin-left: 0.9cm;
+      margin-right: 1cm;
+      text-align: justify;
+      font-size: 12pt;
+    }
+
+    .title {
+      font-family: "Arial", monospace;
+      font-size: 12pt;
+      font-weight: bold;
+      text-align: center;
+      color: black;
+      line-height: 1;
+    }
+
+    .pt02 {
+      padding-top: 0.2cm;
+    }
+
+    .font-normal {
+      font-family: "Arial", monospace;
+      font-size: 12pt;
+      text-align: justify;
+      color: black;
+      line-height: 1;
+    }
+
+    .font-normal-no-align {
+      font-family: "Arial", monospace;
+      font-size: 12pt;
+      font-weight: normal;
+      color: black;
+      line-height: 1;
+    }
+
+    .fontbold {
+      font-family: "Arial", monospace;
+      font-size: 12pt;
+      font-weight: bold;
+      text-align: justify;
+      color: black;
+      line-height: 1;
+    }
+
+    .fontbold-no-align {
+      font-family: "Arial", monospace;
+      font-size: 12pt;
+      font-weight: bold;
+      color: black;
+      line-height: 1;
+    }
+
+    p.comic {
+      font-family: "Comic Sans MS", "Comic Sans", cursive;
+      font-size: 12pt;
+      text-align: justify;
+      line-height: 1;
+    }
+
+    .number {
+      font-family: "Arial", monospace;
+      font-size: 12pt;
+      text-align: right;
+      color: black;
+      line-height: 1;
+    }
+
+    .divider {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    .table-design {
+      font-size: 12pt;
+      width: 100%;
+      margin-left: 0cm;
+      line-height: 1;
+    }
+
+    .table-number {
+      font-family: "Arial", monospace;
+      font-size: 12pt;
+      width: 0.7cm;
+      text-align: end;
+    }
+
+    .table-number-no-bold {
+      font-family: "Arial", monospace;
+      font-size: 12pt;
+      width: 2cm;
+      text-align: end;
+    }
+
+    .table-content {
+      font-family: "Arial", monospace;
+      font-size: 12pt;
+      width: 100%;
+      text-align: start;
+      text-align: justify;
+      line-height: 1;
+    }
+  </style>
+
+  <body>
+    <div class="container">
+      <br />
+      <section id="hoja1">
+        <p class="fontbold" style="padding-top: 0.3cm">
+          CONTRATO DE PRESTACION DE SERVICIOS INDEPENDIENTES QUE CELEBRAN POR
+          UNA PARTE GNOSIS CONSULTORÍA S.C., REPRESENTADA POR MARÍA DE LA LUZ
+          BALLESTEROS FLORES, A QUIEN EN LO SUCESIVO SE LE DENOMINARA COMO EL
+          “PRESTADOR”, Y POR OTRA PARTE {{empresas.empresa}} REPRESENTADA EN ESTE ACTO
+          POR {{empresas.nombre}} {{empresas.ape_pat}}  {{empresas.ape_mat}}, 
+          A QUIEN EN LO SUCESIVO SE LE DENOMINARA
+          COMO “{{empresas.empresa}}”, AL TENOR DE LAS SIGUIENTES DECLARACIONES Y
+          CLAUSULAS:
+        </p>
+        <p class="title">DECLARACIONES</p>
+        <p class="fontbold">
+          I.- Declara el PRESTADOR a través de su representante:
+        </p>
+
+        <table class="table-design">
+          <tr>
+            <td class="table-number" style="padding-bottom: 1.3cm">a)</td>
+            <td class="table-content">
+              Que es una sociedad civil constituida de conformidad a las leyes
+              mexicanas según consta en la Escritura Pública número 28,449 de
+              fecha 26 de Octubre de 2001, otorgada ante el Lic. Emmanuel
+              Villicaña Estrada, Notario Público Número 35 del Distrito Judicial
+              de Tlalnepantla, Estado de México y del Patrimonio del Inmueble
+              Federal. Instrumento debidamente inscrito en el Registro Público
+              de Personas Morales de Registro Publico de la Propiedad y de
+              Comercio del Distrito Federal, bajo el folio Número 28330166 de
+              fecha 17 de octubre de 2001.
+            </td>
+          </tr>
+          <tr style="padding-top: 0.5cm">
+            <td class="table-number" style="padding-bottom: 0.2cm">b)</td>
+            <td class="table-content">
+              Que es una sociedad debidamente registrada ante la Secretaría de
+              Hacienda y Crédito Público, con número de Registro Federal de
+              Contribuyentes GCO011026QC1.
+            </td>
+          </tr>
+
+          <tr style="padding-top: 0.5cm">
+            <td class="table-number" style="padding-bottom: 1.5cm">c)</td>
+            <td class="table-content">
+              Que cuenta con las facultades suficientes para celebrar el
+              presente Contrato, mismas que no le han sido revocadas ni
+              modificadas a la fecha, conforme a la Escritura Pública Número
+              28,449 de fecha 26 de Octubre de 2001, otorgada ante el Lic.
+              Emmanuel Villicaña Estrada, Notario Público Número 35 del Distrito
+              Judicial de Tlalnepantla, Estado de México y del Patrimonio del
+              Inmueble Federal. Instrumento debidamente inscrito en el Registro
+              Público de Personas Morales de Registro Publico de la Propiedad y
+              de Comercio del Distrito Federal, bajo el folio Número 283300166
+              de fecha 17 de octubre de 2001.
+            </td>
+          </tr>
+
+          <tr style="padding-top: 0.5cm">
+            <td class="table-number" style="padding-bottom: 2.25cm">d)</td>
+            <td class="table-content">
+              Que cuenta con la experiencia, capacidad y conocimientos para
+              desarrollar toda clase de actividades relacionadas con la
+              prestación de servicios de consultoría empresarial, de sistemas y
+              demás actividades conexas y tiene la capacidad técnica, humana,
+              financiera y legal para obligarse en los términos del presente
+              Contrato.
+
+              <br />
+              <br />
+              Que es su deseo celebrar el presente Contrato con “{{empresas.empresa}}” para
+              la prestación de los servicios establecidos en el presente para
+              los proyectos que “{{empresas.empresa}}” actualmente desarrolla.
+              <br />
+              <br />
+              <p class="fontbold">
+                II.- Declara “{{empresas.empresa}}” a través de su representante:
+              </p>
+            </td>
+          </tr>
+
+          <tr style="padding-top: 0.5cm">
+            <td class="table-number" style="padding-bottom: 0.4cm">a)</td>
+            <td class="table-content">
+              Que es una sociedad constituida de conformidad a las leyes
+              mexicanas según consta en la Escritura Pública número 43,663 de
+              fecha 18 de octubre de 1990, otorgada ante el Lic. Carlos A.
+              Yfarraguerri y Villareal, Notario Público Número 28 del Distrito
+              Federal.
+            </td>
+          </tr>
+        </table>
+      </section>
+      <section id="hoja2">
+        <br />
+
+        <p class="number" style="padding-top: 0.5cm; padding-bottom: 0.5cm">
+          2
+        </p>
+        <table class="table-design">
+          <tr>
+            <td class="table-number" style="padding-bottom: 0.25cm">b)</td>
+            <td class="table-content">
+              Que es una sociedad debidamente registrada ante la Secretaría de
+              Hacienda y Crédito Público, con número de Registro Federal de
+              Contribuyentes “{{dataBancariaEmpresa.rfc_clave}}”
+            </td>
+          </tr>
+          <tr style="padding-top: 0.5cm">
+            <td class="table-number" style="padding-bottom: 0.7cm">c)</td>
+            <td class="table-content">
+              Que cuenta con las facultades suficientes para celebrar el
+              presente Contrato, mismas que no le han sido revocadas ni
+              modificadas a la fecha, conforme a la Escritura Pública Número
+              38,711 de fecha 27 de Junio del 2008, otorgada ante el Lic. José
+              Daniel Labardini Schettino, Notario Público Número 86 del Distrito
+              Federal.
+            </td>
+          </tr>
+          <tr style="padding-top: 0.5cm">
+            <td class="table-number" style="padding-bottom: 0.7cm">d)</td>
+            <td class="table-content">
+              Que desea contratar los servicios del PRESTADOR referente a apoyos
+              puntuales como experto en Abastecimiento Estratégico.
+
+              <br />
+              <br />
+              En virtud de lo anterior las partes se sujetan a las siguientes:
+            </td>
+          </tr>
+        </table>
+        <p class="title" style="padding-top: 0.5cm; padding-bottom: 0.5cm">
+          CLÁUSULAS
+        </p>
+
+        <p class="fontbold">PRIMERA.- OBJETO DEL CONTRATO</p>
+        <p class="font-normal">
+          El PRESTADOR se obliga a proporcionar a “{{empresas.empresa}}” los servicios de
+          las siguientes maneras:
+        </p>
+
+        <table class="table-design">
+          <tr>
+            <td
+              class="table-number"
+              style="padding-bottom: 0.65cm; font-weight: bold"
+            >
+              (i)
+            </td>
+            <td class="table-content">
+              Esfuerzos de promoción y búsqueda de clientes.- que consistirá en
+              prestar sus servicios a {{empresas.empresa}} de manera puntual en reuniones
+              con clientes potenciales o actuales de {{empresas.empresa}}. Así como en
+              levantamientos de información para proyectos potenciales.
+            </td>
+          </tr>
+          <tr style="padding-top: 0.3cm">
+            <td
+              class="table-number"
+              style="padding-bottom: 0.2cm; font-weight: bold"
+            >
+              (ii)
+            </td>
+            <td class="table-content">
+              Proyectos.- prestando sus servicios a {{empresas.empresa}} en proyectos
+              específicos de sus clientes.
+            </td>
+          </tr>
+        </table>
+        <p>
+          El PRESTADOR reconoce y garantiza que sus servicios especificados en
+          el anexo I cumplen con los requerimientos y estándares que {{empresas.empresa}}
+          busca en los proyectos y que tiene los conocimientos necesarios para
+          tales fines.
+        </p>
+        <p class="fontbold">SEGUNDA.- CONTRAPRESTACIÓN.</p>
+        <p>
+          El PRESTADOR se obliga a ejecutar los trabajos objeto del presente
+          contrato a “{{empresas.empresa}}” y ésta se obliga a pagar al PRESTADOR el
+          importe pactado en pesos mexicanos en los Anexos correspondientes,
+          según el procedimiento que se establece en la cláusula Tercera de este
+          contrato.
+        </p>
+        <p class="fontbold">TERCERA.- FORMAS DE PAGO.</p>
+        <p>
+          El PRESTADOR llevará la cuenta de las horas y/o días que se trabajen
+          durante el mes, tanto en esfuerzos de promoción, así como en
+          proyectos, y al final de cada mes el PRESTADOR enviará su factura de honorarios a {{empresas.empresa}} en pesos mexicanos para proceder
+          a su pago, previa aprobación del Senior Executive a cargo de sus
+          actividades.
+        </p>
+      </section>
+      <section id="hoja3">
+        <br />
+
+        <p class="number" style="padding-top: 0.5cm; padding-bottom: 1cm">3</p>
+
+        <p style="line-height:3;">
+          Los pagos se cubrirán contra la presentación de las facturas
+          correspondientes a nombre de {{empresas.empresa}} los primeros cinco días
+          de cada mes, las cuales deberán cumplir con los requisitos fiscales
+          que fije la normatividad aplicable, las cuales se pagarán dentro de
+          los 30 (treinta) días hábiles siguientes a la fecha de su presentación
+          y previa aprobación por parte de “{{empresas.empresa}}”.
+        </p>
+        <p style="line-height:3;">
+          Los términos y condiciones de pago correspondientes a gastos de viaje
+          y de representación realizados por el PRESTADOR para el cumplimiento
+          del objeto del presente Contrato se cubrirán contra la presentación de
+          factura a nombre de {{empresas.empresa}}, la cual deberá cumplir con los
+          requisitos fiscales que fije la normatividad aplicable, la cual se
+          pagará dentro de los 30 (treinta) días hábiles siguientes a su fecha
+          de presentación, siempre y cuando estos gastos hubieran sido
+          previamente solicitados y/o previa aprobación por parte de
+          “{{empresas.empresa}}”.
+        </p>
+        <p style="line-height:3;">
+          Dichos pagos se realizarán a través de Transferencia Electrónica de
+          Fondos en la Institución de Crédito y bajo el número de cuenta que el
+          PRESTADOR tiene establecidos en su registro como proveedor de
+          “{{empresas.empresa}}”, dentro de la fecha estipulada anteriormente o en su
+          defecto mediante cheque.
+        </p>
+        <br />
+        <p class="fontbold">CUARTA.- VIGENCIA.</p>
+        <p style="line-height:3;">
+          El presente Contrato tendrá una vigencia de 1 (UNO) año a partir de la
+          fecha de firma del presente Contrato; transcurrido el plazo antes
+          mencionado, el presente Contrato podrá prorrogarse por otro 6 (seis)
+          meses de manera automática, siempre y cuando ninguna de las partes
+          manifiesto por escrito su deseo de dar por terminado la relación
+          contractual. ¿Que sucede si alguno de los anexos excede el tiempo del
+          contrato marco? Ó se hace un nuevo contrato dependiendo de cada
+          asignación con sus particularidades de cada una?
+        </p>
+        <p style="line-height:3;">
+          Cualquiera de las partes podrá darlo por terminado antes de dicha
+          fecha, siempre y cuando dé aviso a la otra por escrito con cuando
+          menos 15 (quince) días de anticipación. Si la terminación la ejerce el
+          PRESTADOR y ésta causa o pudiere causar atrasos o cualquier otro
+          incumplimiento en los proyectos, el PRESTADOR no podrá terminar el
+          presente contrato hasta tanto dichos atrasos o posibles
+          incumplimientos sean eliminados a petición de “{{empresas.empresa}}” y no
+          obstante cualquier terminación, el PRESTADOR deberá concluir a plena
+          satisfacción de “{{empresas.empresa}}” los trabajos requeridos por el propio
+          “{{empresas.empresa}}” al amparo del presente Contrato. En el entendido que ambas
+          partes cubran totalmente las obligaciones pendientes hasta la fecha
+          que establezca la terminación y se concluyan las obligaciones
+          descritas en los anexos del presente Contrato, incluyendo el pago de
+          los servicios prestados hasta la fecha en cuestión.
+        </p>
+        <br />
+        <p class="fontbold">
+          QUINTA.- OBLIGACIONES Y RESPONSABILIDADES DEL PRESTADOR.
+        </p>
+      </section>
+      <section id="hoja4">
+        <br />
+        <br>
+        <br>
+        <p class="number" style="padding-top: 0.5cm; padding-bottom: 1cm">4</p>
+        <p style="line-height:3;">
+          El PRESTADOR será responsable por la prestación de los servicios.
+          Cuando éstos no se hayan realizado de acuerdo a lo estipulado en el
+          presente Contrato o conforme a las órdenes o estándares de
+          “{{empresas.empresa}}”, el PRESTADOR deberá proceder a realizar de manera
+          inmediata la elaboración de los trabajos encomendados así como la
+          ejecución de todos aquellos trabajos adicionales que resulten
+          necesarios para el cumplimiento de las ordenes o estándares de calidad
+          de {{empresas.empresa}}, por los cuales no tendrán derecho a retribución
+          adicional alguna. En caso de no llevar a acabo estos trabajos o si los
+          trabajos no cumplen con el estándar de calidad de {{empresas.empresa}}, el
+          PRESTADOR se compromete a rembolsar a {{empresas.empresa}} los honorarios pagados
+          en relación directa con el trabajo materia del incumplimiento.
+        </p>
+        <p style="padding-top: 0.2cm">
+          El PRESTADOR se compromete a informar con treinta días de anticipación
+          las fechas en las que no estará disponible para colaborar con
+          {{empresas.empresa}}.
+        </p>
+        <p class="fontbold">SEXTA.- OBLIGACIONES DE “{{empresas.empresa}}”.</p>
+        <p style="padding-top: 0.2cm">
+          “{{empresas.empresa}}” se compromete al pago de la Contraprestación señalada en
+          la Cláusula Segunda del presente Contrato.
+        </p>
+        <p class="fontbold">SÉPTIMA.- FACULTADES DE “{{empresas.empresa}}”.</p>
+        <p style="padding-top: 0.2cm">
+          “{{empresas.empresa}}” tendrá en todo momento la facultad de coordinar y
+          supervisar, por sí misma o a través de terceros, los trabajos materia
+          del presente Contrato. La supervisión de ninguna manera debe
+          entenderse como aceptación de todos y cada uno de los trabajos del
+          PRESTADOR, ni disminución o liberación de su responsabilidad de
+          prestar adecuadamente los servicios.
+        </p>
+        <p style="padding-top: 0.2cm">
+          Para tal efecto el PRESTADOR deberá aportar todos los datos,
+          documentación y elementos de apoyo en general que le sean requeridos a
+          efecto de verificar que las labores se están ejecutando de acuerdo a
+          lo establecido y convenido en el presente Contrato.
+        </p>
+        <p class="fontbold">OCTAVA.- CONFIDENCIALIDAD.</p>
+        <p style="padding-top: 0.2cm">
+          Durante la prestación de los servicios, cada una de las partes tendrá
+          acceso a información (ya sea en original, copias o por cualquier medio
+          óptico o electrónico) que se relacione, de manera enunciativa más no
+          limitativa, con investigaciones, desarrollos, actividades de negocio,
+          productos, servicios y conocimientos técnicos, pasados, presentes y
+          futuros de la otra parte e información contable, fiscal, financiera,
+          etc. (la “Información Confidencial"). En relación con lo anterior, lo
+          siguiente aplicará:
+        </p>
+        <p style="padding-top: 0.2cm">
+          La Información Confidencial de la parte divulgadora podrá ser
+          utilizada por la parte receptora, únicamente en relación con los
+          servicios objeto del presente contrato.
+        </p>
+        <p style="padding-top: 0.2cm">
+          Cada una de las partes conviene en proteger la confidencialidad de la
+          Información Confidencial de la misma manera que protege su propia
+          información confidencial de naturaleza similar pero,  en ningún caso, ninguna de las partes implementará menos que el
+          cuidado razonable para proteger dicha Información Confidencial
+          consistente con las políticas de “{{empresas.empresa}}”. El acceso a la
+          Información Confidencial estará restringido al PRESTADOR y al personal
+          de “{{empresas.empresa}}” involucrado en el uso permitido conforme al presente
+          contrato.
+        </p>
+
+        <br>
+      </section>
+      <section id="hoja5">
+        <br>
+
+        <p class="number" style="padding-top: 0.5cm; padding-bottom: 1cm">5</p>
+
+        <p class="pt02">
+          La Información Confidencial no podrá ser copiada, reproducida o de
+          cualquier otra manera duplicada, sin el consentimiento previo y por
+          escrito del divulgador.
+        </p>
+        <p class="pt02">
+          Toda la Información Confidencial puesta a disposición conforme al
+          presente, incluyendo copias de la misma, será devuelta o destruida al
+          momento en que ocurra lo primero de:
+        </p>
+        <p class="pt02">
+          (a) Finalización de los servicios o (b) requerimiento del divulgador,
+          a menos que el receptor se encuentre de alguna otra manera facultado
+          para retener dicha Información Confidencial o la misma sea requerida
+          para continuar con la prestación adecuada de los servicios en
+          beneficio del Proyecto.
+        </p>
+        <p class="pt02">
+          Nada de lo contenido en este contrato prohíbe o limita a alguna de las
+          partes para utilizar información (incluyendo pero sin limitación,
+          ideas, conceptos, conocimientos técnicos, técnicas y metodologías):
+        </p>
+        <p class="pt02">
+          (i) previamente conocida por dicha parte, sin obligación de
+          confidencialidad, (ii) independientemente desarrollada por dicha
+          parte, sin violar obligaciones de confidencialidad, (iii) adquirida
+          por dicha parte de un tercero que no está sujeto a obligaciones de
+          confidencialidad respecto de dicha información, o (iv) que sea del
+          dominio público sin existir violaciones al presente.
+        </p>
+        <p class="pt02" style="line-height:3;">
+          Si cualquiera de las partes recibe un citatorio u otro requerimiento
+          procesal, ya sea administrativo o judicial válidamente emitido,
+          solicitando Información Confidencial de la otra parte, deberá dar de
+          inmediato aviso a la otra parte, al momento de recepción de dicho
+          requerimiento. La parte que reciba el citatorio estará facultada para
+          dar cumplimiento a dicho citatorio o cualquier otro proceso, en la
+          medida exigida por la ley. Los servicios proporcionados conforme al
+          presente, en ningún caso incluyen a “{{empresas.empresa}}” como perito, testigo o
+          de otra manera el proporcionar servicios de apoyo en un litigio.
+        </p>
+        <p class="pt02">
+          La presente obligación de confidencialidad permanecerá vigente 2 (dos)
+          años después de la fecha de terminación del presente Contrato.
+        </p>
+        <p class="fontbold" style="padding-top: 0.5cm">
+          NOVENA.- TERMINACIÓN ANTICIPADA.
+        </p>
+        <p class="pt02">
+          Las partes convienen en que el presente contrato se dará por terminado
+          anticipadamente en caso de que ocurra lo siguiente:
+        </p>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+      </section>
+      <section id="hoja 6">
+        <br>
+        <br>
+        <p class="number" style="padding-top: 0.5cm; padding-bottom: 1cm">6</p>
+        <table class="table-design">
+          <tr>
+            <td class="table-number" style="padding-bottom: 0.65cm">a)</td>
+            <td class="table-content">
+              Si previamente al otorgamiento de este contrato o durante su
+              ejecución, el PRESTADOR ha proporcionado datos falsos a
+              “{{empresas.empresa}}” y tal variación pueda afectar o limitar en cualquier
+              forma a juicio de “{{empresas.empresa}}”, el cumplimiento de las obligaciones
+              del presente contrato.
+            </td>
+          </tr>
+          <tr style="padding-top: 0.3cm">
+            <td class="table-number" style="padding-bottom: 0.2cm">b)</td>
+            <td class="table-content">
+              Si por causas imputables al PRESTADOR no se inician los trabajos
+              objeto del presente Contrato en la fecha convenida o si las mismas
+              se suspenden injustificadamente en forma definitiva y/o temporal o
+              si los trabajos no se cumplen en las fechas o en los plazos
+              establecidos en el presente.
+            </td>
+          </tr>
+          <tr style="padding-top: 0.3cm">
+            <td class="table-number" style="padding-bottom: 0.2cm">c)</td>
+            <td class="table-content">
+              Si el PRESTADOR se declara en concurso mercantil, hace cesión de
+              sus bienes o sufre intervención o embargo, civil, mercantil,
+              laboral o fiscal que pueda afectar el cumplimiento de este
+              Contrato.
+            </td>
+          </tr>
+
+          <tr style="padding-top: 0.3cm">
+            <td class="table-number" style="padding-bottom: 0.2cm">d)</td>
+            <td class="table-content">
+              Si en cualquier etapa de los trabajos el PRESTADOR no ejecuta los
+              trabajos o cualquiera de sus partes con estricto apego al
+              presupuesto y especificaciones, establecidas en el presente
+              Contrato y las instrucciones de “{{empresas.empresa}}”.
+            </td>
+          </tr>
+
+          <tr style="padding-top: 0.3cm">
+            <td class="table-number" style="padding-bottom: 0.2cm">e)</td>
+            <td class="table-content">
+              Si el PRESTADOR cede, enajena o grava en cualquier forma por
+              cualquier título, la totalidad o parte de los derechos de este
+              contrato y de los trabajos objeto del mismo.
+            </td>
+          </tr>
+
+          <tr style="padding-top: 0.3cm">
+            <td class="table-number" style="padding-bottom: 0.2cm">f)</td>
+            <td class="table-content">
+              Si el PRESTADOR no da a “{{empresas.empresa}}” las facilidades o información
+              necesaria para la correcta inspección, vigilancia y supervisión de
+              los trabajos encomendados.
+            </td>
+          </tr>
+
+          <tr style="padding-top: 0.3cm">
+            <td class="table-number" style="padding-bottom: 0.2cm">g)</td>
+            <td class="table-content">
+              En general, por el incumplimiento del PRESTADOR a cualquiera de
+              sus obligaciones derivadas del presente contrato y de su anexo, a
+              las leyes y reglamentos aplicables o a las instrucciones de
+              “{{empresas.empresa}}”.
+            </td>
+          </tr>
+        </table>
+        <p>
+          En caso de incurrir en cualquiera de las anteriores causales, o bien,
+          que el Contrato se dé por terminado por cualquier otra causa {{empresas.empresa}}
+          cubrirá, en caso de que se deba, en un término de 15 (quince) días
+          naturales contados a partir de la fecha en que se le requiera por
+          escrito la terminación del presente Contrato por cualquier causa las
+          obligaciones de pago hasta el último día de servicio efectuado.
+        </p>
+        <p class="fontbold">DÉCIMA.- TRANSFERENCIA ELECTRÓNICA.</p>
+        <p>
+          El PRESTADOR conviene en liberar a “{{empresas.empresa}}” por daños o perjuicios
+          derivados de las fallas que pudieran darse en la Transferencia
+          Electrónica de Fondos. En consecuencia, el PRESTADOR acepta que
+          “{{empresas.empresa}}” habrá cumplido con la obligación de pago a su cargo,
+          pactada en el presente Contrato, por haber hecho la Transferencia
+          Electrónica de Fondos a favor del PRESTADOR.
+        </p>
+        <p class="fontbold">
+          DÉCIMA PRIMERA.- NO RELACIÓN LABORAL Y CONTRATISTAS INDEPENDIENTES.
+        </p>
+        <p>
+          Las partes manifiestan y garantizan contar con los elementos propios
+          suficientes para el cumplimiento de las obligaciones que asumen con la
+          celebración del presente Contrato, por la que reconocen y aceptan en
+          forma expresa que son los únicos responsables de cumplir con todas las
+          obligaciones que derivan de la relación de trabajo entre ellas y sus
+          funcionarios,
+        </p>
+      </section>
+      <section id="hoja 7">
+        <br>
+        <p class="number" style="padding-top: 0.5cm; padding-bottom: 1cm">7</p>
+        <p>
+          agentes empleados y trabajadores, así como aquellas obligaciones que
+          se establezcan en la legislación en materia laboral, seguridad social,
+          vivienda, impuestos y en los contratos individuales o colectivos de
+          trabajo que le obligan o de cualesquiera otras disposiciones legales o
+          contractuales que sean aplicables a tales relaciones.
+        </p>
+        <p>
+          En consecuencia las partes se liberan recíprocamente de toda
+          responsabilidad derivada de cualquier reclamación de las relaciones de
+          trabajo entre las partes y sus trabajadores, empleados, contratistas y
+          agentes así como de cualquier tercero que intervenga en los servicios
+          y sus trabajadores y empleados.
+        </p>
+        <p>
+          Asimismo, las partes se obligan a rembolsar a la vista, de inmediato y
+          al primer requerimiento de la otra parte cualquier cantidad que ésta
+          última se vea precisada a erogar con motivo de reclamaciones
+          presentadas por trabajadores, contratistas, agentes y/o empleados de
+          la otra parte.
+        </p>
+        <p>
+          Cada una de las partes es un contratista independiente. Nada de lo
+          contemplado en el presente será considerado como la creación de una
+          co-inversión, sociedad, fideicomiso, agencia, comisión entre las
+          partes para cualquier fin. Las partes cuentan con personal propio y
+          capacitado para desempeñar las actividades que les son propias y por
+          tanto la presente relación contractual es de carácter mercantil.
+        </p>
+        <p class="fontbold">DÉCIMA SEGUNDA.- CESIÓN.</p>
+        <p>
+          Ninguna de las partes podrá ceder, por ningún motivo, los derechos u
+          obligaciones contenidos en el presente contrato sin la autorización
+          por escrito de la otra parte.
+        </p>
+        <p class="fontbold">DÉCIMA TERCERA.- SUPREMACÍA DEL CONTRATO.</p>
+        <p>
+          El presente contrato y los demás documentos aquí referidos constituyen
+          el convenio total entre “{{empresas.empresa}}” y el PRESTADOR en relación con la
+          prestación de los servicios descritos en el presente Contratos, por lo
+          que cualquier otra negociación, declaración o convenio fueren escritos
+          o verbales quedan sin efecto.
+        </p>
+        <p class="fontbold">DÉCIMA CUARTA.- DOMICILIOS.</p>
+        <p>
+          Las partes señalan como sus domicilios para efectos del presente
+          contrato los siguientes:
+        </p>
+        <table>
+          <tr>
+            <th class="fontbold-no-align">"{{empresas.empresa}}"</th>
+            <th class="fontbold-no-align">EL "PRESTADOR"</th>
+          </tr>
+          <tr style="padding-top: 0.15cm">
+            <th class="font-normal-no-align">
+              {{empresas.calle}} No. {{empresas.n_exterior}} Col. {{empresas.colonia}}
+            </th>
+            <th class="font-normal-no-align">
+              Azahares No. 14 Col. Santa María
+            </th>
+          </tr>
+          <tr style="padding-top: 0.15cm">
+            <th class="font-normal-no-align"></th>
+            <th class="font-normal-no-align">
+              Insurgentes, México D.F. C.P. 06430
+            </th>
+          </tr>
+          <tr style="padding-top: 0.15cm">
+            <th class="font-normal-no-align">C.P {{empresas.cod_post}} {{empresas.municipio}}</th>
+            <th class="font-normal-no-align">.</th>
+          </tr>
+          <tr style="padding-top: 0.15cm">
+            <th class="font-normal-no-align">Tel. {{empresas.telefono}}</th>
+            <th class="font-normal-no-align">Tel. 52 55 5583 3614</th>
+          </tr>
+          <tr style="padding-top: 0.15cm">
+            <th class="font-normal-no-align">Fax. {{empresas.fax}}</th>
+            <th class="font-normal-no-align">Fax. 52 55 57826205</th>
+          </tr>
+          <tr style="padding-top: 0.15cm">
+            <th class="font-normal-no-align">
+              Atención: {{atencion}}
+            </th>
+            <th class="font-normal-no-align">
+              Atención: María de la Luz Ballesteros Flores
+            </th>
+          </tr>
+        </table>
+        <br>
+      </section>
+
+      <section id="hoja 8 ">
+        <br>
+        <p class="number" style="padding-top: 0.5cm; padding-bottom: 1cm">8</p>
+        <table>
+          <tr>
+            <th class="font-normal-no-align">
+              Con copia: {{copia}}
+            </th>
+            <th class="font-normal-no-align">Con copia: Leonardo Medellín</th>
+          </tr>
+          <tr style="padding-top: 0.15cm">
+            <th class="font-normal-no-align">
+              Email: {{empresas.id_usuario.correo}}
+            </th>
+            <th class="font-normal-no-align">Email. marluzb@gnosismx.com</th>
+          </tr>
+        </table>
+        <p>
+          Todos los avisos y notificaciones que deban darse las partes, deberán
+          realizarse de forma indubitable, por escrito, en los domicilios y/o en
+          los números de facsímil señalados a continuación, a no ser que las
+          partes notifiquen su cambio de domicilio o número de facsímil en los
+          términos anteriores.
+        </p>
+        <p>
+          Los avisos y notificaciones dados entre las partes, se considerarán
+          efectivamente realizados (i) si se entregan personalmente, (ii) si se
+          envían por servicio de mensajería, en la fecha que el acuse de recibo
+          señale y/o, (iii) si se transmiten por vía facsímil, en la misma fecha
+          en que sean enviados, siempre y cuando el remitente cuente con un
+          comprobante de que la transmisión se efectuó correctamente y que los
+          confirme por servicio de mensajería o correo certificado.
+        </p>
+        <p>
+          Si cualquiera de las partes omitiera hacer del conocimiento de la otra
+          su cambio de domicilio o número de facsímil, se entenderá como
+          correctamente realizado el aviso o la notificación en el domicilio o
+          número de facsímil que arriba se menciona.
+        </p>
+        <p class="fontbold">DÉCIMA QUINTA.- SUBCONTRATACIÓN.</p>
+        <p>
+          El PRESTADOR acuerda y conviene que para subcontratar servicios de
+          terceros para el cumplimiento de sus obligaciones bajo el presente,
+          deberá obtener la previa autorización por escrito por parte de
+          “{{empresas.empresa}}”.
+        </p>
+        <p>
+          Por su parte, “{{empresas.empresa}}” está facultado para subcontratar
+          cualesquiera servicios de terceros para el cumplimiento de sus
+          obligaciones aún y cuando dichos servicios sean similares o iguales a
+          los que presta el PRESTADOR.
+        </p>
+        <p class="fontbold">DÉCIMA SEXTA.- INDEMNIZACIÓN.</p>
+        <p>
+          El PRESTADOR se obliga a indemnizar, defender y sacar en paz y a salvo
+          a “{{empresas.empresa}}” de cualquier reclamación, demanda, daños y/o perjuicios,
+          gastos y honorarios razonables de abogados en su contra o que tenga
+          que pagar por virtud de cualquier acto u omisión atribuible al
+          PRESTADOR.
+        </p>
+        <p class="fontbold">
+          DÉCIMA SÉPTIMA.- PROPIEDAD INTELECTUAL DE LOS TRABAJOS.
+        </p>
+        <p>
+          Toda vez que los trabajos derivados del presente Contrato constituyen
+          un trabajo por encargo para todos los efectos legales, el PRESTADOR se
+          compromete a ceder todos los derechos de propiedad intelectual sobre
+          los trabajos en favor de “{{empresas.empresa}}”.
+        </p>
+        <p>
+          Para ello, el PRESTADOR se obliga a firmar a {{empresas.empresa}} cualesquiera
+          documentos necesarios para formalizar lo anterior conforme a
+          legislación mexicana.
+        </p>
+        <br>
+        <br>
+      </section>
+      <section id="hoja 9">
+        <br>
+        <br>
+        <p class="number" style="padding-top: 0.5cm; padding-bottom: 1cm">9</p>
+        <p class="fontbold">
+          DÉCIMA OCTAVA.- INDEMNIZACIÓN POR VIOLACIÓN A PROPIEDAD INTELECTUAL DE
+          TERCEROS.
+        </p>
+        <p>
+          “{{empresas.empresa}}” se compromete a notificar de inmediato por escrito al
+          PRESTADOR sobre cualquier reclamación de terceros en contra de
+          “{{empresas.empresa}}” argumentando que cualesquiera de los trabajos del
+          PRESTADOR, infringe un derecho de propiedad intelectual de terceros,
+          el PRESTADOR defenderá dicha reclamación a su propio costo, y pagará
+          cualesquiera daños y perjuicios (incluyendo honorarios de abogados) a
+          que sean condenados o erogados por “{{empresas.empresa}}”.
+        </p>
+        <p class="fontbold">DÉCIMA NOVENA.- LÍMITE DE RESPONSABILIDAD.</p>
+        <p>
+          El limite máximo de responsabilidad (incluyendo de manera enunciativa
+          más no limitativa daños directos, indirectos, perjuicios o cualquier
+          lucro cesante) de las partes para efectos del presente Contrato, serán
+          las cantidades efectivamente pagadas por “{{empresas.empresa}}” al PRESTADOR al
+          momento del incumplimiento de “{{empresas.empresa}}” de sus obligaciones
+          derivadas del presente Contrato, salvo las cantidades pactadas como
+          penas convencionales en el presente instrumento.
+        </p>
+        <p class="fontbold">VIGÉSIMA.- CONTRATACIÓN DE PERSONAL.</p>
+        <p>
+          El PRESTADOR, se compromete a no contratar, durante la vigencia del
+          presente contrato a personal de {{empresas.empresa}}; salvo que dicha
+          contratación se haga mediante acuerdo por escrito entre {{empresas.empresa}} y EL
+          PRESTADOR.
+        </p>
+        <p>
+          El incumplimiento por parte del PRESTADOR a la presente cláusula será
+          causa de rescisión del presente contrato sin perjuicio alguno para
+          {{empresas.empresa}} y sin necesidad de declaración judicial; adicionalmente a la
+          rescisión del contrato EL PRESTADOR se obliga a pagar a {{empresas.empresa}} sin
+          necesidad de declaración judicial la cantidad que resulte del monto
+          del sueldo de dos (2) meses del empleado, calculado sobre la base de
+          los dos últimos meses de sueldo (en lo sucesivo “PENA DE LEALTAD”). La
+          PENA DE LEALTAD se deberá de liquidar en un término de 30 (treinta)
+          días hábiles a partir de la notificación que le hiciere {{empresas.empresa}} al
+          PRESTADOR. de no realizar el pago de la PENA DE LEALTAD en el termino
+          estipulado, EL PRESTADOR autoriza en este acto a {{empresas.empresa}} para que se
+          descuente de su facturación el total de la PENA DE LEALTAD.
+        </p>
+        <p>
+          {{empresas.empresa}}, se compromete a no contratar, durante la vigencia del
+          presente contrato a personal de EL PRESTADOR; salvo que dicha
+          contratación se haga mediante acuerdo por escrito entre {{empresas.empresa}} y EL
+          PRESTADOR.
+        </p>
+        <p>
+          En caso de incumplimiento por parte de {{empresas.empresa}} a la presente
+          cláusula, {{empresas.empresa}} se obliga a pagar Al PRESTADOR sin necesidad de
+          declaración judicial la cantidad que resulte del monto del sueldo de
+          dos (2) meses del empleado, calculado sobre la base de los dos últimos
+          meses de sueldo (en lo sucesivo “PENA DE LEALTAD”). La PENA DE LEALTAD
+          se deberá de liquidar en un término de 30 (treinta) días hábiles a partir
+          de la notificación que le hiciere el PRESTADOR a {{empresas.empresa}}.
+        </p>
+        <br>
+        <br>
+      </section>
+      <section id="hoja 10">
+        <br>
+        <br>
+        <br>
+        <br>
+        <p class="number" style="padding-top: 0.5cm; padding-bottom: 1cm">10</p>
+        <p class="fontbold">VIGÉSIMA PRIMERA.- LEY APLICABLE Y JURISDICCION.</p>
+        <p>
+          Las partes convienen que en el caso de que surja una disputa o
+          desacuerdo en relación con el presente, antes de iniciar cualquier
+          tipo de procedimiento judicial, trabajarán conjuntamente de buena fe
+          para primeramente resolver el asunto internamente conforme a lo
+          siguiente:
+        </p>
+        <p>
+          Las partes convienen en escalar cualquier disputa a niveles de
+          administración más altos y posteriormente de ser necesario, utilizar
+          alternativas de solución mutuamente acordadas antes de optar por un
+          procedimiento judicial. Asimismo, las partes acuerdan expresamente que
+          el presente Contrato y los Servicios que del mismo se deriven estarán
+          regulados por la legislación aplicable en México. Finalmente las
+          partes se someten expresamente a la jurisdicción de los tribunales
+          competentes en la ciudad de México, D.F., renunciando expresamente a
+          cualquier otro fuero que por razón de sus domicilios presentes o
+          futuros pudiera corresponderles.
+        </p>
+        <p class="fontbold">
+          ENTERADAS LAS PARTES Y MANIFESTANDO SU CONFORMIDAD DE SU CONTENIDO Y
+          ALCANCE LEGAL, SE FIRMA POR TRIPLICADO EN LA CIUDAD DE MEXICO,
+          DISTRITO FEDERAL, EL DÍA {{fechaFirma}}.
+        </p>
+        <table>
+          <tr>
+            <th class="font-normal-no-align">"GNOSIS CONSULTORÍA S.C."</th>
+            <th class="font-normal-no-align">{{empresas.empresa}}, S.C.</th>
+          </tr>
+        </table>
+
+        <table>
+          <tr>
+            <th>__________________________________</th>
+            <th>________________________</th>
+          </tr>
+          <tr>
+            <th class="font-normal-no-align">
+              María de la Luz Ballesteros Flores
+            </th>
+            <th class="font-normal-no-align">{{empresas.nombre}} {{empresas.ape_pat}} {{empresas.ape_mat}}</th>
+          </tr>
+        </table>
+      </section>
+    </div>
+  </body>
+</html>

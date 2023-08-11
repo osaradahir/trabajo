@@ -16,7 +16,17 @@
     box-shadow: rgba(0, 0, 0, 0.1) 4px 0px 12px;
     height: 71px;
   }
+  span.swal2-x-mark {
+    background-color: transparent;
+  }
+
+  .datepicker-date-display .date-text {
+    background-color: #26a69a;
+  }
   
+  .datepicker-date-display .year-text{
+    background-color: #26a69a;
+  }
   nav * {
     background-color: white;
   }
@@ -39,7 +49,7 @@
     left: 0px;
     top: 71px;
     position: absolute;
-    height: 2900px;
+    height: 3100px;
   }
   
   #sidebar ul li {

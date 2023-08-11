@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <link rel="stylesheet" href="{% static 'css/proyectosBase.css' %}?v=1.4" />
+  <link rel="stylesheet" href="{% static 'css/proyectosBase.css' %}?v=1.5" />
   <link rel="stylesheet" href="{% static 'css/notifications.css' %}?v=1.1" />
   <!-- AXIOS -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -72,8 +72,9 @@
   <!-- Dropdown Structure -->
   <ul id="dropdown1" class="dropdown-content">
     <li><a href="{% url 'my_projectsCreateds' %}">Principal</a></li>
-    <li><a href="">Proyectos</a></li>
-    <li><a href="">Negociación</a></li>
+    <li><a href="#">Proyectos</a></li>
+    <li><a href="#">Negociación</a></li>
+    <li><a href="{% url 'datosBancarios' %}">Datos bancarios</a></li>
     <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
   </ul>
 
@@ -128,13 +129,13 @@
       {% endif %}
 
       {% if indice == 'Proyectos' %}
-      <li class="active-position" onclick="window.location.href = 'proyectos';">
+      <li class="active-position" >
         <span class="active-position-span"> <i class="material-icons">dashboard</i></span>
         &nbsp;Proyectos &nbsp;<span class="active-position-span" style="margin-top:6px;"><i
             class="material-icons">expand_more</i></span>
       </li>
       {% else %}
-      <li onclick="window.location.href = 'proyectos';">
+      <li >
         <span> <i class="material-icons">dashboard</i></span>
         &nbsp;Proyectos &nbsp;<span class="material-icons" style="margin-top:6px;">
           expand_more
@@ -143,11 +144,11 @@
       {% endif %}
 
       {% if indice == 'Negociación' %}
-      <li class="active-position" onclick="window.location.href = 'inmuebles';">
+      <li class="active-position" >
         <span class="active-position-span"> <i class="material-icons">work</i></span>&nbsp;Negociación
       </li>
       {% else %}
-      <li onclick="window.location.href = 'inmuebles';">
+      <li>
         <span> <i class="material-icons">work</i></span>&nbsp;Negociación
       </li>
       {% endif %}
@@ -157,7 +158,7 @@
 
   {% endblock %}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="{% static 'js/baseProyectos.js' %}?v=1.2"></script>
+  <script src="{% static 'js/baseProyectos.js' %}?v=1.4"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var elems = document.querySelectorAll('.dropdown-trigger');

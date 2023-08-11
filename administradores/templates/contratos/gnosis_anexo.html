@@ -1,0 +1,254 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="cv in pdf" />
+    <title>GNOSIS ANEXO-{{empresas.empresa}}</title>
+  </head>
+
+  <style>
+    p {
+      line-height: 1.2;
+      font-size: 10pt;
+    }
+
+    body {
+      margin-left: 1.5cm;
+      margin-right: 1.5cm;
+      text-align: justify;
+      font-size: 12pt;
+    }
+
+    .title {
+      font-family: "Arial";
+      font-size: 10pt;
+      font-weight: bold;
+      text-align: center;
+      color: black;
+      line-height: 1;
+    }
+
+    .font-normal {
+      font-family: "Arial";
+      font-size: 10pt;
+      text-align: justify;
+      color: black;
+      line-height: 1;
+    }
+
+    .font-normal-no-align {
+      font-family: "Arial";
+      font-size: 10pt;
+      color: black;
+      line-height: 1;
+    }
+
+    .fontbold {
+      font-family: "Arial";
+      font-size: 10pt;
+      font-weight: bold;
+      text-align: justify;
+      color: black;
+      line-height: 1;
+    }
+
+    .fontbold-no-align {
+      font-family: "Arial";
+      font-size: 10pt;
+      font-weight: bold;
+      color: black;
+      line-height: 1;
+    }
+
+    .number {
+      font-family: "Arial";
+      font-size: 10pt;
+      text-align: right;
+      color: black;
+      line-height: 1;
+    }
+
+    .divider {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    .table-design {
+      font-size: 10pt;
+      width: 100%;
+      margin-left: 1cm;
+    }
+
+    .table-number {
+      font-family: "Courier New", monospace;
+      font-weight: bold;
+      font-size: 10pt;
+      width: 2cm;
+      text-align: end;
+    }
+
+    .table-bold {
+      text-align: left;
+      width: 255px;
+      font-size: 10pt;
+    }
+
+    .table-content {
+      text-align: left;
+      font-size: 10pt;
+      font-weight: normal;
+    }
+  </style>
+
+  <body>
+    <div class="container">
+      <section id="hoja1">
+        <p class="title">ANEXO UNO</p>
+        <p class="fontbold">
+          ANEXO AL CONTRATO DE PRESTACIÓN DE SERVICIOS INDEPENDIENTES CELEBRADO
+          ENTRE GNOSIS CONSULTORÍA S.C. (GNOSIS) Y {{empresas.empresa}}({{empresas.empresa}}),
+          EN FECHA {{fechaFirma}}.
+        </p>
+        <p>
+          El Contrato de prestación de servicios independientes del presente
+          Anexo, únicamente será valido si Gnosis Consultaría S.C. cumple con
+          los siguientes requerimientos y especificaciones:
+        </p>
+        <p class="fontbold" style="text-decoration: underline">
+          REQUERIMIENTO Y ESPECIFICACIONES DEL SERVICIO.
+        </p>
+        <p>
+          Gnosis Consultoría S.C. se compromete asignar a {{usuarios.id_persona.nombre}} {{usuarios.id_persona.ape_pat}} {{usuarios.id_persona.ape_mat}}
+          para trabajar en el proyecto por el cual {{clientes_empresas.empresa_nombre}} contrato los
+          servicios de {{empresas.empresa}}.
+        </p>
+
+        <table>
+          <tr>
+            <th class="table-bold">Nombre del Consultor</th>
+            <th class="table-content">{{usuarios.id_persona.nombre}} {{usuarios.id_persona.ape_pat}} {{usuarios.id_persona.ape_mat}}</th>
+          </tr>
+          <tr>
+            <th class="table-bold">Cargo</th>
+            <th class="table-content">{{cargo}}</th>
+          </tr>
+          <tr>
+            <th class="table-bold">Especialidad</th>
+            <th class="table-content">Consultor {{consultor.especialidad}}</th>
+          </tr>
+          <tr>
+            <th class="table-bold">Nivel</th>
+            <th class="table-content">{{consultor.id_nivel.nombre}}</th>
+          </tr>
+          <tr>
+            <th class="table-bold">Actividades</th>
+
+            <th class="table-content">
+              {% if act_1 and descripcion_1 %}
+                <p class="fontbold">{{act_1}}:</p>
+                <p>
+                  {{descripcion_1}}
+                </p>
+              {% endif %}
+              {% if act_2 and descripcion_2 %}
+                <p class="fontbold">{{act_2}}:</p>
+                <p>
+                  {{descripcion_2}}
+                </p>
+              {% endif %}
+              {% if act_3 and descripcion_3 %}
+                <p class="fontbold">{{act_3}}:</p>
+                <p>
+                  {{descripcion_3}}
+                </p>
+              {% endif %}
+              {% if act_4 and descripcion_4 %}
+                <p class="fontbold">{{act_4}}:</p>
+                <p>
+                  {{descripcion_4}}
+                </p>
+              {% endif %}
+            </th>
+          </tr>
+          <tr>
+            <th class="table-bold">Inicio Contratación</th>
+            <th class="table-content">{{fechaInicio}}</th>
+          </tr>
+          <tr>
+            <th class="table-bold">Termino de Contratación</th>
+            <th class="table-content">{{fechaFinal}}</th>
+          </tr>
+          <tr>
+            <th class="table-bold">Tarifa por día *</th>
+            <th class="table-content">${{contratos.tarifa_dia}} MXN</th>
+          </tr>
+          <tr>
+            <th class="table-bold">Viáticos</th>
+            <th class="table-content">
+              Los Gastos y Viáticos serán cubiertos según las políticas de
+              {{empresas.empresa}}.
+            </th>
+          </tr>
+          <tr>
+            <th class="table-bold">Proyecto y/o Cliente</th>
+            <th class="table-content">{{clientes_empresas.empresa_nombre}}</th>
+          </tr>
+          <tr>
+            <th class="table-bold">Gerente del proyecto</th>
+            <th class="table-content">{{contratos.gerente}}</th>
+          </tr>
+        </table>
+        <p>
+          * La tarifa por día se encuentra estipulada en Pesos Mexicanos. Todas
+          las cantidades en las facturas deben de ser en pesos mexicanos.
+        </p>
+        <p>
+          <span class="fontbold">Días adicionales:</span>
+          <span class="font-normal"
+            >Los servicios no serán prestados en horarios o días inhábiles,
+            salvo la previa autorización por escrito por parte del Cliente de
+            {{empresas.empresa}} y del responsable del proyecto. Los días adicionales serán
+            facturados a la tarifa previamente establecida.</span
+          >
+        </p>
+      </section>
+      <section id="hoja 2">
+        <br />
+        <br />
+        <br />
+        <br />
+        <p>
+          Una vez leído por las partes el presente Anexo y enterados del
+          contenido y alcance legal, declaran que no existen vicios del
+          consentimiento que pudieren invalidar o nulificar el presente
+          documento y/o el Contrato y se firma por triplicado en la Ciudad de
+          México el {{fechaFirma}}
+        </p>
+        <table>
+          <br />
+          <tr>
+            <th class="fontbold-no-align">{{empresas.empresa}}.</th>
+            <th class="fontbold-no-align">GNOSISS CONSULTORÍA S.C.</th>
+          </tr>
+        </table>
+        <table>
+          <br />
+          <tr>
+            <th>______________________________________</th>
+            <th>______________________________________</th>
+          </tr>
+          <tr>
+            <th class="font-normal-no-align">{{ empresas.nombre|upper }} {{ empresas.ape_pat|upper }} {{ empresas.ape_mat|upper }}</th>
+
+            <th class="font-normal-no-align">
+              MARIA DE LA LUZ BALLESTEROS FLORES
+            </th>
+          </tr>
+        </table>
+        <table></table>
+      </section>
+    </div>
+  </body>
+</html>

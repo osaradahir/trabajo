@@ -1,0 +1,306 @@
+{% extends 'baseProyectos.html' %}
+{% load static %}
+
+{% block Content %}
+<style>
+    .dropdown-trigger:hover,
+    .dropdown-trigger-link:hover {  
+      background-color: inherit;
+      transform: none;
+    }
+  
+</style>
+<section class="container-poyectos">
+<div class="container" style="margin-top:20px; width:80%;">
+    <div class="row" style="background-color: transparent;">
+
+        <!-- CONTROL PAGES -->
+        <div class="col l4 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">
+            <a href="">Principal</a> 
+            <a class="grey-text pl7">/</a>
+            <a class="grey-text pl7">Mi Cuenta Bancaria</a>
+        </div>
+
+
+        <!-- TITLE -->
+        <div class="col s12 ">
+            <h3 class="blue-text col l12 s12 text-darken-4" >Mi Cuenta Bancaria</h3>
+        </div>
+
+
+        <!-- LEYEND -->
+        <div class="col s12">
+            <span class="grey-text" style="font-size:14pt; background-color:transparent;">Agregue, cambie y actualize sus datos bancarios</span>
+        </div>
+        
+    </div>
+</div>
+
+
+<div class="container" style="margin-top:20px; width:80%;">
+    <div class="row">
+        <div class="col s12 l12 white pbtm20" style="padding-top: 1cm;">
+            <div class="aligner" style="margin-left: 1cm; margin-right: 1cm;">
+                <div class="col s12 l12 pbtm20" >
+                    <form method="POST">
+                        {% csrf_token %}
+                        <!-- CUENTAAMBIENTE -->
+                        <div class="input-field col s12 l4 ">
+                            <label for="cuentambiente" data-error="wrong" data-success="right"
+                            >Cuentambiente*</label>
+                            <input
+                            id="cuentambiente"
+                            name="cuentambiente"
+                            type="text"
+                            class="validate"
+                            pattern="[A-Za-záéíóúñÑ\s]{3,25}"
+                            minlength="3"
+                            maxlength="25"
+                            title="Use solo letras con un minimo de 3 caracteres"
+                            required
+                            />                        
+                        </div>
+
+
+                        <!-- BANCO -->
+                        <div class="input-field col s12 l4">
+                            <label for="banco" data-error="wrong" data-success="right"
+                            >Banco*</label>
+                            <input
+                            id="banco"
+                            name="banco"
+                            type="text"
+                            class="validate"
+                            pattern="[A-Za-záéíóúñÑ\s]{3,25}"
+                            minlength="3"
+                            maxlength="25"
+                            title="Use solo letras con un minimo de 3 caracteres"
+                            required
+                            />                           
+                        </div>
+
+                        <!-- TIPO CUENTA -->
+                        <div class="input-field col s12 l4">
+                            <select name="tipoCuenta" required>
+                                <option value="" disabled selected>*Elige*</option>
+                                <option value="Nomina">Nomina</option>
+                                <option value="Corriente">Corriente</option>
+                                <option value="Ahorro">Ahorro</option>
+                            </select>
+                            <label>Por favor escoje tu tipo de cuenta.*</label>
+                        </div>
+
+                        <!-- NO.CUENTA -->
+                        <div class="input-field col s12 l4">
+                            <label for="no_cuenta" data-error="wrong" data-success="right"
+                            >No Cuenta*</label>
+                            <input
+                            id="no_cuenta"
+                            name="no_cuenta"
+                            type="text"
+                            class="validate"
+                            minlength="16"
+                            maxlength="16"
+                            title="Use solo numeros, 16 digitos"
+                            required
+                            />                            
+                        </div>
+
+                        <!-- EJECUTIVO DE CUENTA -->
+                        <div class="input-field col s12 l4">
+                            <label for="ejecutivo_cuenta" data-error="wrong" data-success="right"
+                            >Ejecutivo de Cuenta</label>
+                            <input
+                            id="ejecutivo_cuenta"
+                            name="ejecutivo_cuenta"
+                            type="text"
+                            class="validate"
+                            pattern="[A-Za-záéíóúñÑ\s]{3,25}"
+                            minlength="3"
+                            maxlength="25"
+                            title="Use solo letras con un minimo de 3 caracteres"
+                            required
+                            />                
+                        </div>
+                        
+                        <!-- TELEFONO DEL EJECUTIVO -->
+                        <div class="input-field col s12 l4">
+                            <label for="telefono_ejecutivo" data-error="wrong" data-success="right">Telefono de ejecutivo</label>
+                            <input id="telefono_ejecutivo" name="telefono_ejecutivo" type="tel" class="validate"
+                                pattern="[0-9]{3}[ -][0-9]{3}[ -][0-9]{4}"
+                                title="Use solo numeros y deje un espacio entre las series de digitos: 000-000-0000"
+                                required />                        
+                        </div>
+
+                        <!-- SUCURSAL -->
+                        <div class="input-field col s12 l4">
+                            <label for="sucursal" data-error="wrong" data-success="right"
+                            >Sucursal*</label>
+                            <input
+                            id="sucursal"
+                            name="sucursal"
+                            type="text"
+                            class="validate"
+                            minlength="3"
+                            maxlength="25"
+                            title="Use solo letras con un minimo de 3 caracteres"
+                            required
+                            />
+                        </div>
+
+                        <!-- CORREO EJECUTIVO -->
+                        <div class="input-field col s12 l4">
+                            <label for="correo_ejecutivo" data-error="wrong" data-success="right"
+                            >Correo Ejecutivo</label
+                            >
+                            <input
+                            id="correo_ejecutivo"
+                            name="correo_ejecutivo"
+                            type="email"
+                            class="validate"
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                            title="Coloque @"
+                            required
+                            />                        
+                        </div>
+
+                        
+                        <!-- CLAVE -->
+                        <div class="input-field col s12 l4">
+                            <label for="clave" data-error="wrong" data-success="right">Clave</label>
+                            <input id="clave" name="clave" type="password" class="validate" minlength="8" maxlength="16"
+                            title="Use letras y numeros, minimo 8 caracteres para la contraseña" required>               
+                        </div>
+
+                        <!-- DIA DE CORTE -->
+                        <div class="input-field col s12 l4">
+                            <input id="año_inicio" name="dia_corte" type="text" class="datepicker" required style="display:true" />
+                            <label for="first_name">Dia de Corte</label>
+                        </div>
+
+                        <!-- ACTIVO -->
+                        <div class="col s12 m4 input-field">
+                            <label>
+                                <input name="chec" type="checkbox" id="chec" onChange="comprobar(this);" value="ON" />
+                                <span>Activo</span>
+                            </label>
+                        </div>
+
+                        <!-- DESCRIPCION -->
+                        <div class="input-field col s12 m12">
+                            <label for="descripcion" data-error="wrong" data-success="right">Descripción</label>
+                                <textarea
+                                id="descripcion"
+                                name="descripcion"
+                                type="text"
+                                class="materialize-textarea"
+                                pattern="[A-Za-z \s]{4,25}"
+                                minlength="5"
+                                maxlength="120"
+                                title="Maximo 500 caracteres"
+                                required
+                                ></textarea>                        
+                        </div>
+
+                        <!-- BUTTONS -->
+                        <div class="col s12 l12 white center pbtm20">
+                            <button class="btn-large red arken-3 waves-effect waves-light" type="reset" name="action">
+                                Cancelar
+                                <i class="material-icons right white-text" style="background-color: transparent;">cancel</i>
+                            </button>
+                            <button class="btn-large blue darken-3 waves-effect waves-light" type="submit" name="action">
+                                Guardar
+                                <i class="material-icons right white-text" style="background-color: transparent;">save</i>
+                            </button>
+                        </div>
+                        <br>
+                    </form>
+                    <br>
+                </div>
+                <br>
+            </div>
+            <br>
+        </div>
+        <br>
+    </div>
+    <br>
+</div>
+
+</section>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var dates = document.querySelectorAll(".datepicker");
+        M.Datepicker.init(dates, {
+            format: "yyyy-mm-dd",
+            setDefaultDate: true,
+            defaultDate: new Date(2000, 0, 1),
+            autoClose: true,
+            showClearBtn: true,
+            firstDay: 1,
+            minDate: new Date(1959, 1, 12),
+            maxDate: new Date(2056, 1, 12),
+            i18n: {
+                cancel: "Cancelar",
+                clear: "Limpiar",
+                done: "Listo",
+                today: "Hoy",
+                previousMonth: "Mes anterior",
+                nextMonth: "Siguiente mes",
+                months: [
+                    "Enero",
+                    "Febrero",
+                    "Marzo",
+                    "Abril",
+                    "Mayo",
+                    "Junio",
+                    "Julio",
+                    "Agosto",
+                    "Septiembre",
+                    "Octubre",
+                    "Noviembre",
+                    "Diciembre",
+                ],
+                monthsShort: [
+                    "Ene",
+                    "Feb",
+                    "Mar",
+                    "Abr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Ago",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dic",
+                ],
+                weekdays: [
+                    "Domingo",
+                    "Lunes",
+                    "Martes",
+                    "Miércoles",
+                    "Jueves",
+                    "Viernes",
+                    "Sábado",
+                ],
+                weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+                weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+            },
+            onClose: function () {
+                setTimeout(function () {
+                    
+                }, 1000);
+            },
+        });
+    });
+    // Inicializar el select
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+    });
+    
+</script>
+{% endblock Content %}

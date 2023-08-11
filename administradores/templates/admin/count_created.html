@@ -1,0 +1,35 @@
+{% extends 'baseAdministradorForAdmin.html' %}
+{% load static %}
+{% block Content %}
+<main class="container">
+  <div class="col l12 center">
+    <div class="co l12">
+      <h3>
+        <b style="font-size: 46px;">¡LA CUENTA PARA {{user}} HA SIDO CREADA!</b>
+        <br />
+        <b class="blue-text text-darken-4" style="font-size: 24px;"
+          >TODO LISTO, REVISA SU PERFIL AHORA.</b
+        >
+      </h3>
+
+      <a
+        href="{% url 'logout' %}"
+        class="btn-large grey darken-3 waves-effect waves-light"
+       
+      >
+        VER PERFIL
+      </a>
+      <br> <br>
+      <div class="col l12">
+        <img
+          class="responsive-img"
+          style="height: 40%; width: 50%"
+          src="{% static 'images/celebrate.png' %}"
+          alt="Gnosis logo"
+        />
+      </div>
+    </div>
+  </div>
+</main>
+<script src="{% static 'js/notifications.js' %}?v=4.8"></script>
+{% endblock %}

@@ -1031,6 +1031,33 @@ document
     // Obtén el formulario
     var form = document.getElementById("update-information-personal");
 
+    // Validar los campos utilizando los patrones
+    var inputs = form.querySelectorAll("input[pattern]");
+    var valid = true;
+
+    inputs.forEach(function (input) {
+      var pattern = new RegExp(input.getAttribute("pattern"));
+      var value = input.value;
+      
+      if (!pattern.test(value)) {
+        valid = false;
+        // Realiza acciones en caso de que no cumpla con el patrón, como mostrar un mensaje de error
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Constesta los formularios adecuadamente!',
+        })
+      }
+    });
+
+    if (!valid) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Constesta los formularios adecuadamente!',
+      })
+      return;
+    }
     // Crea un objeto FormData para recopilar los datos del formulario
     var formData = new FormData(form);
 
@@ -1073,7 +1100,32 @@ function updateEducacion(event) {
   event.preventDefault();
   // Obtén el formulario
   var form = document.getElementById("form-update-educacion");
-
+    // Validar los campos utilizando los patrones
+    var inputs = form.querySelectorAll("input[pattern]");
+    var valid = true;
+  
+    inputs.forEach(function (input) {
+      var pattern = new RegExp(input.getAttribute("pattern"));
+      var value = input.value;
+        
+      if (!pattern.test(value)) {
+        valid = false;
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Constesta los formularios adecuadamente!',
+        })
+      }
+     });
+  
+    if (!valid) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Constesta los formularios adecuadamente!',
+      })
+      return;
+    }
   // Crea un objeto FormData para recopilar los datos del formulario
   var formData = new FormData(form);
 
@@ -1115,6 +1167,34 @@ function updateEducacion(event) {
 function updateExperiencia() {
   // Obtén el formulario
   var form = document.getElementById("form-update-experiencia");
+
+
+  // Validar los campos utilizando los patrones
+  var inputs = form.querySelectorAll("input[pattern]");
+  var valid = true;
+
+  inputs.forEach(function (input) {
+    var pattern = new RegExp(input.getAttribute("pattern"));
+    var value = input.value;
+      
+    if (!pattern.test(value)) {
+      valid = false;
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Constesta los formularios adecuadamente!',
+      })
+    }
+   });
+
+  if (!valid) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Constesta los formularios adecuadamente!',
+    })
+    return;
+  }
 
   // Crea un objeto FormData para recopilar los datos del formulario
   var formData = new FormData(form);
@@ -1197,12 +1277,19 @@ function saveKindMoney() {
 }
 
 function saveCostHour() {
+  console.log('Hola');
   // Obtén el formulario
   var form = document.getElementById("update-manera-cobro");
 
-  // Crea un objeto FormData para recopilar los datos del formulario
-  var formData = new FormData(form);
+  var hora = document.getElementById('updateHora').value;
+  var valorNumerico = parseFloat(hora);
 
+  if(valorNumerico<=0){
+    return 0;
+  }
+
+  
+  var formData = new FormData(form);
   // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
   fetch("updateconsultorinformation", {
     method: "POST",
@@ -1245,6 +1332,22 @@ document
 
     // Obtén el formulario
     var form = document.getElementById("update-rfc-honorarios");
+    var rfcInput = form.querySelector("input[name='RFC']");
+    var rfcValue = rfcInput.value;
+    var rfcPattern = /^[A-Z,Ñ&]{3,4}[0-9]{2}[0-1][0-9][0-3][0-9][A-Z,0-9]?[A-Z,0-9]?[0-9,A-Z]?$/;
+
+    if (rfcPattern.test(rfcValue)) {
+      // El RFC es válido según el patrón
+      console.log("RFC válido");
+    
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Tu RFC no tiene el formato correcto',
+      })
+      return;
+    }
 
     // Crea un objeto FormData para recopilar los datos del formulario
     var formData = new FormData(form);
@@ -1305,12 +1408,38 @@ document
 
     // Obtén el formulario
     var form = document.getElementById("update-contact-form");
+    // Validar los campos utilizando los patrones
+    var inputs = form.querySelectorAll("input[pattern]");
+    var valid = true;
 
+    inputs.forEach(function (input) {
+      var pattern = new RegExp(input.getAttribute("pattern"));
+      var value = input.value;
+      
+      if (!pattern.test(value)) {
+        valid = false;
+        // Realiza acciones en caso de que no cumpla con el patrón, como mostrar un mensaje de error
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Constesta los formularios adecuadamente!',
+        })
+      }
+    });
+
+    if (!valid) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Constesta los formularios adecuadamente!',
+      })
+      return;
+    }
     // Crea un objeto FormData para recopilar los datos del formulario
     var formData = new FormData(form);
 
     // Realiza una solicitud HTTP utilizando fetch o XMLHttpRequest
-    fetch("updateprofileinformation", {
+    fetch(`updateprofileinformation`, {
       method: "POST",
       body: formData,
     })
@@ -1728,6 +1857,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+
 function controlTableSAP(inicio, final) {
   var tablaResultados = document.getElementById('tablaResultados');
   var filas = tablaResultados.querySelectorAll('tr');
@@ -1773,10 +1903,37 @@ document.getElementById('more').addEventListener('click', function(e) {
 });
 
 
-function updateCertificados(){
+function updateCertificados(e){
+  e.preventDefault();
   // Obtén el formulario
   var form = document.getElementById("update-certifcado-cursos");
- 
+  // Validar los campos utilizando los patrones
+  var inputs = form.querySelectorAll("input[pattern]");
+  var valid = true;
+
+  inputs.forEach(function (input) {
+    var pattern = new RegExp(input.getAttribute("pattern"));
+    var value = input.value;
+      
+    if (!pattern.test(value)) {
+      valid = false;
+      console.log(input.name);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Constesta los formularios adecuadamente!',
+      })
+    }
+   });
+
+  if (!valid) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Constesta los formularios adecuadamente!',
+    })
+    return;
+  } 
   // Crea un objeto FormData para recopilar los datos del formulario
   var formData = new FormData(form);
  

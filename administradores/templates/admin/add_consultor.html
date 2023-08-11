@@ -1,0 +1,425 @@
+{% extends 'baseAdministradorForAdmin.html' %}
+{% load static %}
+{% block Content %}
+<section class="container_data" style="display: flex; flex-direction:column;">
+<div class="container" style="margin-top:20px; width:80%;">
+    <div class="row" style="background-color: transparent;">
+
+        <!-- CONTROL PAGES -->
+        <div class="col l4 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">
+            <a href="{% url 'principalAdmin' %}">Principal</a> 
+            <a class="grey-text pl7">/</a>
+            <a class="grey-text pl7" > Agregar Consultor</a>
+        </div>
+
+        <!-- TITLE -->
+        <div class="col s12 ">
+            <h3 class="blue-text col l12 s12 text-darken-4"  >Agregar Consultor</h3>
+        </div>
+        <!-- LEYEND -->
+        <div class="col s12" >
+            <span class="grey-text" style="font-size:14pt; background-color:transparent;">Agrega la información necesaria para dar de alta al consultor</span>
+        </div>
+
+    </div>
+</div>
+<div class="container white " style="width:80%;">
+    <div class="row">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="background-color: red; color:white;">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <div class="aligner" style="margin-left: 1cm; margin-right: 1cm;">
+
+            <!-- TITLE  -->
+            <div class="col s12 l9 pbtm20" style="padding-top: 1cm;" >
+                <h5 class="blue-text text-darken-4" style="font-weight:bold;">Datos de Contacto</h5>
+                <h6 class="grey-text">Agregue los datos necesarios para que nos podamos contactar con el consultor</h6>
+            </div>
+
+            <form method="POST">
+                {% csrf_token %}
+                
+                <div class="col s12 l6 white input-field">
+
+                  <label for="nombre" data-error="wrong" data-success="right"
+                    >Nombre</label>
+                  <input
+                    id="nombre"
+                    name="nombre"
+                    type="text"
+                    class="validate"
+                    pattern="[A-Za-záéíóúñÑ\s]{3,25}"
+                    minlength="3"
+                    maxlength="25"
+                    title="Use solo letras con un minimo de 3 caracteres"
+                    required
+                  />
+                </div>
+
+
+                <div class="col l3 input-field">
+                <label for="ape_pat" data-error="wrong" data-success="right"
+                    >Apellido Paterno</label
+                >
+                <input
+                    id="ape_pat"
+                    name="ape_pat"
+                    type="text"
+                    class="validate"
+                    pattern="[A-Za-záéíóúñÑ]{4,25}"
+                    minlength="4"
+                    maxlength="35"
+                    title="Use solo letras con un minimo de 4 caracteres"
+                    required
+                />
+                </div>
+
+
+                <div class="col l3 input-field">
+                    <label for="ape_mat" data-error="wrong" data-success="right"
+                    >Apellido Materno</label
+                    >
+                    <input
+                    id="ape_mat"
+                    name="ape_mat"
+                    type="text"
+                    class="validate"
+                    pattern="[A-Za-záéíóúñÑ]{4,25}"
+                    minlength="4"
+                    maxlength="35"
+                    title="Use solo letras con un minimo de 4 caracteres"
+                    />
+                </div>
+                <div class="col l6 input-field">
+                    <label for="password1" data-error="wrong" data-success="right"
+                        >Contraseña</label
+                    >
+                    <input
+                        id="password1"
+                        name="password1"
+                        type="password"
+                        class="validate"
+                        minlength="8"
+                        maxlength="35"
+                        title="Use solo letras con un minimo de 4 caracteres"
+                        required
+                    />
+                </div>
+                <div class="col l6 input-field">
+                    <label for="password2" data-error="wrong" data-success="right"
+                        >Verifica la contraseña</label
+                    >
+                    <input
+                        id="password2"
+                        name="password2"
+                        type="password"
+                        class="validate"
+                        minlength="8"
+                        maxlength="35"
+                        title="Use solo letras con un minimo de 4 caracteres"
+                        required
+                    />
+                </div>
+
+                <div class="col l12 input-field">
+
+                    <label for="reference" data-error="wrong" data-success="right">Referencia</label>
+                    <input
+                    id="reference"
+                    name="reference"
+                    type="text"
+                    class="validate"
+                    minlength="4"
+                    maxlength="35"
+                    placeholder="Manera en que se obtuvieron los datos"
+                    title="Use solo letras con un minimo de 4 caracteres"
+                    />
+                </div>
+              
+                <div class="col l6 input-field">
+                    <label for="telefono" data-error="wrong" data-success="right">Telefono</label>
+                    <input id="telefono" name="telefono" type="tel" class="validate"
+                        pattern="[0-9]{3}[ -][0-9]{3}[ -][0-9]{4}"
+                        title="Use solo numeros y deje un espacio entre las series de digitos: 000-000-0000"
+                        required />
+                </div>
+
+                <div class="col l6 input-field">
+                    <label for="correo" data-error="wrong" data-success="right"
+                    >Correo Electrónico</label
+                    >
+                    <input
+                    id="correo"
+                    name="correo"
+                    type="email"
+                    class="validate"
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                    title="Coloque @"
+                    required
+                    />
+                </div>
+
+                <div class="col l6 input-field">
+                    <select name="pais" required>
+                        <option value="" disabled selected>Escoge una opción</option>
+                        <option value="México">México (MX)</option>
+                    </select>
+                    <label>Pais</label>
+                </div>
+
+                <div class="col l6 input-field">
+                    <label for="cod_post " data-error="wrong" data-success="right">Codigo Postal</label>
+                    <input id="cod_post" name="cod_post" type="number" class="validate" pattern="[0-9]{5,6}"
+                        min="0" maxlength="6" title="El codigo postal debe tener un minimo de 5 caracteres"
+                        required onchange="queryCP(document.getElementById('cod_post').value)" />
+                </div>
+
+
+                <div class="col l6 input-field">
+                    <select name="estado" id="estado" required>
+                        <option value="" disabled selected>Escoge una opción</option>
+                    </select>
+                    <label>Estado</label>
+                </div>
+
+                <div class="col l6 input-field">
+                    <select name="ciudad" id="ciudad">
+                        <option value="" disabled selected>Escoge una opción</option>
+                    </select>
+                    <label>Ciudad</label>
+                </div>
+                <div class="col l6 input-field">
+                    <select name="municipio" id="municipio">
+                        <option value="" disabled selected>Escoge una opción</option>
+                    </select>
+                    <label>Municipio</label>
+                </div>
+
+                <div class="col l6 input-field">
+                    <select name="colonia" id="colonia">
+                        <option value="" disabled selected>Escoge una opción</option>
+                    </select>
+                    <label>Colonia</label>
+                </div>
+                <div class="col l6 input-field">
+                    <input id="fecha_nacimiento" name="fecha_nacimiento" type="text" class="datepicker"
+                        name="fecha_nacimiento" title="El formato no es el correcto" required />
+                    <label>Fecha de nacimieto</label>
+                </div>
+
+                <div class="col l3 input-field">
+                    <select name="genero" required>
+                        <option value="" disabled selected>Escoge una opción</option>
+                        <option value="M">Hombre</option>
+                        <option value="F">Mujer</option>
+                    </select>
+                    <label>Genero</label>
+                </div>
+
+                <div class="col l3 input-field">
+                    
+                    <select name="disponibilidad" required>
+                        <option value="" disabled selected>Escoge una opción</option>
+                        <option value="1">Disponible</option>
+                        <option value="0">No Disponible</option>
+                    </select>
+                    <label>Disponibilidad</label>
+                </div>
+
+                <div class="col s12 l12 white center pbtm20">
+
+                    <button class="btn-large grey darken-3 waves-effect waves-light" type="submit" name="action">
+                        Guardar y Continuar
+                        <i class="material-icons right white-text" style="background-color: transparent;">save</i>
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+</section>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var dates = document.querySelectorAll(".datepicker");
+        M.Datepicker.init(dates, {
+            format: "yyyy-mm-dd",
+            setDefaultDate: true,
+            defaultDate: new Date(2000, 0, 1),
+            autoClose: true,
+            showClearBtn: true,
+            firstDay: 1,
+            minDate: new Date(1959, 1, 12),
+            maxDate: new Date(2056, 1, 12),
+            i18n: {
+                cancel: "Cancelar",
+                clear: "Limpiar",
+                done: "Listo",
+                today: "Hoy",
+                previousMonth: "Mes anterior",
+                nextMonth: "Siguiente mes",
+                months: [
+                    "Enero",
+                    "Febrero",
+                    "Marzo",
+                    "Abril",
+                    "Mayo",
+                    "Junio",
+                    "Julio",
+                    "Agosto",
+                    "Septiembre",
+                    "Octubre",
+                    "Noviembre",
+                    "Diciembre",
+                ],
+                monthsShort: [
+                    "Ene",
+                    "Feb",
+                    "Mar",
+                    "Abr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Ago",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dic",
+                ],
+                weekdays: [
+                    "Domingo",
+                    "Lunes",
+                    "Martes",
+                    "Miércoles",
+                    "Jueves",
+                    "Viernes",
+                    "Sábado",
+                ],
+                weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+                weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+            },
+            onClose: function () {
+                setTimeout(function () {
+                    let fechaNacimiento =
+                        document.getElementById("fecha_nacimiento").value;
+                    let dateNacimiento = new Date(fechaNacimiento);
+                    let dateActual = new Date();
+
+                    let edad =
+                        dateActual.getFullYear() - dateNacimiento.getFullYear();
+
+                    // Ajustar la edad según el mes y el día actual
+                    if (
+                        dateNacimiento.getMonth() > dateActual.getMonth() ||
+                        (dateNacimiento.getMonth() === dateActual.getMonth() &&
+                            dateNacimiento.getDate() > dateActual.getDate())
+                    ) {
+                        edad--;
+                    }
+
+                    if (edad < 20) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Solo pueden registrarse personas mayores a 20 años',
+                          })
+                        
+                        document.getElementById("fecha_nacimiento").value = "";
+                    }
+                }, 1000);
+            },
+        });
+    });
+
+    const tokenP = "pruebas";
+    const token = "";
+
+    function queryCP(cp) {
+        const selectEstado = document.getElementById("estado");
+        const selectColonia = document.getElementById("colonia");
+        //selectEstado.innerHTML = "";
+        selectColonia.innerHTML = "";
+        const url = `https://api.copomex.com/query/info_cp/${cp}?token=${tokenP}`;
+        axios
+            .get(url)
+            .then((response) => {
+                if (response.status === 200) {
+                    // 200 significa que la solicitud fue exitosa
+                    const resultado = response.data; // Obtener los datos de la respuesta
+
+                    // Trabajar con los datos recibidos
+                    resultado.forEach((data) => {
+                        llenarSelect(data.response); // Agregar opciones al <select>
+                    });
+                } else {
+                    console.log("Error en la solicitud:", response.status);
+                }
+            })
+            .catch((error) => {
+                console.log("Error en la solicitud:", error.message);
+            });
+    }
+
+    function llenarSelect(data) {
+        const selectEstado = document.getElementById("estado");
+        const selectColonia = document.getElementById("colonia");
+        const selectCiudad = document.getElementById("ciudad");
+        const selectMunicipio = document.getElementById("municipio");
+    
+        // Limpiar las opciones existentes
+        selectEstado.innerHTML = "";
+        selectCiudad.innerHTML = "";
+        selectMunicipio.innerHTML = "";
+        //selectCiudad.innerHTML = "";
+        console.log(data)
+        const opcion = document.createElement("option");
+        opcion.value = data.estado;
+        opcion.textContent = data.estado;
+        selectEstado.appendChild(opcion);
+    
+        const opcion2 = document.createElement("option");
+        opcion2.value = data.asentamiento;
+        opcion2.textContent = data.asentamiento;
+        selectColonia.appendChild(opcion2);
+    
+        const opcion3 = document.createElement("option");
+        opcion3.value = data.ciudad;
+        opcion3.textContent = data.ciudad;
+        selectCiudad.appendChild(opcion3);
+    
+        const opcion4 = document.createElement("option");
+        opcion4.value = data.municipio;
+        opcion4.textContent = data.municipio;
+        selectMunicipio.appendChild(opcion4);
+    
+        M.FormSelect.init(selectEstado);
+        M.FormSelect.init(selectColonia);
+        M.FormSelect.init(selectCiudad);
+        M.FormSelect.init(selectMunicipio);
+    }
+    
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var elems = document.querySelectorAll(".dropdown-trigger");
+        var instances = M.Dropdown.init(elems, {
+          constrainWidth: false,
+                      coverTrigger: false
+        });
+    });
+
+    // Inicializar el select
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+    });
+</script>
+{% endblock %}

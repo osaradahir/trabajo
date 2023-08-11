@@ -1,0 +1,486 @@
+{% extends 'baseAdministradorPrincipal.html' %} 
+{% load static %} 
+{% block Content %}
+<section class="container_data">
+<section class="container-poyectos">
+  <div class="container" style="margin-top: 20px; width: 80%">
+    <div class="row">
+
+      <!-- TITLE PAGE -->
+      <div class="col s12">
+        <h3 class="blue-text col l12 s12 text-darken-4">
+          Validar entrevista del proyecto: {{proyecto.proyecto_nombre }}
+        </h3>
+      </div>
+
+      <!-- LEYEND -->
+      <div class="col s12">
+        <span class="grey-text" style="font-size: 14pt"
+          >Completa la información para validar los acuerdos a los que se llega
+          con el consultor</span
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="container white" style="margin-top: 20px; width: 80%">
+    <div class="row white" style="margin-right: 20px; margin-left: 20px">
+      <div class="col s12 l5 center">
+        <img
+          src="{% static 'images/profile/defaultF.png' %}"
+          alt="Logo Gnosis"
+          style="
+            border-radius: 50%;
+            height: 120px;
+            margin-top: 16px;
+            object-fit: cover;
+            object-position: center;
+            width: 120px;
+          "
+        />
+
+        <!-- GENDER AND AGE-->
+        <div class="col s12 l12 white">
+          {% if persona.sexo == 'F' %}
+          <h6 class="fw-190">Mujer / {{edad}} años</h6>
+          {% else %}
+          <h6 class="fw-190">Hombre / {{edad}} años</h6>
+          {% endif %}
+        </div>
+
+        <!-- STARS CONSULTER -->
+        <div class="col s12 l12 white pbtm20">
+          <i class="material-icons amber-text">star</i>
+          <i class="material-icons amber-text">star</i>
+          <i class="material-icons amber-text">star</i>
+          <i class="material-icons amber-text">star</i>
+          <i class="material-icons grey-text">star_border</i>
+          <p>(4.2)</p>
+        </div>
+
+        <div class="col s12 l12">
+          <a class="waves-effect waves-light btn blue darken-4"
+            ><i
+              class="material-icons white-text right trans"
+              style="background-color: transparent"
+              >picture_as_pdf</i
+            >
+            Ver CV
+          </a>
+        </div>
+      </div>
+
+      <form action="{% url 'addConsultorProyecto' %}" method="POST">
+        <input type="hidden" name="consultor" value="{{ consultor.id }}">
+        <input type="hidden" name="proyecto" value="{{ proyecto.id }}">
+        {% csrf_token %}
+        <div class="col s12 l7" style="padding-top: 1cm">
+          <!-- TITLE DESCRIPTION -->
+          <div class="col s12 l12 white pbtm20">
+            <h6 class="fw-190">Acuerdos generales del proyecto</h6>
+          </div>
+
+          <!-- START FORM -->
+
+          <!-- CHOOSE A CURRENCY -->
+          <div class="col s12 l6 white pbtm20">
+            <div class="input-field col s12">
+              <select name="moneda" required>
+                <option value="" disabled selected>Moneda</option>
+                {% for moneda in monedaCobro %}
+                <option value="{{moneda.id}}">{{ moneda.tipo }}</option>
+                {% endfor %}{
+              </select>
+              <label>Moneda</label>
+            </div>
+          </div>
+
+          <!-- FEE -->
+          <div class="col s12 l6 white pbtm20">
+            <div class="input-field col s12">
+              <label for="title_project" class="">Tarifa acordada</label>
+              <input
+                id="pago"
+                placeholder="${{ consultor.tarifa_hora }}.00"
+                name="pago"
+                type="text"
+                class="validate"
+                title="El formato no es el correcto"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- CHOOSE A DATE START -->
+          <div class="col s12 l6 input-field">
+            <label for="title_project" class="black-text">Fecha Inicio</label>
+            <i class="large material-icons prefix">date_range</i>
+            <input
+              id="date-start"
+              placeholder="15/05/1998"
+              name="date-start"
+              type="text"
+              class="datepicker"
+              title="El formato no es el correcto"
+              required
+            />
+          </div>
+
+          <!-- CHOOSE A DATE END -->
+          <div class="col s12 l6 input-field">
+            <label for="title_project" class="black-text"
+              >Fecha de Terminación</label
+            >
+            <i class="large material-icons prefix">date_range</i>
+            <input
+              id="date-end"
+              placeholder="15/05/1998"
+              name="date-end"
+              type="text"
+              class="datepicker"
+              title="El formato no es el correcto"
+              required
+            />
+          </div>
+
+          <!-- BUSINESS DAYS -->
+          <div class="col s12 l12 white pbtm20">
+            <h7>Días Laborales</h7>
+            <div class="horizont" style="display: flex; flex-direction: row">
+              <p>
+                <label>
+                  <input type="checkbox" name="lun" value="ON"/>
+                  <span>Lun</span>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" name="mar" value="ON"/>
+                  <span>Mar</span>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" name="mier" value="ON"/>
+                  <span>Mie</span>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" name="jue" value="ON"/>
+                  <span>Jue</span>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" name="vie" value="ON"/>
+                  <span>Vie</span>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" name="sab" value="ON"/>
+                  <span>Sab</span>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input type="checkbox" name="dom" value="ON"/>
+                  <span>Dom</span>
+                </label>
+              </p>
+            </div>
+          </div>
+          <br>
+          <!-- START TIME-->
+          <div class="col s12 l6 white pbtm20">
+            <br>
+            <div class="input-field col s12 l6">
+              <select name="inicio-horas" required>
+                <option value="7">7 am</option>
+                <option value="8">8 am</option>
+                <option value="9">9 am</option>
+                <option value="10">10 am</option>
+                <option value="11">11 am</option>
+                <option value="12">12 pm</option>
+                <option value="13">1 pm</option>
+                <option value="14">2 pm</option>
+                <option value="15">3 pm</option>
+                <option value="16">4 pm</option>
+                <option value="17">5 pm</option>
+                <option value="18">6 pm</option>
+                <option value="19">7 pm</option>
+                <option value="20">8 pm</option>
+              </select>
+              <label>Hora Inicio</label>
+            </div>
+            <div class="input-field col s12 l6">
+              <select name="inicio-minutos" required>
+                <option value="0">0 min</option>
+                <option value="10">10 min</option>
+                <option value="20">20 min</option>
+                <option value="30">30 min</option>
+                <option value="40">40 min</option>
+                <option value="50">50 min</option>
+              </select>
+            </div>
+          </div>
+          
+          <!-- END TIME-->
+          <div class="col s12 l6 white pbtm20">
+            <br>
+            <div class="input-field col s12 l6">
+              <select name="final-horas" required>
+                <option value="7">7 am</option>
+                <option value="8">8 am</option>
+                <option value="9">9 am</option>
+                <option value="10">10 am</option>
+                <option value="11">11 am</option>
+                <option value="12">12 pm</option>
+                <option value="13">1 pm</option>
+                <option value="14">2 pm</option>
+                <option value="15">3 pm</option>
+                <option value="16">4 pm</option>
+                <option value="17">5 pm</option>
+                <option value="18">6 pm</option>
+                <option value="19">7 pm</option>
+                <option value="20">8 pm</option>
+              </select>
+              <label>Hora Fin</label>
+            </div>
+            <div class="input-field col s12 l6">
+              <select name="final-minutos" required>
+                <option value="0">0 min</option>
+                <option value="10">10 min</option>
+                <option value="20">20 min</option>
+                <option value="30">30 min</option>
+                <option value="40">40 min</option>
+                <option value="50">50 min</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- JOB FUNCTIONS -->
+          <div class="col s12 l12 white pbtm20">
+            <h7>Funciones Laborales</h7>
+            <div class="input-field col s12">
+              <textarea
+                placeholder="Descripción de las funciones que desempeñara el consultor"
+                id="textarea1"
+                class="materialize-textarea"
+                minlength="15"
+                maxlength="600"
+                title="Descripción solo letras no mayor a 600 caracteres ni menor de 15"
+                name="funciones"
+                required
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col s12 l12 white pbtm20 center">
+          
+          <button
+            class="waves-effect waves-light btn blue darken-4 white-text"
+            >Validar entrevista y aceptar en proyecto</
+          >
+        </div>
+      </form>
+    </div>
+    <br><br>
+  </div>
+  <br><br>
+</section>
+</section>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var fechaSalidaInput = document.getElementById("date-start");
+    M.Datepicker.init(fechaSalidaInput, {
+      format: "yyyy-mm-dd",
+      autoClose: true,
+      autoClose: true,
+      showClearBtn: true,
+      firstDay: 1,
+      minDate: new Date(1969, 1, 12),
+      maxDate: new Date(2043, 11, 31),
+      i18n: {
+        cancel: "Cancelar",
+        clear: "Limpiar",
+        done: "Listo",
+        today: "Hoy",
+        previousMonth: "Mes anterior",
+        nextMonth: "Siguiente mes",
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        weekdays: [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ],
+        weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+      },
+      onClose: function () {
+        setTimeout(function () {
+          let fechaEntrada = document.getElementById("date_start").value;
+          let fechaSalida = document.getElementById("date-end").value;
+          //var fechaNacInput = document.getElementById("fecha-nacimiento").value;
+          // console.log(fechaNacInput);
+
+          var dateEntrada = new Date(fechaEntrada);
+          var dateSalida = new Date(fechaSalida);
+          var fechaHoy = new Date(); // Crear un objeto Date con la fecha y hora actuales
+          //var fechaNac = moment(fechaNacInput, "MMM. DD, YYYY, h:mm a");
+          //var fechaDate = fechaNac.toDate();
+          //fechaDate.setFullYear(fechaDate.getFullYear() + 18);
+          //console.log(fechaDate);
+
+          if (dateEntrada == dateSalida) {
+            document.getElementById("date-end").value = "";
+            Swal.fire("La fecha de entrada no debe igual que la de salida");
+          }
+          if (dateEntrada >= dateSalida) {
+            document.getElementById("date_start").value = "";
+            Swal.fire("La fecha de salida no debe ser menor que la de entrada");
+          }
+
+          console.log(fechaHoy);
+        }, 1000);
+      },
+    });
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    var fechaSalidaInput = document.getElementById("date-end");
+    M.Datepicker.init(fechaSalidaInput, {
+      format: "yyyy-mm-dd",
+      autoClose: true,
+      autoClose: true,
+      showClearBtn: true,
+      firstDay: 1,
+      minDate: new Date(1969, 1, 12),
+      maxDate: new Date(2043, 11, 31),
+      i18n: {
+        cancel: "Cancelar",
+        clear: "Limpiar",
+        done: "Listo",
+        today: "Hoy",
+        previousMonth: "Mes anterior",
+        nextMonth: "Siguiente mes",
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        weekdays: [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ],
+        weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+      },
+      onClose: function () {
+        setTimeout(function () {
+          let fechaEntrada = document.getElementById("date_start").value;
+          let fechaSalida = document.getElementById("date-end").value;
+          //var fechaNacInput = document.getElementById("fecha-nacimiento").value;
+          // console.log(fechaNacInput);
+
+          var dateEntrada = new Date(fechaEntrada);
+          var dateSalida = new Date(fechaSalida);
+          var fechaHoy = new Date(); // Crear un objeto Date con la fecha y hora actuales
+          //var fechaNac = moment(fechaNacInput, "MMM. DD, YYYY, h:mm a");
+          //var fechaDate = fechaNac.toDate();
+          //fechaDate.setFullYear(fechaDate.getFullYear() + 18);
+          //console.log(fechaDate);
+
+          /*if (dateEntrada <= fechaDate) {
+            document.getElementById("ageInit").value = "";
+            Swal.fire(
+              "La fecha de entrada no debe ser menor que tu edad minima requerida"
+            );
+          }*/
+          if (dateEntrada == dateSalida) {
+            document.getElementById("date-end").value = "";
+            Swal.fire("La fecha de entrada no debe igual que la de salida");
+          }
+          if (dateEntrada >= dateSalida) {
+            document.getElementById("date_start").value = "";
+            Swal.fire("La fecha de salida no debe ser menor que la de entrada");
+          }
+
+          console.log(fechaHoy);
+        }, 1000);
+      },
+    });
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    var elems = document.querySelectorAll("select");
+    var instances = M.FormSelect.init(elems);
+  });
+  $(document).ready(function () {
+    $(".tabs").tabs();
+  });
+</script>
+{% endblock Content %} {% block scripts %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="{% static 'js/projects.js' %}"></script>
+
+{% endblock scripts %}

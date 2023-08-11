@@ -1,0 +1,278 @@
+{% extends 'baseAdministradorPrincipal.html' %}
+{% load static %}
+{% block Content %}
+{{ status }}
+  <main>
+    <div class="container_data">
+      <div class="my-data-name row">
+
+          <!-- Titulo  -->
+          <div class="col s12 l12">
+            <h3 class="indigo-text">Detalles del Proyecto no. #{{ proyecto.id }}</h3> 
+            <h5 class="grey-text" style="padding-bottom:45px;">Selecciona a los candidatos ideales para el proyecto.</h5>
+          </div>
+
+          <!-- Barra negra  -->
+          <div class="col s12 l12 grey darken-4" style="height:100px">
+          </div>
+
+          <!--  Cabecera Proyecto  -->
+          <div class="col s12 l12 white">
+            <img src="{% static 'images/compay.png' %}" alt="Foto de Empresa" class="img-responsive white" style="width:280px; padding-left:75px; padding-top:35px;"/>
+
+            <div class="row white">
+              
+              <div class="col l6 white">
+                  <input type="hidden" name="saber" id="saber" value="{{ proyecto.id }}">
+                  <h4 class="white" style="font-weight: bold; padding-left:55px;" id="puesto">{{ proyecto.proyecto_nombre }}</h4>
+                  <h5 class="blue-text white" style="font-weight: bold; padding-left:55px;" id="empresa">{{ empresa.empresa }}</h5>
+                  {% if empresa.ciudad %}
+                    <h5 class="grey-text white" style="font-weight: bold; padding-left:55px;" id="ubicacion" >{{ empresa.estado }}, {{empresa.ciudad }}</h5>
+                  {% else %}
+                    <h5 class="grey-text white" style="font-weight: bold; padding-left:55px;" id="ubicacion" >{{ empresa.estado }}, {{empresa.municipio }}</h5>
+                  {% endif %}
+              </div>
+              
+              <div class="col l6 white" style="display:flex; align-items:right; justify-content:right; padding-right:75px;">
+                  <button class="blue darken-4 waves-effect waves-light btn" onclick="postularme()">Postular candidatos</button>
+              </div>
+              
+              <div class="col l6 white">                  
+              </div>
+              <div class="col l6 white right" style="display:flex; align-items:right; justify-content:right; padding-right:75px;">
+                  <h6 class="grey-text">Fecha de Publicación: {{ diasStaffing }}</h6>
+              </div>
+          </div>
+
+
+          <!-- Detalles Proyecto  -->
+          <div class="row white">
+                <div class="col l3 white" style="padding-left:75px;">
+                  <h6 class="white">Tiempo de Trabajo:</h6>
+                </div>
+                <div class="col l2 white" style="padding-right:75px;">
+                  <div class="chip blue white-text">
+                    {{ proyecto.duracion }}
+                  </div>
+                </div>
+                <div class="col l3 white" style="padding-left:75px;">
+                    <h6 class="white">Moneda de manejo:</h6>
+                </div>
+                <div class="col white">
+                  <div class="chip green white-text">
+                    {{ proyecto.id_tipo_moneda.tipo }}
+                  </div>
+                </div>
+          </div>
+
+            <!-- Descripcion genera, funciones laborales, Experiencia Requerida  -->
+            <div class="col s12 l12 white" style="padding-left:75px;">
+              <br>
+              <h6 class="white" style="font-weight: bold;">Descripcion general del Proyecto</h6>
+              <p style="text-align:justify; padding-right:75px; " id="description">{{ proyecto.description }}</p>
+              <br>
+              <h6 class="white" style="font-weight: bold;">Funciones Laborales</h6>
+              <p style="text-align:justify; padding-right:75px;" id="funciones laborales">{{ proyecto.fun_laborales }}</p>
+              <br>
+              <h6 class="white" style="font-weight: bold;">Experiencia Requerida en SAP</h6>
+              <div class="responsive-table bcw" style="width:550px; padding-right:75px; margin-top:-16px; ">
+                {% if requerimientosModulosProyecto %}
+                  <table class="centered highlight" style="margin-top:1cm; padding-right:1cm;">
+                  <thead>
+                      <tr>
+                          <th class="fw-bold">Módulo</th>
+                          <th class="fw-bold">Submódulo</th>
+                          <th class="fw-bold">Experiencia Requerida</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for requerimientoModulosProyecto in requerimientosModulosProyecto %}
+                      <tr>
+                          <td>{{ requerimientoModulosProyecto.id_modulo.nombre }}</td>
+                          <td>{{ requerimientoModulosProyecto.id_submodulo.nombre }}</td>
+                          <td class="label-experience">
+                          {% if requerimientoModulosProyecto.id_experiencia_requerida.nombre.1 == '0' %}
+                              <div class="label-kCero">{{  requerimientoModulosProyecto.id_experiencia_requerida.nombre }}</div>
+                          {% elif requerimientoModulosProyecto.id_experiencia_requerida.nombre.1 == '1' %}
+                              <div class="label-kUno">{{ requerimientoModulosProyecto.id_experiencia_requerida.nombre }}</div>
+                          {% elif requerimientoModulosProyecto.id_experiencia_requerida.nombre.1 == '2' %}
+                              <div class="label-kDos">{{ requerimientoModulosProyecto.id_experiencia_requerida.nombre }}</div>
+                          {% elif requerimientoModulosProyecto.id_experiencia_requerida.nombre.1 == '3' %}
+                              <div class="label-kTres">{{ requerimientoModulosProyecto.id_experiencia_requerida.nombre }}</div>
+                          {% elif requerimientoModulosProyecto.id_experiencia_requerida.nombre.1 == '4' %}
+                              <div class="label-kCuatro">{{ requerimientoModulosProyecto.id_experiencia_requerida.nombre }}</div>
+                          {% endif %}
+                          </td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+                  </table>
+                {% else %}
+                  <h6 class="white">No se necesita experiencia</h6>
+                {% endif %}
+              </div>
+
+              <br><br>
+              <h6 class="white" style="font-weight: bold;">Experiencia Requerida en educacion</h6>
+              <div class="responsive-table bcw" style="width:550px; padding-right:75px; margin-top:-16px;">
+                {% if requerimientosIdiomasProyecto %}
+                  <table class="centered highlight" style="margin-top:1cm; padding-right:1cm;">
+                  <thead>
+                      <tr>
+                          <th class="fw-bold">Idioma</th>
+                          <th class="fw-bold">Nivel Requerido</th>
+                          <th class="fw-bold">Nivel Deseado</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for requerimientoIdiomaProyecto in requerimientosIdiomasProyecto %}
+                      <tr>
+                          <td>{{ requerimientoIdiomaProyecto.id_idioma.nombre }}</td>
+                          <td>{{ requerimientoIdiomaProyecto.nivelRequerido }}</td>
+                          <td>{{ requerimientoIdiomaProyecto.nivelDeseado }}</td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+                  </table>
+                {% else %}
+                  <h6 class="white">No se necesita experiencia</h6>
+                {% endif %}
+              </div>
+              <br><br>
+            </div>
+            
+          </div>
+          <div style="width: 100%; height:60px; background-color: transparent;"></div>  
+          <div class="col s12 l12 white" style="padding-left:75px;">
+            <h6 class="white" style="font-weight: bold; margin-top:30px;">Consultores recomendados para este proyecto</h6>
+            <!-- START TABLE -->
+            {% if dataConsultores %}
+                <table class="centered highlight" style="margin-top:18px; margin-left:-14px">
+                  <thead>
+                      <tr>
+                          <th class="fw-bold">Sexo y Edad</th>
+                          <th class="fw-bold">Experiencia</th>
+                          <th class="fw-bold">Tarifa por hora / Disponibilidad</th>
+                          <th class="fw-bold">Recomendación de Gnosis</th>
+                          <th class="fw-bold">Mas detalles</th>
+                      </tr>
+                  </thead>
+
+                  <tbody>
+                    {% for data in dataConsultores %}
+                      <tr>
+                          <td>{{data.0}} / {{data.1}} años</td>
+                          <td>{{data.2}}</td>
+                          <td>${{data.3}} {{data.5}} / {{data.4}} </td>
+                          <td>
+                            {% if data.9 == 0 %}
+                                Sin calificación
+                            {% else %}
+                                    {% with stars=data.9|floatformat:0 %}
+                                        {% for _ in ''|rjust:stars %}
+                                            <i class="material-icons amber-text">star</i>
+                                        {% endfor %}
+                                    {% endwith %}   
+                            {% endif %}
+                             
+                          </td>
+                          <td>
+                              <!-- Dropdown Trigger -->
+                              <a class='dropdown-trigger btn grey darken-3' href='#' data-target='gnosis-{{data.7}}'><i
+                                      class="material-icons white-text right trans"
+                                      style="background-color: transparent;">arrow_drop_down</i>Acciones</a>
+
+                              <!-- Menú desplegable -->
+                              <ul id="gnosis-{{data.7}}" class="dropdown-content">
+                                  <li><a href="{% url 'curriculum_consultor_admin' id=data.8 %}" target="_blank">Ver CV</a></li>
+                                  <li><a href="{% url 'miConsultorProfile' id=data.7 %}">Detalles Consultor</a></li>
+                                  <li><a id="{{data.7}}" onclick="postular(this.id);">Postular</a></li>
+                              </ul>
+                          </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+            {% else %}
+            {% endif %}
+          </div>
+      </div>
+      <input type="hidden" name="saber" id="saber" value="{{proyecto.id}}">
+    </div>    
+  </main>
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="{% static 'js/principal.js' %}?v=1.1"></script>
+
+<script>
+  // Función para obtener el valor de una cookie por su nombre
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+
+
+  function postular(id){
+    Swal.fire({
+      title: '¿Quieres postularlo?',
+      text: "Los datos del consultor seran enviados a la empresa",
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText:'Cancelar',
+      confirmButtonText: 'Si, postular'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const csrftoken = getCookie('csrftoken');
+        var numero = document.getElementById('saber').value;
+        fetch(`{% url 'postularByAdministrador' %}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+          },
+          body: JSON.stringify({
+            consultor: id,
+            proyecto:numero
+          })
+        })
+          .then(response => {
+            if (response.status == 200) {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Haz postulado al consultor',
+                showConfirmButton: false,
+                timer: 1500
+              })
+              // Esperar 1 segundo antes de actualizar la página
+              setTimeout(function() {
+                  location.reload();
+              }, 1000);
+            } else {
+              throw new Error('Error en la solicitud. Código de estado: ' + response.status);
+            }
+          })
+          .then(data => {
+            // Manejar la respuesta del servidor
+            console.log(data);
+          })
+          .catch(error => {
+            // Manejar errores de la solicitud
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Algo salio mal",
+            });
+          });
+      }
+    })
+  }
+</script>
+{% endblock %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from default.models import Usuarios, Personas, Consultores, Experiencias, ExperienciasConsultor, Instituciones, Estudios, ManeraPago, TipoMoneda, UsuariosManager, Empresas
+from default.models import Usuarios, Personas, Consultores, Experiencias, ExperienciasConsultor, Instituciones, Estudios, ManeraPago, TipoMoneda, UsuariosManager, Empresas, NivelesConocimiento
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from django.utils import timezone
@@ -20,7 +20,9 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.mail import send_mail
 from django.conf import settings
-
+import os
+from pathlib import Path
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 def index(request):
     return render(request, 'index.html')
@@ -39,25 +41,30 @@ def signin(request):
                     'error': 'Usuario o Contraseña incorrectos'
                 })
             else:
-                login(request, user)
-                # Guardar el nombre de usuario en la sesión
-                request.session['username'] = user.correo
-                if 'remind_user' in request.POST:
-                    # Duración de sesión más larga (por ejemplo, 30 días)
-                    request.session.set_expiry(30 * 24 * 60 * 60)
-                else:
-                    # Duración de sesión más corta (por ejemplo, 1 día)
-                    request.session.set_expiry(24 * 60 * 60)
-                # print(user.is_superuser)
-                if user.is_superuser:
-                    return redirect('administrador/principal')
-                else:
-                    if user.rol == 'Consultor':
-                        print("consultor")
-                        return redirect('consultor/principal')
+                if user.validacion:
+                    login(request, user)
+                    # Guardar el nombre de usuario en la sesión
+                    request.session['username'] = user.correo
+                    if 'remind_user' in request.POST:
+                        # Duración de sesión más larga (por ejemplo, 30 días)
+                        request.session.set_expiry(30 * 24 * 60 * 60)
                     else:
-                        print("empresa")
-                        return redirect('proyectos/misProyectos')
+                        # Duración de sesión más corta (por ejemplo, 1 día)
+                        request.session.set_expiry(24 * 60 * 60)
+                    
+                    if user.is_superuser:
+                        return redirect('administrador/principal')
+                    else:
+                        if user.rol == 'Consultor':
+                            print("consultor")
+                            return redirect('consultor/principal')
+                        else:
+                            print("empresa")
+                            return redirect('proyectos/misProyectos')
+                else:
+                    return render(request, 'login/login.html', {
+                        'error': 'El nombre de usuario no esta registrado en Gnosis'
+                    })
 
     except Exception as e:
             print(e)
@@ -83,7 +90,10 @@ def register(request):
                         apema_value = request.POST['ape_mat']
                         correo_value = request.POST['correo']
                         password_value = request.POST['password1']
-
+                        for key, value in request.POST.items():
+                            print(f"{key}: {value}")
+                        # También puedes imprimir todo el diccionario completo
+                        print(request.POST)
                         params = {
                             'name':  cipher_suite.encrypt(name_value.encode('utf-8')).decode('utf-8'),
                             'apepa': cipher_suite.encrypt(apepa_value.encode('utf-8')).decode('utf-8'),
@@ -110,7 +120,6 @@ def register(request):
 
 def addContacto(request):
     try:
-
         if request.method == 'GET':
             return render(request, 'login/contact.html')
         else:
@@ -129,6 +138,10 @@ def addContacto(request):
                     'genero': cipher_suite.encrypt(request.POST.get('genero').encode('utf-8')).decode('utf-8'),
                     'disponibilidad': cipher_suite.encrypt(request.POST.get('disponibilidad').encode('utf-8')).decode('utf-8'),
                 }
+                for key, value in request.POST.items():
+                    print(f"{key}: {value}")
+                    # También puedes imprimir todo el diccionario completo
+                print(request.POST)
                 query_string = urlencode(params)
                 url = reverse('profesion') + '?' + request.GET.urlencode() + '&' + query_string
                 return redirect(url)
@@ -186,12 +199,14 @@ def addProfesion(request):
             # print(decrypted_name)
             monedaCobro = list(TipoMoneda.objects.values())
             maneraPago = list(ManeraPago.objects.values())
+            niveles = list(NivelesConocimiento.objects.values())
             return render(request, 'login/profession.html', {
                 'monedaCobro': monedaCobro,
-                'maneraPago': maneraPago
+                'maneraPago': maneraPago,
+                'niveles':niveles
             })
         else:
-            if request.POST.get('puesto') != '' and request.POST.get('tipo_moneda') != '' and request.POST.get('Tarifa') != '' and request.POST.get('forma_cobro') != '' and request.POST.get('RFC') != '' and 'accepted_emails' in request.POST and request.POST.get('tipo_moneda') != '':
+            if request.POST.get('puesto') != '' and request.POST.get('tipo_moneda') != '' and request.POST.get('Tarifa') != '' and request.POST.get('forma_cobro') != '' and request.POST.get('RFC') != '' and 'accepted_emails' in request.POST and request.POST.get('tipo_moneda') != '' and request.POST.get('SAP') != '' and request.POST.get('experiencia') != '':
 
                 persona = Personas(nombre=decrypted_name, ape_pat=decrypted_apepa, ape_mat=decrypted_apema, fecha_nacimiento=decrypted_fecha_nacimiento, ciudad=decrypted_ciudad, cod_post=decrypted_cod_post, estado=decrypted_estado, pais=decrypted_pais, telefono=decrypted_telefono, sexo=decrypted_genero, municipio=decrypted_municipio, colonia=decrypted_colonia, disponible=int(decrypted_disponibilidad))
                 persona.save()
@@ -204,12 +219,13 @@ def addProfesion(request):
                 persona = Personas.objects.get(pk=user.id_persona_id)
                 pago = ManeraPago.objects.get(pk=request.POST['forma_cobro'])
                 moneda = TipoMoneda.objects.get(pk=request.POST['tipo_moneda'])
+                nivel = NivelesConocimiento.objects.get(pk=request.POST['experiencia'])
                 """
                 Pendientes
                     - submodulo de especialidad SAP
                 """
                 consultores = Consultores(
-                    tipo_persona='Fisica', rfc=request.POST['RFC'], tarifa_hora=int(request.POST['Tarifa']), id_persona=persona, id_manera_pago=pago, id_tipo_moneda=moneda)
+                    tipo_persona='Fisica', rfc=request.POST['RFC'], tarifa_hora=int(request.POST['Tarifa']), id_persona=persona, id_manera_pago=pago, id_tipo_moneda=moneda, especialidad=request.POST.get('SAP'), id_nivel=nivel)
                 consultores.save()
 
                 params = {
@@ -219,6 +235,10 @@ def addProfesion(request):
                     'email': cipher_suite.encrypt(decrypted_correo.encode('utf-8')).decode('utf-8'),
                     'password': cipher_suite.encrypt(decrypted_password.encode('utf-8')).decode('utf-8'),
                 }
+                for key, value in request.POST.items():
+                    print(f"{key}: {value}")
+                    # También puedes imprimir todo el diccionario completo
+                print(request.POST)
                 query_string = urlencode(params)
                 url = reverse('experiencia') + '?' + query_string
                 return HttpResponseRedirect(url)
@@ -305,6 +325,10 @@ def addExperiencia(request):
                     'email': cipher_suite.encrypt(decrypted_correo.encode('utf-8')).decode('utf-8'),
                     'password': cipher_suite.encrypt(decrypted_password.encode('utf-8')).decode('utf-8'),
                 }
+                for key, value in request.POST.items():
+                    print(f"{key}: {value}")
+                    # También puedes imprimir todo el diccionario completo
+                print(request.POST)
                 query_string = urlencode(params)
                 if 'save' in request.POST:
                     url = reverse('educacion') + '?' + query_string
@@ -386,10 +410,14 @@ def addEducation(request):
                     'email': cipher_suite.encrypt(decrypted_correo.encode('utf-8')).decode('utf-8'),
                     'password': cipher_suite.encrypt(decrypted_password.encode('utf-8')).decode('utf-8'),
                 }
+                for key, value in request.POST.items():
+                    print(f"{key}: {value}")
+                    # También puedes imprimir todo el diccionario completo
+                print(request.POST)
                 query_string = urlencode(params)
                 url = reverse('emailConfimacion') + '?' + query_string
                 # enviar email de confirmacion
-                # sendemail(decrypted_correo, decrypted_name)
+                #sendemail(decrypted_correo, decrypted_name)
                 return HttpResponseRedirect(url)
             else:
                 return render(request, 'login/education.html', {
@@ -452,13 +480,13 @@ def sendemail(email, name):
         # rec list
         [to],
     )
+    
     # se indica que se convierta como html
     email.attach_alternative(html_content, "text/html")
     # se envia el correo
     email.send()
     return "Correo enviado"
 
-# Función para descifrar los valores cifrados
 
 
 def decrypt_value(cipher_suite, encrypted_value):
@@ -627,15 +655,16 @@ def addDetallesEmpresa(request):
         decrypted_password = cipher_suite.decrypt(
                     encrypted_contrasena).decode('utf-8')
 
+
         if request.method == 'GET':
             return render(request, 'login/detallesEmpresa.html')
         else:
-            if request.POST.get('nombreEmpresa') != '' and request.POST.get('nivel') != '' and request.POST.get('industria') != '' and request.POST.get('sapVersion') != '' and request.POST.get('telefono') != '' and request.POST.get('tamano') != '':
+            if request.POST.get('nombreEmpresa') != '' and request.POST.get('nivel') != '' and request.POST.get('industria') != '' and request.POST.get('sapVersion') != '' and request.POST.get('telefono') != '' and request.POST.get('tamano') != '' and request.POST.get('pais') != '' and request.POST.get('cod_post') != '' and request.POST.get('estado') != '':
 
                 usuario = Usuarios.objects.create_user(correo=decrypted_correo, password=decrypted_password, image='', rol='Empresa')
                 usuario.save()
 
-                empresa = Empresas(empresa=request.POST.get('nombreEmpresa'), nivel=request.POST.get('nivel'), nombre=decrypted_name, ape_pat=decrypted_apepa, ape_mat=decrypted_apema, telefono=request.POST.get('telefono'), tamano=request.POST.get('tamano'), industria=request.POST.get('industria'), versionSAP=request.POST.get('sapVersion'), id_usuario=usuario)
+                empresa = Empresas(empresa=request.POST.get('nombreEmpresa'), nivel=request.POST.get('nivel'), nombre=decrypted_name, ape_pat=decrypted_apepa, ape_mat=decrypted_apema, telefono=request.POST.get('telefono'), tamano=request.POST.get('tamano'), industria=request.POST.get('industria'), versionSAP=request.POST.get('sapVersion'), id_usuario=usuario, pais=request.POST.get('pais'), estado=request.POST.get('estado'), cod_post=request.POST.get('cod_post'), ciudad=request.POST.get('ciudad'), municipio=request.POST.get('municipio'), colonia=request.POST.get('colonia'), calle=request.POST.get('calle'),n_exterior=request.POST.get('nExterior'), fax=request.POST.get('fax'))
                 empresa.save()
                 url = reverse('login')
                 return redirect(url)

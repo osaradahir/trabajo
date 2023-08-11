@@ -2,165 +2,309 @@
 {% load static %}
 
 
-    {% block Content %}
-    <div class="container" style="margin-top:20px; width:80%;">
-        <div class="row">
+{% block Content %}
+<style>
+.contenedor {
+  position: relative;
+}
 
+.div-fondo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #e5e5e5; /* Color de fondo del div de fondo */
+  z-index: 1; /* Asegura que esté en la parte inferior */
+}
+
+.div-superior {
+  position: relative;
+  z-index: 2; /* Asegura que esté en el medio */
+}
+
+.div-tercero {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px; /* Ajusta la altura según tus necesidades */
+  background-color:transparent; /* Color de fondo del div tercero */
+  z-index: 3; /* Asegura que esté en la parte superior */
+}
+
+
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+<section class="container-poyectos">
+<div class="container" style="margin-top:20px; width:80%;">
+    <div class="row">   
+        <!-- CONTROL PAGES -->
+        <div class="col l10 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">
+            <a href="{% url 'my_projectsCreateds' %}">Principal</a> 
+            <a class="grey-text pl7">/ </a>
+            <a class="pl7" href="{% url 'my_projectsCreateds' %}"> Mis Proyectos</a> 
+            <a class="grey-text pl7">/ </a>
+            <a class="pl7" href=""> Detalles de Proyecto</a> 
+            <a class="grey-text pl7">/</a>
+            <a class="grey-text pl7" > Mapa de Consultores  </a>
+        </div>
+
+        <!-- TITLE -->
+        <div class="col s12 l12">
+            <h3 class="blue-text col l12 s12 text-darken-4" >Ubicacion del consultor {{nivel.0.id_modulo.nombre}} en el mapa</h3>
+        </div>
             
-            <!-- CONTROL PAGES -->
-            <div class="col l5 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">
-                <a href="">Principal</a> 
-                <a class="grey-text pl7">/ </a>
-                <a class="pl7" href=""> Mis Proyectos</a> 
-                <a class="grey-text pl7">/ </a>
-                <a class="pl7" href=""> Detalles de Proyecto</a> 
-                <a class="grey-text pl7">/</a>
-                <a class="grey-text pl7" > Mapa de Consultores  </a>
+            
+        <!-- LEYEND -->
+        <div class="col s12 l12">
+            <span class="grey-text" style="font-size:14pt;">Información sobre la localizacion del consultor</span>
+        </div>
+    </div>
+</div>
+
+
+<div class="container" style="margin-top:20px; width:80%;">
+    <div class="row">   
+        <div class="contenedor">
+            <input type="hidden" name="direccion" id="direccion" value="{{direccion}}">
+            <!-- MAPA-->
+            <div class="div-fondo">
+                <div class="col s12 l12" id="map" style="width: 100%; height: 700px;">
+                </div>
             </div>
 
-            <!-- TITLE -->
-            <div class="col s12 l12">
-                <h3 class="blue-text col l12 s12 text-darken-4" >Mapa de Consultores Proyecto: Consultor SAP CO</h3>
-            </div>
-            
-            
-            <!-- LEYEND -->
-            <div class="col s12 l12 pbtm20">
-                <span class="grey-text" style="font-size:14pt;">Información sobre la localizacion de los consultores</span>
-            </div>
 
-
-            <!-- MAP AND CONSULTOR TARJET -->
-            <div class="col s12 left">
-
-                
-                <!-- IMAGEN DEL MAPA -->
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d303.71189505125903!2d-98.37237453588615!3d20.080582872077073!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d05717336a33f5%3A0xba6214de7914f641!2sXiimbal%20S%20de%20RL%20de%20CV!5e0!3m2!1sen!2smx!4v1688268252923!5m2!1sen!2smx" width="1200" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>                
-                
-                
-                <!-- CONSULTOR TARJET -->
-                <div class="col l3 white" style="border: 5px solid rgba(0, 128, 0, 0.415); position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%);">
-                    
-
+            <!-- TARJETA -->
+            <div class="div-superior" id="div-superior">
+                <div
+                  class="col l5 white"
+                  style="
+                    border: 4px solid rgba(0, 128, 0, 0.415);
+                    border-radius: 6px;
+                    position: absolute;
+                    top: 12cm;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                  "
+                  id="hijo"
+                >
+                  <!--TARJET -->
+                  <div
+                    style="
+                      margin-top: 10px;
+                      width: 100%;
+                      display: flex;
+                      flex-direction: row;
+                    "
+                    id="padre"
+                  >
                     <!-- AVATAR -->
-                    <div class="col l3">
-                        <img src="{% static 'images/crea.jpg' %}" alt="Foto de Perfil" style="width: 80px;" />
+                    <div style="align-items: center; display: flex; width: 30%">
+                      {% if default %}
+                        <img
+                          src="{{image}}"
+                          alt="Foto de Perfil"
+                          style="width: 100%; border-radius: 4%"
+                        />
+                      {% else %}
+                        <img
+                        src="../../../{{image}}"
+                        alt="Foto de Perfil"
+                        style="width: 100%; border-radius: 4%"
+                      />
+                      {% endif %}
                     </div>
-
-
+      
                     <!-- INFO -->
-                    <div class="col l9">
-
-                        
-                        <div class="col l7 fw-bold">
-                            ABAP EXPERT          
-                        </div>
-
-                        <div class="col l5 fw-bold">
-                            NIVEL K2 
-                        </div>
-
-                        <div class="col s12 l12 grey-text">Coyocan, CDMX</div>
-
-                        <div class="col s12 l12">
-                            <p>
-                                En los modulos de C0 con submódulos MON-CEL OM-ABC 
-                            </h7>
-                        </div>
-
-                        <div class="col s12 l12">
-                            <i class="material-icons amber-text">star</i><h7 class="grey-text">(4.5)</h7>
-                        </div>
-
-                    </div>
-
-
-                    <!-- BUTTON MORE CONTENT-->
-                    <div class="col s12 l12 center" style="padding-top: 15px; padding-bottom: 15px;">
-                        <button class="waves-effect btn-small blue darken-3" id="mostrarBtn">
-                            Ver mas
+                    <div style="width: 70%" id="nieto">
+                      <div class="col l7 fw-bold" id="titulo">Consultor {{nivel.0.id_modulo.nombre}}</div>
+      
+                      <div class="col l5 fw-bold">NIVEL {{nivel.0.id_nivel.nombre}}</div>
+      
+                      <div class="col s12 l12 grey-text">{{consultor.rfc}}</div>
+      
+                      <div class="col s12 l12">
+                        <h7> En los modulos de 
+                            {% for p in nivel%}
+                                {{p.id_modulo.nombre}}
+                            {% endfor %}
+                        </h7>
+                      </div>
+      
+                      <div class="col s12 l12 valign-wrapper">
+                        {% if puntuacionConsultor == 0 %}
+                            Sin calificación
+                        {% else %}
+                            {% with stars=puntuacionConsultor|floatformat:0 %}
+                              {% for _ in ''|rjust:stars %}
+                                <i class="material-icons amber-text">star</i>
+                              {% endfor %}
+                            {% endwith %}   
+                        {% endif %}
+                        <h7 class="grey-text">({{puntuacionConsultor}})</h7>
+                      </div>
+      
+                      <!-- BUTTON MORE CONTENT-->
+                      <div
+                        class="col s12 l12 center"
+                        style="padding-top: 15px; padding-bottom: 15px"
+                      >
+                        <button
+                          class="waves-effect btn-small blue darken-3"
+                          id="mostrarBtn"
+                        >
+                          Ver mas
                         </button>
-                                        </div>
-                </div>
-
-
-
-                <!-- HIDDEN CONTENT -->
-                <div class="col s12 l4 white hidden-content" id="contenidoOculto" style="position: absolute; top:50%; left: 50%; transform: translate(-50%, -50%);">
-                    <div class="row bcw">  
-
-                        <div class="col s12 l12 white pbtm20" style="padding-top: 20px;">
-                            <button id="ocultarBtn"><i class="material-icons">close</i></button>
-                        </div>
-
-                        <div class="col l6">SAP SENIOR DEVELOPER</div>
-
-                        <div class="col l6">
-                            <i class="material-icons amber-text">star</i>
-                            <i class="material-icons amber-text">star</i>
-                            <i class="material-icons amber-text">star</i>
-                            <i class="material-icons amber-text">star</i>
-                            <i class="material-icons amber-text">star_half</i>
-                            <h7 class="grey-text">(4.5)</h7>
-                        </div>
-
-
-                        <div class="col l12 pbtm20">
-                            Edad:26
-                        </div>
-
-                        <div class="col s12 l12 white pbtm20">
-                            Coyoacan,CDMX
-                        </div>
-
-
-                        <div class="col l11" style="border: 2px solid rgb(0, 0, 0);">
-                            <h6>Disponibilidad: Inmediata</h6>
-                            <h6>Tarifa: $ 1,000 US</h6>
-                            <h6>Descripcion:</h6>
-                            <h6 class="pbtm20">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores deserunt aut earum laborum, asperiores illo quod tempore suscipit sunt quibusdam. Eos facilis libero inventore fuga natus consectetur delectus non ratione.</h6>
-                            <h6>Comentarios:</h6>
-                            <h6 class="pbtm20">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores deserunt aut earum laborum, asperiores illo quod tempore suscipit sunt quibusdam. Eos facilis libero inventore fuga natus consectetur delectus non ratione.</h6>
-                        </div>
-
-                        <div class="col 12 l12 white center" style="padding-top: 15px;">
-                            <a class="waves-effect btn-small">
-                                Seleccionar Para Entrevista
-                            </a>
-                        </div>
-
+                      </div>
                     </div>
+                  </div>
                 </div>
+              </div>
 
-            </div>
 
-            <div class="col s12 l12" style="padding-bottom: 12cm;"> 
+             <!-- CONTENIDO OCULTO -->
+        <div class="div-tercero">
+            <!-- HIDDEN CONTENT -->
+            <div
+              class="col s12 l4 white hidden-content"
+              id="contenidoOculto"
+              style="
+                position: absolute;
+                top: 9cm;
+                width: 60%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+              "
+            >
+              <div class="row bcw">
+                <div class="col s12 l12 white pbtm20" style="padding-top: 20px">
+                  <button id="ocultarBtn" style="background-color: white">
+                    <i class="material-icons">close</i>
+                  </button>
+                </div>
+  
+                <div class="col l6">Consultor {{nivel.0.id_modulo.nombre}}</div>
+  
+                <div class="col l6 valign-wrapper">
+                  {% if puntuacionConsultor == 0 %}
+                    Sin calificación
+                  {% else %}
+                    {% with stars=puntuacionConsultor|floatformat:0 %}
+                      {% for _ in ''|rjust:stars %}
+                        <i class="material-icons amber-text">star</i>
+                      {% endfor %}
+                    {% endwith %}   
+                  {% endif %}
+                  <h7 class="grey-text">&nbsp;({{puntuacionConsultor}})</h7>
+                </div>
+  
+                <div class="col l12 pbtm20">Edad: {{edad}} años</div>
+  
+                <div class="col s12 l12 white pbtm20">{{ consultor.rfc }}</div>
+  
+                <div class="col l11" style="border: 2px solid rgb(0, 0, 0)">
+                  <h6>Disponibilidad: 
+                    {% if consultor.id_persona.disponible %}
+                        Disponible
+                    {% else %}
+                        No disponible
+                    {% endif %}
+                    </h6>
+                  <h6>Tarifa: $ {{consultor.tarifa_hora}} {{moneda}}</h6>
+                  <h6>Descripcion:</h6>
+                  <h6 class="pbtm20">
+                    {% if consultor.id_persona.descripcion %}
+                      {{consultor.id_persona.descripcion}}
+                    {% else %}
+                      Sin descripción
+                    {% endif %}
+                  </h6>
+                  <h6>Comentarios:</h6>
+                  <h6 class="pbtm20">
+                    {{comentarios}}
+                  </h6>
+                </div>
+  
+                <div class="col 12 l12 white center" style="padding-top: 15px">
+                  
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
     </div>
 
-    {% endblock Content %}
-
-            <!-- SECTION SCRIPTS -->
-            {% block scripts %}
-    
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-            <script src="{% static 'js/projects.js' %}"></script>
+    <div class="col s12 l12" style="padding-bottom: 20cm;"> 
+    </div>
+</div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="{% static 'js/projects.js' %}"></script>
           
-            <script>
-                                // Obtén los elementos por su id
-                var mostrarBtn = document.getElementById("mostrarBtn");
-                var ocultarBtn = document.getElementById("ocultarBtn");
-                var contenidoOculto = document.getElementById("contenidoOculto");
+<script>
+    // Obtén los elementos por su id
+    var mostrarBtn = document.getElementById("mostrarBtn");
+    var ocultarBtn = document.getElementById("ocultarBtn");
+    var contenidoOculto = document.getElementById("contenidoOculto");
 
-                // Agrega un evento click al botón de mostrar
-                mostrarBtn.addEventListener("click", function() {
-                contenidoOculto.style.display = "block";
-                });
+    // Agrega un evento click al botón de mostrar
+    mostrarBtn.addEventListener("click", function() {
+    contenidoOculto.style.display = "block";
+    });
 
-                // Agrega un evento click al botón de ocultar
-                ocultarBtn.addEventListener("click", function() {
-                contenidoOculto.style.display = "none";
-                });
+    // Agrega un evento click al botón de ocultar
+    ocultarBtn.addEventListener("click", function() {
+    contenidoOculto.style.display = "none";
+    });
 
-            </script>
-            {% endblock scripts %}
+    // Ubicaciones 
+    var ubicacion = [document.getElementById('direccion').value];
+    console.log(document.getElementById('direccion').value);
+    Coordenadas(document.getElementById('direccion').value);
+    // La funcion se encarga de traducir "Mexico, Hidalgo, Atotonilco el grande" a [lat, lon], hasta que se terminen las ubicaciones, el arreglo ubicacion tieen 4 ubicaciones, entonces si llega a 4, entonces terminara hasta 4
+    function Coordenadas(ubicacion) {
+        fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(ubicacion))
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                if (data.length > 0) {
+                    var lat = data[0].lat; // Latitud
+                    var lon = data[0].lon; // Longitud
+    
+                    console.log("Coordenadas: " + lat + ", " + lon);
+                    // Obtiene las coordenas, las imprime y las agrega al arreglo
+                    // coordenadas.push([lat, lon]);
+                    showMap(lat, lon)
+                    
+                } else {
+                    console.log("No se encontraron resultados para la ubicación especificada.");
+                }
+            })
+            .catch(function (error) {
+                console.log("Error al realizar la solicitud a la API de geocodificación: " + error);
+            });
+    }
+    
+    // showMap se encarga de graficar el mapa
+    function showMap(lat, lon) {
+        // Se inicializa desde un punto de partida, en este caso la UTEC
+        var map = L.map("map").setView([20.0755977, -98.4051257], 6);
+
+        // Graficando el mapa
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+            maxZoom: 18
+        }).addTo(map);
+
+        // Se muestran las coordenadas y a su vez se genera el L.marker con las cordenas segun las posiciones de i en el for que rrecore el arreglo coordenadas
+        // console.log("Datos de coordenadas:");
+        L.marker([lat, lon]).addTo(map).bindPopup(`${document.getElementById('titulo').textContent}`).openPopup();
+        
+    }
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+{% endblock Content %}

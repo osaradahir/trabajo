@@ -2,6 +2,22 @@
 {% load static %}
 {% block Content %}
 {{ status }}
+<style>
+  /* Estilos para el scroll en navegadores basados en WebKit (como Chrome) */
+  .wrapper::-webkit-scrollbar {
+    width: 2px; /* Ancho del scroll */
+    height: 4px;
+  }
+
+  .wrapper::-webkit-scrollbar-thumb {
+    background-color:white;
+    border-radius: 4px; /* Radio de borde del scroll */
+  }
+
+  .wrapper::-webkit-scrollbar-thumb:hover {
+    background-color: darkgray; /* Color del scroll en el estado de hover */
+  }
+</style>
   <section class="container_data">
     <div class="my-data-name">
       <!-- Titulo pagina -->
@@ -14,205 +30,108 @@
 
       <!-- Buscador -->
       <div class="information-data-name" id="information-profile">
-        <div class="information-user-profile">
-          <div class="seeker">
-          </form>
-            <div class="input-field seeker1">
-              <input placeholder="Ej. Consultor ABAP" id="first_name" type="text" class="validate">
-              <label for="first_name" class="labels">¿Que?</label>
+        <form method="GET" action="{% url 'principal' %}" style="height: 130px;">
+          <div class="information-user-profile">
+            <div class="seeker">
+              <div class="input-field seeker1">
+                <input placeholder="Ej. Consultor ABAP" maxlength="30" id="consulta" name="consulta" type="text" class="validate" pattern="[A-Za-záéíóúñÑ\s]{3,30}$">
+                <label for="consulta" class="labels">¿Que?</label>
+              </div>
+              <div class="input-field seeker1">
+                <input placeholder="Ej. Hidalgo" id="estado" name="estado" type="text" class="validate" maxlength="30" pattern="[A-Za-záéíóúñÑ\s]{3,50}$">
+                <label for="estado" class="labels">¿Donde?</label>
+              </div>
+              <div class="input-field seeker1">
+                <input placeholder="Ej. Ciudad" id="ciudad" name="ciudad" type="text" class="validate" pattern="[A-Za-záéíóúñÑ\s]{3,50}$" maxlength="30">
+                <label for="ciudad" class="labels">Ciudad</label>
+              </div>
+              <div class="input-field seeker1">
+                <button class="btn-large grey darken-3 waves-effect waves-light" type="submit" name="action">BUSCAR
+                  <i class="material-icons right grey darken-3" style="color: white;">search</i>
+                </button>
+              </div>
             </div>
-            <div class="input-field seeker1">
-              <input placeholder="Ej. Hidalgo" id="first_name" type="text" class="validate">
-              <label for="first_name" class="labels">¿Donde?</label>
-            </div>
-            <div class="input-field seeker1">
-              <button href="/Gnosis_SC/consultores/templates/login/profession.html" class="btn-large grey darken-3 waves-effect waves-light" type="submit" name="action">BUSCAR
-                <i class="material-icons right grey darken-3" style="color: white;">search</i>
-              </button>
-            </div>
-          </form>
           </div>
-        </div>
+        </form>
+        <button class="grey darken-3 waves-effect waves-light" style="height:50px; width:40px" onclick="window.location.href=`{% url 'principal' %}`;">
+          <i class="material-icons grey darken-3" style="color: white;">autorenew</i>
+        </button>
       </div>
 
       <!-- Proyectos Mostrados -->
       <div class="information-contact-experience">
         <div class="contact bcw">
-          <h5 class="data-contact-tittle">Mostrando todos los proyectos disponibles(450)</h5>
-          <br>
-
-        <!-- Card Proyecto 1 -->
-        <div class="card z-depth-3">
-          <div class="col l12 bcw">
-            <div class="row bcw">
-              <div class="col l5 center bcw" >
-                <li class="img bcw" style="list-style-type: none;">
-                  <img class="responsive-img bcw" src="{% static 'images/compay.png' %}" alt="Logo Gnosis" style="width:50%; padding-top:25px;"/>
-                </li>
-                <a class="waves-effect waves-light grey darken-3 btn-large" href="{% url 'detalles_proyecto' %}">DETALLES</a>
-              </div>
-              <div class="col l7 bcw">
-                <h6 class="flow-text" id="empresa" >Umbrella Company SA. de CV.</h6>
-                <h6 class="grey-text">Ubicacion</h6>
-                <h6 id="ubicacion" >CDMX, México</h6>
-                <br>
-                <h6 class="grey-text">Actividades</h6>
-                <h6 id="actividades" >Configuración sobre SD y MM</h6>
-                <br>
-                <h6 class="grey-text">Periodo de tiempo</h6>
-                <h6 id="tiempo" >4 meses</h6>
-              </div>
-            </div>
-            <div class="col l12 row bcw" style="margin-top: -20px; height:80px; padding-top:14px">
-                <div class="col l4 bcw">
-                  <h6 class="black-text">Experiencia Requerida:</h6>
-                </div>
-                
-                <div class="col l7 bcw" style="margin-left:40px">
-                  <div class="wrapper bcw">
-                    <div class="chip yellow item white-text">
-                      K1
+          {% if proyectos_con_requerimientos %}
+            <h5 class="data-contact-tittle">Mostrando todos los proyectos disponibles({{cantidad_proyectos}})</h5>
+            <br>
+            <!-- Card Proyecto 1 -->
+            {% for proyecto, requerimientos in proyectos_con_requerimientos.items %}
+              <div class="card z-depth-3">
+                <div class="col l12 bcw">
+                  <div class="row bcw">
+                    <div class="col l5 center bcw">
+                      <li class="img bcw" style="list-style-type: none;">
+                        <img class="responsive-img bcw" src="{% static 'images/compay.png' %}" alt="Logo Gnosis" style="width:50%; padding-top:25px;"/>
+                      </li>
+                      <a class="waves-effect waves-light grey darken-3 btn-large" href="{% url 'detalles_proyecto' id=proyecto.id %}">DETALLES</a>
                     </div>
-                    <div class="chip green item white-text">
-                      K2
-                    </div>
-                    <div class="chip blue item white-text">
-                      K3
-                    </div>
-                    <div class="chip yellow item">
-                      K1
-                    </div>
-                    <div class="chip green item white-text">
-                      K2
-                    </div>
-                    <div class="chip blue item white-text">
-                      K3
+                    <div class="col l7 bcw">
+                      <h6 class="flow-text" id="empresa">{{ proyecto.id_empresa_proyecto.id_empresa.empresa }}</h6>
+                      <h6 class="grey-text">Ubicacion</h6>
+                      <h6 id="ubicacion">{{ proyecto.id_empresa_proyecto.id_empresa.pais }}, {{ proyecto.id_empresa_proyecto.id_empresa.estado }}</h6>
+                      <br>
+                      <h6 class="grey-text">Puesto</h6>
+                      <h6 id="actividades" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size:16px">{{ proyecto.proyecto_nombre }}</h6>
+                      <br>
+                      <h6 class="grey-text">Actividades</h6>
+                      <h6 id="actividades" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size:16px">{{ proyecto.fun_laborales }}</h6>
+                      <br>
+                      <h6 class="grey-text">Periodo de tiempo</h6>
+                      <h6 id="tiempo">{{ proyecto.duracion }}</h6>
                     </div>
                   </div>
-  
-                </div>
-            </div>
-          </div>
-        </div>
-        <br>
-
-
-        <!-- Card Proyecto 2 -->
-        <div class="card z-depth-3">
-          <div class="col l12 bcw">
-            <div class="row bcw">
-              <div class="col l5 center bcw" >
-                <li class="img bcw" style="list-style-type: none;">
-                  <img class="responsive-img bcw" src="{% static 'images/compay.png' %}" alt="Logo Gnosis" style="width:50%; padding-top:25px;"/>
-                </li>
-                <a class="waves-effect waves-light grey darken-3 btn-large" href="{% url 'detalles_proyecto' %}">DETALLES</a>
-              </div>
-              <div class="col l7 bcw">
-                <h6 class="flow-text" id="empresa" >Umbrella Company SA. de CV.</h6>
-                <h6 class="grey-text">Ubicacion</h6>
-                <h6 id="ubicacion" >CDMX, México</h6>
-                <br>
-                <h6 class="grey-text">Actividades</h6>
-                <h6 id="actividades" >Configuración sobre SD y MM</h6>
-                <br>
-                <h6 class="grey-text">Periodo de tiempo</h6>
-                <h6 id="tiempo" >4 meses</h6>
-              </div>
-            </div>
-            <div class="col l12 row bcw" style="margin-top: -20px; height:80px; padding-top:14px">
-                <div class="col l4 bcw">
-                  <h6 class="black-text">Experiencia Requerida:</h6>
-                </div>
-                
-                <div class="col l7 bcw" style="margin-left:40px">
-                  <div class="wrapper bcw">
-                    <div class="chip yellow item white-text">
-                      K1
+                  <div class="col l12 row bcw" style="margin-top: -20px; height:80px; padding-top:14px">
+                    <div class="col l4 bcw">
+                      <h6 class="black-text">Experiencia Requerida:</h6>
                     </div>
-                    <div class="chip green item white-text">
-                      K2
-                    </div>
-                    <div class="chip blue item white-text">
-                      K3
-                    </div>
-                    <div class="chip yellow item">
-                      K1
-                    </div>
-                    <div class="chip green item white-text">
-                      K2
-                    </div>
-                    <div class="chip blue item white-text">
-                      K3
+                    <div class="col l7 bcw" style="margin-left:40px">
+                      <div class="wrapper" style="display: flex; flex-direction: row;">
+                        {% for requerimiento in requerimientos %}
+                          {% if requerimiento.id_experiencia_requerida.nombre == 'K0' %}
+                            <div style="width: 90px; padding:6px 14px 6px 14px; border-radius:14px; margin:0 6px 0 6px; text-align:center; background-color:#ecc760; color:white">{{ requerimiento.id_experiencia_requerida.nombre }}</div>
+                          {% elif requerimiento.id_experiencia_requerida.nombre == 'K1' %}
+                            <div style="width: 90px; padding:6px 14px 6px 14px; border-radius:14px; margin:0 6px 0 6px; text-align:center; background-color:#fcb908; color:white">{{ requerimiento.id_experiencia_requerida.nombre }}</div>
+                          {% elif requerimiento.id_experiencia_requerida.nombre == 'K2' %}
+                            <div style="width: 90px; padding:6px 14px 6px 14px; border-radius:14px; margin:0 6px 0 6px; text-align:center; background-color:#06d1c7; color:white">{{ requerimiento.id_experiencia_requerida.nombre }}</div>
+                          {% elif requerimiento.id_experiencia_requerida.nombre == 'K3' %}
+                            <div style="width: 90px; padding:6px 14px 6px 14px; border-radius:14px; margin:0 6px 0 6px; text-align:center; background-color:#0b5ed4; color:white">{{ requerimiento.id_experiencia_requerida.nombre }}</div>
+                          {% elif requerimiento.id_experiencia_requerida.nombre == 'K4' %}
+                            <div style="width: 90px; padding:6px 14px 6px 14px; border-radius:14px; margin:0   6px 0 6px; text-align:center; background-color:#1d8b41; color:white">{{ requerimiento.id_experiencia_requerida.nombre }}</div>
+                          {% endif %}
+                        {% endfor %}
+                      </div>
                     </div>
                   </div>
-  
                 </div>
-            </div>
-          </div>
-        </div>
-        <br>
-        <!-- Card Proyecto 3 -->
-        <div class="card z-depth-3">
-          <div class="col l12 bcw">
-            <div class="row bcw">
-              <div class="col l5 center bcw" >
-                <li class="img bcw" style="list-style-type: none;">
-                  <img class="responsive-img bcw" src="{% static 'images/compay.png' %}" alt="Logo Gnosis" style="width:50%; padding-top:25px;"/>
-                </li>
-                <a class="waves-effect waves-light grey darken-3 btn-large" href="{% url 'detalles_proyecto' %}">DETALLES</a>
               </div>
-              <div class="col l7 bcw">
-                <h6 class="flow-text" id="empresa" >Umbrella Company SA. de CV.</h6>
-                <h6 class="grey-text">Ubicacion</h6>
-                <h6 id="ubicacion" >CDMX, México</h6>
-                <br>
-                <h6 class="grey-text">Actividades</h6>
-                <h6 id="actividades" >Configuración sobre SD y MM</h6>
-                <br>
-                <h6 class="grey-text">Periodo de tiempo</h6>
-                <h6 id="tiempo" >4 meses</h6>
-              </div>
-            </div>
-            <div class="col l12 row bcw" style="margin-top: -20px; height:80px; padding-top:14px">
-                <div class="col l4 bcw">
-                  <h6 class="black-text">Experiencia Requerida:</h6>
-                </div>
-                
-                <div class="col l7 bcw" style="margin-left:40px">
-                  <div class="wrapper bcw">
-                    <div class="chip yellow item white-text">
-                      K1
-                    </div>
-                    <div class="chip green item white-text">
-                      K2
-                    </div>
-                    <div class="chip blue item white-text">
-                      K3
-                    </div>
-                    <div class="chip yellow item">
-                      K1
-                    </div>
-                    <div class="chip green item white-text">
-                      K2
-                    </div>
-                    <div class="chip blue item white-text">
-                      K3
-                    </div>
-                  </div>
-  
-                </div>
-            </div>
-          </div>
-        </div>
+              <br>
+            {% endfor %}
+
+          {% else %}
+            <h5 class="data-contact-tittle">Mostrando todos los proyectos disponibles(0)</h5>
+            <h5 class="" style="font-weight: lighter;">No hay proyectos disponibles que cumplan con tu criterio de busqueda</h5>
+          {% endif %}
+
+        
         <div class="row center bcw" style="padding-top:55px; padding-bottom:55px;">
-          <a class="waves-effect waves-light btn" >Cargar más</a>
+          <button id="cargar-mas-btn" onclick="moreProjects()" class="waves-effect waves-light btn"  >Cargar más</button>
         </div>
       </div>
-
+      <input type="hidden" name="paginas" id="paginas" value="{{ num_paginas }}">
       <!-- Busqueda 2: Experiencia y Tipo de Empleo -->
       <div class="experience">
         <div class="row  bcw">
-          <form action="#">
+          <form method="GET" action="{% url 'principal' %}">
             <ul class="collapsible expandable">
               <!-- Nivel de Experiencia -->
               <li>
@@ -220,35 +139,35 @@
                   <div class="collapsible-body bcw">
                     <p>
                       <label class="bcw">
-                        <input name="group1" type="radio" class="bcw"/>
+                        <input name="experiencia" type="radio" class="bcw" value="K0"/>
                         <span class="bcw">Conocimiento con nivel introductorio</span>
                       </label>
                     </p>
                     <br>
                     <p>
                       <label class="bcw">
-                        <input name="group1" type="radio" class="bcw"/>
+                        <input name="experiencia" type="radio" class="bcw" value="K1"/>
                         <span class="bcw">De 1 a 2 proyectos de a 1 a 3 años exp.</span>
                       </label>
                     </p>
                     <br>
                     <p>
                       <label class="bcw">
-                        <input name="group1" type="radio" class="bcw"/>
+                        <input name="experiencia" type="radio" class="bcw" value="K2"/>
                         <span class="bcw">De 3 a 5 proyectos de a 3 a 5 años de experiencia</span>
                       </label>
                     </p>
                     <br>
                     <p>
                       <label class="bcw">
-                        <input name="group1" type="radio" class="bcw"/>
+                        <input name="experiencia" type="radio" class="bcw" value="K3"/>
                         <span class="bcw">Dominio de las funcionalidad. Más de 5 años en proyectos</span>
                       </label>
                     </p>
                     <br>
                     <p>
                       <label class="bcw">
-                        <input name="group1" type="radio" class="bcw"/>
+                        <input name="experiencia" type="radio" class="bcw" value="K4"/>
                         <span class="bcw">Experto en la funcionalidad con más de 5 años en proyectos</span>
                       </label>
                     </p>
@@ -261,21 +180,21 @@
                 <div class="collapsible-body bcw">
                   <p>
                     <label class="bcw">
-                      <input name="group1" type="radio" class="bcw"/>
+                      <input name="tipo" type="radio" class="bcw" value="completo"/>
                       <span class="bcw">Tiempo completo</span>
                     </label>
                   </p>
                   <br>
                   <p>
                     <label class="bcw">
-                      <input name="group1" type="radio" class="bcw"/>
+                      <input name="tipo" type="radio" class="bcw" value="remoto"/>
                       <span class="bcw">Trabajo remoto</span>
                     </label>
                   </p>
                   <br>
                   <p>
                     <label class="bcw">
-                      <input name="group1" type="radio" class="bcw"/>
+                      <input name="tipo" type="radio" class="bcw" value="medio"/>
                       <span class="bcw">Medio tiempo</span>
                     </label>
                   </p>
@@ -284,25 +203,62 @@
               </li>
             </ul>
             <div class="center white">
-            <button href="/Gnosis_SC/consultores/templates/login/profession.html" class="btn-large grey darken-3 waves-effect waves-light" type="submit" name="action">Actualizar
+            <button class="btn-large grey darken-3 waves-effect waves-light" type="submit" name="action">Actualizar
               <i class="material-icons right grey darken-3" style="color: white;">autorenew</i>
             </button>
           </div>
           </form>
+          
         </div>
+
       </div>
+      
   </div>
   </section>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="{% static 'js/principal.js' %}?v=1.1"></script>
   <script>
+    function moreProjects() {
+      var urlParams = new URLSearchParams(window.location.search);
+      var paramsArray = Array.from(urlParams);
+      var count = paramsArray.length;
+      var page = urlParams.get('page');
+      if (!page) {
+        page = 1;
+      }
+      var pagina = Math.floor(page)+1
+      var paginasTotal = document.getElementById('paginas').value;
+      console.log(paginasTotal)
+      if(count==1 || count == 0){
+        if(pagina<=paginasTotal){
+          window.location.href = `{% url 'principal' %}?page=${pagina}`;
+        }else{
+          Swal.fire(
+            'No hay mas proyectos',
+            'Has visto todos los proyectos disponibles',
+            'info'
+          )
+        }
+      }
+      else{
+        urlParams.delete('page'); 
+        urlParams.delete('action'); 
+        if(pagina<=paginasTotal){
+          window.location.href = `{% url 'principal' %}?${urlParams.toString()}&page=${pagina}`;
+        }else{
+          Swal.fire(
+            'No hay mas proyectos',
+            'Has visto todos los proyectos disponibles',
+            'info'
+          )
+        }
+      }
+    }
+
     var elem = document.querySelector('.collapsible.expandable');
     var instance = M.Collapsible.init(elem, {
       accordion: false
     });
-    
-  $(document).ready(function(){
-    $('.tooltipped').tooltip();
-  });
+  
   </script>
   {% endblock %}

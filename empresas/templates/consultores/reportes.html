@@ -1,0 +1,216 @@
+{% extends 'baseProyectos.html' %}
+{% load static %}
+
+{% block Content %}
+<style>
+    .dropdown-trigger:hover,
+    .dropdown-trigger-link:hover {  
+      background-color: inherit;
+      transform: none;
+    }
+  
+</style>
+<section class="container-poyectos">
+<div class="container" style="margin-top:20px; width:80%;">
+    <div class="row" style="background-color: transparent;">
+
+        <!-- CONTROL PAGES -->
+        <div class="col l4 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">
+            <a href="">Principal</a> 
+            <a class="grey-text pl7">/ Consultor /</a>
+            <a class="grey-text pl7">Reportes</a>
+        </div>
+
+
+        <!-- TITLE -->
+        <div class="col s12 ">
+            <h3 class="blue-text col l12 s12 text-darken-4" >Reportes</h3>
+        </div>
+
+
+        <!-- LEYEND -->
+        <div class="col s12">
+            <span class="grey-text" style="font-size:14pt; background-color:transparent;">Consulte y valide los reportes del consultor {{persona.nombre}} {{persona.ape_pat}} {{persona.ape_mat}}</span>
+        </div>
+        
+    </div>
+</div>
+
+
+<div class="container" style="margin-top:20px; width:80%;">
+    <div class="row">
+        <div class="col s12 l12 white pbtm20" style="padding-top: 1cm;">
+            <div class="aligner" style="margin-left: 1cm; margin-right: 1cm;">
+                <div class="col s12 l12 pbtm20" >
+                    {% if contrato %}
+                      <div>
+                        <h5>Reporte final de actividades</h5>
+                        <div class="container-table">
+                          <table class="centered responsive-table">
+                            <thead>
+                              <tr>
+                                <th>Periodo</th>
+                                <th>Entregado</th>
+                                <th>Ver</th>
+                                <th>Validar</th>
+                                <th>Validacion Empresa</th>
+                              </tr>
+                            </thead>
+                            <tbody id="tablaResultados"> 
+                              {% if reportesFinales %}
+                                {% for reporteFinal in reportesFinales %}
+                                  <tr>
+                                    <td>Reporte final - {{reporteFinal.4|date:"Y"}}</td>
+                                    <td>
+                                      {% if reporteFinal.1 == '1' %}
+                                        <i class="material-icons" style="color: green">check_box</i>
+                                      {% else %}
+                                        <i class="material-icons" style="color: red">check_box_outline_blank</i>
+                                      {% endif %}         
+                                    </td>
+                                    <td>
+                                      {% if reporteFinal.1 == '1' %}
+                                        <a href="{% url 'consultorDocumentosShowXML' %}?ruta={{reporteFinal.6}}&nameFile={{reporteFinal.7}}" target="_blank">
+                                          <i class="material-icons" style="color: rgb(0, 153, 255)">visibility</i>
+                                        </a>
+                                      {% else %}
+                                        <i class="material-icons" style="color: red">visibility_off</i>
+                                      {% endif %} 
+                                    </td>
+                                    <td>
+                                      <form action="{% url 'validarReporteFinal' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="reporteFinal" value="{{reporteFinal.5}}">
+                                        <label style="margin-top: 10px;">
+                                          <input type="checkbox" class="filled-in" value="ON" name="validar" />
+                                          <span style="color:white">C</span>
+                                        </label>
+                                        <button class="btn" type="submit" name="action">
+                                          <i class="material-icons left" style="margin-left: 20%;">send</i>
+                                        </button>
+  
+                                      </form>
+                                    </td>
+                                    <td>
+                                      {% if reporteFinal.3 == 'Aceptada' %}
+                                        <i class="material-icons" style="color: rgb(152, 231, 32);">check_box</i>
+                                      {% elif reporteFinal.3 == 'Rechazada' %}  
+                                        <i class="material-icons" style="color: red">error</i>
+                                      {% else %}
+                                        <i class="material-icons" style="color: rgb(190, 163, 7)">warning</i>
+                                      {% endif %}         
+                                    </td>
+                                  </tr>
+                                {% endfor %}
+                              {% else %}
+                              <tr>
+                                <td colspan="4">Aun no hay reportes de horas</td>
+                              </tr>
+                              {% endif %}
+                              
+                            </tbody>
+                            
+                          </table>
+                        </div>
+                      </div>
+                      <br><br>
+                      <h5>Reportes de horas</h5>
+                      <div class="container-table">
+                        <table class="centered responsive-table">
+                          <thead>
+                            <tr>
+                              <th>Periodo</th>
+                              <th>Entregado</th>
+                              <th>Ver</th>
+                              <th>Validar</th>
+                              <th>Validacion Empresa</th>
+                            </tr>
+                          </thead>
+                          <tbody id="tablaResultados"> 
+                            {% if reporteHoras %}
+                              {% for reporteHora in reporteHoras %}
+                                <tr>
+                                  <td>{{ reporteHora.0 }} - {{reporteHora.4|date:"Y"}}</td>
+                                  <td>
+                                    {% if reporteHora.1 == '1' %}
+                                      <i class="material-icons" style="color: green">check_box</i>
+                                    {% else %}
+                                      <i class="material-icons" style="color: red">check_box_outline_blank</i>
+                                    {% endif %}         
+                                  </td>
+                                  <td>
+                                    {% if reporteHora.1 == '1' %}
+                                      <a href="{% url 'consultorDocumentosShowXML' %}?ruta={{reporteHora.6}}&nameFile={{reporteHora.7}}" target="_blank">
+                                        <i class="material-icons" style="color: rgb(0, 153, 255)">visibility</i>
+                                      </a>
+                                    {% else %}
+                                      <i class="material-icons" style="color: red">visibility_off</i>
+                                    {% endif %} 
+                                  </td>
+                                  <td>
+                                    <form action="{% url 'validarHoras' %}" method="post">
+                                      {% csrf_token %}
+                                      <input type="hidden" name="reporteHora" value="{{reporteHora.5}}">
+                                      <label style="margin-top: 10px;">
+                                        <input type="checkbox" class="filled-in" value="ON" name="validar" />
+                                        <span style="color:white">C</span>
+                                      </label>
+                                      <button class="btn" type="submit" name="action">
+                                        <i class="material-icons left" style="margin-left: 20%;">send</i>
+                                      </button>
+
+                                    </form>
+                                  </td>
+                                  <td>
+                                    {% if reporteHora.3 == 'Aceptada' %}
+                                      <i class="material-icons" style="color: rgb(152, 231, 32);">check_box</i>
+                                    {% elif reporteHora.3 == 'Rechazada' %}  
+                                      <i class="material-icons" style="color: red">error</i>
+                                    {% else %}
+                                      <i class="material-icons" style="color: rgb(190, 163, 7)">warning</i>
+                                    {% endif %}         
+                                  </td>
+                                </tr>
+                              {% endfor %}
+                            {% else %}
+                            <tr>
+                              <td colspan="4">Aun no hay reportes de horas</td>
+                            </tr>
+                            {% endif %}
+                            
+                          </tbody>
+                          
+                        </table>
+                      </div>
+                      <br><br>
+                      <hr>
+                    {% else %}
+                        <h6 class="white" style="font-weight: bold">
+                            El consultor aun no esta contratado
+                        </h6>
+                    {% endif %}
+                    
+                    <br>
+                </div>
+                <br>
+            </div>
+            <br>
+        </div>
+        <br>
+    </div>
+    <br>
+</div>
+
+</section>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+
+   
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+    });
+    
+</script>
+{% endblock Content %}

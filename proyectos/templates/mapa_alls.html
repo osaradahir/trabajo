@@ -1,0 +1,688 @@
+{% extends 'baseProyectos.html' %} {% load static %} {% block Content %}
+<style>
+  .contenedor {
+    position: relative;
+  }
+
+  .div-fondo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #e5e5e5; /* Color de fondo del div de fondo */
+    z-index: 1; /* Asegura que esté en la parte inferior */
+  }
+
+  .div-superior {
+    position: relative;
+    z-index: 2; /* Asegura que esté en el medio */
+  }
+
+  .div-tercero {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px; /* Ajusta la altura según tus necesidades */
+    background-color: transparent; /* Color de fondo del div tercero */
+    z-index: 3; /* Asegura que esté en la parte superior */
+  }
+</style>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css"
+/>
+<section class="container-poyectos">
+  <div class="container" style="margin-top: 20px; width: 80%">
+    <div class="row">
+      <!-- CONTROL PAGES -->
+      <div
+        class="col l10 s12 grey lighten-2"
+        style="display: flex; height: 35px; align-items: center"
+      >
+        <a href="{% url 'my_projectsCreateds' %}">Principal</a>
+        <a class="grey-text pl7">/ </a>
+        <a class="pl7" href="{% url 'my_projectsCreateds' %}"> Mis Proyectos</a>
+        <a class="grey-text pl7">/ </a>
+        <a class="pl7" href="{% url 'details_project' %}?prj={{postulacionesProyecto.id_proyecto.id}}"> Detalles de Proyecto</a>
+        <a class="grey-text pl7">/</a>
+        <a class="grey-text pl7"> Mapa de Consultores </a>
+      </div>
+
+      <!-- TITLE -->
+      <div class="col s12 l12">
+        <h3 class="blue-text col l12 s12 text-darken-4">
+          Mapa de todos los consultores postulados para el Proyecto: {{postulacionesProyecto.id_proyecto.proyecto_nombre}}
+        </h3>
+      </div>
+
+      <!-- LEYEND -->
+      <div class="col s12 l12">
+        <span class="grey-text" style="font-size: 14pt"
+          >Información sobre la localizacion de todos los consultores postulados</span
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="margin-top: 20px; width: 80%">
+    {% if postulados %} {% for postulado in postulados %}
+    <input type="hidden" name="id" value="{{postulado.6}}" />
+    <input
+      type="hidden"
+      name="sexo"
+      value="{{postulado.0}}"
+      id="consultor-{{postulado.6}}"
+    />
+    <input
+      type="hidden"
+      name="edad"
+      value="{{postulado.1}}"
+      id="consultor-{{postulado.6}}"
+    />
+    <input
+      type="hidden"
+      name="experiencia"
+      value="{{postulado.2}}"
+      id="consultor-{{postulado.6}}"
+    />
+    <input
+      type="hidden"
+      name="pago"
+      value="{{postulado.3}}"
+      id="consultor-{{postulado.6}}"
+    />
+    <input
+      type="hidden"
+      name="moneda"
+      value="{{postulado.4}}"
+      id="consultor-{{postulado.6}}"
+    />
+    <input
+      type="hidden"
+      name="disponible"
+      value="{{postulado.5}}"
+      id="consultor-{{postulado.6}}"
+    />
+    <input
+      type="hidden"
+      name="titulo"
+      value="{{postulado.7}}"
+      id="consultor-{{postulado.6}}"
+    />
+    <input
+      type="hidden"
+      name="nivel"
+      value="{{postulado.8}}"
+      id="consultor-{{postulado.6}}"
+    />
+    <input
+      type="hidden"
+      name="direccion"
+      value="{{postulado.9}}"
+      id="consultor-{{postulado.6}}"
+    />
+    <input
+      type="hidden"
+      name="comentarios"
+      value="{{postulado.10}}"
+      id="consultor-{{postulado.6}}"
+    />
+    <input
+      type="hidden"
+      name="experiencia"
+      value="{{postulado.11}}"
+      id="consultor-{{postulado.6}}"
+    />
+    <input
+      type="hidden"
+      name="descripcion"
+      value="{{postulado.12}}"
+      id="consultor-{{postulado.6}}"
+    />
+    <input
+      type="hidden"
+      name="rfc"
+      value="{{postulado.13}}"
+      id="consultor-{{postulado.6}}"
+    />
+    <input
+      type="hidden"
+      name="image"
+      value="{{postulado.14}}"
+      id="consultor-{{postulado.6}}"
+    />
+    <input
+      type="hidden"
+      name="default"
+      value="{{postulado.15}}"
+      id="consultor-{{postulado.6}}"
+    />
+    <input
+      type="hidden"
+      name="puntuacionConsultor"
+      value="{{postulado.16}}"
+      id="consultor-{{postulado.6}}"
+    />
+    {% endfor%} {% endif %}
+
+    <div class="row">
+      <div class="contenedor">
+        <!-- MAPA-->
+        <div class="div-fondo">
+          <div
+            class="col s12 l12"
+            id="map"
+            style="width: 100%; height: 700px"
+          ></div>
+        </div>
+
+        <!-- TARJETA -->
+        <div class="div-superior" style="display: none" id="div-superior">
+          <div
+            class="col l5 white"
+            style="
+              border: 4px solid rgba(0, 128, 0, 0.415);
+              border-radius: 6px;
+              position: absolute;
+              top: 15cm;
+              left: 50%;
+              transform: translate(-50%, -50%);
+            "
+            id="hijo"
+          >
+            <!--TARJET -->
+            <div
+              style="
+                margin-top: 10px;
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+              "
+              id="padre"
+            >
+              <!-- AVATAR -->
+              <div style="align-items: center; display: flex; width: 30%">
+                <img
+                  src="{% static 'images/crea.jpg' %}"
+                  alt="Foto de Perfil"
+                  style="width: 100%; border-radius: 4%"
+                />
+              </div>
+
+              <!-- INFO -->
+              <div style="width: 70%" id="nieto">
+                <div class="col l7 fw-bold" id="titulo"></div>
+
+                <div class="col l5 fw-bold">NIVEL K2</div>
+
+                <div class="col s12 l12 grey-text">{{consultor.rfc}}</div>
+
+                <div class="col s12 l12">
+                  <h7> En los modulos de C0 con submódulos MON-CEL OM-ABC </h7>
+                </div>
+
+                <div class="col s12 l12 valign-wrapper">
+                  <i class="material-icons amber-text">star</i>
+                  <h7 class="grey-text">(4.5)</h7>
+                </div>
+
+                <!-- BUTTON MORE CONTENT-->
+                <div
+                  class="col s12 l12 center"
+                  style="padding-top: 15px; padding-bottom: 15px"
+                >
+                  <button
+                    class="waves-effect btn-small blue darken-3"
+                    id="mostrarBtn"
+                  >
+                    Ver mas
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTENIDO OCULTO -->
+        <div class="div-tercero">
+          <!-- HIDDEN CONTENT -->
+          <div
+            class="col s12 l4 white hidden-content"
+            id="contenidoOculto"
+            style="
+              position: absolute;
+              top: 9cm;
+              width: 60%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+            "
+          >
+            <div class="row bcw">
+              <div class="col s12 l12 white pbtm20" style="padding-top: 20px">
+                <button id="ocultarBtn" style="background-color: white">
+                  <i class="material-icons">close</i>
+                </button>
+              </div>
+
+              <div class="col l6">SAP SENIOR DEVELOPER</div>
+
+              <div class="col l6 valign-wrapper">
+                <i class="material-icons amber-text">star</i>
+                <i class="material-icons amber-text">star</i>
+                <i class="material-icons amber-text">star</i>
+                <i class="material-icons amber-text">star</i>
+                <i class="material-icons amber-text">star_half</i>
+                <h7 class="grey-text">&nbsp;(4.5)</h7>
+              </div>
+
+              <div class="col l12 pbtm20">Edad:26</div>
+
+              <div class="col s12 l12 white pbtm20">{{ consultor.rfc }}</div>
+
+              <div class="col l11" style="border: 2px solid rgb(0, 0, 0)">
+                <h6>Disponibilidad: Inmediata</h6>
+                <h6>Tarifa: $ 1,000 US</h6>
+                <h6>Descripcion:</h6>
+                <h6 class="pbtm20">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Dolores deserunt aut earum laborum, asperiores illo quod
+                  tempore suscipit sunt quibusdam. Eos facilis libero inventore
+                  fuga natus consectetur delectus non ratione.
+                </h6>
+                <h6>Comentarios:</h6>
+                <h6 class="pbtm20">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Dolores deserunt aut earum laborum, asperiores illo quod
+                  tempore suscipit sunt quibusdam. Eos facilis libero inventore
+                  fuga natus consectetur delectus non ratione.
+                </h6>
+              </div>
+
+              <div class="col 12 l12 white center" style="padding-top: 15px">
+               
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col s12 l12" style="padding-bottom: 20cm"></div>
+  </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="{% static 'js/projects.js' %}"></script>
+
+<script>
+  // Ubicaciones
+  // Obtener todos los input hidden con nombre "direccion"
+  var inputUbicaciones = document.querySelectorAll('input[name="direccion"]');
+
+  // Crear una lista para almacenar las ubicaciones
+  var ubicacion = [];
+
+  // Recorrer los input y obtener el valor de cada uno
+  inputUbicaciones.forEach(function (input) {
+    ubicacion.push(input.value);
+  });
+
+  var inputId = document.querySelectorAll('input[name="id"]');
+
+  // Crear una lista para almacenar las ubicaciones
+  var ids = [];
+
+  // Recorrer los input y obtener el valor de cada uno
+  inputId.forEach(function (input) {
+    ids.push(input.value);
+    console.log(input.value);
+    var id = input.value;
+    // Obtener el contenedor existente
+    var contenedor = document.querySelector(".contenedor");
+
+    // Crear el div superior
+    var divSuperior = document.createElement("div");
+    divSuperior.className = "div-superior";
+    divSuperior.style.display = "none";
+    divSuperior.id = `div-superior-${id}`;
+
+    // Crear el div hijo
+    var divHijo = document.createElement("div");
+    divHijo.className = "col l5 white";
+    divHijo.style.border = "4px solid rgba(0, 128, 0, 0.415)";
+    divHijo.style.borderRadius = "6px";
+    divHijo.style.position = "absolute";
+    divHijo.style.height = "190px";
+    divHijo.style.top = "13cm";
+    divHijo.style.left = "50%";
+    divHijo.style.transform = "translate(-50%, -50%)";
+    divHijo.id = "hijo";
+
+    // Crear el div padre
+    var divPadre = document.createElement("div");
+    divPadre.style.marginTop = "10px";
+    divPadre.style.width = "100%";
+    divPadre.style.display = "flex";
+    divPadre.style.flexDirection = "row";
+    divPadre.id = "padre";
+
+    // Crear el div del avatar
+    var divAvatar = document.createElement("div");
+    divAvatar.style.alignItems = "center";
+    divAvatar.style.display = "flex";
+    divAvatar.style.width = "30%";
+
+    // Crear la imagen del avatar
+    var imgAvatar = document.createElement("img");
+    if(document.querySelector(`input[name="default"][id="consultor-${id}"]`).value == 'True'){
+      if(document.querySelector(`input[name="sexo"][id="consultor-${id}"]`).value == 'Mujer'){
+        imgAvatar.src = "{% static 'images/profile/defaultF.png' %}";
+      }else{
+        imgAvatar.src = "{% static 'images/profile/default.jpg' %}";
+      }
+      
+    }else{
+      var img = document.querySelector(`input[name="image"][id="consultor-${id}"]`)
+      imgAvatar.src = `../../../../${img.value}`;
+    }
+    
+    imgAvatar.alt = "Foto de Perfil";
+    imgAvatar.style.width = "100%";
+    imgAvatar.style.borderRadius = "4%";
+
+    // Agregar la imagen del avatar al div del avatar
+    divAvatar.appendChild(imgAvatar);
+
+    // Crear el div del hijo
+    var divNieto = document.createElement("div");
+    divNieto.style.width = "70%";
+    divNieto.id = "nieto";
+
+    // Crear el div del título
+    var divTitulo = document.createElement("div");
+    divTitulo.className = "col l7 fw-bold";
+    divTitulo.id = "titulo";
+
+    // Agregar el texto al div del título
+    divTitulo.textContent =
+      "Consultor " +
+      document.querySelector(`input[name="titulo"][id="consultor-${id}"]`)
+        .value;
+
+    // Agregar el div del título al div del hijo
+    divNieto.appendChild(divTitulo);
+
+    // Crear el div del nivel
+    var divNivel = document.createElement("div");
+    divNivel.className = "col l5 fw-bold";
+    divNivel.textContent =
+      "NIVEL " +
+      document.querySelector(`input[name="nivel"][id="consultor-${id}"]`).value;
+
+    // Crear el div del RFC
+    var divRFC = document.createElement("div");
+    divRFC.className = "col s12 l12 grey-text";
+    divRFC.textContent =
+      "RFC " +
+      document.querySelector(`input[name="rfc"][id="consultor-${id}"]`).value;
+
+    // Crear el div de la descripción
+    var divDescripcion = document.createElement("div");
+    divDescripcion.className = "col s12 l12";
+    divDescripcion.innerHTML =
+      "<h7>Conocimientos en los modulos " +
+      document.querySelector(`input[name="experiencia"][id="consultor-${id}"]`)
+        .value +
+      "</h7>";
+
+    // Crear el div de la calificación
+    var divCalificacion = document.createElement("div");
+    divCalificacion.className = "col s12 l12 valign-wrapper";
+
+    var stars = parseInt(document.querySelector(`input[name="puntuacionConsultor"][id="consultor-${id}"]`).value);
+
+    var calificacionTexto = `<h7 class="grey-text">(${stars.toFixed(1)})</h7>`;
+
+    for (var i = 1; i <= 5; i++) {
+      var starIcon = '<i class="material-icons amber-text">star</i>';
+      if (i > stars) {
+        starIcon = '<i class="material-icons grey-text">star_outline</i>';
+      }
+      divCalificacion.innerHTML += starIcon;
+    }
+    divCalificacion.innerHTML += calificacionTexto;
+
+    
+
+    // Crear el botón de ver más
+    var botonVerMas = document.createElement("button");
+    botonVerMas.className = "waves-effect btn-small blue darken-3";
+    botonVerMas.id = "mostrarBtn";
+    botonVerMas.textContent = "Ver más";
+    botonVerMas.style.marginLeft = "40%";
+    botonVerMas.style.marginTop = "14px";
+
+    botonVerMas.addEventListener("click", function () {
+      var divHiddenContent = document.querySelector(`#contenidoOculto-${id}`);
+
+      // Verificar si el elemento tiene la clase hidden-content
+      if (divHiddenContent.classList.contains("hidden-content")) {
+        // Si la tiene, remover la clase
+        divHiddenContent.classList.remove("hidden-content");
+      } else {
+        // Si no la tiene, agregar la clase
+        divHiddenContent.classList.add("hidden-content");
+      }
+    });
+
+    // Agregar los elementos al div padre
+    divPadre.appendChild(divAvatar);
+    divPadre.appendChild(divNieto);
+
+    // Agregar los elementos al div hijo
+    divHijo.appendChild(divPadre);
+    divNieto.appendChild(divNivel);
+    divNieto.appendChild(divRFC);
+    divNieto.appendChild(divDescripcion);
+    divNieto.appendChild(divCalificacion);
+    divHijo.appendChild(botonVerMas);
+
+    // Agregar el div hijo al div superior
+    divSuperior.appendChild(divHijo);
+
+    // Agregar el div superior al contenedor
+    contenedor.appendChild(divSuperior);
+
+    // Obtener el contenedor existente
+    var contenedor = document.querySelector(".contenedor");
+
+    // Crear el div contenedor del contenido oculto
+    var divContenidoOculto = document.createElement("div");
+    divContenidoOculto.className = "div-tercero";
+
+    // Crear el div del contenido oculto
+    var divHiddenContent = document.createElement("div");
+    divHiddenContent.className = "col s12 l4 white hidden-content";
+    divHiddenContent.id = `contenidoOculto-${id}`;
+    divHiddenContent.style.position = "absolute";
+    divHiddenContent.style.top = "9cm";
+    divHiddenContent.style.width = "60%";
+    divHiddenContent.style.left = "50%";
+    divHiddenContent.style.transform = "translate(-50%, -50%)";
+
+    divHiddenContent.addEventListener("dblclick", function () {
+      var elementosOcultos = document.querySelectorAll(
+        '[id^="contenidoOculto"]'
+      );
+
+      // Iterar sobre los elementos y agregar la clase "hidden-content"
+      elementosOcultos.forEach(function (elemento) {
+        elemento.classList.add("hidden-content");
+      });
+    });
+
+    // Crear el contenido interno del div oculto
+    var contenidoInterno = `
+      <div class="row bcw">
+        <div class="col s12 l12 white pbtm20" style="padding-top: 20px">
+          <button id="ocultarBtn" style="background-color: white">
+            <i class="material-icons">close</i>
+          </button>
+        </div>
+        <div class="col l6">Consultor en ${
+          document.querySelector(
+            `input[name="experiencia"][id="consultor-${id}"]`
+          ).value
+        }</div>
+        <div class="col l6 valign-wrapper">
+          <i class="material-icons amber-text">star</i>
+          <h7 class="grey-text">&nbsp;(${
+            document.querySelector(
+              `input[name="puntuacionConsultor"][id="consultor-${id}"]`
+            ).value
+          })</h7>
+        </div>
+        <div class="col l12 pbtm20">Edad: ${
+          document.querySelector(`input[name="edad"][id="consultor-${id}"]`)
+            .value
+        }</div>
+        <div class="col s12 l12 white pbtm20">RFC: ${
+          document.querySelector(`input[name="rfc"][id="consultor-${id}"]`)
+            .value
+        }</div>
+        <div class="col l11" style="border: 2px solid rgb(0, 0, 0)">
+          <h6>Disponibilidad: ${
+            document.querySelector(
+              `input[name="disponible"][id="consultor-${id}"]`
+            ).value
+          }</h6>
+          <h6>Tarifa: $ ${
+            document.querySelector(`input[name="pago"][id="consultor-${id}"]`)
+              .value
+          } ${
+      document.querySelector(`input[name="moneda"][id="consultor-${id}"]`).value
+    }</h6>
+          <h6>Descripcion:</h6>
+          <h6 class="pbtm20">
+            ${
+              document.querySelector(
+                `input[name="descripcion"][id="consultor-${id}"]`
+              ).value
+            }
+          </h6>
+          <h6>Comentarios:</h6>
+          <h6 class="pbtm20">
+            ${
+              document.querySelector(
+                `input[name="comentarios"][id="consultor-${id}"]`
+              ).value
+            }
+          </h6>
+        </div>
+        <div class="col 12 l12 white center" style="padding-top: 15px">
+          
+        </div>
+      </div>
+    `;
+
+    // Asignar el contenido interno al div oculto
+    divHiddenContent.innerHTML = contenidoInterno;
+
+    // Agregar el div oculto al div contenedor del contenido oculto
+    divContenidoOculto.appendChild(divHiddenContent);
+
+    // Agregar el div contenedor del contenido oculto al contenedor principal
+    contenedor.appendChild(divContenidoOculto);
+  });
+
+  //var ubicacion = ["Mexico, Hidalgo, Atotonilco el grande", "Mexico, Hidalgo, Huasca de Ocampo", "Mexico, Hidalgo, Pachuca Mineral del monte", "Mexico, Hidalgo, Pachuca"];
+  // Coordenadas
+  var coordenadas = [];
+
+  // Ciclo for que Recorre las ubicacion a la vez que llama a la funcion Coordendas
+  // Envia las cordendas y la ultima posicion, algo asi: ()"Mexico, Hidalgo, Atotonilco el grande", 4)
+  for (var i = 0; i < ubicacion.length; i++) {
+    Coordenadas(ubicacion[i], i === ubicacion.length - 1, ids[i]);
+  }
+  var idVal = [];
+  // La funcion se encarga de traducir "Mexico, Hidalgo, Atotonilco el grande" a [lat, lon], hasta que se terminen las ubicaciones, el arreglo ubicacion tieen 4 ubicaciones, entonces si llega a 4, entonces terminara hasta 4
+  function Coordenadas(ubicacion, esUltimaUbicacion, id) {
+    fetch(
+      "https://nominatim.openstreetmap.org/search?format=json&q=" +
+        encodeURIComponent(ubicacion)
+    )
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        if (data.length > 0) {
+          var lat = data[0].lat; // Latitud
+          var lon = data[0].lon; // Longitud
+
+          console.log("Coordenadas: " + lat + ", " + lon);
+          // Obtiene las coordenas, las imprime y las agrega al arreglo
+          coordenadas.push([lat, lon]);
+          idVal.push([id]);
+
+          if (esUltimaUbicacion) {
+            // Si ya llego a 4(cnt de ubicaciones), llama a la funcion que muestra el mapa
+            showMap();
+          }
+        } else {
+          console.log(
+            "No se encontraron resultados para la ubicación especificada."
+          );
+          if (esUltimaUbicacion) {
+            showMap();
+          }
+        }
+      })
+      .catch(function (error) {
+        console.log(
+          "Error al realizar la solicitud a la API de geocodificación: " + error
+        );
+      });
+  }
+
+  // showMap se encarga de graficar el mapa
+  function showMap() {
+    // Se inicializa desde un punto de partida, en este caso la UTEC
+    var map = L.map("map").setView([20.0755977, -98.4051257], 6);
+
+    // Graficando el mapa
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution:
+        'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+      maxZoom: 18,
+    }).addTo(map);
+
+    // Se muestran las coordenadas y a su vez se genera el L.marker con las cordenas segun las posiciones de i en el for que rrecore el arreglo coordenadas
+    console.log("Datos de coordenadas:");
+    for (var i = 0; i < coordenadas.length; i++) {
+      (function (index) {
+        var titulo = document.querySelector(
+          'input[name="titulo"][id="consultor-' + idVal[index][0] + '"]'
+        ).value;
+
+        const marker = L.marker([coordenadas[index][0], coordenadas[index][1]])
+          .addTo(map)
+          .bindTooltip(`Consultor ${titulo}`)
+          .on("click", function () {
+            // alert(`Consultor ${idVal[index][0]}`);
+            var container = document.getElementById(
+              `div-superior-${idVal[index][0]}`
+            );
+            if (container.style.display == "block") {
+              container.style.display = "none";
+            } else {
+              container.style.display = "block";
+            }
+          });
+      })(i);
+    }
+  }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+{% endblock Content %}

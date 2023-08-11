@@ -1,0 +1,498 @@
+{% extends 'baseAdministradorPrincipal.html' %}
+{% load static %}
+{% block Content %}
+<section class="container-poyectos">
+    <div class="container" style="margin-top:20px; width:80%;">
+        <div class="row">
+            <!-- CONTROL PAGES -->
+            <div class="col l8 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">
+                Evalua al consultor segun tu criterio
+            </div>
+        </div>
+    </div>
+
+    <div class="container white" style="margin-top:20px;  width:80%;">
+        <div class="row white" style="margin-right:20px; margin-left:20px;">
+
+
+            <!--PAGE SUBTITLE -->
+            <div class="col s12 white">
+                <h4 class="blue-text text-darken-4 white">Evaluacion del Consultor</h4>
+                <h6 class="grey-text white pbtm20">Evalue al consultor antes de eliminarlo del proyecto</h6>
+            </div>
+
+
+            <!-- FORM START -->
+            <form method="POST" onchange="calcularTotal();" action="{% url 'formComentariosUpdateAdmin' %}">
+                {% csrf_token %}
+                <!-- PERFILES DE CONOCIMIENTOS -->
+                <div class="col s12 l12 white pbtm20">
+                    <h6 class="fw-190">Perfiles de Conocimiento</h6>
+                </div>
+
+                <!-- TABLE -->
+                <div class="col s12 l12 white pbtm20">
+                    <table class="striped">
+                        <thead>
+                            <tr>
+                                <th><b>Nivel</b></th>
+                                <th><b>Descripción</b></th>
+                                <th><b>Evaluación</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>
+                                    K0
+                                </th>
+                                <th>
+                                    Academia, conocimiento de procesos
+                                </th>
+                                <th>
+                                    <div class="input-field col s12 l12">
+                                        <select class="select" required>
+                                            <option value="4">Excelente</option>
+                                            <option value="3">Bueno</option>
+                                            <option value="2">Regular</option>
+                                            <option value="1">Insuficiente</option>
+                                            <option value="0">Reprobado</option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    K1
+                                </th>
+                                <th>
+
+                                    Cursos SAP, de 1 a 2 proyectos, 1 a 2 años de experiencia
+                                    Predominan I’s & B’s, algunas K’s
+
+                                </th>
+                                <th>
+                                    <div class="input-field col s12 l12">
+                                        <select class="select" required>
+                                            <option value="4">Excelente</option>
+                                            <option value="3">Bueno</option>
+                                            <option value="2">Regular</option>
+                                            <option value="1">Insuficiente</option>
+                                            <option value="0">Reprobado</option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    K2
+                                </th>
+                                <th>
+                                    Cursos SAP, de 3 a 5 proyectos, 2 a 4 años de experiencia.
+                                    Predominan K’s, algunas D’s
+
+                                </th>
+                                <th>
+                                    <div class="input-field col s12 l12">
+                                        <select class="select" required>
+                                            <option value="4">Excelente</option>
+                                            <option value="3">Bueno</option>
+                                            <option value="2">Regular</option>
+                                            <option value="1">Insuficiente</option>
+                                            <option value="0">Reprobado</option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    K3
+                                </th>
+                                <th>
+                                    Certificado, más de 5 proyectos, manejo de 2 módulos, más de 4 años de experiencia
+                                    <p>
+                                        Líder de proyecto; Inglés fluido
+                                        Predominan las D’s, algunas E’s
+                                    </p>
+
+                                </th>
+                                <th>
+                                    <div class="input-field col s12 l12">
+                                        <select class="select" required>
+                                            <option value="4">Excelente</option>
+                                            <option value="3">Bueno</option>
+                                            <option value="2">Regular</option>
+                                            <option value="1">Insuficiente</option>
+                                            <option value="0">Reprobado</option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    K4
+                                </th>
+                                <th>
+                                    Academia, conocimiento de procesos
+                                </th>
+                                <th>
+                                    <div class="input-field col s12 l12">
+                                        <select class="select" required>
+                                            <option value="4">Excelente</option>
+                                            <option value="3">Bueno</option>
+                                            <option value="2">Regular</option>
+                                            <option value="1">Insuficiente</option>
+                                            <option value="0">Reprobado</option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- PROFUNDIDAD DE CONOCIMIENTOS -->
+                <div class="col s12 l12 white pbtm20">
+                    <h6 class="fw-190">Profundidad de Conocimientos</h6>
+                </div>
+
+                <!-- TABLE -->
+                <div class="col s12 l12 white pbtm20">
+                    <table class="striped">
+                        <thead>
+                            <tr>
+                                <th><b>Nivel</b></th>
+                                <th><b>Descripción</b></th>
+                                <th><b>Evaluación</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>
+                                    I
+                                </th>
+                                <th>
+                                    Conocimiento a nivel introductorio (Curso, Autoaprendizaje, JR Observador)
+                                </th>
+                                <th>
+                                    <div class="input-field col s12 l12">
+                                        <select class="select" required>
+                                            <option value="4">Excelente</option>
+                                            <option value="3">Bueno</option>
+                                            <option value="2">Regular</option>
+                                            <option value="1">Insuficiente</option>
+                                            <option value="0">Reprobado</option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    B
+                                </th>
+                                <th>
+                                    Ha configurado algo (1-2 proyectos, tiempo corto)
+                                </th>
+                                <th>
+                                    <div class="input-field col s12 l12">
+                                        <select class="select" required>
+                                            <option value="4">Excelente</option>
+                                            <option value="3">Bueno</option>
+                                            <option value="2">Regular</option>
+                                            <option value="1">Insuficiente</option>
+                                            <option value="0">Reprobado</option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    K
+                                </th>
+                                <th>
+                                    Conoce - bastante (2-3 proyectos, responsable, mínimo 1 años, o más de 7 proyectos)
+                                </th>
+                                <th>
+                                    <div class="input-field col s12 l12">
+                                        <select class="select" required>
+                                            <option value="4">Excelente</option>
+                                            <option value="3">Bueno</option>
+                                            <option value="2">Regular</option>
+                                            <option value="1">Insuficiente</option>
+                                            <option value="0">Reprobado</option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    D
+                                </th>
+                                <th>
+                                    Dominio de la funcionalidad (de 4-5 años en proyectos)
+                                </th>
+                                <th>
+                                    <div class="input-field col s12 l12">
+                                        <select class="select" required>
+                                            <option value="4">Excelente</option>
+                                            <option value="3">Bueno</option>
+                                            <option value="2">Regular</option>
+                                            <option value="1">Insuficiente</option>
+                                            <option value="0">Reprobado</option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    E
+                                </th>
+                                <th>
+                                    Experto de la materia y funcionalidad (más de 5 años en proyectos) </th>
+                                <th>
+                                    <div class="input-field col s12 l12">
+                                        <select class="select" required>
+                                            <option value="4">Excelente</option>
+                                            <option value="3">Bueno</option>
+                                            <option value="2">Regular</option>
+                                            <option value="1">Insuficiente</option>
+                                            <option value="0">Reprobado</option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <!--  HABILIDADES PERSONALES-->
+                <div class="col s12 l12 white pbtm20">
+                    <h6 class="fw-190">Habilidades Personales</h6>
+                </div>
+
+                <!-- TABLE -->
+                <div class="col s12 l12 white pbtm20">
+                    <table class="striped">
+                        <thead>
+                            <tr>
+                                <th><b>Nivel</b></th>
+                                <th><b>Evaluación</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>
+                                    Escolaridad
+                                </th>
+                                <th>
+                                    <div class="input-field col s12 l12">
+                                        <select class="select" required>
+                                            <option value="4">Excelente</option>
+                                            <option value="3">Bueno</option>
+                                            <option value="2">Regular</option>
+                                            <option value="1">Insuficiente</option>
+                                            <option value="0">Reprobado</option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    Idiomas
+                                </th>
+                                <th>
+                                    <div class="input-field col s12 l12">
+                                        <select class="select" required>
+                                            <option value="4">Excelente</option>
+                                            <option value="3">Bueno</option>
+                                            <option value="2">Regular</option>
+                                            <option value="1">Insuficiente</option>
+                                            <option value="0">Reprobado</option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    Lider en Computación
+                                </th>
+                                <th>
+                                    <div class="input-field col s12 l12">
+                                        <select class="select" required>
+                                            <option value="4">Excelente</option>
+                                            <option value="3">Bueno</option>
+                                            <option value="2">Regular</option>
+                                            <option value="1">Insuficiente</option>
+                                            <option value="0">Reprobado</option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+                <!-- DESENVOLVIMIENTO PERSONAL -->
+                <div class="col s12 l12 white pbtm20">
+                    <h6 class="fw-190">Desenvolvimiento Personal</h6>
+                </div>
+
+                <!-- TABLE -->
+                <div class="col s12 l12 white pbtm20">
+                    <table class="striped">
+                        <thead>
+                            <tr>
+                                <th><b>Nivel</b></th>
+                                <th><b>Evaluación</b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>
+                                    Comunicación
+                                </th>
+                                <th>
+                                    <div class="input-field col s12 l12">
+                                        <select class="select" required>
+                                            <option value="4">Excelente</option>
+                                            <option value="3">Bueno</option>
+                                            <option value="2">Regular</option>
+                                            <option value="1">Insuficiente</option>
+                                            <option value="0">Reprobado</option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    Manejo de Conflicto
+                                </th>
+                                <th>
+                                    <div class="input-field col s12 l12">
+                                        <select class="select" required>
+                                            <option value="4">Excelente</option>
+                                            <option value="3">Bueno</option>
+                                            <option value="2">Regular</option>
+                                            <option value="1">Insuficiente</option>
+                                            <option value="0">Reprobado</option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    Madurez
+                                </th>
+                                <th>
+                                    <div class="input-field col s12 l12">
+                                        <select class="select" required>
+                                            <option value="4">Excelente</option>
+                                            <option value="3">Bueno</option>
+                                            <option value="2">Regular</option>
+                                            <option value="1">Insuficiente</option>
+                                            <option value="0">Reprobado</option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Presencia
+                                </th>
+                                <th>
+                                    <div class="input-field col s12 l12">
+                                        <select class="select" required>
+                                            <option value="4">Excelente</option>
+                                            <option value="3">Bueno</option>
+                                            <option value="2">Regular</option>
+                                            <option value="1">Insuficiente</option>
+                                            <option value="0">Reprobado</option>
+                                        </select>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- OBSERVATIONS -->
+                <div clas="col s12 l12 pbtm20">
+
+                    <!-- TITLE DESCRIPTION -->
+                    <div class="col s12 l12 white ">
+                        <h6 class="fw-190">Comentarios</h6>
+                    </div>
+
+                    <div class="input-field col s12 l12">
+                        <textarea id="observations" name="comentarios" type="text" minlength="5" maxlength="990"
+                            placeholder="Agregue notas u observaciones del consultor"
+                            class="materialize-textarea" required></textarea>
+                    </div>
+                </div>
+                <input type="hidden" name="calificacion" value="0" id="calificacion">
+                <input type="hidden" name="proyecto" value="{{proyecto}}" id="proyecto">
+                <input type="hidden" name="consultor" value="{{consultor}}" id="consultor">
+                <!-- BUTTONS -->
+                <div class="col s12 l12 white center pbtm20">
+                    <button type="reset" class="waves effect btn-large red"><i
+                            class="material-icons right white-text"
+                            style="background-color:transparent;">close</i>LIMPIAR</button>
+                    <button type="submit" class="waves effect btn-large"><i
+                            class="material-icons right white-text"
+                            style="background-color:transparent;">send</i>ENVIAR</button>
+                </div>
+               
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Importar las dependencias de Materialize (jQuery y Materialize JS) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="{% static 'js/projects.js' %}"></script>
+<script>
+    // Inicializar el componente Select de Materialize
+    $(document).ready(function () {
+        $('select').formSelect();
+    });
+</script>
+<script>
+    function calcularTotal() {
+        // OBTENEMOS TODOS LOS VALORES LLAMANDO POR CLASE
+        var selects = document.getElementsByClassName("select");
+        // CONTADOR QUE VA A IR SUMANDO
+        var total = 0;
+
+        // POR CADA VALOR EN SELECT SE REPETIRA PARA OBTENER SU VALOR
+        for (var i = 0; i < selects.length; i++) {
+            var valor = parseInt(selects[i].value);
+            total += valor;
+        }
+
+        // FORMULA PARA LAS ESTRELLAS
+        var formula = total * 5 / 68;
+
+        // REDONDEA EL RESULTADO DEJANDO UN SOLO DECIMAL
+        var total_final = formula.toFixed(1); //INDICA CUANTAS DECIMALES QUEREMOS RECIBIR
+        // RESULTADO FINAL
+        var resultado = document.getElementById('calificacion');
+        resultado.value = total_final;
+        // console.log("Total:" + total_final + " estrellas");
+    }
+</script>
+{% endblock Content %}

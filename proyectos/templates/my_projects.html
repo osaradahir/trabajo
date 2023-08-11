@@ -78,7 +78,7 @@
 
                     <!-- BUTTON DETAILS -->
                     <div class="col s12 l12 blue lighten-4 pbtm20">
-                        <a href="{% url 'details_project' %}" class="waves-effect waves-light btn blue darken-4">
+                        <a href="{% url 'details_project' %}?prj={{staffing.id}}" class="waves-effect waves-light btn blue darken-4">
                             Ver detalles del Proyecto
                         </a>
                     </div>
@@ -146,7 +146,7 @@
                                     <td>{{ proyecto.fecha_inicio|date:"d/m/Y" }}</td>
                                     <td>{{ proyecto.fecha_fin|date:"d/m/Y" }}</td>
                                     <td>
-                                        <a href="{% url 'details_project' %}" class="waves-effect btn white cyan-text">Ver detalles</a>
+                                        <a href="{% url 'details_project' %}?prj={{proyecto.id}}" class="waves-effect btn white cyan-text">Ver detalles</a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -187,6 +187,7 @@
 
             </div>
         </div>
+    </section>
         <script>
             const input = document.getElementById('icon_prefix');
             input.addEventListener('keydown', function(event) {

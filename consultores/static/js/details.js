@@ -43,11 +43,11 @@ var widgetOn = false;
 
 let barOn = false;
 btnToggle.addEventListener("click", function openNav() {
-  console.log("clik");
+  // console.log("clik");
   if (barOn == false) {
     document.getElementById("sidebar").classList.toggle("active");
     // console.log(document.getElementById('sidebar'));
-    console.log("Abierto");
+    // console.log("Abierto");
     mainContainer.style.width = "68%";
     myDataName.style.width = "78%";
     mainContainer.style.marginLeft = "18%";
@@ -55,7 +55,7 @@ btnToggle.addEventListener("click", function openNav() {
     mainContainer.style.justifyContent = "initial";
     barOn = true;
   } else {
-    console.log("cerrado");
+    // console.log("cerrado");
     //btnToggle.classList.remove('activate');
     document.getElementById("sidebar").classList.remove("active");
     barOn = false;
@@ -66,7 +66,7 @@ btnToggle.addEventListener("click", function openNav() {
   }
 });
 function openNav() {
-  console.log("clik");
+  // console.log("clik");
   if (barOn == false) {
     document.getElementById("sidebar").classList.toggle("active");
     // console.log(document.getElementById('sidebar'));
@@ -78,7 +78,7 @@ function openNav() {
     mainContainer.style.justifyContent = "initial";
     barOn = true;
   } else {
-    console.log("cerrado");
+    // console.log("cerrado");
     //btnToggle.classList.remove('activate');
     document.getElementById("sidebar").classList.remove("active");
     barOn = false;

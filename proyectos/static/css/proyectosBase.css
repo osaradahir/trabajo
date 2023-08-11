@@ -1031,7 +1031,39 @@
     border: 2px solid black;
   }
   
-  
+  .label-kCero {
+    width: 30%;
+    border-radius: 8px;
+    background-color: #ecc760;
+  }
+  .label-kUno {
+    width: 30%;
+    border-radius: 8px;
+    background-color: #fcb908;
+  }
+  .label-kDos {
+    width: 30%;
+    border-radius: 8px;
+    background-color: #08fcf0;
+  }
+  .label-kTres {
+    width: 30%;
+    border-radius: 8px;
+    background-color: #0b5ed4;
+    color: white;
+  }
+  .label-kCuatro {
+    width: 30%;
+    border-radius: 8px;
+    background-color: #1d8b41;
+    color: white;
+  }
+  .label-notE {
+    width: 67%;
+    border-radius: 8px;
+    background-color: #b0aeb2;
+    color: white;
+  }
   @media (max-width: 1200px) {
     .my-data-name {
       margin-left: 3%;

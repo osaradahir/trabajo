@@ -1,0 +1,577 @@
+{% extends 'basePrincipal.html' %} {% load static %} {% block Content %} {{status }}
+<main>
+  <div class="container_data">
+    <div class="my-data-name row">
+      <!-- Titulo  -->
+      <div class="col s12 l12">
+        <h3 class="indigo-text">
+          Detalles del Proyecto no. #{{ proyecto.id }}
+        </h3>
+        <h5 class="grey-text" style="padding-bottom: 45px">
+          Actualiza contratos o sube tu reporte de horas.
+        </h5>
+      </div>
+
+      <!-- Barra negra  -->
+      <div class="col s12 l12 grey darken-4" style="height: 100px"></div>
+
+      <!--  Cabecera Proyecto  -->
+      <div class="col s12 l12 white">
+        <img
+          src="{% static 'images/compay.png' %}"
+          alt="Foto de Empresa"
+          class="img-responsive white"
+          style="width: 280px; padding-left: 75px; padding-top: 35px"
+        />
+
+        <div class="row white">
+          <div class="col l6 white">
+            <input
+              type="hidden"
+              name="saber"
+              id="saber"
+              value="{{ proyecto.id }}"
+            />
+            <h4
+              class="white"
+              style="font-weight: bold; padding-left: 55px"
+              id="puesto"
+            >
+              {{ proyecto.proyecto_nombre }}
+            </h4>
+            <h5
+              class="blue-text white"
+              style="font-weight: bold; padding-left: 55px"
+              id="empresa"
+            >
+              {{ empresa.empresa }}
+            </h5>
+            {% if empresa.ciudad %}
+            <h5
+              class="grey-text white"
+              style="font-weight: bold; padding-left: 55px"
+              id="ubicacion"
+            >
+              {{ empresa.estado }}, {{empresa.ciudad }}
+            </h5>
+            {% else %}
+            <h5
+              class="grey-text white"
+              style="font-weight: bold; padding-left: 55px"
+              id="ubicacion"
+            >
+              {{ empresa.estado }}, {{empresa.municipio }}
+            </h5>
+            {% endif %}
+          </div>
+
+          <div class="col l6 white"></div>
+          <div
+            class="col l6 white right"
+            style="
+              display: flex;
+              align-items: right;
+              justify-content: right;
+              padding-right: 75px;
+            "
+          >
+            <h6 class="grey-text">Fecha de Publicación: {{ diasStaffing }}</h6>
+          </div>
+        </div>
+
+        <!-- Detalles Proyecto  -->
+        <div class="row white">
+          <div class="col l3 white" style="padding-left: 75px">
+            <h6 class="white">Tiempo de Trabajo:</h6>
+          </div>
+          <div class="col l2 white" style="padding-right: 75px">
+            <div class="chip blue white-text">{{ proyecto.duracion }}</div>
+          </div>
+          <div class="col l3 white" style="padding-left: 75px">
+            <h6 class="white">Moneda de manejo:</h6>
+          </div>
+          <div class="col white">
+            <div class="chip green white-text">
+              {{ proyecto.id_tipo_moneda.tipo }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Descripcion genera, funciones laborales, Experiencia Requerida  -->
+        <div class="col s12 l12 white" style="padding-left: 75px">
+          {% if contrato %}
+            <h6 class="white" style="font-weight: bold">
+              Reportes y Facturas
+            </h6>
+            <h6 class="white">
+              No olvides que tus facturas  son en pesos Mexicanos, y al igual que los reportes de horas, se entregan cada mes.
+            </h6>
+            <br><br>
+            <h6 class="white" style="font-weight: bold">
+              Facturas
+            </h6>
+            <div class="container-table">
+              <table class="centered responsive-table">
+                <thead>
+                  <tr>
+                    <th>Periodo</th>
+                    <th>Entregado</th>
+                    <th>Validacion Gnosis</th>
+                    <th>Validacion Empresa</th>
+                  </tr>
+                </thead>
+                <tbody id="tablaResultados"> 
+                  {% if facturas %}
+                    {% for factura in facturas %}
+                      <tr>
+                        <td>{{ factura.0 }} - {{factura.4|date:"Y"}}</td>
+                        <td>
+                          {% if factura.1 == '1' %}
+                            <i class="material-icons" style="color: green">check_box</i>
+                          {% else %}
+                            <i class="material-icons" style="color: red">check_box_outline_blank</i>
+                          {% endif %}         
+                        </td>
+                        <td>
+                          {% if factura.2 == 'Aceptada' %}
+                            <i class="material-icons" style="color: rgb(152, 231, 32);">check_box</i>
+                          {% elif factura.2 == 'Rechazada' %}  
+                            <i class="material-icons" style="color: red">error</i>
+                          {% else %}
+                            <i class="material-icons" style="color: rgb(190, 163, 7)">warning</i>
+                          {% endif %}       
+                        </td>
+                        <td>
+                          {% if factura.3 == 'Aceptada' %}
+                            <i class="material-icons" style="color: rgb(152, 231, 32);">check_box</i>
+                          {% elif factura.3 == 'Rechazada' %}  
+                            <i class="material-icons" style="color: red">error</i>
+                          {% else %}
+                            <i class="material-icons" style="color: rgb(190, 163, 7)">warning</i>
+                          {% endif %}        
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  {% else %}
+                  <tr>
+                    <td colspan="4">Sin facturas</td>
+                  </tr>
+                  {% endif %}
+                  
+                </tbody>
+                
+              </table>
+              <br><br>
+              <button class="blue darken-4 waves-effect waves-light btn modal-trigger" data-target="modal1" style="margin-left: 40%">SUBIR FACTURA</button>
+            </div>
+            
+            <br><br>
+            <hr>
+            <br>
+            <h6 class="white" style="font-weight: bold">
+              Reporte de horas
+            </h6>
+            <div class="container-table">
+              <table class="centered responsive-table">
+                <thead>
+                  <tr>
+                    <th>Periodo</th>
+                    <th>Entregado</th>
+                    <th>Validacion Gnosis</th>
+                    <th>Validacion Empresa</th>
+                  </tr>
+                </thead>
+                <tbody id="tablaResultados"> 
+                  {% if reporteHoras %}
+                    {% for reporteHora in reporteHoras %}
+                      <tr>
+                        <td>{{ reporteHora.0 }} - {{reporteHora.4|date:"Y"}}</td>
+                        <td>
+                          {% if reporteHora.1 == '1' %}
+                            <i class="material-icons" style="color: green">check_box</i>
+                          {% else %}
+                            <i class="material-icons" style="color: red">check_box_outline_blank</i>
+                          {% endif %}         
+                        </td>
+                        <td>
+                          {% if reporteHora.2 == 'Aceptada' %}
+                            <i class="material-icons" style="color: rgb(152, 231, 32);">check_box</i>
+                          {% elif reporteHora.2 == 'Rechazada' %}  
+                            <i class="material-icons" style="color: red">error</i>
+                          {% else %}
+                            <i class="material-icons" style="color: rgb(190, 163, 7)">warning</i>
+                          {% endif %}
+                                  
+                        </td>
+                        <td>
+                          {% if reporteHora.3 == 'Aceptada' %}
+                            <i class="material-icons" style="color: rgb(152, 231, 32);">check_box</i>
+                          {% elif reporteHora.3 == 'Rechazada' %}  
+                            <i class="material-icons" style="color: red">error</i>
+                          {% else %}
+                            <i class="material-icons" style="color: rgb(190, 163, 7)">warning</i>
+                          {% endif %}         
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  {% else %}
+                  <tr>
+                    <td colspan="4">Sin facturas</td>
+                  </tr>
+                  {% endif %}
+                  
+                </tbody>
+                <tfoot>
+                  <form action="{% url 'upload_all_files' %}"  method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="name" value="RHORAS">
+                    <input type="hidden" name="rfc" value="{{informationConsultorUser.rfc}}">
+                    <input type="hidden" name="proyecto" value="{{proyecto.id}}">
+                    {% csrf_token %}
+                    <tr>
+                      <td><select class="browser-default" name="mes" required>
+                        <option value="" disabled selected>Mes</option>
+                        <option value="ENERO">Enero</option>
+                        <option value="FEBRERO">Febrero</option>
+                        <option value="MARZO">Marzo</option>
+                        <option value="ABRIL">Abril</option>
+                        <option value="MAYO">Mayo</option>
+                        <option value="JUNIO">Junio</option>
+                        <option value="JULIO">Julio</option>
+                        <option value="AGOSTO">Agosto</option>
+                        <option value="SEPTIEMBRE">Septiembre</option>
+                        <option value="OCTUBRE">Octubre</option>
+                        <option value="NOVIEMBRE">Noviembre</option>
+                        <option value="DICIEMBRE">Diciembre</option>
+                      </select></td>
+                      <td colspan="2">
+                        <span style="margin-left: 40px;">File</span>
+                        <input type="file" name="file" accept=".xlsx" required/>
+                      </td>
+                      <td><button
+                        class="blue darken-4 waves-effect waves-light btn"
+                        style="margin-left: 30%"
+                      >
+                        Enviar
+                      </button></td>
+                    </tr>
+                  </form>
+                </tfoot>
+              </table>
+            </div>
+            <br><br>
+            <hr>
+            <br>
+
+            
+            <h6 class="white" style="font-weight: bold">
+              Sube o actualiza tu reporte final de actividades
+            </h6>
+            
+            {% for reporteFinal in reportesFinales  %}
+              <h6>Estado de la validacion de la empresa: {{reporteFinal.3}}</h6>  
+              <h6>Estado de la validacion de Gnosis: {{reporteFinal.2}}</h6>
+            {% endfor %}
+            
+
+            <div class="row">
+              <div class="col s12">
+                <form action="{% url 'upload_all_files' %}"  method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <input type="hidden" name="name" value="RFN_ACTIVIDADES">
+                  <input type="hidden" name="rfc" value="{{informationConsultorUser.rfc}}">
+                  <input type="hidden" name="proyecto" value="{{proyecto.id}}">
+                  <div class="file-field input-field" style="display: flex">
+                    <div class="btn">
+                      <span>File</span>
+                      <input type="file" name="file" accept=".xlsx"/>
+                    </div>
+                    <div class="file-path-wrapper" style="width: 70% !important">
+                      <input class="file-path validate" type="text" required />
+                    </div>
+                    <!-- Botón dentro del formulario -->
+                    <button
+                      class="blue darken-4 waves-effect waves-light btn"
+                      style="margin-left: 10px"
+                    >
+                      Enviar
+                    </button>
+                  </div>
+                </form>
+                
+              </div>
+            </div>
+            <br>
+            
+          {% else %}
+          <h6 class="white" style="font-weight: bold">
+            Reportes y Facturas
+          </h6>
+          <h6 class="white">
+            Necesitas estar contratado para comenzar a subir tus reportes y facturas
+          </h6>
+          {% endif %}
+
+
+        <br><br>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</main>
+<div id="modal1" class="modal">
+  <div class="modal-content" style="height: 530px;">
+    <h3>Facturas</h3>
+    <p>Sube tus facturas</p>
+    <form action="{% url 'upload_all_files' %}"  method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="hidden" name="name" value="FACTURA">
+      <input type="hidden" name="rfc" value="{{informationConsultorUser.rfc}}">
+      <input type="hidden" name="proyecto" value="{{proyecto.id}}">
+     
+      <div>
+        <select class="browser-default" name="mes" required>
+          <option value="" disabled selected>Mes - Periodo</option>
+          <option value="ENERO">Enero</option>
+          <option value="FEBRERO">Febrero</option>
+          <option value="MARZO">Marzo</option>
+          <option value="ABRIL">Abril</option>
+          <option value="MAYO">Mayo</option>
+          <option value="JUNIO">Junio</option>
+          <option value="JULIO">Julio</option>
+          <option value="AGOSTO">Agosto</option>
+          <option value="SEPTIEMBRE">Septiembre</option>
+          <option value="OCTUBRE">Octubre</option>
+          <option value="NOVIEMBRE">Noviembre</option>
+          <option value="DICIEMBRE">Diciembre</option>
+        </select>
+      </div>
+        
+      <div class="input-field col s12 l12" style="height: 20px;">
+        <span style="margin-left: 30%;">Archivo</span>
+        <input type="file" name="file" accept=".xlsx" required/>
+      </div>
+
+        
+      <div style="width: 100%; display:flex; flex-direction:row">
+        <div class="input-field" style="width: 50%; margin:0px 10px 0px 10px;">
+          <input id="cobranza" type="text" class="datepicker validate" name="cobranza" required/>
+          <label for="cobranza">Fecha de Cobranza</label>
+        </div>
+        <div class="input-field" style="width: 50%; margin:0px 10px 0px 10px;">
+            <input id="pago" type="text" class="datepicker validate" name="pago" required/>
+            <label for="pago">Fecha de Pago</label>
+        </div>
+      </div>
+
+      <div class="col l6 input-field center" id="cambio-show-terceros">
+        <i class="material-icons prefix">attach_money</i>
+        <label for="tipoCambioHoy-terceros" data-error="wrong" data-success="right">Tipo de cambio al dia de hoy</label>
+        <input id="tipoCambioHoy-Auto-terceros" name="tipoCambioHoy-Auto-terceros"  class="validate" type="text"
+          title="Use solo numeros" value="{{cambioHoyMXN}}" readonly required/>
+      </div>
+      <input type="hidden" name="cambio-activo" value="0" id="cambio-activo">
+      <input type="hidden" name="cambio-terceros" value="{{cambioHoyUSD}}" id="cambio-terceros">
+      <div class="col l6 input-field center" id="cambio-update-terceros" style="display: none;">
+        <i class="material-icons prefix">attach_money</i>
+        <label for="tipoCambioHoy-Manual-terceros" data-error="wrong" data-success="right">Tipo de cambio al dia de hoy</label>
+        <input id="tipoCambioHoy-Manual-terceros" name="tipoCambioHoy-Manual-terceros" class="validate" type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*"
+          title="Use solo numeros" value="0" required onchange="calcularCambioTerceros();"/>
+      </div>
+      <div class="input-field col l2" style="height:1cm">
+        <label ><span id="span-tipo-cambio-terceros" >1$ MXN es igual a {{cambioHoyUSD}}$ USD</span></label>
+      </div>
+      <div class="input-field col s6 l4" style="height:1cm">
+        <label>
+          <input name="manual-terceros" type="checkbox" id="chec-terceros" onChange="tipoCambioTerceros();" value=""/>
+          <span>Insertar manualmente</span>
+        </label>
+      </div>
+      <span>*Se recomienda corroborar primero el tipo de cambio al dia de hoy en otras fuentes de informacion.</span>
+      <br><br>
+
+      <button class="blue darken-4 waves-effect waves-light btn" style="margin-left: 40%">Enviar</button>
+      <br><br>
+    </form>
+  </div>
+ 
+</div>
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="{% static 'js/principal.js' %}?v=1.1"></script>
+<script src='https://cdn.jsdelivr.net/npm/big.js@6.2.1/big.min.js'></script>
+<script>
+
+  var MXNterceros = document.getElementById('cambio-terceros').value;
+  var cambioTerceros = 0;
+
+  function calcularCambioTerceros(){
+    document.getElementById('cambio-terceros').value = 0;
+    // Obtener el valor de tipoCambioHoy-Manual
+    let cambio2 = document.getElementById('tipoCambioHoy-Manual-terceros').value;
+
+    // Crear un objeto Big con el valor de cambio2
+    let bigCambio2 = new Big(cambio2);
+
+    // Realizar la división utilizando Big
+    let resultadoBig = new Big(1).div(bigCambio2);
+
+    // Formatear el resultado con la precisión deseada
+    let resultadoFormateado = resultadoBig.toFixed(3);
+
+    // Actualizar el valor del campo de entrada
+    document.getElementById('cambio-terceros').value = resultadoFormateado;
+
+    // Actualizar el texto del elemento span
+    document.getElementById('span-tipo-cambio-terceros').innerText = `1$ MXN es igual a ${resultadoFormateado}$ USD`;
+
+  }
+
+
+  function tipoCambioTerceros(){
+    if(cambioTerceros == 0){
+      document.getElementById('cambio-show-terceros').style.display='none';document.getElementById('cambio-update-terceros').style.display='block';
+      cambioTerceros=1;
+      document.getElementById('chec-terceros').value= '1';
+      document.getElementById('span-tipo-cambio-terceros').innerText = '';
+    }else{
+      document.getElementById('cambio-show-terceros').style.display='block';document.getElementById('cambio-update-terceros').style.display='none';
+      cambioTerceros=0;
+      document.getElementById('cambio-update-terceros').value = 0;
+      document.getElementById('chec-terceros').value= '0';
+      document.getElementById('span-tipo-cambio-terceros').innerText = `1$ MXN es igual a ${MXNterceros}$ USD`;
+      document.getElementById('cambio-terceros').value = `${MXNterceros}`;
+    }
+  }
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var fechaSalidaInput = document.getElementById('cobranza');
+    M.Datepicker.init(fechaSalidaInput, {
+      format: "yyyy-mm-dd",
+      autoClose: true,
+      autoClose: true,
+      showClearBtn: true,
+      firstDay: 1,
+      minDate: new Date(1969, 1, 12),
+      maxDate: new Date(2043, 11, 31),
+      i18n: {
+        cancel: "Cancelar",
+        clear: "Limpiar",
+        done: "Listo",
+        today: "Hoy",
+        previousMonth: "Mes anterior",
+        nextMonth: "Siguiente mes",
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        weekdays: [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ],
+        weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+      },
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var fechaSalidaInput = document.getElementById('pago');
+    M.Datepicker.init(fechaSalidaInput, {
+      format: "yyyy-mm-dd",
+      autoClose: true,
+      autoClose: true,
+      showClearBtn: true,
+      firstDay: 1,
+      minDate: new Date(1969, 1, 12),
+      maxDate: new Date(2043, 11, 31),
+      i18n: {
+        cancel: "Cancelar",
+        clear: "Limpiar",
+        done: "Listo",
+        today: "Hoy",
+        previousMonth: "Mes anterior",
+        nextMonth: "Siguiente mes",
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        weekdays: [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ],
+        weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+      },
+    });
+  });
+
+</script>
+{% endblock %}

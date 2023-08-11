@@ -19,7 +19,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GNOSIS | PROFESSION</title>
   </head>
-
   <body>
     <header>
       <nav>
@@ -135,7 +134,7 @@
                 />
               </div>
 
-              <!--<div class="col l12 input-field">
+              <div class="col l6 input-field">
                 <label for="SAP" data-error="wrong" data-success="right"
                   >Submódulos de Especialidad en SAP</label
                 >
@@ -150,8 +149,16 @@
                   title="Minimo 4 caracteres"
                   required
                 />
-              </div>-->
-
+              </div>
+              <div class="col l6 input-field">
+                <select name="experiencia" required>
+                  <option value="" disabled selected>Elija su nivel de experiencia</option>
+                  {% for nivel in niveles %}
+                    <option value='{{nivel.id}}'>{{ nivel.nombre }}</option>
+                  {% endfor %}{
+                </select>
+                <label>Nivel de experiencia</label>
+              </div> 
               <br />
               <br />
               <div class="col l12">

@@ -1,4 +1,4 @@
-{% extends 'basePrincipal.html' %}
+{% extends 'baseAdministradorPrincipal.html' %}
 {% load static %}
 {% block Content %}
 
@@ -8,6 +8,7 @@
       display:none;
     }
     </style>
+
 <div class="container" style="margin-top:20px;" id="notifications-all-container">
     <div class="row">
         <div class="col l4 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">
@@ -26,7 +27,7 @@
     </div>
 
     <div class="container" style="width:100%;">   
-            <div class="row white" style="width:100%; height:300px;">
+            <div class="row white" style="width:100%; height:420px;">
                 <div class="col s12 l6 white">
                     <h5 class="grey-text white">
                         Situación: <h6 class="black-text white">{{notification.subject}}</h6>
@@ -38,13 +39,35 @@
                     </h5>   
                 </div>
 
-                <div class="col s12 white" style="width: 96%;">
+                <div class="col s12 white" style="width: 96%; word-wrap: break-word;
+                word-break: break-word;">
                     <hr>
                     <h5 class="black-text white">{{notification.message}}</h5>
                 </div>
                 {% block hidden %}
                 <input type="hidden" value="Pending" name="status">
                 {% endblock hidden %}
+                {% if notification.action == 1 %}
+                    {% if notification.enlace == 'contratoConsultor' %}
+                        <div class="col s12 white center" style="width: 100%; margin-top:40px">
+                            <a class='btn grey darken-3' target="_blank" href="{% url notification.enlace id=consultor proyecto=proyecto %}"><i
+                                class="material-icons white-text right trans"
+                                style="background-color: transparent;">check</i>Generar Contrato</a>
+                        </div>
+                    {% else %}
+                        <div class="col s12 white center" style="width: 100%; margin-top:40px">
+                            <a class='btn grey darken-3' target="_blank"  href="{% url 'validarEntrevista' id=consultor proyecto=proyecto %}"><i
+                                class="material-icons white-text right trans"
+                                style="background-color: transparent;">check</i>Validar Entrevista</a>
+                        </div>
+                    {% endif %}
+                {% elif notification.confirm == 1 %}
+                    <div class="col s12 l12 white center" style="width: 106%; margin-top:40px">
+                        <a class='btn grey darken-3' target="_blank" href="{% url 'validarEntrevista' id=consultor proyecto=proyecto %}"><i
+                            class="material-icons white-text right trans"
+                            style="background-color: transparent;">check</i>Confirmar</a>
+                    </div>
+                {% endif %}
             </div>
             <div class="col l12 s12" style="display:flex; justify-content:center;">
                 <a style="width: 100px; background-color: #26a69a; color: white; font-size: 18px; border: none; border-radius: 5px; padding: 4px; text-align:center" href="{% url 'all_notificationsAdministrador' %}">

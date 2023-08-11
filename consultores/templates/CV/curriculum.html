@@ -1,0 +1,235 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="cv in pdf" />
+    <title>GNOSIS-CURRICULUM</title>
+</head>
+
+<style>
+    .logo {
+        display: flex;
+        justify-content: right;
+        align-items: right;
+    }
+
+    .blue-title {
+        font-family: "Century Gothic";
+        color: #558bb7;
+        text-align: left;
+        padding-left: 23px;
+        justify-content: justify;
+        font-size: 14pt;
+    }
+
+    .black-title {
+        font-family: "Century Gothic";
+        color: black;
+        text-align: left;
+        padding-left: 23px;
+        justify-content: justify;
+        font-size: 14pt;
+    }
+
+    .yellow-title {
+        font-family: "Century Gothic";
+        color: yellow;
+        text-align: center;
+        justify-content: center;
+        font-size: 14pt;
+    }
+
+    .text {
+        color: black;
+        text-align: justify;
+        padding-left: 20px;
+        padding-right: 15px;
+        font-weight: normal;
+        font-size: 10pt;
+    }
+
+    .divider {
+        width: 100%;
+        height: 2px;
+        background-color: red;
+    }
+    tr {
+        page-break-inside: auto; /* Permitir que el tr se divida en varias páginas si es necesario */
+      }
+
+</style>
+
+<head>
+    <table>
+        <tr>
+            <th style="width:15cm;">
+            </th>
+
+            <th>
+                <img src="http://gnosismx.com/images/logo.png" height="140px">
+            </th>
+        </tr>
+    </table>
+</head>
+<body>
+    <div class="container">
+        <section id="hoja-1">
+            
+            <div class="container" style="display:flex; flex-direction:row;">
+                <table>
+                    <tr>
+                        <td style="background-color:#eae8e8; padding-top:10px; display:flex; justify-content:center; width:36%; align-items:center;" >
+                            <div style="padding-left:50px;padding-top:12px;">
+                                {% if usuarios.image %}
+                                    <img  src="{{ usuarios.image }}" height="150" width="150">  
+                                {% else %}
+                                  {% if persona.sexo == 'M' %}
+                                    <img  src="media/IMAGES/Profile/default.jpg" height="150" width="150">  
+                                  {% else %}
+                                    <img  src="media/IMAGES/Profile/defaultF.png" height="150" width="150">  
+                                  {% endif %}
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td><p style="padding-left:15px; text-align:left; font-size:30pt; font-weight:normal; font-family:Century;">
+                            {{personas.nombre}} {{personas.ape_pat}} {{personas.ape_mat}}</p></td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:#eae8e8;">
+
+                        </td>
+                        <td>
+                            {% if estudios %}
+                                {% for titulo in estudios %}
+                                <p style="padding-left:15px; padding-top:-15px; text-align:left; font-size:15pt; font-weight:normal; font-family:Century Gothic;">
+                                {{ titulo.educacion }}</p>
+                                <p style="padding-left:15px; padding-top:-15px; text-align:left; font-size:15pt; font-weight:normal; font-family:Century Gothic;">
+                                {{ titulo.titulo_registrado }}</p>
+                        
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="background-color:#eae8e8;"><h2 class="blue-title">PERFIL</h2>
+                            <p class="text">{{ personas.descripcion }}</p>
+                        </td>
+                        <td>
+                            <br>
+                        <h2 class="black-title">PROYECTOS</h2>
+                        <hr>
+                        {% if proyectoConsultor %}
+                            <ul>
+                                {% for proyecto in proyectoConsultor %}
+                                <li class="text">Nombre del Proyecto: {{ proyecto.id_proyecto.proyecto_nombre }}</li>
+                                <br>
+                                {% endfor %}
+                            </ul>
+                            {% else %}
+                            <p style="padding-left:15px;" class="text">Sin proyectos aun</p>
+                            <br>
+                        {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:#eae8e8;"><h2 class="blue-title">CONTACTO</h2>
+                            <p class="text">
+                                TELEFONO:
+                            </p>
+                            <p class="text">
+                                {{personas.telefono}}
+                            </p>
+                            <br>
+                            <p class="text">
+                                DIRECCIÓN:
+                            </p>
+    
+                            
+                            <p class="text">{{personas.pais}}, {{personas.municipio}}, {{personas.estado}}</p>
+                            
+                            <br>
+                            <p class="text">
+                                CORREO:
+                            </p>
+                            <p class="text">
+                                {{usuarios.correo}}
+                            </p>
+                        </td>
+                        <td>
+                            <h2 class="black-title">CURSOS Y CERTIFICACIONES</h2>
+                        <hr>
+                        {% if curso %}
+                        
+                            <ul>
+                                {% for certificacion in curso %}
+                                <li class="text">{{ certificacion.nombre_curso }} : {{ certificacion.descripcion }}
+                                </li>
+                                
+                                <br>
+                                {% endfor %}
+                            </ul>
+                            {% else %}
+                            <p style="padding-left:15px;" class="text">Sin certificaciones aun</p>
+                            <br>
+                        {% endif %}
+                        <br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:#eae8e8;">                        <br>
+                            <h2 class="blue-title">IDIOMAS</h2>
+    
+                            {% if idiomas %}
+                            <ul>
+                                {% for idioma in idiomas %}
+                                <li class="text">{{ idioma.id_idioma.nombre }}: {{ idioma.nivel }}</li>
+                                <br>
+                                {% endfor %}
+                            </ul>
+                            {% else %}
+                            <p style="padding-left:15px;" class="text">Sin idiomas registrados</p>
+                            <br>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <h2 class="black-title">MODULOS SAP</h2>
+                            <hr>
+                            {% if modulos %}
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th class="text" style="font-size:13pt; text-align:center;">Modulo</th>
+                                            <th class="text" style="font-size:13pt; text-align:center;">Submodulo</th>
+                                            <th class="text" style="font-size:13pt; text-align:center;">Nivel</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    
+                                        
+                                        {% for modulo in modulos %}
+                                        <tr>
+                                            <td class="text" style="color:grey; text-align:center;">{{ modulo.id_modulo.nombre }}</td>
+                                            <td class="text" style="color:grey; text-align:center;">{{ modulo.id_submodulo.nombre }}</td>
+                                            <td class="text" style="color:grey; text-align:center;">{{ modulo.id_nivel.nombre }}
+                                            </td>
+                                        
+                                        
+                                        </tr>
+                                        {% endfor %}
+                                </tbody>
+                            </table>
+                            {% else %}            
+                           <p style="padding-left:15px;" class="text">Sin modulos registrados</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>

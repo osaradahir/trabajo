@@ -1,0 +1,717 @@
+{% extends 'baseEmpresaProfile.html' %}
+{% load static %}
+{% block Content %}
+{{ status }}
+  <section class="container_data">
+    <div class="my-data-name">
+      <div class="information-data-name" id="information-profile">
+        <div class="information-profile-photo">
+          {% if image %}
+            <img src="../../{{ image }}" alt=""/>
+          {% else %}
+            {% if informationPersonalUser.sexo == 'M' %}
+              <img src="{% static 'images/profile/default.jpg' %}" alt=""/>
+            {% else %}
+              <img src="{% static 'images/profile/defaultF.png' %}" alt=""/>
+            {% endif %}
+          {% endif %}
+        </div>
+        <div class="information-user-profile">
+          <h5>{{ informationPersonalUser.nombre }} {{ informationPersonalUser.ape_pat }} {{ informationPersonalUser.ape_mat }}</h5>
+          {% if informationPersonalUser.sexo == 'M' %}
+            <h6>Hombre - {{ edad }} años</h6>
+          {% else %}
+            <h6>Mujer - {{ edad }} años</h6>
+          {% endif %}
+          <h6>{{ informationPersonalUser.municipio }}, {{ informationPersonalUser.estado }}</h6>
+          {% if informationPersonalUser.disponible == 1 %}
+            <h6>Disponible para trabajar</h6>
+          {% else %}
+            <h6 style="color:tomato;">No disponible para trabajar</h6>
+          {% endif %}
+          <div
+            style="width: 100%; height: 26px; background-color:white; display:flex; align-items:center; flex-direction:row; justify-content:center" class="container-stars">
+            {% if puntuacionConsultor|floatformat:1 != '0.0' %}
+              {% with stars=puntuacionConsultor|floatformat:0 %}
+                {% for _ in ''|rjust:stars %}
+                  <span class="material-icons" style="color: #D9D910; font-size:18px;">star</span>
+                {% endfor %}
+              {% endwith %}
+              <p style="margin-left: 6px;"> {{ puntuacionConsultor|floatformat:1 }}</p>
+            {% else %}
+                <p style="margin-left: 6px;">Sin calificación aun</p>
+            {% endif%}
+          </div>
+          <h6>Calificacion del consultor</h6>
+        </div>
+        <div class="information-user-botomms-cv">
+
+        </div>
+      </div>
+      <div class="information-data-name" id="information-profile-factors">
+        <div class="information-costs">
+          <div class="card-money-hour" id="card-money-hour" style="width: 20%;">
+            <div class="money-kind" id="money-kind-show"
+              style="width: 100%; padding-left:0px; padding-top:0px;align-items: center;">
+              <h6>Tipo de Moneda</h6>
+              <h5>{{ tipoMoneda }}</h5>
+            </div>
+            <div class="money-img" style="width: 100%;">
+              <div id="circle">
+                <span class="material-symbols-outlined"> paid </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-money-hour" id="card-money-hour2">
+            <div style="display: flex; width:100%; background-color:white;border-radius: 4px;">
+              <div class="money-kind" id="money-kind-show">
+                <h6>Costo por hora</h6>
+                <h5>${{informationConsultorUser.tarifa_hora}}</h5>
+                <h5 id="cost-money" style="display: none;">${{informationConsultorUser.tarifa_hora}} USD</h5>
+              </div>
+
+              <div class="money-img">
+                <div id="circle">
+                  <span class="material-symbols-outlined"> paid </span>
+                </div>
+              </div>
+            </div>
+            <div class="hour-porcentajes">
+              <p style="color: #01D176; padding-left:10px">3.5%</p> &nbsp;
+              <span class="material-icons" style="font-size: 20px; color: #01D176;">
+                arrow_upward
+              </span> &nbsp;
+              <p>Mas que el año pasado</p>
+            </div>
+          </div>
+
+          <div class="card-money-hour" style="margin-left: 20px">
+            <div style="display: flex; width:100%; background-color:white;border-radius: 4px;">
+              <div class="money-kind" id="hour-kind-show">
+                <h6>Reportes y Facturas</h6>
+                
+              </div>
+              
+              
+            </div>
+            <div class="hour-porcentajes" style="display: flex; justify-content:center; ">
+                <a class="btn-floating btn-large waves-effect waves-light" style="margin-right: 10px;" href="{% url 'consultorReportes' id=informationConsultorUser.id prj=proyecto %}" target="_blank" ><i class="material-icons">description</i></a>
+                <a class="btn-floating btn-large waves-effect waves-light" style="margin-left: 10px;" href="{% url 'consultorFacturas' id=informationConsultorUser.id prj=proyecto %}" target="_blank"><i class="material-icons" >attach_money</i></a>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="information-gnosis-notes">
+          <div class="facturation">
+            <h5>Contratación</h5>
+          </div>
+          <div class="inputs" id="gnosis-note" style="display: flex; justify-content:space-between;">
+            <div style="width: 30%;text-align:center">
+              <h5>Solicitar contrato Base</h5>
+            <button class="blue-buttons" id="{{informationConsultorUser.id}}" onclick="solictarContrato(this.id, 'Machote');">Solicitar</button>
+            </div>
+            <div style="width: 50%;text-align:center">
+              <h5>Solicitar renovacion de contrato Base</h5>
+            <button class="blue-buttons modal-trigger" href="#modal1" >Solicitar</button>
+            </div>
+            <div id="modal1" class="modal">
+              <div class="modal-content">
+                <h4>Renovacion de contrato</h4>
+                <h5>Para solicitar una renovacion de contrato debes especificar los siguientes puntos</h5>
+                
+                <br>
+                <form action="{% url 'solicitarContratoRenovacion' %}" method="post">
+                  <input type="hidden" name="consultor" value="{{informationConsultorUser.id}}">
+                  <input type="hidden" name="proyecto" value="{{proyecto}}">
+                  {% csrf_token %}
+                  <p>Razon</p>
+                  <div class="input-field">
+                    <textarea id="razon" class="materialize-textarea" name="razon" required maxlength="190"></textarea>
+                    <label for="razon">Escribe aquí por que solicitas un una renovacion de contrato</label>
+                  </div>
+                  <p>Comentarios extra</p>
+                  <div class="input-field">
+                    <textarea id="comentarios" class="materialize-textarea" name="comentarios" maxlength="190" required></textarea>
+                    <label for="comentarios">Escribe aqui tus comentarios extra</label>
+                  </div>
+                  <button class="btn waves-effect waves-light" type="submit" name="action">Enviar</button>
+                </form>
+              </div>
+              
+            </div>
+            <div style="width: 30%;text-align:center">
+              <h5>Solicitar contrato Marco Gnosis - Empresa</h5>
+            <button class="blue-buttons" id="{{informationConsultorUser.id}}" onclick="solictarContrato(this.id, 'Marco Gnosis - Empresa');">Solicitar</button>
+            </div>
+            <div style="width: 30%;text-align:center">
+              <h5>Solicitar contrato Marco (Anexo)</h5>
+            <button class="blue-buttons" id="{{informationConsultorUser.id}}" onclick="solictarContrato(this.id, 'Marco (Anexo)');">Solicitar</button>
+            </div>
+          </div>
+          
+          
+          <div class="inputs" id="input-edit-factury" style="background-color: white; display:none;">
+              <div class="row">
+          </div>
+        </div>
+        <div class="buttons-rfc" id="buttons-show">
+          
+        </div>
+      </div>
+    </div>
+
+
+    <div class="information-contact-experience">
+      <div  class="container-contact">
+        <div class="contact" style="word-wrap: break-word;
+        word-break: break-word;">
+          <h5 class="data-contact-tittle">Datos de contacto</h5>
+          
+          <div class="contact-info">
+            <h6 id="labels">Telefono:</h6>
+            <h6>{{ informationPersonalUser.telefono }}</h6>
+            <h6 id="labels">Correo electronico:</h6>
+            <h6>{{ correo }}</h6>
+            <h6 id="labels">Dirección:</h6>
+            {% if informationPersonalUser.ciudad == 'NA' or informationPersonalUser.ciudad == ''  %}
+              <h6>{{ informationPersonalUser.colonia }}, {{ informationPersonalUser.cod_post }}, {{ informationPersonalUser.municipio }}, {{ informationPersonalUser.estado }}</h6>
+            {% else %}
+              <h6>{{ informationPersonalUser.colonia }}, {{ informationPersonalUser.cod_post }}, {{ informationPersonalUser.ciudad }}, {{ informationPersonalUser.estado }}</h6>
+            {% endif %}
+          </div>
+        </div>
+        <div class="idiomas" id="information-contact-experience-contact">
+          <h5>Idiomas</h5>
+          <div class="contact-info" id="languajes-description" style="overflow: auto;height:140px;">
+            {% if misIdiomas %}
+              {% for miIdioma in misIdiomas %}
+              <div
+              style="width: 100%; display: flex; flex-direction: row; flex-wrap: wrap; height: 40px; background-color: white; justify-content: space-between; border-top: 1px solid gray; border-right: 1px solid gray; border-left: 1px solid gray; border-bottom: none;border-bottom: 1px solid gray; box-sizing: border-box; overflow: hidden; align-items: center; padding: 6px;">
+              <p style="width: 20%; height: 26px; margin-top: 0px; background-color: white; margin-top:2px; margin-bottom:2px;">{{ miIdioma.1.nombre }}</p>
+              <p
+                style="width: 20%; height: 26px; margin-top: 0px; background-color: green; text-align: center; color: white; border-radius: 6px;">
+                {{ miIdioma.2 }}</p>
+            </div>
+              {% endfor %}
+            {% else %}
+              <div class="contact-info" id="languajes-description">
+                <p>Aun no hay idiomas registrados</p>
+              </div>
+            {% endif %}
+            
+            
+          </div>
+        </div>
+      </div>
+      <div class="experience">
+        <div class="data-experience">
+          <h5>Proyectos y Desempeño</h5>
+          <h6 id="date-requirement">Salario estimado por el consultor y precio pagado por proyecto</h6>
+          <div
+            style="width: 100%; height: 300px; background-color: white; display: flex; justify-content: center; align-items: center;">
+            <canvas id="myChart" style="width: 90%; height: 90%; background-color: white;"></canvas>
+          </div>
+          <h5>Proyectos y evaluaciones recibidas</h5>
+        </div>
+        <div style="width: 100%; background-color:white; display: flex; justify-content: center;">
+          <div class="container-table">
+            <table class="centered responsive-table" id="miTabla">
+              <thead>
+                <tr>
+                  <th>Proyecto</th>
+                  <th>Empresa</th>
+                  <th>Fecha del proyecto</th>
+                  <th>Evaluacion general</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {% if proyectos %}
+                  {% for proyecto in proyectos %}
+                    <tr id="sap">
+                      <td>{{proyecto.id_proyecto.proyecto_nombre}}</td>
+                      <td>{{proyecto.id_proyecto.id_empresa_proyecto.id_empresa.empresa}}</td>
+                      <td>{{proyecto.id_proyecto.fecha_publicacion}}</td>
+                      <td>
+                        {% if proyecto.puntuacion|floatformat:1 != '0.0' %}
+                          {% with stars=proyecto.puntuacion|floatformat:0 %}
+                            {% for _ in ''|rjust:stars %}
+                              <span class="material-icons" style="color: #D9D910; font-size:18px;">star</span>
+                            {% endfor %}
+                          {% endwith %}
+                          <p style="font-size:10px;">{{proyecto.puntuacion}}</p>
+                        {% else %}
+                          <p style="margin-left: 6px;">Sin calificación aun</p>
+                        {% endif%}
+                      </td>
+                      
+                    </tr>
+                    
+                  {% endfor %}
+                {% else %}
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="information-documents" id="lenguajes">
+      <div class="documents" style="visibility: hidden;">
+        
+      </div>
+      <div class="courses-moduls">
+        <div class="courses" id="courses-show-container">
+          <div class="data-courses" id="experience-container-end" style="display: none;">
+            <h5>Experiencia Profesional</h5>
+            <h6 id="title-courses">No hay mas experiencias</h6>
+          </div>
+          {% if myExperience %}
+            {% for experience in myExperience %}
+              <div class="data-courses" id="container-data-experience-show-{{ experience.6 }}">
+                <h5>Experiencia Profesional</h5>
+                <h6 id="title-courses">{{ experience.3 }} en {{ experience.2 }}</h6>
+                <h6 id="date-courses">{{ experience.4 }} - {{ experience.5 }}</h6>
+                <h6 id="content-courses" style="word-wrap: break-word;">{{ experience.1 }}</h6>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="data-courses">
+              <h5>Experiencia Profesional</h5>
+              <h6 id="title-courses">No hay experiencia registrada</h6>
+            </div>
+          {% endif %}
+          <div class="button-experience-course" id="course">
+            <button class="blue-buttons" id="courses-edit-button" onclick="viewExperiencia(viewExperiencias=viewExperiencias+1);">Mostrar Mas</button>
+          </div>
+        </div>
+        <div class="moduls-sap"> 
+          <h5 id="modulo-sap">Modulos que maneja en SAP</h5>
+          <div class="data-moduls">
+            <div class="container-table">
+              <table class="centered responsive-table">
+                <thead>
+                  <tr>
+                    <th>Módulo</th>
+                    <th>Submódulo</th>
+                    <th>Nivel de <br> Experiencia</th>
+                    <th>Experiencia que <br> asigna Gnosis</th>
+                    
+                  </tr>
+                </thead>
+                <tbody id="tablaResultados">
+                  {% for moduls in misModulos %}
+                  <tr id="sap-form-show-{{ moduls.4 }}">
+                    <td>{{ moduls.1.nombre }}</td>
+                    <td>{{ moduls.2.nombre }}</td>
+                    <td>
+                      {% if moduls.3.nombre.1 == '0' %}
+                        <div class="label-kCero" id="nivel-{{ moduls.4}}">{{ moduls.3.nombre }}</div>
+                      {% elif moduls.3.nombre.1 == '1' %}
+                        <div class="label-kUno" id="nivel-{{ moduls.4}}">{{ moduls.3.nombre }}</div>
+                      {% elif moduls.3.nombre.1 == '2' %}
+                        <div class="label-kDos" id="nivel-{{ moduls.4}}">{{ moduls.3.nombre }}</div>
+                      {% elif moduls.3.nombre.1 == '3' %}
+                        <div class="label-kTres" id="nivel-{{ moduls.4}}">{{ moduls.3.nombre }}</div>
+                      {% elif moduls.3.nombre.1 == '4' %}
+                        <div class="label-kCuatro" id="nivel-{{ moduls.4}}">{{ moduls.3.nombre }}</div>
+                      {% endif %}
+                    </td>
+                    <td>
+                      {% if moduls.5.nombre.1 == '0' %}
+                        <div class="label-kCero" id="nivel-gnosis-{{ moduls.4}}">{{ moduls.5.nombre }}</div>
+                      {% elif moduls.5.nombre.1 == '1' %}
+                        <div class="label-kUno" id="nivel-gnosis-{{ moduls.4}}">{{ moduls.5.nombre }}</div>
+                      {% elif moduls.5.nombre.1 == '2' %}
+                        <div class="label-kDos" id="nivel-gnosis-{{ moduls.4}}">{{ moduls.3.nombre }}</div>
+                      {% elif moduls.5.nombre.1 == '3' %}
+                        <div class="label-kTres" id="nivel-gnosis-{{ moduls.4}}">{{ moduls.5.nombre }}</div>
+                      {% elif moduls.5.nombre.1 == '4' %}
+                        <div class="label-kCuatro" id="nivel-gnosis-{{ moduls.4}}">{{ moduls.5.nombre }}</div>
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <div class="table-pagination">
+              <p>Anterior</p>
+              <ul class="pagination">
+                <li class="disabled">
+                  <a href="#!" id="less"><i class="material-icons">chevron_left</i></a>
+                </li>
+                <li class="active"><a href="#!">1</a></li>
+                <li class="waves-effect">
+                  <a href="#!" id="more"><i class="material-icons">chevron_right</i></a>
+                </li>
+              </ul>
+              <p>Siguiente</p>
+            </div>
+          </div>
+          <!--<div class="button-experience-modul" id="modul">
+            <button class="blue-buttons">Editar información</button>
+          </div>-->
+        </div>
+      </div>
+
+    </div>
+    <div class="information-contact-experience" id="education">
+      <div class="education-hidden" id="" style="width: 28%;">
+      </div>
+      <div class="experience" id="information-contact-experience-contact-experience">
+        <div class="data-experience" id="data-experience-show-container">
+          {% if estudiosConsultor %}
+            <h5>Educación</h5>
+            <h6 id="title-requeriment">{{ institucion.nombre }}</h6>
+            <h6 id="date-requirement">{{educacionInicio }} - {{ educacionTermino }}</h6>
+            <h6 id="content-requirement">{{ estudiosConsultor.educacion }} - {{ estudiosConsultor.titulo_registrado }}
+            </h6>
+            <hr />
+          {% else %}
+            <h5>Educación</h5>
+            <h6 id="title-requeriment">Aun no hay educacion agregada</h6>
+          {% endif%}
+        </div>
+      </div>
+    </div>
+    <div class="information-contact-experience" id="cursos">
+      <div class="" id="" style="width: 28%;">
+      </div>
+      <div class="experience" id="information-contact-experience-contact-experience">
+        <div class="data-experience" id="curso-container-end" style="display: none;">
+          <h5>Cursos y Certificaciones</h5>
+          <h6 id="title-requeriment">No hay mas cursos registrados</h6>
+        </div>
+        {% if myCourses %}
+          {% for curso in myCourses %}
+            <div class="data-experience" id="container-curso-{{curso.6}}">
+              <h5>Cursos y Certificaciones</h5>
+              <h6 id="title-requeriment">{{ curso.5 }}</h6>
+              <h6 id="date-requirement">{{ curso.4 }}</h6>
+              <h6 id="content-requirement">{{ curso.1 }}</h6>
+              <hr />
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="data-experience" id="data-experience-show-container">
+            <h5>Cursos y Certificaciones</h5>
+            <h6 id="title-requeriment">No hay cursos registrados</h6>
+          </div>
+        {% endif %}
+        <div class="button-experience-study" id="study">
+          <button class="blue-buttons" id="edit-education-user-information" onclick="viewCursos(viewCurso=viewCurso+1);">Mostrar Mas</button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="information-contact-experience" id="pan" style="height: 200px;">
+      <div class="" id="" style="width: 28%;">
+      </div>
+      <div class="experience" id="information-contact-experience-contact-experience">
+        <div class="data-experience categoria-show" id="curso-container-end">
+          <h5>Asignación a categoría</h5>
+          <h6 id="title-requeriment">El consultor esta asigando a la categoria <b>{{informationConsultorUser.id_categoria.categoria_nombre}}</b> en este momento</h6>
+        </div>
+      </div>  
+    </div>
+    
+    </div>
+    <input type="hidden" name="" id="proyectoID" value="{{proyecto}}">
+  </section>  
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="{% static 'js/profileAdministrador.js' %}"></script>
+
+<script>
+
+  function solictarContrato(id, contrato){
+      // console.log(id);
+      Swal.fire({
+        title: '¿Quieres solicitarlo?',
+        text: "El equipo de Gnosis se pondra en marcha para generar el contrato",
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText:'Cancelar',
+        confirmButtonText: 'Si, asi es'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const csrftoken = getCookie('csrftoken');
+          let idProyecto = document.getElementById('proyectoID').value;
+          fetch(`{% url 'solicitarContrato' %}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify({
+              consultor: id,
+              proyecto:idProyecto,
+              contrato: contrato
+            })
+          })
+            .then(response => {
+              if (response.status == 200) {
+                  Swal.fire({
+                      position: 'top-end',
+                      icon: 'success',
+                      title: 'Se ha solicitado el contrato',
+                      showConfirmButton: false,
+                      timer: 1500
+                  })
+                  // Esperar 1 segundo antes de actualizar la página
+                  setTimeout(function() {
+                      location.reload();
+                  }, 1000);
+              } else {
+                throw new Error('Error en la solicitud. Código de estado: ' + response.status);
+              }
+            })
+            .then(data => {
+              // Manejar la respuesta del servidor
+              console.log(data);
+            })
+            .catch(error => {
+              // Manejar errores de la solicitud
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Algo salio mal",
+              });
+            });
+        }
+      })
+  }
+
+    // Función para obtener el valor de una cookie por su nombre
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    var dynamicButtons = document.querySelectorAll('.dynamic-button');
+        dynamicButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var param1 = this.id;
+            var param2 = this.value;
+            var param3 = this.name;
+            // console.log(param3)
+            var body = document.body;
+            openModal(param1, param2, param3);
+            });
+        });
+        function openModal(id, modulo, param3) {
+            var nivel = document.getElementById(`nivel-${modulo}`).innerText;
+            var nivelGnosis = document.getElementById(`nivel-gnosis-${modulo}`).innerText;
+            // console.log(nivel)
+            // console.log(nivelGnosis)
+            // Inicializa los elementos del modal
+            var nivelbase = document.getElementById(`${nivel}`).innerText;
+            console.log(document.getElementById(`${nivel}`).value);
+            // console.log(nivelbase)
+            var select = document.getElementById('mySelect');
+            var option = select.options[0]; // Obtén la primera opción
+            option.value = document.getElementById(`${nivel}`).value;
+            
+            option.text = `${nivelbase}`;
+            document.getElementById('saber').value = param3;
+            var nivelbaseGnosis = document.getElementById(`${nivelGnosis}`).innerText;
+            console.log(document.getElementById(`${nivelGnosis}`).value);
+            // console.log(nivelbaseGnosis)
+            var select = document.getElementById('mySelect2');
+            var option2 = select.options[0]; // Obtén la primera opción
+
+            option2.value = document.getElementById(`${nivelGnosis}`).value;
+            option2.text = `${nivelbaseGnosis}`;
+
+
+            var elems = document.querySelectorAll('.modal');
+            var instances = M.Modal.init(elems);
+        
+            var select = document.querySelector('#mySelect');
+            var selectInstance = M.FormSelect.init(select);
+        
+            var select2 = document.querySelector('#mySelect2');
+            var selectInstanc2 = M.FormSelect.init(select2);
+        
+            // Abre el modal
+            var modalInstance = M.Modal.getInstance(document.querySelector('#modal1'));
+            modalInstance.open();
+      }
+
+
+
+  function controlTableSAP(inicio, final) {
+    var tablaResultados = document.getElementById('tablaResultados');
+    var filas = tablaResultados.querySelectorAll('tr');
+    var contador = 0;
+    var inicioFilas = inicio; // Límite de filas a mostrar
+    var limiteFilas = final; // Límite de filas a mostrar
+    
+    for (var fila of filas) {
+      var id = fila.getAttribute('id');
+      var idDeseado = 'sap-form-show-';
+  
+      if (fila.id.startsWith(idDeseado)) {
+        contador++;
+        
+        if (contador < inicioFilas || contador > limiteFilas) {
+          fila.style.display = 'none';
+        } else {
+          fila.style.display = 'table-row';
+        }
+      }
+    }
+  }
+  
+  var inicio = 0;
+  var final = 4;
+  controlTableSAP(inicio, final);
+  
+  document.getElementById('less').addEventListener('click', function(e) {
+    e.preventDefault();
+    inicio -= 3;
+    final -= 2;
+    controlTableSAP(inicio, final);
+    console.log('less');
+    console.log(inicio);
+    console.log(final);
+  });
+  
+  document.getElementById('more').addEventListener('click', function(e) {
+    e.preventDefault();
+    inicio += 3;
+    final += 2;
+    controlTableSAP(inicio, final);
+    console.log('more');
+    console.log(inicio);
+    console.log(final);
+  });
+
+  // Obtén una referencia al elemento canvas
+  var ctx = document.getElementById('myChart').getContext('2d');
+  document.getElementById('myChart').style.width = '700px';
+  // Datos del gráfico
+  var data = {
+    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo'],
+    datasets: [
+      {
+        label: 'Costo',
+        data: [12, 19, 8, 15, 7],
+        //backgroundColor: 'rgba(255, 99, 132, 0.5)', // Color de fondo de las barras con transparencia
+        borderColor: 'rgba(255, 99, 132, 1)', // Color del borde de las barras
+        borderWidth: 2.5, // Ancho del borde de las barras
+        pointRadius: 4, // Tamaño de los puntos
+        pointBackgroundColor: 'rgba(255, 99, 132, 1)', // Color de fondo de los puntos
+        pointBorderColor: 'rgba(255, 255, 255, 1)', // Color del borde de los puntos
+        pointHoverRadius: 7, // Tamaño de los puntos al pasar el cursor
+        fill: 'origin', // Relleno del área debajo de la línea
+      },
+      {
+        label: 'Proyecto',
+        data: [7, 13, 9, 17, 15],
+        backgroundColor: 'rgba(54, 162, 235, 0.5)', // Color de fondo de las barras con transparencia
+        borderColor: 'rgba(54, 162, 235, 1)', // Color del borde de las barras
+        borderWidth: 2.5, // Ancho del borde de las barras
+        pointRadius: 4, // Tamaño de los puntos
+        pointBackgroundColor: 'rgba(54, 162, 235, 1)', // Color de fondo de los puntos
+        pointBorderColor: 'rgba(255, 255, 255, 1)', // Color del borde de los puntos
+        pointHoverRadius: 7, // Tamaño de los puntos al pasar el cursor
+        fill: 'origin' // Relleno del área debajo de la línea
+      },
+      {
+        label: 'Desempeño',
+        data: [9, 15, 12, 10, 8],
+        backgroundColor: 'rgba(75, 192, 192, 0.5)', // Color de fondo de las barras con transparencia
+        borderColor: 'rgba(75, 192, 192, 1)', // Color del borde de las barras
+        borderWidth: 2.5, // Ancho del borde de las barras
+        pointRadius: 4, // Tamaño de los puntos
+        pointBackgroundColor: 'rgba(75, 192, 192, 1)', // Color de fondo de los puntos
+        pointBorderColor: 'rgba(255, 255, 255, 1)', // Color del borde de los puntos
+        pointHoverRadius: 7, // Tamaño de los puntos al pasar el cursor
+        fill: 'origin' // Relleno del área debajo de la línea
+      }
+    ]
+  };
+
+  // Opciones del gráfico
+  var options = {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    },
+    elements: {
+      line: {
+        tension: 0.4 // Controla la suavidad de las líneas (0 = rectas, 1 = curvas)
+      }
+    }
+  };
+
+  // Crea el gráfico de barras lineal con líneas suavizadas, transparencia y área de relleno
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: data,
+    options: options
+  });
+
+
+  let viewExperiencias = 0;
+  viewExperiencia(viewExperiencias);
+  function viewExperiencia(view) {
+    console.log(view);
+    var containerCursos = document.querySelectorAll(
+      '[id^="container-data-experience-show-"]'
+    );
+    // Recorre los elementos encontrados
+    for (var i = 0; i < containerCursos.length; i++) {
+      var elemento = containerCursos[i];
+  
+      if (view >= containerCursos.length) {
+        document.getElementById("experience-container-end").style.display =
+          "block";
+      }
+      // Aplica el estilo "display: none" a todos los elementos excepto el primero
+      if (i !== view) {
+        elemento.style.display = "none";
+      } else {
+        elemento.style.display = "";
+      }
+    }
+  }
+  let viewCurso = 0;
+  viewCursos(viewCurso);
+  function viewCursos(view) {
+    console.log(view);
+    var containerCursos = document.querySelectorAll('[id^="container-curso-"]');
+    // Recorre los elementos encontrados
+    for (var i = 0; i < containerCursos.length; i++) {
+      var elemento = containerCursos[i];
+  
+      if (view >= containerCursos.length) {
+        document.getElementById("curso-container-end").style.display = "block";
+      }
+      // Aplica el estilo "display: none" a todos los elementos excepto el primero
+      if (i !== view) {
+        elemento.style.display = "none";
+      } else {
+        elemento.style.display = "";
+      }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems, options);
+  });
+</script>
+{% endblock %}

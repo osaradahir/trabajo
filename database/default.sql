@@ -147,3 +147,10 @@ INSERT INTO `manera_pago` (`id`, `tipo`) VALUES
 (4, 'Tarjetas de débito, crédito'),
 (5, 'Pagos móviles'),
 (6, 'Transferencias bancarias');
+
+
+INSERT INTO `categorias_consultor`(`id`, `categoria_nombre`, `descripcion`) VALUES 
+(1,'Mala','Consultor con malas reseñas.'), 
+(2,'Regular','Consultor con reseñas regulares.'),
+(3,'Buena','Consultor con buenas reseñas.'),
+(4,'Excelente','Consultor con reseñas excelentes.');

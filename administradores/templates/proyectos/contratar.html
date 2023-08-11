@@ -1,0 +1,2031 @@
+{% extends 'baseAdministradorPrincipal.html' %}
+{% load static %}
+
+{% block Content %}
+<div class="container" style="margin-top:20px; width:80%;">
+  <div class="row">
+
+    <!-- CONTROL PAGES -->
+    <div class="col l4 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">
+      <a href="">Principal</a>
+      <a class="grey-text pl7">/</a>
+      <a class="grey-text pl7">Contratar</a>
+    </div>
+
+
+    <!-- TITLE -->
+    <div class="col s12 ">
+      <h3 class="blue-text col l12 s12 text-darken-4">Contratar</h3>
+    </div>
+
+
+    <!-- LEYEND -->
+    <div class="col s12">
+      <span class="grey-text" style="font-size:14pt;">Cree los contratos correspondientes para el consultor {{name}}
+        {{apepa}} {{apema}}</span>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="container" style="margin-top:20px; width:80%;">
+  <div class="row">
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="background-color: red; color:white;"> {{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="col s12 l12 white pbtm20" style="padding-top: 1cm;">
+      <div class="aligner" style="margin-left: 1cm; margin-right: 1cm;">
+        <div class="col s12 l12 pbtm20">
+          <h5>Contratos Gnosis - Empresa</h5>
+          <div class="input-field col s12 l12">
+            <select id="opcionesConsultor" onchange="mostrarFormularioConsultor()">
+              <option value="ninguno">Selecciona una opción</option>
+              <option value="marco">Contrato Marco - Gnosis</option>
+              {% if contrato %}
+                <option value="anexo">Anexo Contrato Marco - Gnosis</option>
+              {% endif %}
+              
+            </select>
+            <label>Por favor escoje tu contrato*</label>
+          </div>
+          <div id="formulario-marco" style="display: none;">
+            <form method="POST" action="{% url 'contratoMarco' %}">
+              {% csrf_token %}
+              <input type="hidden" name="consultor_marco" value="{{consultor}}">
+              <input type="hidden" name="proyecto_marco" value="{{proyecto}}">
+              <input type="hidden" name="proyectoConsultor_marco" value="{{proyectoConsultor}}">
+              <input type="hidden" name="titulo_marco" value="CONTRATO MARCO GNOSIS-">
+              <!-- DIA DE INICIO -->
+              <div class="input-field col s12 l4">
+                <input id="fecha_inicio_marco" name="fecha_inicio_marco" type="text" class="datepicker" readonly
+                  style="display:true" required />
+                <label for="fecha_inicio_marco">Fecha de Inicio</label>
+              </div>
+
+              <!-- DIA FINAL -->
+              <div class="input-field col s12 l4">
+                <input id="fecha_final_marco" name="fecha_final_marco" type="text" class="datepicker" readonly
+                  style="display:true" required />
+                <label for="fecha_final_marco">Fecha de Final</label>
+              </div>
+
+              <!-- DIA FIRMA -->
+              <div class="input-field col s12 l4">
+                <input id="fecha_firma_marco" name="fecha_firma_marco" type="text" class="datepicker" readonly
+                  style="display:true" required />
+                <label for="fecha_firma_marco">Fecha Firma del Contrato</label>
+              </div>
+              <div class="input-field col s12 l6">
+                <label for="atention" data-error="wrong" data-success="right">Quien dara atencion</label>
+                <input id="atention" name="atention" type="text" class="validate" pattern="[A-Za-záéíóúñÑ\s]{3,25}"
+                  minlength="3" maxlength="25" title="Use solo letras con un minimo de 3 caracteres" required />
+              </div>
+              <!-- QUIEN DIO ATENCION -->
+              <div class="input-field col s12 l6">
+                <label for="person_copy" data-error="wrong" data-success="right">Persona con copia</label>
+                <input id="person_copy" name="person_copy" type="text" class="validate"
+                  pattern="[A-Za-záéíóúñÑ\s]{3,25}" minlength="3" maxlength="25"
+                  title="Use solo letras con un minimo de 3 caracteres" required />
+              </div>
+              <div class="input-field col s6 l6">
+                <select id="consultorCopia" required name="consultorCopia">
+                  <option value="ninguno" disabled selected>Selecciona una opción</option>
+                  <option value="1">Si</option>
+                  <option value="0">No</option>
+                </select>
+                <label>Enviar una copia al consultor*</label>
+              </div>
+              <div class="input-field col s6 l6">
+                <select id="empresaCopia" required name="empresaCopia">
+                  <option value="ninguno" disabled selected>Selecciona una opción</option>
+                  <option value="1">Si</option>
+                  <option value="0">No</option>
+                </select>
+                <label>Enviar una copia a la empresa*</label>
+              </div>
+              <div class="col s12 l12 white center pbtm20">
+                <button class="btn-large red arken-3 waves-effect waves-light" type="reset" name="action">
+                  Cancelar
+                  <i class="material-icons right white-text" style="background-color: transparent;">cancel</i>
+                </button>
+                <button class="btn-large blue darken-3 waves-effect waves-light" type="submit" name="action">
+                  Generar Contrato
+                  <i class="material-icons right white-text" style="background-color: transparent;">file_download</i>
+                </button>
+              </div>
+            </form>
+          </div>
+          <div id="formulario-anexo" style="display: none;">
+            <form method="POST" action="{% url 'contratoAnexo' %}">
+              {% csrf_token %}
+              <input type="hidden" name="consultor_anexo" value="{{consultor}}">
+              <input type="hidden" name="proyecto_anexo" value="{{proyecto}}">
+              <input type="hidden" name="proyectoConsultor_anexo" value="{{proyectoConsultor}}">
+              <input type="hidden" name="titulo_anexo" value="ANEXO GNOSIS-">
+              <!-- DIA DE INICIO -->
+              <div class="input-field col s12 l4">
+                <input id="fecha_inicio_anexo" name="fecha_inicio_anexo" type="text" class="datepicker" readonly
+                  style="display:true" required />
+                <label for="fecha_inicio_anexo">Fecha de Inicio</label>
+              </div>
+
+              <!-- DIA FINAL -->
+              <div class="input-field col s12 l4">
+                <input id="fecha_final_anexo" name="fecha_final_anexo" type="text" class="datepicker" readonly
+                  style="display:true" required />
+                <label for="fecha_final_anexo">Fecha de Final</label>
+              </div>
+
+              <!-- DIA FIRMA -->
+              <div class="input-field col s12 l4">
+                <input id="fecha_firma_anexo" name="fecha_firma_anexo" type="text" class="datepicker" readonly
+                  style="display:true" required />
+                <label for="fecha_firma_anexo">Fecha Firma del Contrato</label>
+              </div>
+              <div class="col s12 l6 input-field center">
+                <i class="material-icons prefix">attach_money</i>
+                <label for="Tarifa_anexo" data-error="wrong" data-success="right">Tarifa por día en pesos
+                  Mexicanos</label>
+                <input id="Tarifa_anexo" name="Tarifa_anexo" type="number" step="any" class="validate"
+                  pattern="[0-9]{5,6}" min="0.00" max="10000000.00" title="Use solo numeros" required />
+              </div>
+
+              <!-- QUIEN DIO ATENCION -->
+              <div class="input-field col s12 l6">
+                <label for="gerente" data-error="wrong" data-success="right">Gerente del Proyecto</label>
+                <input id="gerente" name="gerente_anexo" type="text" class="validate" pattern="[A-Za-záéíóúñÑ\s]{3,25}"
+                  minlength="3" maxlength="25" title="Use solo letras con un minimo de 3 caracteres" required />
+              </div>
+              <div class="input-field col s6 l12">
+                <label for="cargo_anexo" data-error="wrong" data-success="right">Cargo asigando</label>
+                <input id="cargo_anexo" name="cargo_anexo" type="text" class="validate" minlength="3" maxlength="40"
+                  title="Use solo letras con un minimo de 3 caracteres" required>
+              </div>
+              <h6>Actividades</h6>
+              <div class="input-field col s6 l4">
+                <label for="act_1" data-error="wrong" data-success="right">Actividad NO.1</label>
+                <input id="act_1" name="act_1" type="text" class="validate" minlength="3" maxlength="40"
+                  title="Use solo letras con un minimo de 3 caracteres" required>
+              </div>
+              <div class="input-field col s6 l8">
+                <textarea id="mi-textarea" class="materialize-textarea" name="descripcion_1" required></textarea>
+                <label for="descripcion_1">Descripción</label>
+              </div>
+              <div class="input-field col s6 l4">
+                <label for="act_2" data-error="wrong" data-success="right">Actividad NO.2</label>
+                <input id="act_2" name="act_2" type="text" class="validate" minlength="3" maxlength="40"
+                  title="Use solo letras con un minimo de 3 caracteres" required>
+              </div>
+              <div class="input-field col s6 l8">
+                <textarea id="mi-textarea" name="descripcion_2" class="materialize-textarea" required></textarea>
+                <label for="descripcion_2">Descripción</label>
+              </div>
+              <div class="input-field col s6 l4">
+                <label for="act_3" data-error="wrong" data-success="right">Actividad NO.3</label>
+                <input id="act_3" name="act_3" type="text" class="validate" minlength="3" maxlength="40"
+                  title="Use solo letras con un minimo de 3 caracteres">
+              </div>
+              <div class="input-field col s6 l8">
+                <textarea id="mi-textarea" name="descripcion_3" class="materialize-textarea"></textarea>
+                <label for="descripcion_3">Descripción</label>
+              </div>
+              <div class="input-field col s6 l4">
+                <label for="act_4" data-error="wrong" data-success="right">Actividad NO.4</label>
+                <input id="act_4" name="act_4" type="text" class="validate" minlength="3" maxlength="40"
+                  title="Use solo letras con un minimo de 3 caracteres">
+              </div>
+              <div class="input-field col s6 l8">
+                <textarea id="mi-textarea" name="descripcion_4" class="materialize-textarea"></textarea>
+                <label for="descripcion_4">Descripción</label>
+              </div>
+              <div class="input-field col s6 l6">
+                <select id="consultorCopia" required name="consultorCopia">
+                  <option value="ninguno" disabled selected>Selecciona una opción</option>
+                  <option value="1">Si</option>
+                  <option value="0">No</option>
+                </select>
+                <label>Enviar una copia al consultor*</label>
+              </div>
+              <div class="input-field col s6 l6">
+                <select id="empresaCopia" required name="empresaCopia">
+                  <option value="ninguno" disabled selected>Selecciona una opción</option>
+                  <option value="1">Si</option>
+                  <option value="0">No</option>
+                </select>
+                <label>Enviar una copia a la empresa*</label>
+              </div>
+              <div class="col s12 l12 white center pbtm20">
+                <button class="btn-large red arken-3 waves-effect waves-light" type="reset" name="action">
+                  Cancelar
+                  <i class="material-icons right white-text" style="background-color: transparent;">cancel</i>
+                </button>
+                <button class="btn-large blue darken-3 waves-effect waves-light" type="submit" name="action">
+                  Generar Contrato
+                  <i class="material-icons right white-text" style="background-color: transparent;">file_download</i>
+                </button>
+              </div>
+            </form>
+          </div>
+            <br><br>
+          <h5>Contratos para el consultor</h5>
+          <div class="input-field col s12 l12">
+            <select id="opciones" onchange="mostrarFormularioEmpresa()">
+              <option value="ninguno">Selecciona una opción</option>
+              <option value="machote">Contrato Base (Contratos por nomina)*</option>
+              <option value="final">Contrato Final Propio (Contratos para freelance)*</option>
+              <option value="final_terceros">Contrato Final Terceros (Contratos para freelance)*</option>
+            </select>
+            <label>Por favor escoje tu contrato*</label>
+          </div>
+          <div id="formulario-machote" style="display: none;">
+
+            <form method="POST" action="{% url 'contratoMachote' %}">
+              {% csrf_token %}
+              <input type="hidden" name="consultor" value="{{consultor}}">
+              <input type="hidden" name="proyecto" value="{{proyecto}}">
+              <input type="hidden" name="proyectoConsultor" value="{{proyectoConsultor}}">
+              <input type="hidden" name="titulo" value="CONTRATO BASE">
+
+              <!-- DIA DE INICIO -->
+              <div class="input-field col s12 l4">
+                <input id="fecha_inicio" name="fecha_inicio" type="text" class="datepicker" readonly
+                  style="display:true" required />
+                <label for="fecha_inicio">Fecha de Inicio</label>
+              </div>
+
+              <!-- DIA FINAL -->
+              <div class="input-field col s12 l4">
+                <input id="fecha_final" name="fecha_final" type="text" class="datepicker" readonly style="display:true"
+                  required />
+                <label for="fecha_final">Fecha de Final</label>
+              </div>
+
+              <!-- DIA FIRMA -->
+              <div class="input-field col s12 l4">
+                <input id="fecha_firma" name="fecha_firma" type="text" class="datepicker" readonly style="display:true"
+                  required />
+                <label for="fecha_firma">Fecha Firma del Contrato</label>
+              </div>
+              <!-- DIA FIRMA -->
+              <div class="input-field col s12 l6">
+                <input id="fecha_promesa" name="fecha_promesa" type="text" class="datepicker" readonly style="display:true"
+                  required />
+                <label for="fecha_promesa">Fecha Promesa de Pago</label>
+              </div>
+              <div class="input-field col s6 l6">
+                <label for="puesto" data-error="wrong" data-success="right">Puesto a ejercer</label>
+                <input id="puesto" name="puesto" type="text" class="validate" minlength="3" maxlength="40"
+                  title="Use solo letras con un minimo de 3 caracteres" required>
+              </div>
+              
+              <!-- TARIFA DIARIA -->
+              <div class="col l6 input-field center">
+                <i class="material-icons prefix">attach_money</i>
+                <label for="TarifaCliente" data-error="wrong" data-success="right">Tarifa - Cliente por día en pesos Mexicanos </label>
+                <input id="TarifaCliente" name="tarifaCliente" type="number" class="validate" min="0.00" max="100000.00"
+                  title="Use solo numeros" required />
+              </div>
+              <!-- TARIFA DIARIA -->
+              <div class="col l6 input-field center">
+                <i class="material-icons prefix">attach_money</i>
+                <label for="Tarifa" data-error="wrong" data-success="right">Tarifa - Consultor por día en pesos Mexicanos </label>
+                <input id="Tarifa" name="tarifa" type="number" class="validate" min="0.00" max="100000.00"
+                  title="Use solo numeros" required />
+              </div>
+
+
+              <div class="col l3 input-field center" id="cambio-show-base">
+                <i class="material-icons prefix">attach_money</i>
+                <label for="tipoCambioHoy-base" data-error="wrong" data-success="right">Cambio al dia de hoy</label>
+                <input id="tipoCambioHoy-Auto-base" name="tipoCambioHoy-Auto-base"  class="validate" type="text"
+                  title="Use solo numeros" value="{{cambioHoyMXN}}" readonly required/>
+              </div>
+              <input type="hidden" name="cambio-base" value="{{cambioHoyUSD}}" id="cambio-base">
+              <div class="col l3 input-field center" id="cambio-update-base" style="display: none;">
+                <i class="material-icons prefix">attach_money</i>
+                <label for="tipoCambioHoy-Manual-base" data-error="wrong" data-success="right">Cambio al dia de hoy</label>
+                <input id="tipoCambioHoy-Manual-base" name="tipoCambioHoy-Manual-base" class="validate" type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*"
+                  title="Use solo numeros" value="0" required onchange="calcularCambioBase();"/>
+              </div>
+              <div class="input-field col l2" style="height:1.5cm">
+                <label ><span id="span-tipo-cambio-base" >1$ MXN es igual a {{cambioHoyUSD}}$ USD</span></label>
+              </div>
+              <div class="input-field col s6 l4" style="height:1.5cm">
+                <label>
+                  <input name="manual-base" type="checkbox" id="chec-base" onChange="tipoCambioBase();" value=""/>
+                  <span>Insertar manualmente</span>
+                </label>
+              </div>
+              <div class="input-field col s6 l3" style="height:1.5cm">
+                <label>
+                  <input name="factura-dia-base" type="checkbox" id="factura-dia-base" value="ON"/>
+                  <span>Tomarlo del dia de la factura</span>
+                </label>
+              </div>
+
+              <div class="input-field col s6 l6">
+                <select id="consultorCopia" required name="consultorCopia">
+                  <option value="ninguno" disabled selected>Selecciona una opción</option>
+                  <option value="1">Si</option>
+                  <option value="0">No</option>
+                </select>
+                <label>Enviar una copia al consultor*</label>
+              </div>
+              <div class="input-field col s6 l6">
+                <select id="empresaCopia" required name="empresaCopia">
+                  <option value="ninguno" disabled selected>Selecciona una opción</option>
+                  <option value="1">Si</option>
+                  <option value="0">No</option>
+                </select>
+                <label>Enviar una copia a la empresa*</label>
+              </div>
+              <div class="col s12 l12 white center pbtm20">
+                <button class="btn-large red arken-3 waves-effect waves-light" type="reset" name="action">
+                  Cancelar
+                  <i class="material-icons right white-text" style="background-color: transparent;">cancel</i>
+                </button>
+                <button class="btn-large blue darken-3 waves-effect waves-light" type="submit" name="action">
+                  Generar Contrato
+                  <i class="material-icons right white-text" style="background-color: transparent;">file_download</i>
+                </button>
+              </div>
+            </form>
+          </div>
+          <div id="formulario-final" style="display: none;">
+            <form method="POST" action="{% url 'contratoFinal' %}">
+              {% csrf_token %}
+              <input type="hidden" name="consultor" value="{{consultor}}">
+              <input type="hidden" name="proyecto" value="{{proyecto}}">
+              <input type="hidden" name="proyectoConsultor" value="{{proyectoConsultor}}">
+              <input type="hidden" name="titulo" value="CONTRATO FINAL PROPIO">
+
+              <!-- DIA DE INICIO -->
+              <div class="input-field col s12 l4">
+                <input id="fecha_inicio_final" name="fecha_inicio_final" type="text" class="datepicker" readonly
+                  style="display:true" required />
+                <label for="fecha_inicio_final">Fecha de Inicio</label>
+              </div>
+
+              <!-- DIA FINAL -->
+              <div class="input-field col s12 l4">
+                <input id="fecha_final_final" name="fecha_final_final" type="text" class="datepicker" readonly style="display:true"
+                  required />
+                <label for="fecha_final_final">Fecha de Final</label>
+              </div>
+
+              <!-- DIA FIRMA -->
+              <div class="input-field col s12 l4">
+                <input id="fecha_firma_final" name="fecha_firma_final" type="text" class="datepicker" readonly style="display:true"
+                  required />
+                <label for="fecha_firma_final">Fecha Firma del Contrato</label>
+              </div>
+              <!-- TARIFA DIARIA -->
+              
+              <div class="col l6 input-field center">
+                <i class="material-icons prefix">attach_money</i>
+                <label for="Tarifa_final-cliente" data-error="wrong" data-success="right">Tarifa - Cliente por día en pesos Mexicanos</label>
+                <input id="Tarifa_final-cliente" name="tarifa_final-cliente" type="number" class="validate" min="0.00" max="100000.00"
+                  title="Use solo numeros" required />
+              </div>
+              <div class="col l6 input-field center">
+                <i class="material-icons prefix">attach_money</i>
+                <label for="Tarifa_final" data-error="wrong" data-success="right">Tarifa - Consultor por día en pesos Mexicanos</label>
+                <input id="Tarifa_final" name="tarifa_final" type="number" class="validate" min="0.00" max="100000.00"
+                  title="Use solo numeros" required />
+              </div>
+              <div class="col l12 input-field center">
+                <i class="material-icons prefix">attach_money</i>
+                <label for="gratificacion" data-error="wrong" data-success="right">Gratificación por finalizacion del proyecto</label>
+                <input id="gratificacion" name="gratificacion" type="number" class="validate" min="0.00" max="100000.00"
+                  title="Use solo numeros" required />
+              </div>
+
+              <div class="col l6 input-field center" id="cambio-show">
+                <i class="material-icons prefix">attach_money</i>
+                <label for="tipoCambioHoy" data-error="wrong" data-success="right">Tipo de cambio al dia de hoy</label>
+                <input id="tipoCambioHoy-Auto" name="tipoCambioHoy-Auto"  class="validate" type="text"
+                  title="Use solo numeros" value="{{cambioHoyMXN}}" readonly required/>
+              </div>
+              <input type="hidden" name="cambio" value="{{cambioHoyUSD}}" id="cambio">
+              <div class="col l6 input-field center" id="cambio-update" style="display: none;">
+                <i class="material-icons prefix">attach_money</i>
+                <label for="tipoCambioHoy-Manual" data-error="wrong" data-success="right">Tipo de cambio al dia de hoy</label>
+                <input id="tipoCambioHoy-Manual" name="tipoCambioHoy-Manual" class="validate" type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*"
+                  title="Use solo numeros" value="0" required onchange="calcularCambio();"/>
+              </div>
+              <div class="input-field col l2" style="height:1.5cm">
+                <label ><span id="span-tipo-cambio" >1$ MXN es igual a {{cambioHoyUSD}}$ USD</span></label>
+              </div>
+              <div class="input-field col s6 l4" style="height:1.5cm">
+                <label>
+                  <input name="manual" type="checkbox" id="chec" onChange="tipoCambio();" value=""/>
+                  <span>Insertar manualmente</span>
+                </label>
+              </div>
+
+
+              <div class="input-field col s6 l6">
+                <select id="consultorCopia" required name="consultorCopia">
+                  <option value="ninguno" disabled selected>Selecciona una opción</option>
+                  <option value="1">Si</option>
+                  <option value="0">No</option>
+                </select>
+                <label>Enviar una copia al consultor*</label>
+              </div>
+              <div class="input-field col s6 l6">
+                <select id="empresaCopia" required name="empresaCopia">
+                  <option value="ninguno" disabled selected>Selecciona una opción</option>
+                  <option value="1">Si</option>
+                  <option value="0">No</option>
+                </select>
+                <label>Enviar una copia a la empresa*</label>
+              </div>
+              <div class="col s12 l12 white center pbtm20">
+                <button class="btn-large red arken-3 waves-effect waves-light" type="reset" name="action">
+                  Cancelar
+                  <i class="material-icons right white-text" style="background-color: transparent;">cancel</i>
+                </button>
+                <button class="btn-large blue darken-3 waves-effect waves-light" type="submit" name="action">
+                  Generar Contrato
+                  <i class="material-icons right white-text" style="background-color: transparent;">file_download</i>
+                </button>
+              </div>
+            </form>
+          </div>
+          <div id="formulario-final-terceros" style="display: none;">
+            <form method="POST" action="{% url 'contratoTerceros' %}">
+              {% csrf_token %}
+              <input type="hidden" name="consultor" value="{{consultor}}">
+              <input type="hidden" name="proyecto" value="{{proyecto}}">
+              <input type="hidden" name="proyectoConsultor" value="{{proyectoConsultor}}">
+              <input type="hidden" name="titulo" value="CONTRATO FINAL TERCEROS">
+
+              <!-- DIA DE INICIO -->
+              <div class="input-field col s12 l4">
+                <input id="fecha_inicio_terceros" name="fecha_inicio_terceros" type="text" class="datepicker" readonly
+                  style="display:true" required />
+                <label for="fecha_inicio_terceros">Fecha de Inicio</label>
+              </div>
+
+              <!-- DIA FINAL -->
+              <div class="input-field col s12 l4">
+                <input id="fecha_final_terceros" name="fecha_final_terceros" type="text" class="datepicker" readonly style="display:true"
+                  required />
+                <label for="fecha_final_terceros">Fecha de Final</label>
+              </div>
+
+              <!-- DIA FIRMA -->
+              <div class="input-field col s12 l4">
+                <input id="fecha_firma_terceros" name="fecha_firma_terceros" type="text" class="datepicker" readonly style="display:true"
+                  required />
+                <label for="fecha_firma_terceros">Fecha Firma del Contrato</label>
+              </div>
+
+
+                <!-- HONORARIOS O FACTURA -->
+                <div class="input-field col s12 l6">
+                  <select id="opciones" name="tipo_recibo" required>
+                    <option value="Ninguna" disabled selected>Selecciona una opción</option>
+                    <option value="Factura">Factura</option>
+                    <option value="Honorarios">Honorarios</option>
+                  </select>
+                  <label>Por favor escoje factura o honorarios*</label>
+                </div>
+                  <!-- NOMBRE DE LA PERSONA TERCERA-->
+              <div class="input-field col s12 l6">
+                <input  id="persona_tercero" type="text" class="validate"        
+                pattern="[A-Za-záéíóúñÑ\s]{3,25}"
+                minlength="3"
+                maxlength="25" 
+                name="persona_tercero"
+                required>
+                <label for="persona_tercero">Nombre Completo del Tercero</label>
+              </div>
+                
+                <div class="col l6 input-field center">
+                  <i class="material-icons prefix">attach_money</i>
+                  <label for="Tarifa_final_terceros-cliente" data-error="wrong" data-success="right">Tarifa - Cliente por día en pesos Mexicanos</label>
+                  <input id="Tarifa_final_terceros-cliente" name="tarifa_final_terceros-cliente" type="number" class="validate" min="0.00" max="100000.00"
+                    title="Use solo numeros" required />
+                </div>
+
+                <div class="col l6 input-field center">
+                  <i class="material-icons prefix">attach_money</i>
+                  <label for="Tarifa_final_terceros" data-error="wrong" data-success="right">Tarifa - Consultor por día en pesos Mexicanos</label>
+                  <input id="Tarifa_final_terceros" name="tarifa_final_terceros" type="number" class="validate" min="0.00" max="100000.00"
+                    title="Use solo numeros" required />
+                </div>
+  
+                <div class="col l12 input-field center">
+                  <i class="material-icons prefix">attach_money</i>
+                  <label for="gratificacion_tercero" data-error="wrong" data-success="right">Gratificación por finalizacion del proyecto</label>
+                  <input id="gratificacion_tercero" name="gratificacion_tercero" type="number" class="validate" min="0.00" max="100000.00"
+                    title="Use solo numeros" required />
+                </div>
+              
+                
+              <div class="col l3 input-field center" id="cambio-show-terceros">
+                <i class="material-icons prefix">attach_money</i>
+                <label for="tipoCambioHoy-terceros" data-error="wrong" data-success="right">Cambio al dia de hoy</label>
+                <input id="tipoCambioHoy-Auto-terceros" name="tipoCambioHoy-Auto-terceros"  class="validate" type="text"
+                  title="Use solo numeros" value="{{cambioHoyMXN}}" readonly required/>
+              </div>
+              <input type="hidden" name="cambio-terceros" value="{{cambioHoyUSD}}" id="cambio-terceros">
+              <div class="col l3 input-field center" id="cambio-update-terceros" style="display: none;">
+                <i class="material-icons prefix">attach_money</i>
+                <label for="tipoCambioHoy-Manual-terceros" data-error="wrong" data-success="right">Cambio al dia de hoy</label>
+                <input id="tipoCambioHoy-Manual-terceros" name="tipoCambioHoy-Manual-terceros" class="validate" type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*"
+                  title="Use solo numeros" value="0" required onchange="calcularCambioTerceros();"/>
+              </div>
+              <div class="input-field col l2" style="height:1.5cm">
+                <label ><span id="span-tipo-cambio-terceros" >1$ MXN es igual a {{cambioHoyUSD}}$ USD</span></label>
+              </div>
+              <div class="input-field col s6 l4" style="height:1.5cm">
+                <label>
+                  <input name="manual-terceros" type="checkbox" id="chec-terceros" onChange="tipoCambioTerceros();" value=""/>
+                  <span>Insertar manualmente</span>
+                </label>
+              </div>
+              <div class="input-field col s6 l3" style="height:1.5cm">
+                <label>
+                  <input name="factura-dia" type="checkbox" id="factura-dia" value="ON"/>
+                  <span>Tomarlo del dia de la factura</span>
+                </label>
+              </div>
+              
+              <div class="input-field col s6 l6">
+                <select id="consultorCopia" required name="consultorCopia">
+                  <option value="ninguno" disabled selected>Selecciona una opción</option>
+                  <option value="1">Si</option>
+                  <option value="0">No</option>
+                </select>
+                <label>Enviar una copia al consultor*</label>
+              </div>
+              <div class="input-field col s6 l6">
+                <select id="empresaCopia" required name="empresaCopia">
+                  <option value="ninguno" disabled selected>Selecciona una opción</option>
+                  <option value="1">Si</option>
+                  <option value="0">No</option>
+                </select>
+                <label>Enviar una copia a la empresa*</label>
+              </div>
+              <div class="col s12 l12 white center pbtm20">
+                <button class="btn-large red arken-3 waves-effect waves-light" type="reset" name="action">
+                  Cancelar
+                  <i class="material-icons right white-text" style="background-color: transparent;">cancel</i>
+                </button>
+                <button class="btn-large blue darken-3 waves-effect waves-light" type="submit" name="action">
+                  Generar Contrato
+                  <i class="material-icons right white-text" style="background-color: transparent;">file_download</i>
+                </button>
+              </div>
+            </form>
+          </div>
+          <br><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/big.js@6.2.1/big.min.js'></script>
+<script>
+  
+  var MXNbase = document.getElementById('cambio-base').value;
+  var cambioBase = 0;
+
+  function calcularCambioBase(){
+    document.getElementById('cambio-base').value = 0;
+    // Obtener el valor de tipoCambioHoy-Manual
+    let cambio3 = document.getElementById('tipoCambioHoy-Manual-base').value;
+
+    // Crear un objeto Big con el valor de cambio2
+    let bigCambio3 = new Big(cambio3);
+
+    // Realizar la división utilizando Big
+    let resultadoBig = new Big(1).div(bigCambio3);
+
+    // Formatear el resultado con la precisión deseada
+    let resultadoFormateado = resultadoBig.toFixed(3);
+
+    // Actualizar el valor del campo de entrada
+    document.getElementById('cambio-base').value = resultadoFormateado;
+
+    // Actualizar el texto del elemento span
+    document.getElementById('span-tipo-cambio-base').innerText = `1$ MXN es igual a ${resultadoFormateado}$ USD`;
+
+  }
+
+  function tipoCambioBase(){
+    if(cambioBase == 0){
+      document.getElementById('cambio-show-base').style.display='none';document.getElementById('cambio-update-base').style.display='block';
+      cambioBase=1;
+      document.getElementById('chec-base').value= '1';
+      document.getElementById('span-tipo-cambio-base').innerText = '';
+    }else{
+      document.getElementById('cambio-show-base').style.display='block';document.getElementById('cambio-update-base').style.display='none';
+      cambioBase=0;
+      document.getElementById('cambio-update-base').value = 0;
+      document.getElementById('chec-base').value= '0';
+      document.getElementById('span-tipo-cambio-base').innerText = `1$ MXN es igual a ${MXNbase}$ USD`;
+      document.getElementById('cambio-base').value = `${MXNbase}`;
+    }
+  }
+
+
+  var MXNterceros = document.getElementById('cambio-terceros').value;
+  var cambioTerceros = 0;
+
+  function calcularCambioTerceros(){
+    document.getElementById('cambio-terceros').value = 0;
+    // Obtener el valor de tipoCambioHoy-Manual
+    let cambio2 = document.getElementById('tipoCambioHoy-Manual-terceros').value;
+
+    // Crear un objeto Big con el valor de cambio2
+    let bigCambio2 = new Big(cambio2);
+
+    // Realizar la división utilizando Big
+    let resultadoBig = new Big(1).div(bigCambio2);
+
+    // Formatear el resultado con la precisión deseada
+    let resultadoFormateado = resultadoBig.toFixed(3);
+
+    // Actualizar el valor del campo de entrada
+    document.getElementById('cambio-terceros').value = resultadoFormateado;
+
+    // Actualizar el texto del elemento span
+    document.getElementById('span-tipo-cambio-terceros').innerText = `1$ MXN es igual a ${resultadoFormateado}$ USD`;
+
+  }
+
+
+  function tipoCambioTerceros(){
+    if(cambioTerceros == 0){
+      document.getElementById('cambio-show-terceros').style.display='none';document.getElementById('cambio-update-terceros').style.display='block';
+      cambioTerceros=1;
+      document.getElementById('chec-terceros').value= '1';
+      document.getElementById('span-tipo-cambio-terceros').innerText = '';
+    }else{
+      document.getElementById('cambio-show-terceros').style.display='block';document.getElementById('cambio-update-terceros').style.display='none';
+      cambioTerceros=0;
+      document.getElementById('cambio-update-terceros').value = 0;
+      document.getElementById('chec-terceros').value= '0';
+      document.getElementById('span-tipo-cambio-terceros').innerText = `1$ MXN es igual a ${MXNterceros}$ USD`;
+      document.getElementById('cambio-terceros').value = `${MXNterceros}`;
+    }
+  }
+
+  function calcularCambio(){
+    document.getElementById('cambio').value = 0;
+    // Obtener el valor de tipoCambioHoy-Manual
+    let cambio2 = document.getElementById('tipoCambioHoy-Manual').value;
+
+    // Crear un objeto Big con el valor de cambio2
+    let bigCambio2 = new Big(cambio2);
+
+    // Realizar la división utilizando Big
+    let resultadoBig = new Big(1).div(bigCambio2);
+
+    // Formatear el resultado con la precisión deseada
+    let resultadoFormateado = resultadoBig.toFixed(3);
+
+    // Actualizar el valor del campo de entrada
+    document.getElementById('cambio').value = resultadoFormateado;
+
+    // Actualizar el texto del elemento span
+    document.getElementById('span-tipo-cambio').innerText = `1$ MXN es igual a ${resultadoFormateado}$ USD`;
+
+  }
+
+  var MXN = document.getElementById('cambio').value;
+  var cambio = 0;
+  function tipoCambio(){
+    if(cambio == 0){
+      document.getElementById('cambio-show').style.display='none';document.getElementById('cambio-update').style.display='block';
+      cambio=1;
+      document.getElementById('chec').value= '1';
+      document.getElementById('span-tipo-cambio').innerText = '';
+    }else{
+      document.getElementById('cambio-show').style.display='block';document.getElementById('cambio-update').style.display='none';
+      cambio=0;
+      document.getElementById('cambio-update').value = 0;
+      document.getElementById('chec').value= '0';
+      document.getElementById('span-tipo-cambio').innerText = `1$ MXN es igual a ${MXN}$ USD`;
+      document.getElementById('cambio').value = `${MXN}`;
+    }
+  }
+  function mostrarFormularioEmpresa() {
+    var select = document.getElementById('opciones');
+    var formularioMachote = document.getElementById("formulario-machote");
+    var formularioFinal = document.getElementById("formulario-final");
+    var formularioFinalTerceros = document.getElementById("formulario-final-terceros");
+
+    // Ocultar todos los formularios
+    formularioMachote.style.display = "none";
+    formularioFinal.style.display = "none";
+    formularioFinalTerceros.style.display = "none";
+    
+
+    // Mostrar el formulario correspondiente según la opción seleccionada
+    if (select.value === "machote") {
+      formularioMachote.style.display = "block";
+    } else if (select.value === "final") {
+      formularioFinal.style.display = "block";
+    } else if (select.value === "final_terceros") {
+      formularioFinalTerceros.style.display = "block";
+    }
+  }
+
+  function mostrarFormularioConsultor() {
+    var select = document.getElementById('opcionesConsultor');
+    var formularioMarco = document.getElementById("formulario-marco");
+    var formularioAnexo = document.getElementById("formulario-anexo");
+
+    // Ocultar todos los formularios
+    formularioMarco.style.display = "none";
+    formularioAnexo.style.display = "none";
+
+    // Mostrar el formulario correspondiente según la opción seleccionada
+    if (select.value === "marco") {
+      formularioMarco.style.display = "block";
+    }else if (select.value === "anexo") {
+      formularioAnexo.style.display = "block";
+    }
+  }
+    //FECHA FIRMA TERCEROS
+    document.addEventListener("DOMContentLoaded", function () {
+      var fechaSalidaInput = document.getElementById("fecha_firma_terceros");
+      M.Datepicker.init(fechaSalidaInput, {
+        format: "yyyy-mm-dd",
+        autoClose: true,
+        defaultDate: new Date(2023, 0, 1),
+        autoClose: true,
+        showClearBtn: true,
+        firstDay: 1,
+        minDate: new Date(1979, 1, 12),
+        maxDate: new Date(2093, 11, 31),
+        i18n: {
+          cancel: "Cancelar",
+          clear: "Limpiar",
+          done: "Listo",
+          today: "Hoy",
+          previousMonth: "Mes anterior",
+          nextMonth: "Siguiente mes",
+          months: [
+            "Enero",
+            "Febrero",
+            "Marzo",
+            "Abril",
+            "Mayo",
+            "Junio",
+            "Julio",
+            "Agosto",
+            "Septiembre",
+            "Octubre",
+            "Noviembre",
+            "Diciembre",
+          ],
+          monthsShort: [
+            "Ene",
+            "Feb",
+            "Mar",
+            "Abr",
+            "May",
+            "Jun",
+            "Jul",
+            "Ago",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dic",
+          ],
+          weekdays: [
+            "Domingo",
+            "Lunes",
+            "Martes",
+            "Miércoles",
+            "Jueves",
+            "Viernes",
+            "Sábado",
+          ],
+          weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+          weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+        },
+  
+      });
+    });
+  
+    //FECHA INICIO TERCEROS
+    document.addEventListener("DOMContentLoaded", function () {
+      var fechaSalidaInput = document.getElementById("fecha_inicio_terceros");
+      M.Datepicker.init(fechaSalidaInput, {
+        format: "yyyy-mm-dd",
+        autoClose: true,
+        defaultDate: new Date(2023, 0, 1),
+        autoClose: true,
+        showClearBtn: true,
+        firstDay: 1,
+        minDate: new Date(1979, 1, 12),
+        maxDate: new Date(2093, 11, 31),
+        i18n: {
+          cancel: "Cancelar",
+          clear: "Limpiar",
+          done: "Listo",
+          today: "Hoy",
+          previousMonth: "Mes anterior",
+          nextMonth: "Siguiente mes",
+          months: [
+            "Enero",
+            "Febrero",
+            "Marzo",
+            "Abril",
+            "Mayo",
+            "Junio",
+            "Julio",
+            "Agosto",
+            "Septiembre",
+            "Octubre",
+            "Noviembre",
+            "Diciembre",
+          ],
+          monthsShort: [
+            "Ene",
+            "Feb",
+            "Mar",
+            "Abr",
+            "May",
+            "Jun",
+            "Jul",
+            "Ago",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dic",
+          ],
+          weekdays: [
+            "Domingo",
+            "Lunes",
+            "Martes",
+            "Miércoles",
+            "Jueves",
+            "Viernes",
+            "Sábado",
+          ],
+          weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+          weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+        },
+        onClose: function () {
+          setTimeout(function () {
+            let fechaEntrada = document.getElementById("fecha_inicio").value;
+            let fechaSalida = document.getElementById("fecha_final").value;
+            console.log(fechaNacInput)
+            var dateEntrada = new Date(fechaEntrada);
+            var dateSalida = new Date(fechaSalida);
+            var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
+  
+  
+            if (dateSalida == dateEntrada) {
+              document.getElementById("fecha_final").value = "";
+              Swal.fire('La fecha de entrada no debe igual que la de salida');
+            }
+  
+  
+            if (dateSalida >= fechaHoy) {
+              document.getElementById("fecha_final").value = "";
+              Swal.fire('La fecha de salida no debe ser mayor a la fecha actual');
+            }
+  
+            console.log(fechaHoy)
+          }, 1000);
+        },
+      });
+    });
+  
+    //FECHA FINAL TERCEROS
+    document.addEventListener("DOMContentLoaded", function () {
+      var fechaSalidaInput = document.getElementById("fecha_final_terceros");
+      M.Datepicker.init(fechaSalidaInput, {
+        format: "yyyy-mm-dd",
+        autoClose: true,
+        defaultDate: new Date(2023, 0, 1),
+        autoClose: true,
+        showClearBtn: true,
+        firstDay: 1,
+        minDate: new Date(1979, 1, 12),
+        maxDate: new Date(2093, 11, 31),
+        i18n: {
+          cancel: "Cancelar",
+          clear: "Limpiar",
+          done: "Listo",
+          today: "Hoy",
+          previousMonth: "Mes anterior",
+          nextMonth: "Siguiente mes",
+          months: [
+            "Enero",
+            "Febrero",
+            "Marzo",
+            "Abril",
+            "Mayo",
+            "Junio",
+            "Julio",
+            "Agosto",
+            "Septiembre",
+            "Octubre",
+            "Noviembre",
+            "Diciembre",
+          ],
+          monthsShort: [
+            "Ene",
+            "Feb",
+            "Mar",
+            "Abr",
+            "May",
+            "Jun",
+            "Jul",
+            "Ago",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dic",
+          ],
+          weekdays: [
+            "Domingo",
+            "Lunes",
+            "Martes",
+            "Miércoles",
+            "Jueves",
+            "Viernes",
+            "Sábado",
+          ],
+          weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+          weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+        },
+        onClose: function () {
+          setTimeout(function () {
+            let fechaEntrada = document.getElementById("fecha_inicio").value;
+            let fechaSalida = document.getElementById("fecha_final").value;
+  
+            var dateEntrada = new Date(fechaEntrada);
+            var dateSalida = new Date(fechaSalida);
+            var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
+  
+  
+  
+            if (dateEntrada >= fechaHoy) {
+              document.getElementById("fecha_inicio").value = "";
+              console.log(document.getElementById("año_inicio").value)
+              Swal.fire('La fecha de entrada no debe ser mayor a la fecha actual');
+            }
+            if (dateEntrada == dateSalida) {
+              document.getElementById("fecha_final").value = "";
+              Swal.fire('La fecha de entrada no debe igual que la de salida');
+            }
+            if (dateEntrada >= dateSalida) {
+              document.getElementById("fecha_final").value = "";
+              Swal.fire('La fecha de salida no debe ser mayor que la de entrada');
+            }
+  
+            console.log(fechaHoy)
+          }, 1000);
+        },
+      });
+    });
+  
+  
+  document.addEventListener("DOMContentLoaded", function () {
+    var fechaSalidaInput = document.getElementById("fecha_promesa");
+    M.Datepicker.init(fechaSalidaInput, {
+      format: "yyyy-mm-dd",
+      autoClose: true,
+      defaultDate: new Date(2023, 0, 1),
+      autoClose: true,
+      showClearBtn: true,
+      firstDay: 1,
+      minDate: new Date(1979, 1, 12),
+      maxDate: new Date(2093, 11, 31),
+      i18n: {
+        cancel: "Cancelar",
+        clear: "Limpiar",
+        done: "Listo",
+        today: "Hoy",
+        previousMonth: "Mes anterior",
+        nextMonth: "Siguiente mes",
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        weekdays: [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ],
+        weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+      },
+
+    });
+  });
+
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var fechaSalidaInput = document.getElementById("fecha_firma_anexo");
+    M.Datepicker.init(fechaSalidaInput, {
+      format: "yyyy-mm-dd",
+      autoClose: true,
+      defaultDate: new Date(2023, 0, 1),
+      autoClose: true,
+      showClearBtn: true,
+      firstDay: 1,
+      minDate: new Date(1979, 1, 12),
+      maxDate: new Date(2093, 11, 31),
+      i18n: {
+        cancel: "Cancelar",
+        clear: "Limpiar",
+        done: "Listo",
+        today: "Hoy",
+        previousMonth: "Mes anterior",
+        nextMonth: "Siguiente mes",
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        weekdays: [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ],
+        weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+      },
+
+    });
+  });
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var fechaSalidaInput = document.getElementById("fecha_inicio_anexo");
+    M.Datepicker.init(fechaSalidaInput, {
+      format: "yyyy-mm-dd",
+      autoClose: true,
+      defaultDate: new Date(2023, 0, 1),
+      autoClose: true,
+      showClearBtn: true,
+      firstDay: 1,
+      minDate: new Date(1979, 1, 12),
+      maxDate: new Date(2093, 11, 31),
+      i18n: {
+        cancel: "Cancelar",
+        clear: "Limpiar",
+        done: "Listo",
+        today: "Hoy",
+        previousMonth: "Mes anterior",
+        nextMonth: "Siguiente mes",
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        weekdays: [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ],
+        weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+      },
+      onClose: function () {
+        setTimeout(function () {
+          let fechaEntrada = document.getElementById("fecha_inicio").value;
+          let fechaSalida = document.getElementById("fecha_final").value;
+          console.log(fechaNacInput)
+          var dateEntrada = new Date(fechaEntrada);
+          var dateSalida = new Date(fechaSalida);
+          var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
+
+
+          if (dateSalida == dateEntrada) {
+            document.getElementById("fecha_final").value = "";
+            Swal.fire('La fecha de entrada no debe igual que la de salida');
+          }
+
+
+          if (dateSalida >= fechaHoy) {
+            document.getElementById("fecha_final").value = "";
+            Swal.fire('La fecha de salida no debe ser mayor a la fecha actual');
+          }
+
+          console.log(fechaHoy)
+        }, 1000);
+      },
+    });
+  });
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var fechaSalidaInput = document.getElementById("fecha_final_anexo");
+    M.Datepicker.init(fechaSalidaInput, {
+      format: "yyyy-mm-dd",
+      autoClose: true,
+      defaultDate: new Date(2023, 0, 1),
+      autoClose: true,
+      showClearBtn: true,
+      firstDay: 1,
+      minDate: new Date(1979, 1, 12),
+      maxDate: new Date(2093, 11, 31),
+      i18n: {
+        cancel: "Cancelar",
+        clear: "Limpiar",
+        done: "Listo",
+        today: "Hoy",
+        previousMonth: "Mes anterior",
+        nextMonth: "Siguiente mes",
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        weekdays: [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ],
+        weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+      },
+      onClose: function () {
+        setTimeout(function () {
+          let fechaEntrada = document.getElementById("fecha_inicio").value;
+          let fechaSalida = document.getElementById("fecha_final").value;
+
+          var dateEntrada = new Date(fechaEntrada);
+          var dateSalida = new Date(fechaSalida);
+          var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
+
+
+
+          if (dateEntrada >= fechaHoy) {
+            document.getElementById("fecha_inicio").value = "";
+            console.log(document.getElementById("año_inicio").value)
+            Swal.fire('La fecha de entrada no debe ser mayor a la fecha actual');
+          }
+          if (dateEntrada == dateSalida) {
+            document.getElementById("fecha_final").value = "";
+            Swal.fire('La fecha de entrada no debe igual que la de salida');
+          }
+          if (dateEntrada >= dateSalida) {
+            document.getElementById("fecha_final").value = "";
+            Swal.fire('La fecha de salida no debe ser mayor que la de entrada');
+          }
+
+          console.log(fechaHoy)
+        }, 1000);
+      },
+    });
+  });
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var fechaSalidaInput = document.getElementById("fecha_firma");
+    M.Datepicker.init(fechaSalidaInput, {
+      format: "yyyy-mm-dd",
+      autoClose: true,
+      defaultDate: new Date(2023, 0, 1),
+      autoClose: true,
+      showClearBtn: true,
+      firstDay: 1,
+      minDate: new Date(1979, 1, 12),
+      maxDate: new Date(2093, 11, 31),
+      i18n: {
+        cancel: "Cancelar",
+        clear: "Limpiar",
+        done: "Listo",
+        today: "Hoy",
+        previousMonth: "Mes anterior",
+        nextMonth: "Siguiente mes",
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        weekdays: [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ],
+        weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+      },
+
+    });
+  });
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var fechaSalidaInput = document.getElementById("fecha_inicio");
+    M.Datepicker.init(fechaSalidaInput, {
+      format: "yyyy-mm-dd",
+      autoClose: true,
+      defaultDate: new Date(2023, 0, 1),
+      autoClose: true,
+      showClearBtn: true,
+      firstDay: 1,
+      minDate: new Date(1979, 1, 12),
+      maxDate: new Date(2093, 11, 31),
+      i18n: {
+        cancel: "Cancelar",
+        clear: "Limpiar",
+        done: "Listo",
+        today: "Hoy",
+        previousMonth: "Mes anterior",
+        nextMonth: "Siguiente mes",
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        weekdays: [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ],
+        weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+      },
+      onClose: function () {
+        setTimeout(function () {
+          let fechaEntrada = document.getElementById("fecha_inicio").value;
+          let fechaSalida = document.getElementById("fecha_final").value;
+          console.log(fechaNacInput)
+          var dateEntrada = new Date(fechaEntrada);
+          var dateSalida = new Date(fechaSalida);
+          var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
+
+
+          if (dateSalida == dateEntrada) {
+            document.getElementById("fecha_final").value = "";
+            Swal.fire('La fecha de entrada no debe igual que la de salida');
+          }
+
+
+          if (dateSalida >= fechaHoy) {
+            document.getElementById("fecha_final").value = "";
+            Swal.fire('La fecha de salida no debe ser mayor a la fecha actual');
+          }
+
+          console.log(fechaHoy)
+        }, 1000);
+      },
+    });
+  });
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var fechaSalidaInput = document.getElementById("fecha_final");
+    M.Datepicker.init(fechaSalidaInput, {
+      format: "yyyy-mm-dd",
+      autoClose: true,
+      defaultDate: new Date(2023, 0, 1),
+      autoClose: true,
+      showClearBtn: true,
+      firstDay: 1,
+      minDate: new Date(1979, 1, 12),
+      maxDate: new Date(2093, 11, 31),
+      i18n: {
+        cancel: "Cancelar",
+        clear: "Limpiar",
+        done: "Listo",
+        today: "Hoy",
+        previousMonth: "Mes anterior",
+        nextMonth: "Siguiente mes",
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        weekdays: [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ],
+        weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+      },
+      onClose: function () {
+        setTimeout(function () {
+          let fechaEntrada = document.getElementById("fecha_inicio").value;
+          let fechaSalida = document.getElementById("fecha_final").value;
+
+          var dateEntrada = new Date(fechaEntrada);
+          var dateSalida = new Date(fechaSalida);
+          var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
+
+
+
+          if (dateEntrada >= fechaHoy) {
+            document.getElementById("fecha_inicio").value = "";
+            console.log(document.getElementById("año_inicio").value)
+            Swal.fire('La fecha de entrada no debe ser mayor a la fecha actual');
+          }
+          if (dateEntrada == dateSalida) {
+            document.getElementById("fecha_final").value = "";
+            Swal.fire('La fecha de entrada no debe igual que la de salida');
+          }
+          if (dateEntrada >= dateSalida) {
+            document.getElementById("fecha_final").value = "";
+            Swal.fire('La fecha de salida no debe ser mayor que la de entrada');
+          }
+
+          console.log(fechaHoy)
+        }, 1000);
+      },
+    });
+  });
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var fechaSalidaInput = document.getElementById("fecha_firma_marco");
+    M.Datepicker.init(fechaSalidaInput, {
+      format: "yyyy-mm-dd",
+      autoClose: true,
+      defaultDate: new Date(2023, 0, 1),
+      autoClose: true,
+      showClearBtn: true,
+      firstDay: 1,
+      minDate: new Date(1979, 1, 12),
+      maxDate: new Date(2093, 11, 31),
+      i18n: {
+        cancel: "Cancelar",
+        clear: "Limpiar",
+        done: "Listo",
+        today: "Hoy",
+        previousMonth: "Mes anterior",
+        nextMonth: "Siguiente mes",
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        weekdays: [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ],
+        weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+      },
+
+    });
+  });
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var fechaSalidaInput = document.getElementById("fecha_inicio_marco");
+    M.Datepicker.init(fechaSalidaInput, {
+      format: "yyyy-mm-dd",
+      autoClose: true,
+      defaultDate: new Date(2023, 0, 1),
+      autoClose: true,
+      showClearBtn: true,
+      firstDay: 1,
+      minDate: new Date(1979, 1, 12),
+      maxDate: new Date(2093, 11, 31),
+      i18n: {
+        cancel: "Cancelar",
+        clear: "Limpiar",
+        done: "Listo",
+        today: "Hoy",
+        previousMonth: "Mes anterior",
+        nextMonth: "Siguiente mes",
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        weekdays: [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ],
+        weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+      },
+      onClose: function () {
+        setTimeout(function () {
+          let fechaEntrada = document.getElementById("fecha_inicio_marco").value;
+          let fechaSalida = document.getElementById("fecha_final_marco").value;
+          
+          var dateEntrada = new Date(fechaEntrada);
+          var dateSalida = new Date(fechaSalida);
+          var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
+
+
+          if (dateSalida == dateEntrada) {
+            document.getElementById("fecha_final_marco").value = "";
+            Swal.fire('La fecha de entrada no debe igual que la de salida');
+          }
+
+
+          if (dateSalida >= fechaHoy) {
+            document.getElementById("fecha_final_marco").value = "";
+            Swal.fire('La fecha de salida no debe ser mayor a la fecha actual');
+          }
+
+          console.log(fechaHoy)
+        }, 1000);
+      },
+    });
+  });
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var fechaSalidaInput = document.getElementById("fecha_final_marco");
+    M.Datepicker.init(fechaSalidaInput, {
+      format: "yyyy-mm-dd",
+      autoClose: true,
+      defaultDate: new Date(2023, 0, 1),
+      autoClose: true,
+      showClearBtn: true,
+      firstDay: 1,
+      minDate: new Date(1979, 1, 12),
+      maxDate: new Date(2093, 11, 31),
+      i18n: {
+        cancel: "Cancelar",
+        clear: "Limpiar",
+        done: "Listo",
+        today: "Hoy",
+        previousMonth: "Mes anterior",
+        nextMonth: "Siguiente mes",
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        weekdays: [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ],
+        weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+      },
+      onClose: function () {
+        setTimeout(function () {
+          let fechaEntrada = document.getElementById("fecha_inicio_marco").value;
+          let fechaSalida = document.getElementById("fecha_final_marco").value;
+
+          var dateEntrada = new Date(fechaEntrada);
+          var dateSalida = new Date(fechaSalida);
+          var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
+
+
+
+          if (dateEntrada >= fechaHoy) {
+            document.getElementById("fecha_inicio_marco").value = "";
+            console.log(document.getElementById("fecha_inicio_marco").value)
+            Swal.fire('La fecha de entrada no debe ser mayor a la fecha actual');
+          }
+          if (dateEntrada == dateSalida) {
+            document.getElementById("fecha_final_marco").value = "";
+            Swal.fire('La fecha de entrada no debe igual que la de salida');
+          }
+          if (dateEntrada >= dateSalida) {
+            document.getElementById("fecha_final_marco").value = "";
+            Swal.fire('La fecha de salida no debe ser mayor que la de entrada');
+          }
+
+          console.log(fechaHoy)
+        }, 1000);
+      },
+    });
+  });
+
+
+
+  // Inicializar el select
+  document.addEventListener('DOMContentLoaded', function () {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems);
+  });
+    //FECHA INICIO FINAL
+    document.addEventListener("DOMContentLoaded", function () {
+      var fechaSalidaInput = document.getElementById("fecha_inicio_final");
+      M.Datepicker.init(fechaSalidaInput, {
+        format: "yyyy-mm-dd",
+        autoClose: true,
+        defaultDate: new Date(2023, 0, 1),
+        autoClose: true,
+        showClearBtn: true,
+        firstDay: 1,
+        minDate: new Date(1979, 1, 12),
+        maxDate: new Date(2093, 11, 31),
+        i18n: {
+          cancel: "Cancelar",
+          clear: "Limpiar",
+          done: "Listo",
+          today: "Hoy",
+          previousMonth: "Mes anterior",
+          nextMonth: "Siguiente mes",
+          months: [
+            "Enero",
+            "Febrero",
+            "Marzo",
+            "Abril",
+            "Mayo",
+            "Junio",
+            "Julio",
+            "Agosto",
+            "Septiembre",
+            "Octubre",
+            "Noviembre",
+            "Diciembre",
+          ],
+          monthsShort: [
+            "Ene",
+            "Feb",
+            "Mar",
+            "Abr",
+            "May",
+            "Jun",
+            "Jul",
+            "Ago",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dic",
+          ],
+          weekdays: [
+            "Domingo",
+            "Lunes",
+            "Martes",
+            "Miércoles",
+            "Jueves",
+            "Viernes",
+            "Sábado",
+          ],
+          weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+          weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+        },
+        onClose: function () {
+          setTimeout(function () {
+            let fechaEntrada = document.getElementById("fecha_inicio").value;
+            let fechaSalida = document.getElementById("fecha_final").value;
+            console.log(fechaNacInput)
+            var dateEntrada = new Date(fechaEntrada);
+            var dateSalida = new Date(fechaSalida);
+            var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
+  
+  
+            if (dateSalida == dateEntrada) {
+              document.getElementById("fecha_final").value = "";
+              Swal.fire('La fecha de entrada no debe igual que la de salida');
+            }
+  
+  
+            if (dateSalida >= fechaHoy) {
+              document.getElementById("fecha_final").value = "";
+              Swal.fire('La fecha de salida no debe ser mayor a la fecha actual');
+            }
+  
+            console.log(fechaHoy)
+          }, 1000);
+        },
+      });
+    });
+  
+    //FECHA FINAL FINAL
+    document.addEventListener("DOMContentLoaded", function () {
+      var fechaSalidaInput = document.getElementById("fecha_final_final");
+      M.Datepicker.init(fechaSalidaInput, {
+        format: "yyyy-mm-dd",
+        autoClose: true,
+        defaultDate: new Date(2023, 0, 1),
+        autoClose: true,
+        showClearBtn: true,
+        firstDay: 1,
+        minDate: new Date(1979, 1, 12),
+        maxDate: new Date(2093, 11, 31),
+        i18n: {
+          cancel: "Cancelar",
+          clear: "Limpiar",
+          done: "Listo",
+          today: "Hoy",
+          previousMonth: "Mes anterior",
+          nextMonth: "Siguiente mes",
+          months: [
+            "Enero",
+            "Febrero",
+            "Marzo",
+            "Abril",
+            "Mayo",
+            "Junio",
+            "Julio",
+            "Agosto",
+            "Septiembre",
+            "Octubre",
+            "Noviembre",
+            "Diciembre",
+          ],
+          monthsShort: [
+            "Ene",
+            "Feb",
+            "Mar",
+            "Abr",
+            "May",
+            "Jun",
+            "Jul",
+            "Ago",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dic",
+          ],
+          weekdays: [
+            "Domingo",
+            "Lunes",
+            "Martes",
+            "Miércoles",
+            "Jueves",
+            "Viernes",
+            "Sábado",
+          ],
+          weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+          weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+        },
+        onClose: function () {
+          setTimeout(function () {
+            let fechaEntrada = document.getElementById("fecha_inicio").value;
+            let fechaSalida = document.getElementById("fecha_final").value;
+  
+            var dateEntrada = new Date(fechaEntrada);
+            var dateSalida = new Date(fechaSalida);
+            var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
+  
+  
+  
+            if (dateEntrada >= fechaHoy) {
+              document.getElementById("fecha_inicio").value = "";
+              console.log(document.getElementById("año_inicio").value)
+              Swal.fire('La fecha de entrada no debe ser mayor a la fecha actual');
+            }
+            if (dateEntrada == dateSalida) {
+              document.getElementById("fecha_final").value = "";
+              Swal.fire('La fecha de entrada no debe igual que la de salida');
+            }
+            if (dateEntrada >= dateSalida) {
+              document.getElementById("fecha_final").value = "";
+              Swal.fire('La fecha de salida no debe ser mayor que la de entrada');
+            }
+  
+            console.log(fechaHoy)
+          }, 1000);
+        },
+      });
+    });
+       
+  //FECHA FIRMA FINAL
+  document.addEventListener("DOMContentLoaded", function () {
+    var fechaSalidaInput = document.getElementById("fecha_firma_final");
+    M.Datepicker.init(fechaSalidaInput, {
+      format: "yyyy-mm-dd",
+      autoClose: true,
+      defaultDate: new Date(2023, 0, 1),
+      autoClose: true,
+      showClearBtn: true,
+      firstDay: 1,
+      minDate: new Date(1979, 1, 12),
+      maxDate: new Date(2093, 11, 31),
+      i18n: {
+        cancel: "Cancelar",
+        clear: "Limpiar",
+        done: "Listo",
+        today: "Hoy",
+        previousMonth: "Mes anterior",
+        nextMonth: "Siguiente mes",
+        months: [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ],
+        monthsShort: [
+          "Ene",
+          "Feb",
+          "Mar",
+          "Abr",
+          "May",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dic",
+        ],
+        weekdays: [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ],
+        weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+      },
+
+    });
+  });
+
+</script>
+
+
+{% endblock Content %}

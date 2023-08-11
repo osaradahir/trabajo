@@ -13,7 +13,7 @@
         <div class="col l4 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">
             <a href="{% url 'miProfile' %}">Home </a> 
             <a class="grey-text" style="padding-left:7px;">/</a>
-            <a href="{% url 'all_notificationsAdministrador' %}" style="padding-left:7px;">Notificaciones</a> 
+            <a href="{% url 'all_notificationsEmpresa' %}" style="padding-left:7px;">Notificaciones</a> 
             <a class="grey-text" style="padding-left:7px;">/</a>
             <a class="grey-text" style="padding-left:5px;"> {{title}} </a>
         </div>
@@ -47,7 +47,7 @@
                 {% endblock hidden %}
             </div>
             <div class="col l12 s12" style="display:flex; justify-content:center;">
-                <a style="width: 100px; background-color: #26a69a; color: white; font-size: 18px; border: none; border-radius: 5px; padding: 4px; text-align:center" href="{% url 'all_notificationsAdministrador' %}">
+                <a style="width: 100px; background-color: #26a69a; color: white; font-size: 18px; border: none; border-radius: 5px; padding: 4px; text-align:center" href="{% url 'all_notificationsEmpresa' %}">
                     <span class="material-icons" style="background-color: #26a69a; vertical-align: middle; padding-top: 4px">arrow_back</span>
                     Volver
                 </a>

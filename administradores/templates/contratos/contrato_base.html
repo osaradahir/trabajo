@@ -1,0 +1,703 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="cv in pdf" />
+    <title>GNOSIS - CONTRATO</title>
+  </head>
+
+  <style>
+    p {
+      line-height: 1;
+    }
+
+    body {
+      margin-left: 1.5cm;
+      margin-right: 1.5cm;
+      text-align: justify;
+      font-size: 12pt;
+    }
+
+    .title {
+      font-family: "Arial", monospace;
+      font-size: 10pt;
+      font-weight: bold;
+      text-align: center;
+      color: black;
+      line-height: 1;
+    }
+
+    .font-normal {
+      font-family: "Arial", monospace;
+      font-size: 10pt;
+      text-align: justify;
+      color: black;
+      line-height: 1;
+    }
+
+    .font-normal-no-align {
+      font-family: "Arial", monospace;
+      font-size: 10pt;
+      color: black;
+      line-height: 1;
+    }
+
+    .fontbold {
+      font-family: "Arial", monospace;
+      font-size: 10pt;
+      font-weight: bold;
+      text-align: justify;
+      color: black;
+      line-height: 1;
+    }
+
+    .fontbold-no-align {
+      font-family: "Arial", monospace;
+      font-size: 12pt;
+      font-weight: bold;
+      color: black;
+      line-height: 1;
+    }
+
+    p.comic {
+      font-family: "Comic Sans MS", "Comic Sans", cursive;
+      font-size: 12pt;
+      text-align: justify;
+      line-height: 1;
+    }
+
+    .number {
+      font-family: "Arial", monospace;
+      font-size: 12pt;
+      text-align: right;
+      color: black;
+      line-height: 1;
+    }
+
+    .divider {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    .table-design {
+      font-size: 10pt;
+      width: 100%;
+      margin-left: 0cm;
+      line-height: 1;
+    }
+
+    .table-number {
+      font-family: "Arial", monospace;
+      font-size: 10pt;
+      width: 0.7cm;
+      text-align: end;
+    }
+
+    .table-number-no-bold {
+      font-family: "Arial", monospace;
+      font-size: 10pt;
+      width: 2cm;
+      text-align: end;
+    }
+
+    .table-content {
+      font-family: "Arial", monospace;
+      font-size: 10pt;
+      width: 100%;
+      text-align: start;
+      text-align: justify;
+    }
+
+    .ptop1{
+      padding-top:0.1cm;
+    }
+  </style>
+
+  <body>
+    <div class="container">
+      <br>
+      <section id="hoja1">
+        <p class="font-normal">
+          CONTRATO INDIVIDUAL DE TRABAJO POR OBRA DETERMINADA QUE CELEBRAN POR
+          UNA PARTE <strong>{{empresas.empresa}}</strong>, REPRESENTADA EN ESTE ACTO
+          POR LA SRA. MARÍA DE LA LUZ BALLESTEROS FLORES, A QUIEN EN LO SUCESIVO
+          SE LE DENOMINARA “PATRON”; Y, POR OTRA PARTE, C.<strong>{{personas.nombre}} {{personas.ape_pat}} {{personas.ape_mat}}</strong> A
+          QUIEN EN LO SUBSECUENTE SE LE DENOMINARA COMO EL “TRABAJADOR”, AL
+          TENOR DE LA LEY FEDERAL DEL TRABAJO EN ADELANTE “LEY” Y LAS SIGUIENTES
+          DECLARACIONES Y CLAUSULAS:
+        </p>
+        <p class="fontbold">DECLARACIONES</p>
+        <p>
+          <span class="fontbold">I.</span>
+          <span class="font-normal"
+            >Declara el “PATRON”, a través de su Representante Legal:</span
+          >
+        </p>
+        <table class="table-design">
+          <tr>
+            <td class="table-number" style="padding-bottom: 0.3cm;">(a)</td>
+            <td class="table-content">
+              Que es una persona moral legalmente constituida conforme a las
+              leyes de la República Mexicana, con domicilio en Avenida
+              Insurgentes Norte 670; Colonia Santa María Insurgentes, Delegación
+              Cuauhtémoc, C.P. 06430, México D.F.
+            </td>
+          </tr>
+          <tr class="ptop1">
+            <td class="table-number" style="padding-bottom: 0.3cm;">(b)</td>
+            <td class="table-content">
+              Que quien comparece a la celebración de este instrumento cuenta
+              con las facultades suficientes para obligar a su representada en
+              los términos de este instrumento, pues sus facultades no le han
+              sido revocadas, modificadas ni limitadas en forma alguna.
+            </td>
+          </tr>
+
+          <tr class="ptop1">
+            <td class="table-number" style="padding-bottom: 0.70cm;">(c)</td>
+            <td class="table-content">
+              Que la prestación de sus servicios ordinarios la lleva a cabo con
+              el personal de planta que tiene contratado de acuerdo a las
+              necesidades de dicha prestación de servicios, sin embargo en
+              algunas ocasiones requiere de la contratación temporal y/o por
+              obra determinada de personal para el desempeño de distintas
+              labores o proyectos por circunstancias de pedidos extraordinarios,
+              motivo por el cual se celebra el presente contrato.
+            </td>
+          </tr>
+        </table>
+
+        <p>
+          <span class="fontbold">II.</span>
+          <span class="font-normal">Declara el “TRABAJADOR”, bajo protesta de decir verdad:</span
+          >
+        </p>
+
+        <table class="table-design">
+          <tr>
+            <td class="table-number" style="padding-bottom: 0.50cm;">(a)</td>
+            <td class="table-content">
+              Que es una persona física mayor de edad, de nacionalidad mexicana
+              y residencia en <strong>{{personas_empresas.calle}}</strong>; 
+              <strong>{{personas.colonia}}</strong>; C.P. <strong>{{personas.cod_post}}</strong>;
+              <strong>{{personas.estado}}</strong>, legalmente capacitada para celebrar cualquier
+              tipo de acto jurídico, con RFC:{{consultores.rfc}} CURP: {{consultores.curp}}.
+            </td>
+          </tr>
+          <tr class="ptop1">
+            <td class="table-number" style="padding-bottom: 0.15cm;">(b)</td>
+            <td class="table-content">
+              Que cuenta con la experiencia y conocimientos necesarios para
+              proporcionar los servicios profesionales que el “PATRON” requiere
+              en los términos del presente instrumento.
+            </td>
+          </tr>
+          <tr class="ptop1">
+            <td class="table-number" style="padding-bottom: 0.2cm;">(c)</td>
+            <td class="table-content">
+              Que no padece ninguna enfermedad que impida el desarrollo de las
+              labores inherentes al puesto con que está siendo contratado.
+            </td>
+          </tr>
+          <tr class="ptop1">
+            <td class="table-number" style="padding-bottom: 0.05cm;">(d)</td>
+            <td class="table-content">
+              Que es su deseo celebrar el presente contrato con el “PATRON” en
+              los términos aquí acordados.
+            </td>
+          </tr>
+        </table>
+        <p class="fontbold">
+          DE CONFORMIDAD CON LAS DECLARACIONES ANTERIORES, LAS PARTES OTORGAN
+          LAS SIGUIENTES:
+        </p>
+        <p style="text-align: center">C L A U S U L A S</p>
+        <p>
+          <span class="fontbold">PRIMERA.</span>
+          <span class="font-normal"
+            >Ambas partes convienen que la relación de trabajo será por obra
+            determinada, consistiendo la obra en el proyecto de apoyo temporal
+            por carga extraordinaria de trabajo del <strong>{{fechaInicio}}</strong>
+            al <strong>{{fechaFinal}}</strong> al final del cual se terminara la obra y
+            automáticamente sin necesidad de aviso alguno ni de ningún otro
+            requisito, se dará por terminada la relación de trabajo entre las
+            partes y cesaran todos los efectos del presente en los términos de
+            la fracción III del artículo 53 de la Ley Federal del Trabajo.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">SEGUNDA.</span>
+          <span class="font-normal"
+            >- El "PATRON" de acuerdo a las aptitudes que el "TRABAJADOR"
+            manifestó tener, mismas que ratifica bajo protesta de decir la
+            verdad al momento de la firma del presente, acuerda con este en
+            contratarlo en el puesto de {{puesto}}, debiendo
+            llevar a cabo las labores de {{puesto}}, señalando las
+            anteriores de manera enunciativa mas no limitativa, ya que así mismo
+            deberá cumplir con todas aquella labores inherentes al puesto para
+            el que está siendo contratado, conviniendo las partes que en el
+            supuesto de que el "TRABAJADOR" no cuente con dichas aptitudes y/o
+            conocimientos o bien en el caso de que el "PATRON" demuestre que los
+            documentos presentados por el "TRABAJADOR" con la finalidad de
+            comprobar dichas aptitudes y/o conocimientos, carecen de veracidad,
+            la relación de trabajo podrá ser rescindida sin responsabilidad para
+            el "PATRON" en términos de la fracción I del artículo 47 de la Ley.
+          </span>
+        </p>
+
+        <br>
+        <br>
+      </section>
+      <section id="hoja2">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <p class="number">2</p>
+        <p>
+          <span class="fontbold">TERCERA.-</span>
+          <span class="font-normal"
+            >- El "TRABAJADOR" acepta sujetarse a la dirección y subordinación
+            del "PATRON" de manera exclusiva, así mismo se obliga a prestar sus
+            servicios para la ejecución de las actividades que se relacionen
+            directa o indirectamente con su puesto y con todas aquellas
+            actividades anexas y conexas, de acuerdo al proyecto pare el que fue
+            contratado.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">CUARTA.-</span>
+          <span class="font-normal"
+            >El “TRABAJADOR” acepta y se obliga a desarrollar y prestar sus
+            servicios en el lugar que señale el “PATRON” y por el periodo que en
+            su oportunidad se le haga saber durante la vigencia de este
+            instrumento.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">QUINTA.-</span>
+          <span class="font-normal"
+            >El “PATRON” está facultado para cambiar el lugar de trabajo del
+            “TRABAJADOR” sin que esto se considere un cambio a las condiciones
+            de trabajo, ni de “PATRON”, siempre y cuando el lugar de trabajo sea
+            dentro del territorio nacional.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">SEXTA.-</span>
+          <span class="font-normal"
+            >Ambas partes convienen que la duración de la jornada semanal se
+            sujetara a las disposiciones legales y será distribuida en cinco o
+            seis días a la semana de acuerdo a las necesidades del servicio, el
+            horario de labores será designado de acuerdo al proyecto en el cual
+            se preste el servicio por parte del "TRABAJADOR" y disfrutara de un
+            periodo intermedio en su jornada para tomar sus alimentos fuera de
+            la fuente de trabajo, conviniendo de igual forma que el "PATRON"
+            podrá señalar el horario de labores que mejor le convenga de acuerdo
+            a las necesidades de trabajo que se le presenten, así como repartir
+            a su juicio el tiempo de trabajo en una semana para obtener algún
+            reposo especial, con tal de que dicho tiempo no exceda el limite
+            semanario permitido para la Ley, condición con la que el
+            "TRABAJADOR" está de acuerdo.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">SEPTIMA.-</span>
+          <span class="font-normal"
+            >El "PATRON" estará facultado para establecer horarios continuos y
+            discontinuos o variar de un sistema a otro siempre que sea
+            necesario, no será considerado por las partes como tiempo
+            extraordinario sino aquel que exceda el limite semanario establecido
+            por la Ley, dada la facultad del "PATRON" para distribuir el tiempo
+            de labores dentro de una semana según ha quedado antes convenido lo
+            anterior en términos del artículo 59 de la Ley Federal del Trabajo,
+            otorgando de este momento el "TRABAJADOR" su aceptación expresa con
+            esta modalidad especial de la fijación del horario y jornada de
+            labores.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">OCTAVA.-</span>
+          <span class="font-normal"
+            >El "TRABAJADOR" tiene conocimiento, de que el "PATRON" no lleva ni
+            acostumbra llevar documentos de control de asistencia, ni de horario
+            de labores, si tuviese faltas justificadas o injustificadas, se
+            anotaran en el recibo de sueldo, lo anterior para los efectos de la
+            fracción X del artículo 47 de la Ley.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">NOVENA.-</span>
+          <span class="font-normal"
+            >El "TRABAJADOR" se encontrara obligado a trabajar tiempo
+            extraordinario cuando lo requiera el "PATRON" con tal de que el
+            trabajo no exceda de las tres horas en un día, ni de tres veces
+            dicha cantidad a la semana, quedando estrictamente prohibido al
+            "TRABAJADOR" laborar jornada extraordinaria en beneficio del
+            "PATRON" sin que previamente medie orden por escrito de este ultimo
+            en tal sentido, no pudiendo dicha jornada extraordinaria exceder del
+            máximo legal permitido, por lo que las partes convienen que si el
+            "TRABAJADOR" permaneciera por cualquier causa en las instalaciones
+            donde este prestando sus servicios fuera de su horario de labores y
+            sin que medie orden expresa y por escrito del "PATRON" para laborar
+            tiempo extraordinario, ese tiempo en ningún momento será considerado
+            como tiempo extraordinario de trabajo.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">DECIMA.-</span>
+          <span class="font-normal"
+            >El “TRABAJADOR” acepta y se obliga a presentar un “Reporte de
+            Tiempos y Actividades” durante los tres primeros días siguientes al
+            término del Proyecto respecto del cumplimiento de los servicios,
+            señalando nombre, proyecto, periodo, localidad en la cual se está
+            llevando a cabo los servicios, estatus, actividades realizadas,
+            número de horas utilizadas en la prestación de los servicios,
+            descripción o comentarios adicionales, las acciones inmediatas por
+            realizar, aspectos que pudieran incidir en el desarrollo del
+            proyecto objeto del presente contrato, etc. En el entendido de que
+            dicho reporte deberá estar firmado por el Supervisor del proyecto y
+            por el “PATRON”, para estar en posibilidad de determinar
+            concretamente los días que se utilizaron para el desarrollo de los
+            servicios materia del presente instrumento.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">DECIMA PRIMERA.-</span>
+          <span class="font-normal"> Ambas partes convienen que: </span>
+        </p>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+      </section>
+      <section id="hoja3">
+        <br>
+        <p class="number">3</p>
+        <table class="table-design">
+          <tr class="ptop1">
+            <td class="table-number" style="padding-bottom: 0.67cm">(a)</td>
+            <td class="table-content">
+              El "TRABAJADOR" percibirá como contraprestación al servicio
+              personal subordinado, un salario diario de <strong>${{contratos.tarifa_dia}} {{tarifa_diaria}} PESOS</strong> menos las deducciones legales
+              correspondientes conforme a las leyes fiscales respectivas, mismo
+              que le será cubierto en moneda de curso legal, de acuerdo a los
+              días en los que prestó su servicio y el cual ya incluye la
+              proporción correspondiente a los séptimos días y días de descanso
+              obligatorio.
+            </td>
+          </tr>
+          <tr class="ptop1">
+            <td class="table-number" style="padding-bottom: 0.5cm">(b)</td>
+            <td class="table-content">
+              El “PATRON” hará por cuenta del “TRABAJADOR” las deducciones
+              legales correspondientes, particularmente las que se refieren a
+              Impuesto sobre la Renta, y aportaciones de seguridad social (IMSS,
+              Infonavit y SAR), efectuando las inscripciones correspondientes
+              ante dichas instituciones, en los términos de las legislaciones
+              respectivas.
+            </td>
+          </tr>
+          <tr class="ptop1">
+            <td class="table-number" style="padding-bottom: 0.35cm">(c)</td>
+            <td class="table-content">
+              El pago se hará en forma QUINCENAL y el lugar de pago podrá ser en
+              el domicilio legal de “PATRON” o a través de un depósito bancario
+              a la cuenta número <strong>{{datos_bancarios.no_cuenta_clabe}}</strong>,
+               de la Institución <strong>{{datos_bancarios.id_banco.nombre}}</strong> a
+              nombre del “TRABAJADOR”.
+            </td>
+          </tr>
+          <tr class="ptop1">
+            <td class="table-number" style="padding-bottom: 0.67cm">(d)</td>
+            <td class="table-content">
+              El "TRABAJADOR" se obliga a firmar recibo por la totalidad de
+              salarios y prestaciones devengados a que tuviese derecho,
+              conviniendo que la firma del mismo implicara un finiquito total a
+              la fecha del recibo correspondiente y de conformidad con las
+              cantidades recibidas, por lo que si el "TRABAJADOR" tuviese alguna
+              aclaración que hacer sobre los pagos, descuentos de ley o por
+              cualquier otro concepto efectuado, deberá realizarla al momento de
+              recibirlos.
+            </td>
+          </tr>
+        </table>
+        <p>
+          <span class="fontbold">DECIMA SEGUNDA.-</span>
+          <span class="font-normal"
+            >Ambas partes convienen en que el día de descanso semanal será aquel
+            que las partes determinen de acuerdo a las necesidades del "PATRON"
+            con base a lo que establece la Ley.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">DECIMA TERCERA.-</span>
+          <span class="font-normal"
+            >Las partes convienen en que el "TRABAJADOR" recibirá como
+            prestaciones única y exclusivamente las que la Ley establece: a) un
+            período anual de vacaciones de seis días, el cual se incrementará
+            anualmente en los términos señalados en el artículo 76 de la Ley
+            Federal del Trabajo; b) una prima vacacional del 25%, sobre la
+            cantidad que le corresponda por el lapso en cuestión c) un aguinaldo
+            anual de quince días de salario debiendo el "PATRON" finiquitar al
+            "TRABAJADOR" las prestaciones mencionadas en forma proporcional al
+            tiempo laborado de conformidad a lo que prevé la Ley para tal
+            efecto.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">DECIMA CUARTA.-</span>
+          <span class="font-normal"
+            >El "TRABAJADOR" gozara del descanso semanal y de los días de
+            descanso obligatorios que contempla la Ley percibiendo íntegramente
+            el pago de su salario, quedando estrictamente prohibido al mismo
+            laborarlos en beneficio del "PATRON" sin que medie previamente orden
+            por escrito de este último en tal sentido.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">DECIMA QUINTA. ---</span>
+          <span class="font-normal"
+            >En caso de enfermedad que impida al "TRABAJADOR" desempeñar sus
+            labores, el mismo deberá avisar al "PATRON", indicando a este su
+            lugar de permanencia dentro de la primera hora siguiente a su
+            ausencia, así mismo justificará su inasistencia con el certificado
+            médico del I.M.S.S. o bien con la incapacidad médica debidamente
+            expedida por dicho Instituto.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">DECIMA SEXTA.-</span>
+          <span class="font-normal"
+            >El "TRABAJADOR" se obliga a someterse a los reconocimientos médicos
+            que el "PATRON" ordene en las fechas señaladas por el o los médicos
+            que éste designe, para comprobar que no padece incapacidad o
+            enfermedad de trabajo contagiosa o incurable. Obligándose a cumplir
+            con las normas de trabajo, así como a observar las medidas
+            preventivas de seguridad e higiene.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">DECIMA SEPTIMA.-</span>
+          <span class="font-normal"
+            >El presente contrato a partir de su vigencia deja insubsistentes al
+            o a los anteriores, o a cualquier otro convenio, costumbre o
+            compromiso que las partes hayan celebrado anteriormente,
+            sustituyéndolos en cada una de sus partes.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">DECIMA OCTAVA.-</span>
+          <span class="font-normal"
+            >Las partes convienen en este acto que toda modificación o adición a
+            los derechos y obligaciones pactados en el presente deberán
+            realizarse de manera escrita, incluyendo las respectivas firmas de
+            las partes, por lo que cualquier acuerdo verbal que las partes
+            aleguen haber celebrado carecerá absolutamente de validez.
+          </span>
+        </p>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+      </section>
+      <section id="pagina4">
+
+        <p class="number">4</p>
+        <p>
+          <span class="fontbold">DECIMA NOVENA.-</span>
+          <span class="font-normal"
+            >Dada la naturaleza de los servicios materia del presente contrato,
+            el “TRABAJADOR” tendrá acceso a secretos industriales de “PATRON”
+            y/o sus clientes en la cual desempeñará los servicios materia de
+            este instrumento, deberá abstenerse de revelarlos o apoderarse de
+            ellos, sin causa justificada y sin consentimiento de la persona que
+            guarde dicho secreto, o de su usuario autorizado, como lo establece
+            el Artículo 85 de la Ley de la Propiedad Industrial.
+            <br>
+            <br>
+            Así mismo el "TRABAJADOR" tiene prohibido usar, vender, extraer,
+            reproducir por cualquier medio para fines personales o de terceros,
+            la información de las operaciones que realice el “PATRON", sus
+            clientes y proveedores. En caso de que el "TRABAJADOR" no cumpla con
+            las obligaciones pactadas en el párrafo anterior será directo y
+            único responsable de las faltas o delitos que cometa por la
+            infracción a estas obligaciones, respondiendo ante las autoridades y
+            en su caso ante los titulares de los derechos de autor de acuerdo a
+            lo que establecen las leyes en la materia, y deberá responder por el
+            pago de daños y perjuicios ocasionados al propietario de la
+            información que fue divulgada, así mismo en caso de que el
+            "TRABAJADOR" no cumpliera con las obligaciones pactadas en el
+            párrafo anterior, dicho incumplimiento será causa de rescisión del
+            presente contrato sin responsabilidad para el "PATRON" de acuerdo a
+            lo que establece el artículo 47 de la Ley. Esta restricción tendrá
+            una duración de hasta 2 años después de terminado el presente
+            contrato. La contravención a lo señalado en esta cláusula hará
+            responsable a el “TRABAJADOR” en los términos de ley, de los daños y
+            perjuicios que se le llegaren a ocasionar a la empresa o al
+            “PATRON”. Todas las ideas que en materia del objeto de este
+            instrumento desarrolle o elabore el “TRABAJADOR” con motivo del
+            presente contrato, serán única y exclusivamente propiedad de la
+            empresa, quien podrá utilizarlos o emplearlos en la forma que
+            considere pertinente.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold"> VIGESIMA.- </span>
+          <span class="font-normal"
+            >El “TRABAJADOR” acepta y se obliga a no contratarse por su cuenta
+            directa o indirectamente ni ofrecer los Servicios de un tercero
+            directa o indirectamente, con ningún de los clientes de “{{empresas.empresa}}” ni
+            con una Afiliada de estos, durante la vigencia del presente contrato
+            y hasta un año después de fenecer el término de instrumento o
+            contados a partir de la fecha de Terminación Anticipada o Rescisión
+            de este instrumento.
+            <br>
+            <br>
+            Por lo que ambas partes acuerdan que para los efectos del presente
+            contrato los siguientes términos tengan los significados que a
+            continuación se indican:
+            <br>
+            <br>
+            AFILIADA (S) significa (i) Cualquier ENTIDAD que Controle
+            directamente a una segunda, tercera o ulterior ENTIDADES, o que las
+            controle indirectamente a través de una o más ENTIDADES; (ii) La
+            primera ENTIDAD también deberá considerarse como Afiliada de las
+            ENTIDADES que Controle directa o indirectamente, en los términos
+            apuntados; (iii) A su vez las ENTIDADES que Controlen directa o
+            indirectamente a la primera ENTIDAD, deberán considerarse como
+            Afiliadas entre sí; (iv) Afiliadas de las ENTIDADES que las
+            Controlen en forma directa o indirecta; y, (v) Cualesquier ENTIDAD
+            del mismos Grupo y/o Holding en los términos apuntados en todos los
+            incisos anteriores.
+            <br>
+            <br>
+            ENTIDAD (ES) significa cualquier Persona Física o Moral, Compañía,
+            Sociedad Mercantil, Empresa, Sociedad Civil, Asociación Civil o
+            Fideicomiso, nacional o extranjera.
+            <br>
+            <br>
+            Control (E) (EN) significará las facultades de dirigir, directa o
+            indirectamente, la administración, o para emitir resoluciones o
+            políticas de cualquier ENTIDAD o el poder de vetar cualquier
+            decisión de cualquiera de dichas ENTIDADES, ya sea a través de la
+            propiedad de acciones y derechos de veto correspondientes, a través
+            de un contrato, o de cualquier otra manera.
+            <br>
+            <br>
+            En caso de incumplimiento de la presente Cláusula, el “TRABAJADOR”
+            acepta y se obliga sin necesidad de declaración judicial a pagar por
+            concepto de Pena Convencional la cantidad $100,000.00 mxp (Cien Mil
+            pesos 00/100 M.N.), pagaderos al día hábil siguiente de la
+            notificación que por escrito y/o vía e-mail y/o vía facsímile le
+            haga “{{empresas.empresa}}” y/o quien sus derechos represente.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">VIGESIMA PRIMERA.-</span>
+          <span class="font-normal"
+            >El "TRABAJADOR" declara conocer el reglamento interior de trabajo,
+            mismo que acepta en sus términos y se obliga a observar.
+          </span>
+        </p>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+      </section>
+      <section id="hoja 5">
+        <br>
+        <br>
+        <p class="number">5</p>
+        <p>
+          <span class="fontbold">VIGESIMA SEGUNDA.-</span>
+          <span class="font-normal"
+            >En el supuesto de que el “TRABAJADOR” tenga que desarrollar los
+            servicios materia del presente instrumento fuera del área
+            metropolitana de la Cd. de México, ambas partes aceptan y reconocen
+            que los gastos que originen por dicho concepto estarán a cargo del
+            “PATRON”, por lo que el “TRABAJADOR” acepta y se obliga a cumplir y
+            ajustarse en términos y condiciones a las políticas de gastos que el
+            “PATRON” indique, así como de presentar la relación de los mismos en
+            el formato que el “PATRON” indique.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">VIGESIMA TERCERA.-</span>
+          <span class="font-normal"
+            >“El Trabajador” se obliga a participar en los cursos de
+            capacitación y adiestramiento que “La Empresa” le indique para el
+            mejor conocimiento y desarrollo de sus aptitudes, mismos que podrán
+            impartirse dentro y/o fuera de la jornada de labores.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">VIGESIMA CUARTA.- </span>
+          <span class="font-normal">
+            Ambas partes convienen en sujetarse a la Ley Federal del Trabajo
+            para el cumplimiento e interpretación del presente contrato, así
+            mismo establecen que en caso de existir conflicto laboral, conocerá
+            del mismo la autoridad correspondiente en el Distrito Federal,
+            renunciando para tal efecto a la Jurisdicción que le pudiere
+            corresponder en razón a sus domicilios presentes o futuros.
+          </span>
+        </p>
+        <p>
+          <span class="fontbold">VIGESIMA QUINTA.-</span>
+          <span class="font-normal"
+            >Ambas partes aceptan y convienen que el “PATRON” podrá dar por
+            terminado anticipadamente el Proyecto y/o Servicios objeto del
+            presente contrato, quedando este instrumento definitivamente
+            concluido en la fecha que señale el “PATRON”, no reservándose
+            ninguna de las partes derecho o acción alguna entre ellos,
+            otorgándose el finiquito más amplio que en derecho proceda.
+            <br>
+            <br>
+            Leído por las partes y enteradas de su alcance y contenido legal y
+            no existiendo dolo, coerción o mala fe, firman al margen y al calce
+            aceptando y ratificando lo establecido en el cuerpo del presente,
+            ante la presencia de dos testigos, en México, D.F. a <strong>{{fechaFirma}}</strong> recibiendo cada una de las partes en este acto copia del
+            mismo.
+          </span>
+        </p>
+        <br>
+        <table>
+          <tr>
+            <th class="font-normal-no-align">"<strong>{{empresas.empresa}}</strong>"</th>
+            <th class="font-normal-no-align">EL "TRABAJADOR"</th>
+          </tr>
+        </table>
+        <br>
+        <br>
+        <br>
+        <br>
+        <table>
+          <tr>
+            <th>__________________________________</th>
+            <th>________________________</th>
+          </tr>
+        </table>
+
+        <table>
+          <tr>
+            <th class="font-normal-no-align">Representante Legal</th>
+            <th class="font-normal-no-align">{{personas.nombre}} {{personas.ape_pat}}</th>
+          </tr>
+        </table>
+      </section>
+    </div>
+  </body>
+</html>

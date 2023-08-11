@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+    {% if pending_total.count == 0 %}
+      <title>Gnosis</title>
+    {% else %}
+      <title>({{pending_total.count}}) Gnosis</title>
+    {% endif %}
+  <!-- Compiled and minified CSS -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+  <link rel="stylesheet" href="{% static 'css/profileAdministrador.css' %}?v=1.4" />
+  <link rel="stylesheet" href="{% static 'css/notifications.css' %}?v=1.2" />
+</head>
+<body>
+    <nav>
+      <div class="nav-wrapper">
+        <ul>
+            <li class="img">
+                <img src="{% static 'images/logo.png' %}" alt="Logo Gnosis" class="logo" />
+            </li>
+        </ul>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li>
+                <a class="dropdown-trigger" href="#" data-target="notifications-dropdown">
+                <div>
+                  {% if pending_total.count %}
+                  {% if pending_total.count > 9 %}
+                      <i class="material-icons">notifications</i>
+                      <span class="plus_nine"></span>
+                      <span class="align-number2">+9</<span>
+                  
+                  {% elif pending_total.count == 0 %}
+                      <i class="material-icons">notifications</i>
+                  {% else %}
+                      <i class="material-icons">notifications</i>
+                      <span class="pending"></span>
+                      <span class="align-number">{{pending_total.count}}</<span>
+                  {% endif %}
+                {% else %}
+                  <i class="material-icons">notifications</i>
+                {% endif %}
+                </div>
+                </a>
+            </li>
+            <li class="dropdown-trigger" data-target="dropdown1">
+                <a href="#" class="dropdown-trigger-link">Administrador<i
+                        class="material-icons right">arrow_drop_down</i></a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="img_profile">
+                        <img src="{% static 'images/admin.png' %}" alt="Foto de Perfil" class="avatar" />
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    </nav>
+  
+    <!-- Dropdown Structure -->
+    <ul id="dropdown1" class="dropdown-content">
+      <li><a href="{% url 'principalAdmin' %}">Principal</a></li>
+      <li><a href="#">Mi perfil</a></li>
+      <li><a href="{% url 'agergarAdministrador' %}">Consultores</a></li>
+      <li><a href="#">Proyectos</a></li>
+      <li><a href="#">Inmuebles</a></li>
+      <li><a href="{% url 'controlDePagosProyectoConsultor' %}">Control de Pagos</a></li>
+      <li><a href="{% url 'principal' %}">Configuración</a></li>
+      <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
+  </ul>
+    <!-- Dropdown Notifications -->
+    <ul id="notifications-dropdown" class="dropdown-content">
+      <li><a href="{% url 'all_notificationsAdministrador' %}">Notificaciónes</a></li>
+      <li class="divider" tabindex="-1"></li>
+          <!-- lista de notificaciones -->
+          <div class="notification-list bcw">    
+
+              <!-- notification-1    -->
+              {% if pending.count == 0 %}
+              <li>
+                  <a href="{% url 'all_notificationsAdministrador' %}" class="bcw">
+                      <h7 class="bcw blue-text">Mas notificaciones</h7>
+                  </a>
+              </li>
+              <li class="divider" tabindex="-1"></li>
+              {% else %}
+                  {% for notification in pending %}
+                          <li>
+                              <a href="" class="bcw">
+                                  <b class="bcw">De: {{notification.name}}</b>
+                                  <br>
+                                  {{notification.subject}}
+                                  <br>
+                                  <h7 class="bcw grey-text">{{notification.created_at|date:"d/m/Y"}}</h7>
+                              </a>
+                          </li>
+                          <li class="divider" tabindex="-1"></li>
+                  {% endfor %}
+                  <li>
+                      <a href="{% url 'all_notificationsAdministrador' %}" class="bcw">
+                          <h7 class="bcw blue-text">Mas notificaciones</h7>
+                      </a>
+                  </li>
+              {% endif %}
+          </div>
+      </div>                        
+  </ul>
+  <div id="sidebar">
+    <ul>
+      {% if indice == 'Principal' %}
+        <li class="active-position"  onclick="window.location.href = `{% url 'principalAdmin' %}`">
+          <span class="active-position-span"> <i class="material-icons">home</i></span> &nbsp;Principal
+        </li>
+      {% else %}
+        <li  onclick="window.location.href = `{% url 'principalAdmin' %}`">
+          <span> <i class="material-icons">home</i></span> &nbsp;Principal
+        </li>
+      {% endif %}
+
+
+      {% if indice == 'Consultores' %}
+        <li class="active-position"  onclick="window.location.href = `{% url 'agergarAdministrador' %}`;">
+          <span class="active-position-span"><i class="material-icons">assessment</i></span>
+          &nbsp;Consultores &nbsp;
+          <span class="active-position-span" style="margin-top: 6px;"><i class="material-icons">expand_more</i></span>
+        </li>
+      {% else %}
+      <li  onclick="window.location.href = `{% url 'agergarAdministrador' %}`;">
+        <span><i class="material-icons">assessment</i></span>
+        &nbsp;Consultores &nbsp;
+        <span class="myprofile-span" style="margin-top: 6px;"><i class="material-icons">expand_more</i></span>
+      </li>
+      {% endif %}
+
+
+      {% if indice == 'Proyectos' %}
+      <li class="active-position"  onclick="window.location.href = `{% url 'proyectosForAdmin' %}`;">
+        <span class="active-position-span"> <i class="material-icons">dashboard</i></span>
+        &nbsp;Proyectos &nbsp;<span class="active-position-span" style="margin-top:6px;"><i class="material-icons">expand_more</i></span>
+      </li>
+      {% else %}
+      <li  onclick="window.location.href = `{% url 'proyectosForAdmin' %}`;">
+        <span> <i class="material-icons">dashboard</i></span>
+        &nbsp;Proyectos &nbsp;<span class="material-icons" style="margin-top:6px;">
+          expand_more
+        </span>
+      </li>
+      {% endif %}
+
+
+      {% if indice == 'Inmuebles' %}
+      <li class="active-position">
+        <span class="active-position-span"> <i class="material-icons">maps_home_work</i></span>&nbsp;Inmuebles
+      </li>
+      {% else %}
+      <li >
+        <span> <i class="material-icons">maps_home_work</i></span>&nbsp;Inmuebles
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+    {% block Content %}
+
+    {% endblock %}
+    <script src="{% static 'js/profileAdmin.js' %}?v=1.2"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+</body>  
+</html>

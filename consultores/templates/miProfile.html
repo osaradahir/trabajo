@@ -8,7 +8,7 @@
       <div class="information-data-name" id="information-profile">
         <div class="information-profile-photo">
           {% if image %}
-            <img src="{{ image }}" alt="" onclick="imageChange()"/>
+            <img src="{{ image }}?v=1" alt="" onclick="imageChange()"/>
           {% else %}
             {% if informationPersonalUser.sexo == 'M' %}
               <img src="{% static 'images/profile/default.jpg' %}" alt="" onclick="imageChange()"/>
@@ -27,25 +27,25 @@
             <form class="col s12" id="update-information-personal">
               {% csrf_token %}
               <div class="input-field col s12">
-                <input id="name" type="text" class="validate" name="nombre" pattern="[A-Za-záéíóúñÑ\s]{3,25}"
+                <input id="name" type="text" class="validate" name="nombre" pattern="[A-Za-záéíóúñÑ\s]{3,50}$"
                 minlength="3"
                 maxlength="25"
                 title="Use solo letras con un minimo de 3 caracteres"/>
                 <label for="name">Nombre</label>
               </div>
               <div class="input-field col s6">
-                <input id="apellidos" type="text" class="validate" name="apellido_paterno" pattern="[A-Za-záéíóúñÑ]{4,25}"
+                <input id="apellidos" type="text" class="validate" name="apellido_paterno" pattern="^[A-Za-záéíóúñÑ]{3,25}$"
                 minlength="4"
                 maxlength="35"
                 title="Use solo letras con un minimo de 4 caracteres"/>
                 <label for="apellidos">Paterno</label>
               </div>
               <div class="input-field col s6">
-                <input id="apellidos" type="text" class="validate" name="apellido_materno" />
+                <input id="apellidoMaterno" type="text" class="validate" name="apellido_materno" />
                 <label for="apellidos">Materno</label>
               </div>
               <div class="input-field col s12">
-                <input id="icon_telephone" name="fechaNacimiento" type="text" class="datepicker" >
+                <input name="fechaNacimiento" type="text" class="datepicker" id="fechaNacimiento" >
                 <label for="icon_telephone">Fecha de Nacimiento</label>
               </div>
               <label for="genero" id="genero">Género</label>
@@ -73,11 +73,31 @@
           </div>
         </div>
         <div class="information-user-botomms-cv">
-          <button class="white-buttons">Generar CV</button>
+          <button class="white-buttons modal-trigger" data-target="modalForCV">Generar CV</button>
           <button class="blue-buttons" id="edit-profile-user-information">
             Editar información
           </button>
         </div>
+      
+      </div>
+      <div id="modalForCV" class="modal">
+        <div class="modal-content">
+          <h4>Descripción</h4>
+          <p>Para generar tu CV primero necesitamos una pequeña descripción de tí</p>
+          <form action="{% url 'addDescriptionConsultor' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="persona" value="{{informationPersonalUser.id}}">
+            <div class="input-field">
+              <textarea id="textarea1" class="materialize-textarea" maxlength="200" name="descripcion" required></textarea>
+              <label for="textarea1">Escribe tu descripción aquí</label>
+            </div>
+            <button class="btn" type="submit">Enviar</button>
+            {% if descripcion != ''%}
+              <a class="btn" href="{% url 'curriculum_consultor' %}" target="_blank">Ver</a>
+            {% endif %}
+          </form>
+        </div>
+        
       </div>
       <div class="information-data-name" id="information-profile-factors">
         <div class="information-costs">
@@ -119,7 +139,7 @@
               <h6>Cobro por Hora</h6>
               <form id="update-manera-cobro" style="margin-top: -6px;">
                 {% csrf_token %}
-                <input value="" id="hora" type="text" class="validate" name="updateHora" pattern="[0-9]+(\.[0-9]+)?" title="Ingrese un número entero o decimal"/>
+                <input value="" id="updateHora" type="number" class="validate" name="updateHora" title="Ingrese un número entero o decimal"/>
               </form>
             </div>
             <div class="money-img">
@@ -169,10 +189,10 @@
                   </select>
                 </div>
                 <div class="input-field col s6">
-                  <input value="" name="RFC" id="kind_pay" type="text" class="validate" pattern="[0-9A-Za-z]{12}"
-                  minlength="12"
-                  maxlength="12"
-                  title="El RFC consta de 12 caracteres"
+                  <input value="" name="RFC" id="kind_pay" type="text" class="validate"
+                  minlength="13"
+                  maxlength="13"
+                  title="El RFC consta de 13 caracteres"
                   required/>
                   <label for="kind_pay">RFC</label>
                 </div>
@@ -184,7 +204,7 @@
         </div>
         <div class="buttons-rfc" id="buttons-show">
           <button class="blue-buttons" id="edit-factory-information-activate">Editar información</button>
-          <button class="white-buttons">Agregar datos bancarios</button>
+          <button class="white-buttons" onclick="window.location.href = `{% url 'bancosDatos' id=informationConsultorUser.id %}`">Agregar datos bancarios</button>
         </div>
       </div>
     </div>
@@ -214,7 +234,7 @@
               </div>
               <div class="input-field col s12">
                 <input id="correo" type="email" class="validate" name="correo" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                title="Coloque @"/>
+                title="Si no modificara su correo, no lo agregue a los formularios."/>
                 <label for="correo">Correo Electronico</label>
               </div>
               <div class="input-field col s12">
@@ -301,9 +321,7 @@
                 </span>
               </h6>
               <h6 id="date-requirement">{{ experience.4 }} - {{ experience.5 }}</h6>
-              <h6 id="content-requirement">
-                {{ experience.1 }}
-              </h6>
+              <h6 id="content-requirement" style="word-wrap: break-word;">{{ experience.1 }}</h6>
               <span class="material-icons" style="float: right; margin-left: 10px; background-color:white; width:40px; text-align:center; color:#324080; border-radius: 4px; cursor:pointer;" onclick="viewExperiencia(viewExperiencias=viewExperiencias+1);">
                 arrow_forward
               </span>
@@ -325,11 +343,11 @@
             <input type="hidden" name="experiencia-saber" id="experiencia-saber" value="">
            <div class="row" style="margin-top: -20px;">
             <div class="input-field col s6">
-              <input id="puestoExperiencia" type="text" class="validate" name="puesto" />
+              <input id="puestoExperiencia" type="text" class="validate" name="puesto" pattern="[A-Za-záéíóúñÑ\s]{3,50}$"/>
               <label for="institute">Puesto</label>
             </div>
             <div class="input-field col s6">
-              <input id="puestoEmpresa" type="text" class="validate" name="empresa" />
+              <input id="puestoEmpresa" type="text" class="validate" name="empresa" pattern="[A-Za-záéíóúñÑ\s]{3,50}$"/>
               <label for="institute">Empresa</label>
             </div>
             <div class="input-field col s4" style="margin-top: -10px;">
@@ -343,7 +361,7 @@
             <div class="input-field col s4" style="margin-top: -10px;">
               <label>
                 <input type="checkbox" onChange="comprobar(this);" name="check" />
-                <span>Sigo estudiando</span>
+                <span>Sigo trabajando</span>
               </label>
             </div>
             <div class="input-field  col s12" style="margin-top: -10px;">
@@ -463,7 +481,7 @@
               <div class="row" style="margin-left:-10px; width:100%">
                 <label style="font-size: 14px; padding-left:10px">Nivel</label>
                 <div class="input-field col s12">
-                  <select class="browser-default" name="nivelEducacion">
+                  <select class="browser-default" name="nivelEducacion" required>
                     <option value="" disabled selected>Selecciona tu nivel</option>
                     <option value="Bachiller">Educación Media Superior - Bachiller</option>
                     <option value="Técnico">Educación Media Superior Técnica - Técnico</option>
@@ -475,11 +493,11 @@
                   </select>
                 </div>
                 <div class="input-field col s6">
-                  <input id="institute" type="text" class="validate" name="instituteEducacion" />
+                  <input id="institute" type="text" class="validate" name="instituteEducacion" pattern="[A-Za-záéíóúñÑ\s]{3,50}$"/>
                   <label for="institute">Institucion</label>
                 </div>
                 <div class="input-field col s6">
-                  <input id="kindCertificate" type="text" class="validate" name="tituloEducacion" />
+                  <input id="kindCertificate" type="text" class="validate" name="tituloEducacion" pattern="[A-Za-záéíóúñÑ\s]{3,50}$"/>
                   <label for="titulo  ">Titulo o Carrera</label>
                 </div>
                 <div>
@@ -677,11 +695,11 @@
               <input type="hidden" name="id_certificadoQuery" id="id_certificadoQuery" value="">
               <div class="row">
                 <div class="input-field col s8">
-                  <input id="nameCertificate" type="text" class="validate" name="nameCertificate" required/>
+                  <input id="nameCertificate" type="text" class="validate" name="nameCertificate" required pattern="[A-Za-záéíóúñÑ\s]{3,50}$"/>
                   <label for="name">Nombre del curso / Certificado</label>
                 </div>
                 <div class="input-field col s6">
-                  <input id="instituteCertificate" type="text" class="validate" name="institute" required/>
+                  <input id="instituteCertificate" type="text" class="validate" name="institute" required pattern="[A-Za-záéíóúñÑ\s]{3,50}$"/>
                   <label for="institute">Institucion</label>
                 </div>
                 <div class="input-field col s6">
@@ -700,7 +718,7 @@
                   </div>
                 </div>
               </div>
-              <button class="white-buttons" style="width:30%;" id="" onclick="updateCertificados()">Actualizar información</button>
+              <button class="white-buttons" style="width:30%;" id="" onclick="updateCertificados(event)">Actualizar información</button>
             </form>
           </div>
           <div class="button-experience-course" id="course">
@@ -751,7 +769,8 @@
                           <td><button class="white-buttons2" id="boton-{{moduls.4}}" onclick="sendModuleSAP(event,this.id)">Actualizar</button></td>
                         </form>
                       </tr>
-                      <tr id="sap-form-show-{{ moduls.4 }}" ondblclick="deleteModuleSAP(this.id)">
+                      <tr id="sap-form-show-{{ moduls.4 }}"  ondblclick="deleteModuleSAP(`{{moduls.0}}`)">
+                        
                         <td>{{ moduls.1.nombre }}</td>
                         <td>{{ moduls.2.nombre }}</td>
                         <td class="label-experience">
@@ -805,6 +824,11 @@
                   </tfoot>
                 </table>
               </div>
+              
+              
+              
+              
+              
               <div class="table-pagination">
                 <p>Anterior</p>
                 <ul class="pagination">
@@ -830,10 +854,100 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-  <script src="{% static 'js/miProfile.js' %}?v=4.5"></script>
+  <script src="{% static 'js/miProfile.js' %}?v=5.4"></script>
   <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var fechaSalidaInput = document.getElementById("fechaNacimiento");
+      M.Datepicker.init(fechaSalidaInput, {
+        format: "yyyy-mm-dd",
+        autoClose: true,
+        autoClose: true,
+        showClearBtn: true,
+        firstDay: 1,
+        minDate: new Date(1969, 1, 12),
+        maxDate: new Date(2023, 11, 31),
+        i18n: {
+          cancel: "Cancelar",
+          clear: "Limpiar",
+          done: "Listo",
+          today: "Hoy",
+          previousMonth: "Mes anterior",
+          nextMonth: "Siguiente mes",
+          months: [
+            "Enero",
+            "Febrero",
+            "Marzo",
+            "Abril",
+            "Mayo",
+            "Junio",
+            "Julio",
+            "Agosto",
+            "Septiembre",
+            "Octubre",
+            "Noviembre",
+            "Diciembre",
+          ],
+          monthsShort: [
+            "Ene",
+            "Feb",
+            "Mar",
+            "Abr",
+            "May",
+            "Jun",
+            "Jul",
+            "Ago",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dic",
+          ],
+          weekdays: [
+            "Domingo",
+            "Lunes",
+            "Martes",
+            "Miércoles",
+            "Jueves",
+            "Viernes",
+            "Sábado",
+          ],
+          weekdaysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+          weekdaysAbbrev: ["D", "L", "M", "M", "J", "V", "S"],
+        },
+        onClose: function () {
+          setTimeout(function () {
+            let fechaNacimiento =
+                document.getElementById("fechaNacimiento").value;
+            let dateNacimiento = new Date(fechaNacimiento);
+            let dateActual = new Date();
+
+            let edad =
+                dateActual.getFullYear() - dateNacimiento.getFullYear();
+
+            // Ajustar la edad según el mes y el día actual
+            if (
+                dateNacimiento.getMonth() > dateActual.getMonth() ||
+                (dateNacimiento.getMonth() === dateActual.getMonth() &&
+                    dateNacimiento.getDate() > dateActual.getDate())
+            ) {
+                edad--;
+            }
+
+            if (edad < 20) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Solo pueden registrarse personas mayores a 20 años',
+                })
+                document.getElementById("fechaNacimiento").value = "";
+            }
+        }, 1000);
+        },
+      });
+    });
+    
+
     function deleteModuleSAP(id){
-      const partes = id.split("-");
       Swal.fire({
         title: '¿Quieres eliminar el modulo?',
         showDenyButton: true,
@@ -843,7 +957,7 @@
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
           const csrftoken = getCookie('csrftoken');
-          fetch(`deleteModuloSAP/${partes[3]}/`, {
+          fetch(`deleteModuloSAP/${id}/`, {
             method: 'DELETE',
             headers: {
               'X-CSRFToken': csrftoken
@@ -853,14 +967,22 @@
               if (response.ok) {
                 // La eliminación fue exitosa
                 Swal.fire('Eliminado', '', 'success');
-                location.reload;
+                setTimeout(function() {
+                  window.location.reload();
+                }, 1200);
               } else {
                 // Hubo un error en la eliminación
                 Swal.fire('Hubo un error al eliminar', '', 'error');
+                setTimeout(function() {
+                  window.location.reload();
+                }, 1200);
               }
             })
             .catch(error => {
               Swal.fire('Hubo un error al eliminar', '', 'error');;
+              setTimeout(function() {
+                window.location.reload();
+              }, 1200);
             });
         } else if (result.isDenied) {
           Swal.fire('No se elimino', '', 'info')
@@ -872,6 +994,11 @@
       const parts = value.split(`; ${name}=`);
       if (parts.length === 2) return parts.pop().split(';').shift();
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('.modal');
+      var instances = M.Modal.init(elems);
+    });
   </script>
     
   {% endblock %}

@@ -1,6 +1,18 @@
 {% extends 'baseAdministradorPrincipal.html' %}
 {% load static %}
         {% block Content %}
+        <style>
+            .pagination li {
+                height: 50px;
+            }
+            .pagination li.active a {
+                color: black;
+                background-color: #0b5ed4;
+            }
+            .pagination li.active {
+                background-color: white;
+            }
+        </style>
         <div class="container" id="notifications-all-container" style="margin-top:20px; width:80%;">
             <div class="row">
                 <div class="col l4 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">
@@ -58,13 +70,13 @@
                 </table>
 
                 <!-- ### PAGINACION ### -->
-                <nav style="display:flex; justify-content:center; margin-top:35px; align-items:center;">
+                <nav style="display:flex; justify-content:center; margin-top:35px; align-items:center;  ">
                     {% if notification.has_other_pages %}
                     <ul class="pagination">
 
                         {% if notification.has_previous %}
                         <!-- <li class="page-item"><a class="waves-effect waves-light btn" href="?page={{ notification.previous_page_number }}"><i class="material-icons">arrow_forward</i></a></li> -->
-                        <li class="disabled hg50"><a href="?page={{ notification.previous_page_number }}"><i  class="material-icons">chevron_left</i></a></li>
+                        <li class="disabled hg90"><a href="?page={{ notification.previous_page_number }}"><i  class="material-icons">chevron_left</i></a></li>
                         {% else %}
                         <li class="page-item disabled"></li>
                         {% endif %}
@@ -72,7 +84,7 @@
                         {% for i in notification.paginator.page_range %}
                         {% if notification.number == i  %}
                         <!-- <li class="waves-effect waves-light btn"><span class="page-link">{{ i }}<span class="sr-only"></span></span></li> -->
-                        <li class="waves-effect active hgt90"><a  href="#!">{{ i }}</a></li>
+                        <li class="waves-effect active hgt100"><a  href="#!">{{ i }}</a></li>
                         
                         {% else %}
                         <!-- <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li> -->

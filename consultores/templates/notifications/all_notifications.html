@@ -1,6 +1,18 @@
 {% extends 'basePrincipal.html' %}
 {% load static %}
         {% block Content %}
+        <style>
+            .pagination li {
+                height: 50px;
+            }
+            .pagination li.active a {
+                color: black;
+                background-color: #0b5ed4;
+            }
+            .pagination li.active {
+                background-color: white;
+            }
+        </style>
         <div class="container" id="notifications-all-container" style="margin-top:20px; width:80%;">
             <div class="row">
                 <div class="col l4 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">

@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showClearBtn: true,
         firstDay: 1,
         minDate: new Date(1979, 1, 12),
-        maxDate: new Date(2002, 1, 12),
+        maxDate: new Date(2043, 1, 12),
     });
 
     var dropdowns = document.querySelectorAll('.dropdown-trigger');

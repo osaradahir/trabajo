@@ -70,7 +70,7 @@
                 <li>
                     <a href="#">
                         <div class="img_profile">
-                            <img src="{% static 'images/crea.jpg' %}" alt="Foto de Perfil" class="avatar" />
+                            <img src="{% static 'images/admin.png' %}" alt="Foto de Perfil" class="avatar" />
                         </div>
                     </a>
                 </li>
@@ -80,10 +80,11 @@
     <!-- Dropdown Structure -->
     <ul id="dropdown1" class="dropdown-content">
         <li><a href="{% url 'principalAdmin' %}">Principal</a></li>
-        <li><a href="">Mi perfil</a></li>
-        <li><a href="">Consultores</a></li>
-        <li><a href="">Proyectos</a></li>
-        <li><a href="">Inmuebles</a></li>
+        <li><a href="#">Mi perfil</a></li>
+        <li><a href="{% url 'agergarAdministrador' %}">Consultores</a></li>
+        <li><a href="#">Proyectos</a></li>
+        <li><a href="#">Inmuebles</a></li>
+        <li><a href="{% url 'controlDePagosProyectoConsultor' %}">Control de Pagos</a></li>
         <li><a href="{% url 'principal' %}">Configuración</a></li>
         <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
     </ul>
@@ -140,13 +141,13 @@
   
   
           {% if indice == 'Consultores' %}
-            <li class="active-position"  onclick="window.location.href = 'consultores';">
+            <li class="active-position"  onclick="window.location.href = `{% url 'agergarAdministrador' %}`;;">
               <span class="active-position-span"><i class="material-icons">assessment</i></span>
               &nbsp;Consultores &nbsp;
               <span class="active-position-span" style="margin-top: 6px;"><i class="material-icons">expand_more</i></span>
             </li>
           {% else %}
-          <li  onclick="window.location.href = 'consultores';">
+          <li  onclick="window.location.href = `{% url 'agergarAdministrador' %}`;;">
             <span><i class="material-icons">assessment</i></span>
             &nbsp;Consultores &nbsp;
             <span class="myprofile-span" style="margin-top: 6px;"><i class="material-icons">expand_more</i></span>
@@ -155,12 +156,12 @@
   
   
           {% if indice == 'Proyectos' %}
-          <li class="active-position"  onclick="window.location.href = 'proyectos';">
+          <li class="active-position"  onclick="window.location.href = `{% url 'proyectosForAdmin' %}`;">
             <span class="active-position-span"> <i class="material-icons">dashboard</i></span>
             &nbsp;Proyectos &nbsp;<span class="active-position-span" style="margin-top:6px;"><i class="material-icons">expand_more</i></span>
           </li>
           {% else %}
-          <li  onclick="window.location.href = 'proyectos';">
+          <li  onclick="window.location.href = `{% url 'proyectosForAdmin' %}`;">
             <span> <i class="material-icons">dashboard</i></span>
             &nbsp;Proyectos &nbsp;<span class="material-icons" style="margin-top:6px;">
               expand_more
@@ -170,11 +171,11 @@
   
   
           {% if indice == 'Inmuebles' %}
-          <li class="active-position"  onclick="window.location.href = 'inmuebles';">
+          <li class="active-position" >
             <span class="active-position-span"> <i class="material-icons">maps_home_work</i></span>&nbsp;Inmuebles
           </li>
           {% else %}
-          <li  onclick="window.location.href = 'inmuebles';">
+          <li >
             <span> <i class="material-icons">maps_home_work</i></span>&nbsp;Inmuebles
           </li>
           {% endif %}

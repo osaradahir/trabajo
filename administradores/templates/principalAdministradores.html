@@ -37,10 +37,10 @@
                 <form class="bcw" style="padding-bottom:15px;" id="form-query-name">
                   {% csrf_token %}
                   <div class="col l6 s12">
-                    <input class="bcw" placeholder="Buscar por nombre" id="first_name" type="text" name="nombre">
+                    <input class="bcw validate" placeholder="Buscar por nombre" id="first_name" type="text" name="nombre" pattern="[A-Za-záéíóúñÑ\s]{3,50}$">
                   </div>
                   <div class="col l6 s12">
-                    <input class="bcw" placeholder="Buscar por apellido paterno" id="last_name" type="text" name="apepa">
+                    <input class="bcw validate" placeholder="Buscar por apellido paterno" id="last_name" type="text" name="apepa" pattern="[A-Za-záéíóúñÑ\s]{3,50}$">
                   </div>
                   <div class="col l6 s12">
                     <input class="bcw" placeholder="Buscar por apellido materno" id="apema" type="text" name="apema">
@@ -98,7 +98,7 @@
                     <label for="tarifa-controller" class="bcw" id="tarifa-label">Tarifas por debajo de ($51.00 USD/ Hora )</label>
                     <br>
                     <p class="range-field bcw">
-                      <input class="bcw" type="range"name="tarifa-filter" id="tarifa-controller" min="1" max="100" onchange="document.getElementById('tarifa-label').innerHTML = `Tarifas por debajo de ($${document.getElementById('tarifa-controller').value}.00 USD/ Hora )`"/>
+                      <input class="bcw" type="range"name="tarifa-filter" id="tarifa-controller" min="1" max="1000" onchange="document.getElementById('tarifa-label').innerHTML = `Tarifas por debajo de ($${document.getElementById('tarifa-controller').value}.00 USD/ Hora )`"/>
                     </p>
           
                   </div>
@@ -289,7 +289,7 @@
 
               var nombre = (item.nombre ?? "") + " " + (item.ape_pat ?? "");
 
-              const userCard = createUserCard(item.id,nombre, ubicacion, 'SAP SENIOR DEVELOPER', 4, item.image);
+              const userCard = createUserCard(item.id,nombre, ubicacion, 'SAP SENIOR DEVELOPER', item.puntuacionConsultor_entero, item.image);
               alineadorDiv.appendChild(userCard);
             }
           } 
@@ -340,7 +340,7 @@
 
               var nombre = (item.nombre ?? "") + " " + (item.ape_pat ?? "");
 
-              const userCard = createUserCard(item.id,nombre, ubicacion, 'SAP SENIOR DEVELOPER', 4, item.image);
+              const userCard = createUserCard(item.id,nombre, ubicacion, 'SAP SENIOR DEVELOPER', item.puntuacionConsultor_entero, item.image);
               alineadorDiv.appendChild(userCard);
             }
           }
@@ -357,6 +357,7 @@
     function queyForName(){
       // Obtén el formulario
       var form = document.getElementById("form-query-name");
+
 
       // Crea un objeto FormData para recopilar los datos del formulario
       var formData = new FormData(form);
@@ -397,7 +398,7 @@
 
               var nombre = (item.nombre ?? "") + " " + (item.ape_pat ?? "");
 
-              const userCard = createUserCard(item.id,nombre, ubicacion,'SAP SENIOR DEVELOPER', 4, item.image);
+              const userCard = createUserCard(item.id,nombre, ubicacion,'SAP SENIOR DEVELOPER', item.puntuacionConsultor_entero, item.image);
               alineadorDiv.appendChild(userCard);
             }
           } 

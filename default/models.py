@@ -12,17 +12,19 @@ class Proyectos(models.Model):
     presupuesto_base = models.DecimalField(max_digits=10, decimal_places=2)
     id_tipo_moneda = models.ForeignKey('TipoMoneda', null=True, on_delete=models.SET_NULL, default=1)
     status = models.CharField(max_length=20, null=True)
-    description = models.CharField(max_length=250, null=True)
-    fun_laborales = models.CharField(max_length=250, null=True)
+    tipo = models.CharField(max_length=20, null=True, default="Completo")
+    description = models.CharField(max_length=1000, null=True)
+    certificacion = models.CharField(max_length=50, null=True, default="ABAP")
+    duracion = models.CharField(max_length=50, null=True, default="1 Mes")
+    estudiosRequeridos = models.CharField(max_length=50, null=True, default="Ingeniería")
+    fun_laborales = models.CharField(max_length=1000, null=True)
     fecha_publicacion = models.DateField(default=date.today)
     id_categoria = models.ForeignKey('Categorias', null=True, on_delete=models.SET_NULL)
-    id_proyecto_consultor = models.ForeignKey('ProyectoConsultor', null=True, on_delete=models.SET_NULL)
     id_empresa_proyecto = models.ForeignKey('EmpresaProyecto', null=True, on_delete=models.SET_NULL)
     id_modulo = models.ForeignKey('Modulos', null=True, on_delete=models.SET_NULL)
     id_submodulo = models.ForeignKey('Submodulos', null=True, on_delete=models.SET_NULL)
     id_experiencia_requerida = models.ForeignKey('NivelesConocimiento', null=True, on_delete=models.SET_NULL, related_name='experiencia_requerida', default=1)
     id_experiencia_deseable = models.ForeignKey('NivelesConocimiento', null=True, on_delete=models.SET_NULL, related_name='experiencia_deseable', default=1)
-
 
     class Meta:
         db_table = 'proyectos'
@@ -115,13 +117,19 @@ class ConocimientosConsultor(models.Model):
 class Consultores(models.Model):
     tipo_persona = models.CharField(max_length=6)
     pasaporte = models.CharField(max_length=30, blank=True, null=True)
-    curp = models.CharField(max_length=16, blank=True, null=True)
+    curp = models.CharField(max_length=19, blank=True, null=True)
     rfc = models.CharField(max_length=13, blank=True, null=True)
+    especialidad = models.CharField(max_length=13, blank=True, default="")
+    id_nivel = models.ForeignKey('NivelesConocimiento', on_delete=models.SET_NULL, null=True, default=1)
     visa = models.CharField(max_length=20, blank=True, null=True)
-    licencia = models.CharField(max_length=20)
+    licencia_conducir = models.CharField(max_length=20, default="")
+    comprobante_domicilio = models.CharField(max_length=20, default="")
+    estadoCivil = models.CharField(max_length=20, default="")
+    viajar = models.BooleanField(default=True)
     tarifa_hora = models.IntegerField(null=True, default=0)
+    cantidad_hijos = models.IntegerField(null=True, default=0)
+    id_categoria = models.ForeignKey('CategoriasConsultor', default=2, null=True, on_delete=models.SET_NULL)
     id_persona = models.ForeignKey('Personas', null=True, on_delete=models.SET_NULL)
-    id_categoria_consultor = models.ForeignKey('Categorias', null=True, on_delete=models.SET_NULL)
     id_manera_pago = models.ForeignKey('ManeraPago', null=True, on_delete=models.SET_NULL, default=1)
     id_tipo_moneda = models.ForeignKey('TipoMoneda', null=True, on_delete=models.SET_NULL, default=1)
 
@@ -130,17 +138,26 @@ class Consultores(models.Model):
 
 
 class Contratos(models.Model):
-    titulo = models.CharField(max_length=120)
-    fecha_firma = models.CharField(max_length=250)
-    fecha_inicio = models.DateTimeField()
-    fecha_fin = models.DateTimeField()
-    tarifa_dia = models.DecimalField(max_digits=8, decimal_places=2)
-    viaticos = models.CharField(max_length=30)
-    gerente = models.CharField(max_length=30)
-    tiempo_vigencia = models.CharField(max_length=10, blank=True, null=True)
-    tipo_moneda = models.CharField(max_length=25)
+    titulo = models.CharField(max_length=120) # si
+    fecha_firma = models.CharField(max_length=250) # si
+    fecha_inicio = models.DateTimeField() # si
+    fecha_fin = models.DateTimeField() # si
+    fecha_promesa = models.DateTimeField(default=timezone.now) # si
+    tarifa_dia_cliente = models.DecimalField(max_digits=10, decimal_places=4, null=True) # si
+    tarifa_dia_consultor = models.DecimalField(max_digits=10, decimal_places=4, null=True) # si
+    viaticos = models.CharField(max_length=30, null=True) # si
+    gratificacion = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True) # si
+    tipoCambioManual = models.DecimalField(max_digits=10, decimal_places=4, null=True, blank=True) # si
+    tipoCambioAuto = models.DecimalField(max_digits=10, decimal_places=4, null=True, blank=True) # si
+    aplicada = models.CharField(max_length=30, null=True)
+    tipoCambio = models.DecimalField(max_digits=10, decimal_places=4, null=True, blank=True) # si
+    gerente = models.CharField(max_length=30, null=True) 
+    persona_tercero = models.CharField(max_length=180, blank=True, null=True)
+    tiempo_vigencia = models.CharField(max_length=60, blank=True, null=True)
+    id_tipo_moneda = models.ForeignKey('TipoMoneda', null=True, on_delete=models.SET_NULL, default=1)
     id_rol = models.ForeignKey('Roles', null=True, on_delete=models.SET_NULL)
     id_tipo_contrato = models.ForeignKey('TipoContrato', null=True, on_delete=models.SET_NULL)
+    id_tipo_contratacion = models.ForeignKey('TipoContrataciones', null=True, on_delete=models.SET_NULL)
     id_inmueble = models.ForeignKey('Inmuebles', null=True, on_delete=models.SET_NULL)
     id_proyecto_consultor = models.ForeignKey('ProyectoConsultor', null=True, on_delete=models.SET_NULL)
 
@@ -148,10 +165,65 @@ class Contratos(models.Model):
         db_table = 'contrato'
 
 
+class TipoContrataciones(models.Model):
+    contratacion = models.CharField(max_length=60, default="")
+
+    class Meta:       
+        db_table = 'tipo_contratacion'
+
+
+class Facturas(models.Model):
+    id_proyecto_consultor = models.ForeignKey('ProyectoConsultor', null=True, on_delete=models.SET_NULL)
+    validacionGnosis = models.CharField(max_length=20, default="Pendiente")
+    validacionEmpresa = models.CharField(max_length=20, default="Pendiente")
+    periodo = models.CharField(max_length=20, default="")
+    num_mes_declarado = models.CharField(max_length=10, default="")
+    fecha_cobranza = models.DateTimeField(default=timezone.now)
+    fecha_pago = models.DateTimeField(default=timezone.now)
+    tipoCambioMXN = models.DecimalField(max_digits=10, decimal_places=4, null=True, blank=True, default=0.00) # si
+    tipoCambioUSD = models.DecimalField(max_digits=10, decimal_places=4, null=True, blank=True, default=0.00) # si
+    id_documentacion = models.ForeignKey('Documentacion', null=True, on_delete=models.SET_NULL)
+
+    class Meta:       
+        db_table = 'facturas'
+
+
+class ReporteHoras(models.Model):
+    id_proyecto_consultor = models.ForeignKey('ProyectoConsultor', null=True, on_delete=models.SET_NULL)
+    validacionGnosis = models.CharField(max_length=20, default="Pendiente")
+    validacionEmpresa = models.CharField(max_length=20, default="Pendiente")
+    periodo = models.CharField(max_length=20, default="")
+    id_documentacion = models.ForeignKey('Documentacion', null=True, on_delete=models.SET_NULL)
+
+    class Meta:       
+        db_table = 'reportes_horas'
+
+
+
+class ReporteFinalActividades(models.Model):
+    id_proyecto_consultor = models.ForeignKey('ProyectoConsultor', null=True, on_delete=models.SET_NULL)
+    validacionGnosis = models.CharField(max_length=20, default="Pendiente")
+    validacionEmpresa = models.CharField(max_length=20, default="Pendiente")
+    periodo = models.CharField(max_length=20, default="")
+    id_documentacion = models.ForeignKey('Documentacion', null=True, on_delete=models.SET_NULL)
+
+    class Meta:       
+        db_table = 'reportes_final_actividades'
+
+
 class DatosBancarios(models.Model):
     id_banco = models.ForeignKey('Bancos', null=True, on_delete=models.SET_NULL)
-    sucursal = models.CharField(max_length=80)
-    no_cuenta_clabe = models.IntegerField()
+    sucursal = models.CharField(max_length=80, default="")
+    cuentambiente = models.CharField(max_length=80, default="")
+    tipo_cuenta = models.CharField(max_length=80, default="")
+    no_cuenta_clabe = models.CharField(max_length=80, default="")
+    ejecutivo_cuenta = models.CharField(max_length=80, default="")
+    telefono_ejecutivo = models.CharField(max_length=80, default="")
+    correo_ejecutivo = models.CharField(max_length=80, default="")
+    rfc_clave = models.CharField(max_length=80, default="")
+    dia_corte = models.CharField(max_length=80, default="")
+    descripcion = models.CharField(max_length=120, default="")
+    activo = models.BooleanField(default=True)
     id_usuario = models.ForeignKey('Usuarios', null=True, on_delete=models.SET_NULL)
 
     class Meta:    
@@ -160,9 +232,9 @@ class DatosBancarios(models.Model):
 
 
 class Documentacion(models.Model):
-    ruta = models.IntegerField()
-    nombre = models.CharField(max_length=80)
-    fecha_creacion = models.DateTimeField()
+    ruta =  models.CharField(max_length=120)
+    nombre = models.CharField(max_length=180)
+    fecha_creacion = models.DateTimeField(default=timezone.now)
     id_consultor = models.ForeignKey('Consultores', null=True, on_delete=models.SET_NULL)
     id_tipo_documento = models.ForeignKey('TipoDocumento', null=True, on_delete=models.SET_NULL)
 
@@ -243,7 +315,8 @@ class Giro(models.Model):
 
 class Hijos(models.Model):
     genero = models.CharField(max_length=100)
-    edad = models.CharField(max_length=2)
+    edad = models.CharField(max_length=10)
+    nHjo = models.CharField(max_length=10, default="")
     id_persona = models.ForeignKey('Personas', null=True, on_delete=models.SET_NULL)
 
     class Meta:
@@ -273,8 +346,6 @@ class Personas(models.Model):
     ape_mat = models.CharField(max_length=200)
     fecha_nacimiento = models.DateTimeField()
     estado_civil = models.CharField(max_length=100)
-    calle = models.CharField(max_length=200)
-    numero = models.CharField(max_length=200)
     colonia = models.CharField(max_length=200)
     municipio = models.CharField(max_length=100)
     ciudad = models.CharField(max_length=100)
@@ -286,15 +357,27 @@ class Personas(models.Model):
     nacionalidad = models.CharField(max_length=200)
     sexo = models.CharField(max_length=50)
     disponible = models.BooleanField(default=True)
+    referencia = models.CharField(max_length=150, default="")
+    descripcion = models.CharField(max_length=190, default="")
 
     class Meta:
         db_table = 'personas'
 
 
 class ProyectoConsultor(models.Model):
-    puntuacion = models.IntegerField(blank=True, null=True)
-    comentario = models.CharField(max_length=30, blank=True, null=True)
-    fecha = models.CharField(max_length=10, blank=True, null=True)
+    participacion = models.BooleanField(default=True)
+    puntuacion = models.CharField(max_length=10, null=True, default="0")
+    comentario = models.CharField(max_length=1000, null=True, default="Sin comentarios")
+    fecha_aceptacion = models.DateTimeField(default=timezone.now)
+    fecha_inicio = models.DateField(null=True)
+    fecha_termino = models.DateField(null=True)
+    horario_hora_inicio = models.TimeField(null=True)
+    horario_hora_final = models.TimeField(null=True)
+    fun_laborales = models.CharField(max_length=600, null=True)
+    dias_laborales = models.CharField(max_length=30, null=True)
+    status = models.CharField(max_length=30, null=True)
+    tarifa = models.IntegerField(null=True, default=0)
+    id_tipo_moneda = models.ForeignKey('TipoMoneda', null=True, on_delete=models.SET_NULL, default=1)
     id_proyecto = models.ForeignKey('Proyectos', null=True, on_delete=models.SET_NULL)
     id_consultor = models.ForeignKey('Consultores', null=True, on_delete=models.SET_NULL)
     id_contrato = models.ForeignKey('Contratos', null=True, on_delete=models.SET_NULL)
@@ -343,14 +426,14 @@ class Roles(models.Model):
 
 
 class TipoContrato(models.Model):
-    nombre = models.CharField(max_length=30)
+    nombre = models.CharField(max_length=60)
 
     class Meta:
         db_table = 'tipo_contrato'
 
 
 class TipoDocumento(models.Model):
-    nombre = models.CharField(max_length=20)
+    nombre = models.CharField(max_length=100)
 
     class Meta:
         db_table = 'tipo_documento'
@@ -375,6 +458,7 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     password = models.CharField(max_length=100)
     image = models.CharField(max_length=100)
     rol = models.CharField(max_length=16)
+    validacion = models.BooleanField(default=True)
     id_persona = models.ForeignKey('Personas', null=True, on_delete=models.SET_NULL)
     is_staff = models.BooleanField(default=False)
 
@@ -448,6 +532,10 @@ class NotificationConsultor(models.Model):
     status = models.CharField(max_length=10, choices=STATUS)
     # id consultor 
     id_consultor_destinatary = models.ForeignKey('Consultores', null=True, on_delete=models.SET_NULL)
+    action = models.BooleanField(default=False)
+    confirm = models.BooleanField(default=False)
+    data = models.CharField(max_length=100, default="")
+    ruta = models.CharField(max_length=100, default="")
 
     class Meta:
         db_table="notification_consultor" 
@@ -466,12 +554,16 @@ class NotificationAdministrador(models.Model):
     # asusnto
     subject=models.CharField(max_length=100)
     # contenido 
-    message = models.TextField(max_length=200)
+    message = models.TextField(max_length=600)
     # fecha en que se creo
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=10, choices=STATUS)
     # id consultor 
     id_persona_destinatary = models.ForeignKey('Personas', null=True, on_delete=models.SET_NULL)
+    action = models.BooleanField(default=False)
+    enlace = models.CharField(max_length=100, default="")
+    confirm = models.BooleanField(default=False)
+    data = models.CharField(max_length=100, default="")
 
     class Meta:
         db_table="notification_administrador" 
@@ -508,15 +600,90 @@ class Empresas(models.Model):
     ape_pat = models.CharField(max_length=200, default="")
     ape_mat = models.CharField(max_length=200, default="")
     telefono = models.CharField(max_length=12, default="")
+    telefono = models.CharField(max_length=12, default="")
     tamano = models.CharField(max_length=120, default="")
     industria = models.CharField(max_length=40, default="")
     versionSAP = models.CharField(max_length=20, default="")
+    colonia = models.CharField(max_length=200, default="")
+    municipio = models.CharField(max_length=100, default="")
+    ciudad = models.CharField(max_length=100, default="")
+    calle = models.CharField(max_length=100, default="")
+    n_exterior = models.CharField(max_length=100, default="")
+    fax = models.CharField(max_length=100, default="")
+    cod_post = models.CharField(max_length=6, default="")
+    estado = models.CharField(max_length=200, default="")
+    pais = models.CharField(max_length=200, default="")
     id_usuario = models.ForeignKey('Usuarios', null=True, on_delete=models.SET_NULL)
     
     class Meta:
         db_table = 'empresas'
 
-"""
-Id usuario: 106
-INSERT INTO `empresas`(`nombre`, `empresa`, `id_usuario_id`, `industria`, `nivel`, `tamano`, `telefono`, `versionSAP`) VALUES ('Eduardo Galindo Bernal','Bayer de México, S.A. de C.V.',106,'Telecomunicaciones','Consultor de Negocios y Estadísitcas', '','5728-3000', '4.60b');
-"""
+class RequerimientosModulosProyecto(models.Model):
+    id_proyecto = models.ForeignKey('Proyectos', null=True, on_delete=models.SET_NULL)
+    id_empresa = models.ForeignKey('Empresas', null=True, on_delete=models.SET_NULL)
+    id_modulo = models.ForeignKey('Modulos', null=True, on_delete=models.SET_NULL)
+    id_submodulo = models.ForeignKey('Submodulos', null=True, on_delete=models.SET_NULL)
+    id_experiencia_requerida = models.ForeignKey('NivelesConocimiento', null=True, on_delete=models.SET_NULL, related_name='requerimientos_modulos_proyecto_experiencia_requerida', default=1)
+    id_experiencia_deseable = models.ForeignKey('NivelesConocimiento', null=True, on_delete=models.SET_NULL, related_name='requerimientos_modulos_proyecto_experiencia_deseable', default=1)
+
+    class Meta:
+        db_table = 'requerimientos_modulos_proyecto'
+
+
+class RequerimientosIdiomasProyecto(models.Model):
+    id_proyecto = models.ForeignKey('Proyectos', null=True, on_delete=models.SET_NULL)
+    id_empresa = models.ForeignKey('Empresas', null=True, on_delete=models.SET_NULL)
+    id_idioma = models.ForeignKey('Idiomas', null=True, on_delete=models.SET_NULL)
+    nivelRequerido = models.CharField(max_length=40, default="")
+    nivelDeseado = models.CharField(max_length=40, default="")
+
+    class Meta:
+        db_table = 'requerimientos_idiomas_proyecto'
+
+
+class PostulacionesProyecto(models.Model):
+    id_proyecto = models.ForeignKey('Proyectos', null=True, on_delete=models.SET_NULL)
+    id_empresa = models.ForeignKey('Empresas', null=True, on_delete=models.SET_NULL)
+    id_consultor = models.ForeignKey('Consultores', null=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        db_table = 'postulaciones_proyecto'
+
+    
+class EntrevistasConsultoresProyecto(models.Model):
+    id_proyecto = models.ForeignKey('Proyectos', null=True, on_delete=models.SET_NULL)
+    id_empresa = models.ForeignKey('Empresas', null=True, on_delete=models.SET_NULL)
+    id_consultor = models.ForeignKey('Consultores', null=True, on_delete=models.SET_NULL)
+    fecha = models.DateField(null=True)
+    hora = models.TimeField(null=True)
+    estatus = models.CharField(max_length=30, default="")
+
+    class Meta:
+        db_table = 'entrevistas_consultores_proyecto'
+
+
+class CategoriasConsultor(models.Model):
+    categoria_nombre = models.CharField(max_length=150)
+    descripcion = models.CharField(max_length=150)
+
+    class Meta:
+        
+        db_table = 'categorias_consultor'
+
+
+class PostulacionesProyectoGnosis(models.Model):
+    id_proyecto = models.ForeignKey('Proyectos', null=True, on_delete=models.SET_NULL)
+    id_empresa = models.ForeignKey('Empresas', null=True, on_delete=models.SET_NULL)
+    id_consultor = models.ForeignKey('Consultores', null=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        db_table = 'postulaciones_proyecto_gnosis'
+
+
+class NotasGnosisConsultor(models.Model):
+    fecha_creacion = models.DateTimeField(default=timezone.now)
+    nota = models.CharField(max_length=650)
+    id_consultor = models.ForeignKey('Consultores', null=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        db_table = 'notas_gnosis_consultor'

@@ -45,6 +45,31 @@
                 {% block hidden %}
                 <input type="hidden" value="Pending" name="status">
                 {% endblock hidden %}
+
+                {% if notification.action == 1 %}
+                    <div class="col s12 white center" style="width: 96%; margin-top:40px">
+                        <a class='btn grey darken-3' style="margin-right:6%;" ><i
+                            class="material-icons white-text right trans"
+                            style="background-color: transparent;">remove_red_eye</i>Ver proyecto</a>
+                        <a class='btn grey darken-3' style="margin-left:6%" href=""><i
+                            class="material-icons white-text right trans"
+                            style="background-color: transparent;">check</i>Validar Entrevista</a>
+                    </div>
+                {% elif notification.confirm == 1 %}
+                    {% if entrevista %}
+                        <div class="col s12 white center" style="width: 96%; margin-top:40px">
+                            <a class='btn grey darken-3' href="{% url 'confirmarEntrevistaConsultor' id=entrevista %}">Confirmar<i
+                                class="material-icons white-text right trans"
+                                style="background-color: transparent;">check</i></a>
+                        </div>
+                    {% else %}
+                        <div class="col s12 white center" style="width: 96%; margin-top:40px">
+                            <a class='btn grey darken-3' href="{% url notification.ruta id=proyectoConsultor %}">Confirmar<i
+                                class="material-icons white-text right trans"
+                                style="background-color: transparent;">check</i></a>
+                        </div>
+                    {% endif %}
+                {% endif %}
             </div>
             <div class="col l12 s12" style="display:flex; justify-content:center;">
                 <a style="width: 100px; background-color: #26a69a; color: white; font-size: 18px; border: none; border-radius: 5px; padding: 4px; text-align:center" href="{% url 'all_notifications' %}">

@@ -7,7 +7,7 @@
       <div class="information-data-name" id="information-profile">
         <div class="information-profile-photo">
           {% if image %}
-            <img src="{{ image }}" alt=""/>
+            <img src="../../{{ image }}" alt=""/>
           {% else %}
             {% if informationPersonalUser.sexo == 'M' %}
               <img src="{% static 'images/profile/default.jpg' %}" alt=""/>
@@ -31,17 +31,22 @@
           {% endif %}
           <div
             style="width: 100%; height: 26px; background-color:white; display:flex; align-items:center; flex-direction:row; justify-content:center" class="container-stars">
-            <span class="material-icons" style="color: #D9D910;">star</span>
-            <span class="material-icons" style="color: #D9D910;">star</span>
-            <span class="material-icons" style="color: #D9D910;">star</span>
-            <span class="material-icons" style="color: #D9D910;">star</span>
-            <span class="material-icons" style="color: #E4E4DF;">star</span>
-            <p>4.0</p>
+            {% if puntuacionConsultor|floatformat:1 != '0.0' %}
+              {% with stars=puntuacionConsultor|floatformat:0 %}
+                {% for _ in ''|rjust:stars %}
+                  <span class="material-icons" style="color: #D9D910; font-size:18px;">star</span>
+                {% endfor %}
+              {% endwith %}
+              <p style="margin-left: 6px;"> {{ puntuacionConsultor|floatformat:1 }}</p>
+            {% else %}
+                <p style="margin-left: 6px;">Sin calificación aun</p>
+            {% endif%}
           </div>
           <h6>Calificacion del consultor</h6>
         </div>
         <div class="information-user-botomms-cv">
-          <button class="white-buttons">Generar CV</button>
+          <button class="white-buttons" onclick="window.open(`{% url 'curriculum_consultor_admin' id=informationConsultorUser.id %}`, `_blank`);">Generar CV</button>
+
 
         </div>
       </div>
@@ -87,7 +92,7 @@
             <div style="display: flex; width:100%; background-color:white;border-radius: 4px;">
               <div class="money-kind" id="hour-kind-show">
                 <h6>Proyectos con Gnosis</h6>
-                <h5>15</h5>
+                <h5>{{cantidad_proyectos}}</h5>
               </div>
 
               <div class="money-img">
@@ -113,21 +118,33 @@
           </div>
           <div class="inputs" id="gnosis-note">
             <h5>Anotaciones Iniciales de Gnosis</h5>
-            <h6 id="label">Enero 2019</h6>
-            <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-              fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-              mollit anim id est laborum.
-            </h6>
+            {% if notas == 0 %}
+              <h6>Aun no hay notas</h6>
+              <button class="blue-buttons" id="button-nota" onclick="document.getElementById('form-nota').style.display = 'block';document.getElementById('button-nota').style.display = 'none';">Agregar</button>
+            {% else %}
+              {% for nota in notas  %}
+                <h6 id="label">{{nota.1}}</h6> 
+                <h6 id="nota-view">{{nota.0}}</h6>   
+              {% endfor %}
+              <button class="blue-buttons" id="button-nota" onclick="document.getElementById('form-nota').style.display = 'block';document.getElementById('button-nota').style.display = 'none';document.getElementById('label').style.display = 'none';document.getElementById('nota-view').style.display = 'none';">Agregar</button>
+            {% endif %}
+            <form action="{% url 'updateNotaConsultor' %}" method="post" id="form-nota" style="display:none;">
+              {% csrf_token %}
+              <input type="hidden" name="consultor" value="{{informationConsultorUser.id}}">
+              <div class="input-field">
+                <textarea id="textarea1" class="materialize-textarea" name="nota" maxlength="640"></textarea>
+                <label for="textarea1">Escribe tu nota aquí</label>
+              </div>
+              <button class="blue-buttons" type="submit">Actualizar</button>
+            </form>
           </div>
           <div class="inputs" id="input-edit-factury" style="background-color: white; display:none;">
               <div class="row">
           </div>
         </div>
-        <div class="buttons-rfc" id="buttons-show">
+        <!--<div class="buttons-rfc" id="buttons-show">
           <button class="blue-buttons" id="edit-factory-information-activate">Mostrar Mas</button>
-        </div>
+        </div>-->
       </div>
     </div>
 
@@ -141,8 +158,13 @@
             <strong>
               <p style="background-color: #fcf2d1; color: #cdbc84; padding-left:4px">Forma de contacto</p>
             </strong>
-            <p style="background-color: #fcf2d1; color: #cdbc84; padding-left:4px">Los datos del consultor fueron
-              obtenidos a través de referencia al consultor Miguel Angel. En la fecha 19/02/21</p>
+            {% if informationPersonalUser.referencia == '' %}
+              <p style="background-color: #fcf2d1; color: #cdbc84; padding-left:4px">Los datos del consultor fueron obtenidos a través de su propio registro.</p>
+            {% else %}
+            <p style="background-color: #fcf2d1; color: #cdbc84; padding-left:4px">Los datos del consultor fueron obtenidos a través de referencia al consultor {{informationPersonalUser.referencia}}.s</p>
+            {% endif %}
+            
+            
           </div>
           <div class="contact-info">
             <h6 id="labels">Telefono:</h6>
@@ -192,7 +214,7 @@
         </div>
         <div style="width: 100%; background-color:white; display: flex; justify-content: center;">
           <div class="container-table">
-            <table class="centered responsive-table">
+            <table class="centered responsive-table" id="miTabla">
               <thead>
                 <tr>
                   <th>Proyecto</th>
@@ -204,146 +226,59 @@
               </thead>
 
               <tbody>
-                <tr id="sap">
-                  <td>John Liki</td>
-                  <td>Legal Consolidation</td>
-                  <td>September 14, 2013</td>
-                  <td><span class="material-icons" style="color: #D9D910; font-size:18px;">star</span><span
-                      class="material-icons" style="color: #D9D910; font-size:18px;">star</span><span
-                      class="material-icons" style="color: #D9D910;font-size:18px;">star</span><span
-                      class="material-icons" style="color: #D9D910;font-size:18px;">star</span><span
-                      class="material-icons" style="color: #E4E4DF;font-size:18px;">star</span>
-                    <p style="font-size:10px;">4.0</p>
-                  </td>
-                  <td><button class="white-buttons2" id="1" >Editar</button></td>
-                </tr>
+                {% if proyectos %}
+                  {% for proyecto in proyectos %}
+                    <tr id="sap">
+                      <td>{{proyecto.id_proyecto.proyecto_nombre}}</td>
+                      <td>{{proyecto.id_proyecto.id_empresa_proyecto.id_empresa.empresa}}</td>
+                      <td>{{proyecto.id_proyecto.fecha_publicacion}}</td>
+                      <td>
+                        {% if proyecto.puntuacion|floatformat:1 != '0.0' %}
+                          {% with stars=proyecto.puntuacion|floatformat:0 %}
+                            {% for _ in ''|rjust:stars %}
+                              <span class="material-icons" style="color: #D9D910; font-size:18px;">star</span>
+                            {% endfor %}
+                          {% endwith %}
+                          <p style="font-size:10px;">{{proyecto.puntuacion}}</p>
+                        {% else %}
+                          <p style="margin-left: 6px;">Sin calificación aun</p>
+                        {% endif%}
+                      </td>
+                      <td><a class="waves-effect waves-light btn modal-trigger" href="#modal1-{{proyecto.id_proyecto.id}}">Ver</a>
+                      </td>
+                    </tr>
+                    <div id="modal1-{{proyecto.id_proyecto.id}}" class="modal">
+                      <div class="modal-content">
+                        <div style="width: 100%; display:flex; justify-content:space-between;">
+                          <h4>{{proyecto.id_proyecto.proyecto_nombre}}</h4>
+                          <a class="waves-effect waves-light btn modal-trigger" href="{% url 'updatePuntuacion' id=proyecto.id_consultor.id prj=proyecto.id_proyecto.id %}">Editar</a>
 
+                          <a class="waves-effect waves-light btn modal-trigger" target="_blank" href="{% url 'facturasConsultorForAdmin' id=proyecto.id_consultor.id prj=proyecto.id_proyecto.id %}">Facturas</a>
 
+                          <a class="waves-effect waves-light btn modal-trigger" href="{% url 'consultorReportesForAdmin' id=proyecto.id_consultor.id prj=proyecto.id_proyecto.id %}" target="_blank">Reportes</a>
+                        </div>
+                        <div style="width: 100%; display:flex; justify-content:space-between;">
+                          <h6>{{proyecto.id_proyecto.id_empresa_proyecto.id_empresa.empresa}}</h6>
+                          <h6>{{proyecto.id_proyecto.fecha_publicacion}}</h6>
+                        </div>
+                        <h6>Funciones laborales</h6>
+                        <p>{{proyecto.fun_laborales}}</p>
+                        <br>
+                        <h6>Fecha de aceptacion</h6>
+                        <p>{{proyecto.fecha_aceptacion}}</p>
 
-                <form action="" style="display: none;" id="sap-form-2">
-                  <tr style="display: none;" id="sap-form-ed">
-                    <td>
-                      <select class="browser-default">
-                        <option value="" disabled selected>Nivel</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                      </select>
-                    </td>
-                    <td><select class="browser-default">
-                        <option value="" disabled selected>Nivel</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                      </select></td>
-                    <td class="label-experience">
-                      <select class="browser-default">
-                        <option value="" disabled selected>Nivel</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                      </select>
-                    </td>
-                    <td><button class="white-buttons2">Actualizar</button></td>
-                  </tr>
-                </form>
-                <tr id="sap">
-                  <td>John Liki</td>
-                  <td>Legal Consolidation</td>
-                  <td>September 14, 2013</td>
-                  <td><span class="material-icons" style="color: #D9D910; font-size:18px;">star</span><span
-                      class="material-icons" style="color: #D9D910; font-size:18px;">star</span><span
-                      class="material-icons" style="color: #D9D910;font-size:18px;">star</span><span
-                      class="material-icons" style="color: #D9D910;font-size:18px;">star</span><span
-                      class="material-icons" style="color: #E4E4DF;font-size:18px;">star</span>
-                    <p style="font-size:10px;">4.0</p>
-                  </td>
-                  <td><button class="white-buttons2" id="2" >Editar</button></td>
-                </tr>
-
-
-
-                <form action="" style="display: none;" id="sap-for">
-                  <tr style="display: none;" id="sap-f">
-                    <td>
-                      <select class="browser-default">
-                        <option value="" disabled selected>Nivel</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                      </select>
-                    </td>
-                    <td><select class="browser-default">
-                        <option value="" disabled selected>Nivel</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                      </select></td>
-                    <td class="label-experience">
-                      <select class="browser-default">
-                        <option value="" disabled selected>Nivel</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                      </select>
-                    </td>
-                    <td><button class="white-buttons2">Actualizar</button></td>
-                  </tr>
-                </form>
-                <tr id="sap">
-                  <td>John Liki</td>
-                  <td>Legal Consolidation</td>
-                  <td>September 14, 2013</td>
-                  <td><span class="material-icons" style="color: #D9D910; font-size:18px;">star</span><span
-                      class="material-icons" style="color: #D9D910; font-size:18px;">star</span><span
-                      class="material-icons" style="color: #D9D910;font-size:18px;">star</span><span
-                      class="material-icons" style="color: #D9D910;font-size:18px;">star</span><span
-                      class="material-icons" style="color: #E4E4DF;font-size:18px;">star</span>
-                    <p style="font-size:10px;">4.0</p>
-                  </td>
-                  <td><button class="white-buttons2" id="3" >Editar</button></td>
-                </tr>
-
-                <form action="" style="display: none;" id="sap-f4">
-                  <tr style="display: none;" id="sap-it-4">
-                    <td>
-                      <select class="browser-default">
-                        <option value="" disabled selected>Nivel</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                      </select>
-                    </td>
-                    <td><select class="browser-default">
-                        <option value="" disabled selected>Nivel</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                      </select></td>
-                    <td class="label-experience">
-                      <select class="browser-default">
-                        <option value="" disabled selected>Nivel</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
-                      </select>
-                    </td>
-                    <td><button class="white-buttons2">Actualizar</button></td>
-                  </tr>
-                </form>
-                <tr id="sap">
-                  <td>John Liki</td>
-                  <td>Legal Consolidation</td>
-                  <td>September 14, 2013</td>
-                  <td><span class="material-icons" style="color: #D9D910; font-size:18px;">star</span><span
-                      class="material-icons" style="color: #D9D910; font-size:18px;">star</span><span
-                      class="material-icons" style="color: #D9D910;font-size:18px;">star</span><span
-                      class="material-icons" style="color: #D9D910;font-size:18px;">star</span><span
-                      class="material-icons" style="color: #E4E4DF;font-size:18px;">star</span>
-                    <p style="font-size:10px;">4.0</p>
-                  </td>
-                  <td><button class="white-buttons2" id="4">Editar</button></td>
-                </tr>
+                        <br>
+                        <h6>Puntuación</h6>
+                        <p>{{proyecto.puntuacion}}</p>
+                        <br>
+                        <h6>Comentario</h6>
+                        <p>{{proyecto.comentario}}</p>
+                        <br>
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% else %}
+                {% endif %}
               </tbody>
             </table>
           </div>
@@ -454,7 +389,7 @@
                 <h5>Experiencia Profesional</h5>
                 <h6 id="title-courses">{{ experience.3 }} en {{ experience.2 }}</h6>
                 <h6 id="date-courses">{{ experience.4 }} - {{ experience.5 }}</h6>
-                <h6 id="content-courses">{{ experience.1 }}</h6>
+                <h6 id="content-courses" style="word-wrap: break-word;">{{ experience.1 }}</h6>
               </div>
             {% endfor %}
           {% else %}
@@ -505,7 +440,7 @@
                       {% elif moduls.5.nombre.1 == '1' %}
                         <div class="label-kUno" id="nivel-gnosis-{{ moduls.4}}">{{ moduls.5.nombre }}</div>
                       {% elif moduls.5.nombre.1 == '2' %}
-                        <div class="label-kDos" id="nivel-gnosis-{{ moduls.4}}">{{ moduls.3.nombre }}</div>
+                        <div class="label-kDos" id="nivel-gnosis-{{ moduls.4}}">{{ moduls.5.nombre }}</div>
                       {% elif moduls.5.nombre.1 == '3' %}
                         <div class="label-kTres" id="nivel-gnosis-{{ moduls.4}}">{{ moduls.5.nombre }}</div>
                       {% elif moduls.5.nombre.1 == '4' %}
@@ -523,38 +458,7 @@
                   
                 {% endfor %}
                 </tbody>
-                <tfoot style="display: none;">
-                  <form id="sap-form-content">
-                    {% csrf_token %}
-                    <tr id="sap-form-edit-4">
-                      <td>
-                        <select class="browser-default" name="modulo">
-                          <option value="" disabled selected>Módulo</option>
-                          {% for modulo in listaModulos %}
-                          <option value="{{ modulo.id }}">{{ modulo.nombre }}</option>
-                          {% endfor %}
-                        </select>
-                      </td>
-                      <td>
-                        <select class="browser-default" name="submodulo">
-                          <option value="" disabled selected>Submódulo</option>
-                          {% for submodulos in listaSubodulos %}
-                          <option value="{{ submodulos.id }}">{{ submodulos.nombre }}</option>
-                          {% endfor %}
-                        </select>
-                      </td>
-                      <td class="label-experience">
-                        <select class="browser-default" name="nivel">
-                          <option value="" disabled selected>Nivel</option>
-                          {% for niveles in listaNivelesConocimiento %}
-                          <option value="{{ niveles.id }}">{{ niveles.nombre }}</option>
-                          {% endfor %}
-                        </select>
-                      </td>
-                      <td><button class="white-buttons2" onclick="addModuleSAP()">Agregar</button></td>
-                    </tr>
-                  </form>
-                </tfoot>
+                
               </table>
             </div>
             <div class="table-pagination">
@@ -571,9 +475,9 @@
               <p>Siguiente</p>
             </div>
           </div>
-          <div class="button-experience-modul" id="modul">
+          <!--<div class="button-experience-modul" id="modul">
             <button class="blue-buttons">Editar información</button>
-          </div>
+          </div>-->
         </div>
       </div>
 
@@ -626,6 +530,38 @@
         </div>
       </div>
     </div>
+
+
+    <div class="information-contact-experience" id="pan" style="height: 200px;">
+      <div class="" id="" style="width: 28%;">
+      </div>
+      <div class="experience" id="information-contact-experience-contact-experience">
+        <div class="data-experience categoria-show" id="curso-container-end">
+          <h5>Asignación a categoría</h5>
+          <h6 id="title-requeriment">El consultor esta asigando a la categoria <b>{{informationConsultorUser.id_categoria.categoria_nombre}}</b> en este momento</h6>
+
+        </div>
+        <div class="data-experience categoria-hidden" id="curso-container-end" style="display: none;">
+          <h5>Asignación a categoría</h5>
+          <h6 id="title-requeriment">Asignar categoria</h6>
+          <form action="{% url 'addCategoriaConsultor' %}" method="post">
+            {% csrf_token %}
+            <select class="browser-default" name="categoria" required>
+              <option value="" disabled selected>Categorias</option>
+              {% for categorias in listaCategorias %}
+                <option value="{{ categorias.id }}">{{ categorias.categoria_nombre }}</option>
+              {% endfor %}
+            </select>
+            <input type="hidden" name="consultor" value="{{informationConsultorUser.id}}">
+            <button type="submit" class="blue-buttons categoria" id="edit-education-user-information" style="margin-left:43%; margin-top:20px;">Asignar</button>
+          </form>
+        </div>
+        <div class="button-experience-study categoria-hidden" id="study">
+          <button class="blue-buttons" id="edit-education-user-information" onclick="document.querySelector('.data-experience.categoria-hidden').style.display ='';document.querySelector('.data-experience.categoria-show').style.display ='none';document.querySelector('.button-experience-study.categoria-hidden').style.display ='none'; ">Asignar</button>
+        </div>
+      </div>  
+    </div>
+    
     </div>
   </section>
   <!-- Modal Structure -->
@@ -633,6 +569,7 @@
     <form id="sap-form-administrador">
       {% csrf_token %}
       <input type="hidden" name="saber" value="" id="saber">
+      <input type="hidden" name="con" value="{{informationConsultorUser.id}}">
       <div class="modal-content">
         <h6 style="background-color: white;
         font-size: 22px;
@@ -669,12 +606,13 @@
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="{% static 'js/profileAdministrador.js' %}"></script>
+
 <script>
 
   function addModuleSAPAdministrador(){
     // Obtén el formulario
     var form = document.getElementById("sap-form-administrador");
-   
+
     // Crea un objeto FormData para recopilar los datos del formulario
     var formData = new FormData(form);
    
@@ -694,7 +632,7 @@
             window.location.reload()
           }
         });
-        form.reset();
+        //form.reset();
       }else{
         Swal.fire({
           icon: 'error',
@@ -709,7 +647,7 @@
         title: 'Oops...',
         text: 'Algo salio mal',
       });
-      form.reset();
+      //form.reset();
     });
   }
 
@@ -806,7 +744,7 @@
   }
   
   var inicio = 0;
-  var final = 3;
+  var final = 4;
   controlTableSAP(inicio, final);
   
   document.getElementById('less').addEventListener('click', function(e) {
@@ -856,18 +794,6 @@
         borderWidth: 2.5, // Ancho del borde de las barras
         pointRadius: 4, // Tamaño de los puntos
         pointBackgroundColor: 'rgba(54, 162, 235, 1)', // Color de fondo de los puntos
-        pointBorderColor: 'rgba(255, 255, 255, 1)', // Color del borde de los puntos
-        pointHoverRadius: 7, // Tamaño de los puntos al pasar el cursor
-        fill: 'origin' // Relleno del área debajo de la línea
-      },
-      {
-        label: 'Desempeño',
-        data: [9, 15, 12, 10, 8],
-        backgroundColor: 'rgba(75, 192, 192, 0.5)', // Color de fondo de las barras con transparencia
-        borderColor: 'rgba(75, 192, 192, 1)', // Color del borde de las barras
-        borderWidth: 2.5, // Ancho del borde de las barras
-        pointRadius: 4, // Tamaño de los puntos
-        pointBackgroundColor: 'rgba(75, 192, 192, 1)', // Color de fondo de los puntos
         pointBorderColor: 'rgba(255, 255, 255, 1)', // Color del borde de los puntos
         pointHoverRadius: 7, // Tamaño de los puntos al pasar el cursor
         fill: 'origin' // Relleno del área debajo de la línea
@@ -940,6 +866,10 @@
       }
     }
   }
-  
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems, options);
+  });
 </script>
 {% endblock %}

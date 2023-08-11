@@ -105,13 +105,12 @@
                     <label class="black-text white">Experiencia Deseada</label>
                 </div>
 
-
                 <!-- ADD REQUIREMENTS BUTTON -->
                 <div class="col s12 white pbtm20">
                     <a class="waves-effect waves-light btn-large white black-text" id="showButton">Agregar
                         Requerimiento</a>
                 </div>
-
+                <input type="hidden" id="tablaDatos" name="tablaDatos" value="">
 
                 <!-- HIDDEN CONTENT -->
                 <div class="col s12  white hidden-content" id="content">
@@ -135,76 +134,156 @@
                                 </tr>
                             </thead>
 
-                            <tbody>
-                                <tr>
-                                    <td>Financial</td>
-                                    <td>Legal Consolidation</td>
-                                    <td>
-                                        <div class="chip yellow" style="width:1cm;">K1</div>
-                                    </td>
-                                    <td>
-                                        <div class="chip yellow">K1</div>
-                                    </td>
-                                    <td><a class="btn waves-effect waves-light">Editar</a></td>
-                                </tr>
-                                <tr>
-                                    <td>Financial</td>
-                                    <td>Asset Managment</td>
-                                    <td>
-                                        <div class="chip blue">K3</div>
-                                    </td>
-                                    <td>
-                                        <div class="chip green">K4</div>
-                                    </td>
-                                    <td><a class="btn waves-effect waves-light">Editar</a></td>
-                                </tr>
-                                <tr>
-                                    <td>Financial</td>
-                                    <td>Bank Accounting</td>
-                                    <td>
-                                        <div class="chip green">K4</div>
-                                    </td>
-                                    <td>
-                                        <div class="chip green">K4</div>
-                                    </td>
-                                    <td><a class="btn waves-effect waves-light">Editar</a></td>
-
-                                </tr>
-                                <tr>
-                                    <td>Controlling</td>
-                                    <td>Profit Center Accounting</td>
-                                    <td>
-                                        <div class="chip yellow">K1</div>
-                                    </td>
-                                    <td>
-                                        <div class="chip blue">K3</div>
-                                    </td>
-                                    <td><a class="btn waves-effect waves-light">Editar</a></td>
-                                </tr>
+                            <tbody id="tabla-requerimientos">
+                                
                             </tbody>
+                            <tfoot>
+                                <tr id="sap-form-edit-4">
+                                    <td>
+                                      <select class="browser-default" name="moduloSAP" id="moduloSAP">
+                                        <option value="" disabled selected>Módulo</option>
+                                        {% for modulo in listaModulos %}
+                                        <option value="{{ modulo.nombre }}">{{ modulo.nombre }}</option>
+                                        {% endfor %}
+                                      </select>
+                                    </td>
+                                    <td>
+                                      <select class="browser-default" name="submoduloSAP" id="submoduloSAP">
+                                        <option value="" disabled selected>Submódulo</option>
+                                        {% for submodulos in listaSubodulos %}
+                                        <option value="{{ submodulos.nombre }}">{{ submodulos.nombre }}</option>
+                                        {% endfor %}
+                                      </select>
+                                    </td>
+                                    <td class="label-experience">
+                                      <select class="browser-default" name="nivelRequeridoSAP" id="nivelRequeridoSAP">
+                                        <option value="" disabled selected>Nivel</option>
+                                        {% for niveles in listaNivelesConocimiento %}
+                                        <option value="{{ niveles.nombre }}">{{ niveles.nombre }}</option>
+                                        {% endfor %}
+                                      </select>
+                                    </td>
+                                    <td class="label-experience3">
+                                        <select class="browser-default" name="nivelDeseadoSAP" id="nivelDeseadoSAP">
+                                          <option value="" disabled selected>Nivel</option>
+                                          {% for niveles in listaNivelesConocimiento %}
+                                          <option value="{{ niveles.nombre }}">{{ niveles.nombre }}</option>
+                                          {% endfor %}
+                                        </select>
+                                      </td>
+                                    <td><button class="white-buttons2" onclick="addRequerimientoSAP(event)">Agregar</button></td>
+                                  </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
 
-
-                <!-- SUBMIT FORM -->
-                <div class="col s12 center white pbtm20">
+            <!-- SUBMIT FORM -->
+            <div class="col s12 center white pbtm20">
                     <button class="waves-effect waves-light btn-large grey darken-4 white">
                         <i class="material-icons right grey darken-4">arrow_forward</i>
                         Guardar y Continuar
                     </button>
                 </div>
             </form>
+            
         </div>
     </div>
 </section>
 <script>
-        // Inicializar el select
-        document.addEventListener('DOMContentLoaded', function () {
-            var elems = document.querySelectorAll('select');
-            var instances = M.FormSelect.init(elems);
-        });
-        var showButton = document.getElementById('showButton');
+    let modulos = [];
+    let cantidadModulo = 0;
+    function addRequerimientoSAP(event) {
+        event.preventDefault();
+        // Obtener los valores seleccionados de los elementos select
+        var modulo = document.getElementById('moduloSAP').value;
+        var submodulo = document.getElementById('submoduloSAP').value;
+        var experienciaRequerida = document.getElementById('nivelRequeridoSAP').value;
+        var experienciaDeseada = document.getElementById('nivelDeseadoSAP').value;
+        
+        // Crear una nueva fila y las celdas con los valores capturados
+        var nuevaFila = document.createElement('tr');
+        var celdaModulo = document.createElement('td');
+        celdaModulo.textContent = modulo;
+        var celdaSubmodulo = document.createElement('td');
+        celdaSubmodulo.textContent = submodulo;
+        
+        var celdaExperienciaRequerida = document.createElement('td');
+        var divLabel = document.createElement('div');
+        divLabel.textContent = experienciaRequerida;
+        if(experienciaRequerida == 'K0'){
+            divLabel.className = 'label-kCero';
+        }else if(experienciaRequerida == 'K1'){
+            divLabel.className = 'label-kUno';
+        }else if(experienciaRequerida == 'K2'){
+            divLabel.className = 'label-kDos';
+        }else if(experienciaRequerida == 'K3'){
+            divLabel.className = 'label-kTres';
+        }else if(experienciaRequerida == 'K4'){
+            divLabel.className = 'label-kCuatro';
+        }
+        divLabel.style.marginLeft = '34%';
+        celdaExperienciaRequerida.appendChild(divLabel)
+    
+        var celdaExperienciaDeseada = document.createElement('td');
+        var divLabel2 = document.createElement('div');
+        divLabel2.textContent = experienciaDeseada;
+        if(experienciaDeseada == 'K0'){
+            divLabel2.className = 'label-kCero';
+        }else if(experienciaDeseada == 'K1'){
+            divLabel2.className = 'label-kUno';
+        }else if(experienciaDeseada == 'K2'){
+            divLabel2.className = 'label-kDos';
+        }else if(experienciaDeseada == 'K3'){
+            divLabel2.className = 'label-kTres';
+        }else if(experienciaDeseada == 'K4'){
+            divLabel2.className = 'label-kCuatro';
+        }
+        divLabel2.style.marginLeft = '34%';
+
+        celdaExperienciaDeseada.appendChild(divLabel2);
+        
+        // Agregar las celdas a la nueva fila
+        nuevaFila.appendChild(celdaModulo);
+        nuevaFila.appendChild(celdaSubmodulo);
+        nuevaFila.appendChild(celdaExperienciaRequerida);
+        nuevaFila.appendChild(celdaExperienciaDeseada);
+        nuevaFila.style.textAlign = 'center';
+        
+        // Agregar la nueva fila a la tabla
+        var tabla = document.getElementById('tabla-requerimientos');
+        tabla.appendChild(nuevaFila);        
+        const filas = tabla.getElementsByTagName('tr');
+
+        // Recorrer las filas de la tabla
+       // Obtener el campo oculto
+        var tablaDatosInput = document.getElementById('tablaDatos');
+
+        // Recorrer las filas de la tabla y obtener los valores
+        var tabla = document.getElementById('tabla-requerimientos');
+        var datos = [];
+        for (var i = 0; i < tabla.rows.length; i++) {
+            var fila = tabla.rows[i];
+            var celdas = fila.cells;
+            var filaDatos = [];
+            for (var j = 0; j < celdas.length; j++) {
+            filaDatos.push(celdas[j].textContent.trim());
+            }
+            datos.push(filaDatos);
+        }
+
+        // Convertir los datos a JSON y asignarlos al valor del campo oculto
+        tablaDatosInput.value = JSON.stringify(datos);
+        console.log(datos)
+     }
+     
+
+    // Inicializar el select
+    document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+    });
+    var showButton = document.getElementById('showButton');
     var content = document.getElementById('content');
 
     showButton.addEventListener('click', function(){

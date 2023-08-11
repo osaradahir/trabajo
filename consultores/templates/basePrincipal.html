@@ -15,8 +15,8 @@
     <!-- Compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-    <link rel="stylesheet" href="{% static 'css/principal.css' %}?v=1.7" />
-    <link rel="stylesheet" href="{% static 'css/notifications.css' %}?v=1.42" />
+    <link rel="stylesheet" href="{% static 'css/principal.css' %}?v=1.6" />
+    <link rel="stylesheet" href="{% static 'css/notifications.css' %}?v=1.5" />
     <!-- AXIOS -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
@@ -31,18 +31,22 @@
                     <li>
                         <a class="dropdown-trigger" href="#" data-target="notifications-dropdown">
                         <div>
-                            {% if pending_total.count > 9 %}
-                                <i class="material-icons">notifications</i>
-                                <span class="plus_nine"></span>
-                                <span class="align-number2">+9</<span>
-                            
-                            {% elif pending_total.count == 0 %}
+                            {% if not pending_total%}  
                                 <i class="material-icons">notifications</i>
                             {% else %}
-                                <i class="material-icons">notifications</i>
-                                <span class="pending"></span>
-                                <span class="align-number">{{pending_total.count}}</<span>
-    
+                                {% if pending_total.count > 9 %}
+                                    <i class="material-icons">notifications</i>
+                                    <span class="plus_nine"></span>
+                                    <span class="align-number2">+9</<span>
+                                
+                                {% elif pending_total.count == 0 %}
+                                    <i class="material-icons">notifications</i>
+                                {% else %}
+                                    <i class="material-icons">notifications</i>
+                                    <span class="pending"></span>
+                                    <span class="align-number">{{pending_total.count}}</<span>
+                                
+                                {% endif %}
                             {% endif %}
                         </div>
                         </a>
@@ -53,7 +57,13 @@
                     <li>
                         <a href="#">
                             {% if image %}
-                                <img src="{{ image }}" alt="Foto de Perfil" class="avatar" />
+                                {% if filter == 2 %}
+                                    <img src="../../{{ image }}" alt="Foto de Perfil" class="avatar" />
+                                {% elif filter == 1 %}
+                                    <img src="../{{ image }}" alt="Foto de Perfil" class="avatar" />
+                                {% else %}
+                                    <img src="{{ image }}" alt="Foto de Perfil" class="avatar" />
+                                {% endif %}
                             {% else %}
                                 {% if informationPersonalUser.sexo == 'M' %}
                                     <img src="{% static 'images/profile/default.jpg' %}" alt="Foto de Perfil" class="avatar" />
@@ -108,7 +118,8 @@
     <ul id="dropdown1" class="dropdown-content">
         <li><a href="{% url 'principal' %}">Principal</a></li>
         <li><a href="{% url 'miProfile' %}">Mi perfil</a></li>
-        <li><a href="g.html">Configuración</a></li>
+        <li><a href="{% url 'miProjects' %}">Proyectos</a></li>
+        <li><a href="#">Configuración</a></li>
         <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
     </ul>
     <div id="sidebar">
@@ -135,6 +146,19 @@
                 <span>
                     <i class="material-icons">assessment</i></span>
                 &nbsp;Mi perfil
+            </li>
+            {% endif %}
+            {% if indice == 'Proyectos' %}
+            <li class="active-position" onclick="window.location.href = `{% url 'miProjects' %}`">
+                <span class="active-position-span">
+                    <i class="material-icons">call_to_action</i></span>
+                &nbsp;Proyectos
+            </li>
+            {% else %}
+            <li onclick="window.location.href = `{% url 'miProjects' %}`">
+                <span>
+                    <i class="material-icons">call_to_action</i></span>
+                &nbsp;Proyectos
             </li>
             {% endif %}
 

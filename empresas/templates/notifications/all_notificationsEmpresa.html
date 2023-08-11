@@ -1,12 +1,24 @@
 {% extends 'baseProyectos.html' %}
 {% load static %}
         {% block Content %}
+        <style>
+            .pagination li {
+                height: 50px;
+            }
+            .pagination li.active a {
+                color: black;
+                background-color: #0b5ed4;
+            }
+            .pagination li.active {
+                background-color: white;
+            }
+        </style>
         <div class="container" id="notifications-all-container" style="margin-top:20px; width:80%;">
             <div class="row">
                 <div class="col l4 s12 grey lighten-2" style="display:flex; height:35px; align-items:center;">
                     <a href="{% url 'principalAdmin' %}">Home </a> 
                     <a class="grey-text pl7" style="margin-left: 2px;">/</a>
-                    <a class="grey-text pl7" style="margin-left: 2px;" href="{% url 'all_notificationsAdministrador' %}"> Notificaciones </a>
+                    <a class="grey-text pl7" style="margin-left: 2px;" href="{% url 'all_notificationsEmpresa' %}"> Notificaciones </a>
                 </div>
                 <div class="col s12 ">
                 <h3 class="text-darken-4">Notificaciones</h3>
@@ -47,7 +59,7 @@
                         {% endif %}
                             
                         <td>
-                            <a href="{% url 'view_notificationAdministrador' id=notification.id %}" class="btn btn-primary cyan">
+                            <a href="{% url 'view_notificationEmpresa' id=notification.id %}" class="btn btn-primary cyan">
                                 <i class="material-icons cyan">remove_red_eye</i>
                             </a>
                             

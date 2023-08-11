@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
     showClearBtn: true,
     firstDay: 1,
     minDate: new Date(1969, 1, 12),
-    maxDate: new Date(2023, 11, 31),
+    maxDate: new Date(2043, 11, 31),
     i18n: {
       cancel: "Cancelar",
       clear: "Limpiar",
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
     showClearBtn: true,
     firstDay: 1,
     minDate: new Date(1969, 1, 12),
-    maxDate: new Date(2023, 11, 31),
+    maxDate: new Date(2043, 11, 31),
     i18n: {
       cancel: "Cancelar",
       clear: "Limpiar",

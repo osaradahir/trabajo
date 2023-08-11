@@ -34,7 +34,9 @@ ul#nav-mobile {
   left: -200px;
   transition: all 500ms linear;
 }
-
+span.swal2-x-mark {
+  background-color: transparent;
+}
 #sidebar.active {
   left: 0px;
   top: 71px;
