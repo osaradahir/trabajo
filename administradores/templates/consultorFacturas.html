@@ -48,6 +48,10 @@
                           <thead>
                             <tr>
                               <th>Periodo</th>
+                              {% if contrato.aplicada == 'Dia - Factura' %}
+                                <th>Tipo de cambio MXN</th>
+                                <th>Tipo de cambio USD</th>    
+                              {% endif %} 
                               <th>Entregado</th>
                               <th>Ver</th>
                               <th>Validar</th>
@@ -59,6 +63,10 @@
                               {% for factura in facturas %}
                                 <tr>
                                   <td>{{ factura.0 }} - {{factura.4|date:"Y"}}</td>
+                                  {% if contrato.aplicada == 'Dia - Factura' %}
+                                    <td>{{factura.8}}</td>  
+                                    <td>{{factura.9}}</td>  
+                                  {% endif %} 
                                   <td>
                                     {% if factura.1 == '1' %}
                                       <i class="material-icons" style="color: green">check_box</i>

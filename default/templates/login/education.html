@@ -216,14 +216,14 @@
             let fechaEntrada = document.getElementById("año_inicio").value;
             let fechaSalida = document.getElementById("año_termino").value;
             var fechaNacInput = document.getElementById('fechaNac').value;
-            console.log(fechaNacInput)
+            // console.log(fechaNacInput)
             var dateEntrada = new Date(fechaEntrada);
             var dateSalida = new Date(fechaSalida);
             var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
             var fechaNac = moment(fechaNacInput, "MMM. DD, YYYY, h:mm a");
             var fechaDate = fechaNac.toDate();
             fechaDate.setFullYear(fechaDate.getFullYear() + 18);
-            console.log(fechaDate);
+            // console.log(fechaDate);
 
             if (dateSalida <= fechaDate) {
               document.getElementById("año_termino").value = "";
@@ -242,7 +242,7 @@
               Swal.fire('La fecha de salida no debe ser mayor a la fecha actual');
             }
 
-            console.log(fechaHoy)
+            // console.log(fechaHoy)
           }, 1000);
         },
       });
@@ -320,7 +320,7 @@
             var fechaNac = moment(fechaNacInput, "MMM. DD, YYYY, h:mm a");
             var fechaDate = fechaNac.toDate();
             fechaDate.setFullYear(fechaDate.getFullYear() + 18);
-            console.log(fechaDate);
+            // console.log(fechaDate);
 
             if (dateEntrada <= fechaDate) {
               document.getElementById("año_inicio").value = "";
@@ -328,7 +328,7 @@
             }
             if (dateEntrada >= fechaHoy) {
               document.getElementById("año_inicio").value = "";
-              console.log(document.getElementById("año_inicio").value)
+              // console.log(document.getElementById("año_inicio").value)
               Swal.fire('La fecha de entrada no debe ser mayor a la fecha actual');
             }
             if (dateEntrada == dateSalida) {
@@ -340,7 +340,7 @@
               Swal.fire('La fecha de salida no debe ser mayor que la de entrada');
             }
 
-            console.log(fechaHoy)
+            // console.log(fechaHoy)
           }, 1000);
         },
       });

@@ -319,7 +319,7 @@
           var fechaNacInput = document.getElementById('fechaNac').value;
           let fechaEntrada = document.getElementById("fecha_entrada").value;
           let fechaSalida = document.getElementById("fecha_salida").value;
-          console.log(fechaNacInput)
+          // console.log(fechaNacInput)
           var dateEntrada = new Date(fechaEntrada);
           var dateSalida = new Date(fechaSalida);
           var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
@@ -415,8 +415,8 @@
           var fechaNacInput = document.getElementById('fechaNac').value;
           let fechaEntrada = document.getElementById("fecha_entrada").value;
           let fechaSalida = document.getElementById("fecha_salida").value;
-          console.log("Hola")
-          console.log(fechaNacInput)
+          
+          // console.log(fechaNacInput)
           var dateEntrada = new Date(fechaEntrada);
           var dateSalida = new Date(fechaSalida);
           var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
@@ -434,7 +434,7 @@
 
           if (dateEntrada >= fechaHoy) {
             document.getElementById("fecha_entrada").value = "";
-            console.log(document.getElementById("fecha_entrada").value)
+            // console.log(document.getElementById("fecha_entrada").value)
             Swal.fire('La fecha de entrada no debe ser mayor a la fecha actual');
           }
           if (dateEntrada >= dateSalida) {

@@ -314,14 +314,14 @@
               var fechaNacInput = document.getElementById('fechaNac').value;
               let fechaEntrada = document.getElementById("fecha_entrada").value;
               let fechaSalida = document.getElementById("fecha_salida").value;
-              console.log(fechaNacInput)
+              // console.log(fechaNacInput)
               var dateEntrada = new Date(fechaEntrada);
               var dateSalida = new Date(fechaSalida);
               var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
               var fechaNac = moment(fechaNacInput, "MMM. DD, YYYY, h:mm a");
               var fechaDate = fechaNac.toDate();
               fechaDate.setFullYear(fechaDate.getFullYear() + 18);
-              console.log(fechaDate);
+              // console.log(fechaDate);
               if (dateSalida <= fechaDate) {
                 document.getElementById("fecha_salida").value = "";
                 Swal.fire('La fecha de salida no debe ser menor que tu edad minima requerida');
@@ -341,7 +341,7 @@
                 Swal.fire('La fecha de salida no debe ser mayor a la fecha actual');
               }
 
-              console.log(fechaHoy)
+              // console.log(fechaHoy)
             }, 1000);
           },
         });
@@ -411,7 +411,7 @@
               var fechaNacInput = document.getElementById('fechaNac').value;
               let fechaEntrada = document.getElementById("fecha_entrada").value;
               let fechaSalida = document.getElementById("fecha_salida").value;
-              console.log(fechaNacInput)
+              // console.log(fechaNacInput)
               var dateEntrada = new Date(fechaEntrada);
               var dateSalida = new Date(fechaSalida);
               var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
@@ -419,7 +419,7 @@
               var fechaNac = moment(fechaNacInput, "MMM. DD, YYYY, h:mm a");
               var fechaDate = fechaNac.toDate();
               fechaDate.setFullYear(fechaDate.getFullYear() + 18);
-              console.log(fechaDate);
+              // console.log(fechaDate);
               
               if (dateEntrada <= fechaDate) {
                 Swal.fire('La fecha de entrada no debe ser menor que tu edad minima requerida');
@@ -429,14 +429,14 @@
 
               if (dateEntrada >= fechaHoy) {
                 document.getElementById("fecha_entrada").value = "";
-                console.log(document.getElementById("fecha_entrada").value)
+                // console.log(document.getElementById("fecha_entrada").value)
                 Swal.fire('La fecha de entrada no debe ser mayor a la fecha actual');
               }
               if (dateEntrada >= dateSalida) {
                 document.getElementById("fecha_entrada").value = "";
                 Swal.fire('La fecha de salida no debe ser mayor que la de entrada');
               }
-              console.log(fechaHoy)
+              // console.log(fechaHoy)
             }, 1000);
           },
         });

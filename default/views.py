@@ -56,10 +56,10 @@ def signin(request):
                         return redirect('administrador/principal')
                     else:
                         if user.rol == 'Consultor':
-                            print("consultor")
+                            # print("consultor")
                             return redirect('consultor/principal')
                         else:
-                            print("empresa")
+                            # print("empresa")
                             return redirect('proyectos/misProyectos')
                 else:
                     return render(request, 'login/login.html', {
@@ -90,10 +90,10 @@ def register(request):
                         apema_value = request.POST['ape_mat']
                         correo_value = request.POST['correo']
                         password_value = request.POST['password1']
-                        for key, value in request.POST.items():
-                            print(f"{key}: {value}")
+                        # for key, value in request.POST.items():
+                            # print(f"{key}: {value}")
                         # También puedes imprimir todo el diccionario completo
-                        print(request.POST)
+                        # print(request.POST)
                         params = {
                             'name':  cipher_suite.encrypt(name_value.encode('utf-8')).decode('utf-8'),
                             'apepa': cipher_suite.encrypt(apepa_value.encode('utf-8')).decode('utf-8'),
@@ -138,10 +138,10 @@ def addContacto(request):
                     'genero': cipher_suite.encrypt(request.POST.get('genero').encode('utf-8')).decode('utf-8'),
                     'disponibilidad': cipher_suite.encrypt(request.POST.get('disponibilidad').encode('utf-8')).decode('utf-8'),
                 }
-                for key, value in request.POST.items():
-                    print(f"{key}: {value}")
+                # for key, value in request.POST.items():
+                    # print(f"{key}: {value}")
                     # También puedes imprimir todo el diccionario completo
-                print(request.POST)
+                # print(request.POST)
                 query_string = urlencode(params)
                 url = reverse('profesion') + '?' + request.GET.urlencode() + '&' + query_string
                 return redirect(url)
@@ -220,10 +220,7 @@ def addProfesion(request):
                 pago = ManeraPago.objects.get(pk=request.POST['forma_cobro'])
                 moneda = TipoMoneda.objects.get(pk=request.POST['tipo_moneda'])
                 nivel = NivelesConocimiento.objects.get(pk=request.POST['experiencia'])
-                """
-                Pendientes
-                    - submodulo de especialidad SAP
-                """
+
                 consultores = Consultores(
                     tipo_persona='Fisica', rfc=request.POST['RFC'], tarifa_hora=int(request.POST['Tarifa']), id_persona=persona, id_manera_pago=pago, id_tipo_moneda=moneda, especialidad=request.POST.get('SAP'), id_nivel=nivel)
                 consultores.save()
@@ -235,10 +232,10 @@ def addProfesion(request):
                     'email': cipher_suite.encrypt(decrypted_correo.encode('utf-8')).decode('utf-8'),
                     'password': cipher_suite.encrypt(decrypted_password.encode('utf-8')).decode('utf-8'),
                 }
-                for key, value in request.POST.items():
-                    print(f"{key}: {value}")
+                # for key, value in request.POST.items():
+                    # print(f"{key}: {value}")
                     # También puedes imprimir todo el diccionario completo
-                print(request.POST)
+                # print(request.POST)
                 query_string = urlencode(params)
                 url = reverse('experiencia') + '?' + query_string
                 return HttpResponseRedirect(url)
@@ -325,10 +322,10 @@ def addExperiencia(request):
                     'email': cipher_suite.encrypt(decrypted_correo.encode('utf-8')).decode('utf-8'),
                     'password': cipher_suite.encrypt(decrypted_password.encode('utf-8')).decode('utf-8'),
                 }
-                for key, value in request.POST.items():
-                    print(f"{key}: {value}")
+                # for key, value in request.POST.items():
+                    # print(f"{key}: {value}")
                     # También puedes imprimir todo el diccionario completo
-                print(request.POST)
+                # print(request.POST)
                 query_string = urlencode(params)
                 if 'save' in request.POST:
                     url = reverse('educacion') + '?' + query_string
@@ -410,10 +407,10 @@ def addEducation(request):
                     'email': cipher_suite.encrypt(decrypted_correo.encode('utf-8')).decode('utf-8'),
                     'password': cipher_suite.encrypt(decrypted_password.encode('utf-8')).decode('utf-8'),
                 }
-                for key, value in request.POST.items():
-                    print(f"{key}: {value}")
+                # for key, value in request.POST.items():
+                    # print(f"{key}: {value}")
                     # También puedes imprimir todo el diccionario completo
-                print(request.POST)
+                # print(request.POST)
                 query_string = urlencode(params)
                 url = reverse('emailConfimacion') + '?' + query_string
                 # enviar email de confirmacion

@@ -143,20 +143,20 @@
                             <label>Colonia</label>
                         </div>
 
-                        <div class="col l3 input-field">
+                        <div class="col l4 input-field">
                             <i class="material-icons prefix">directions</i>
                             <label for="calle " data-error="wrong" data-success="right">Calle</label>
                             <input id="calle" name="calle" type="text" class="validate"
-                                min="0" maxlength="6" required/>
+                                min="0" maxlength="20" required/>
                         </div>
 
-                        <div class="col l3 input-field">
+                        <div class="col l4 input-field">
                             <i class="material-icons prefix">explore</i>
                             <label for="nExterior" data-error="wrong" data-success="right">Numero exterior</label>
                             <input id="nExterior" name="nExterior" type="text" class="validate"
                                 min="0" maxlength="6" required/>
                         </div>
-                        <div class="col l3 input-field">
+                        <div class="col l4 input-field">
                             <i class="material-icons prefix">gps_fixed</i>
                             <label for="fax" data-error="wrong" data-success="right">Numero de fax</label>
                             <input id="fax" name="fax" type="text" class="validate"
@@ -231,7 +231,7 @@
             selectCiudad.innerHTML = "";
             selectMunicipio.innerHTML = "";
             //selectCiudad.innerHTML = "";
-            console.log(data)
+            console.log('data')
             const opcion = document.createElement("option");
             opcion.value = data.estado;
             opcion.textContent = data.estado;

@@ -705,7 +705,7 @@
 
 
   function editRowSapId(id) {
-    console.log("Botón presionado: " + id);
+    // console.log("Botón presionado: " + id);
   
     let form = document.querySelector(`#sap-form-${id}`);
     //form.style.display = "flex";
@@ -752,9 +752,9 @@
     inicio -= 3;
     final -= 2;
     controlTableSAP(inicio, final);
-    console.log('less');
-    console.log(inicio);
-    console.log(final);
+    // console.log('less');
+    // console.log(inicio);
+    // console.log(final);
   });
   
   document.getElementById('more').addEventListener('click', function(e) {
@@ -762,9 +762,9 @@
     inicio += 3;
     final += 2;
     controlTableSAP(inicio, final);
-    console.log('more');
-    console.log(inicio);
-    console.log(final);
+    // console.log('more');
+    // console.log(inicio);
+    // console.log(final);
   });
 
   // Obtén una referencia al elemento canvas
@@ -826,7 +826,7 @@
   let viewExperiencias = 0;
   viewExperiencia(viewExperiencias);
   function viewExperiencia(view) {
-    console.log(view);
+    // console.log(view);
     var containerCursos = document.querySelectorAll(
       '[id^="container-data-experience-show-"]'
     );
@@ -849,7 +849,7 @@
   let viewCurso = 0;
   viewCursos(viewCurso);
   function viewCursos(view) {
-    console.log(view);
+    // console.log(view);
     var containerCursos = document.querySelectorAll('[id^="container-curso-"]');
     // Recorre los elementos encontrados
     for (var i = 0; i < containerCursos.length; i++) {

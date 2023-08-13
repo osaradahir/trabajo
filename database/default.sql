@@ -142,11 +142,7 @@ INSERT INTO `categorias`(`categoria_nombre`, `descripcion`) VALUES ('Bolsa de tr
 
 INSERT INTO `manera_pago` (`id`, `tipo`) VALUES
 (1, 'Nomina'),
-(2, 'Efectivo'),
-(3, 'Cheques'),
-(4, 'Tarjetas de débito, crédito'),
-(5, 'Pagos móviles'),
-(6, 'Transferencias bancarias');
+(2, 'Efectivo');
 
 
 INSERT INTO `categorias_consultor`(`id`, `categoria_nombre`, `descripcion`) VALUES 

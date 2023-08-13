@@ -214,8 +214,9 @@ def miConsultorProfile(request, id=None):
             myModuls = []
         
         for p in myModuls:
-            print(p[3].nombre)
-            print(p[5].nombre)
+            # print(p[3].nombre)
+            # print(p[5].nombre)
+            pass
         notification_list = NotificationAdministrador.objects.filter(id_persona_destinatary=informationPersonalAdministradorUser.id).order_by('-created_at')
         # //Pagination
 
@@ -298,10 +299,10 @@ def principal(request):
     try:
         user = Usuarios.objects.get(correo=request.session.get('username'))
         informationPersonalUser = Personas.objects.get(pk=user.id_persona_id)
-        print(informationPersonalUser.id)
+        # print(informationPersonalUser.id)
         notification_list = NotificationAdministrador.objects.filter(id_persona_destinatary=informationPersonalUser.id).order_by('-created_at')
         # //Pagination
-        print(notification_list)
+        
         # //Cantidad de notificaciones que apareceran antes de crear otra page
         if notification_list.exists():
             paginator = Paginator(notification_list, 6)
@@ -362,14 +363,14 @@ def updateModulosSAPAdmin(request):
             nivelConsultor = request.POST.get('nivelConsultor', '')
             nivelGnosis = request.POST.get('nivelGnosis', '')
             con = request.POST.get('con', '')
-            print(consultorID)
+            # print(consultorID)
             
             informationConsultorUser = Consultores.objects.get(pk=int(con))
-            print(informationConsultorUser)
+            # print(informationConsultorUser)
             nivelesConocimientoConsultor = NivelesConocimiento.objects.get(pk=int(nivelConsultor))
             nivelesConocimientoGnosis = NivelesConocimiento.objects.get(pk=int(nivelGnosis))
-            print(nivelesConocimientoConsultor.nombre)
-            print(nivelesConocimientoGnosis.nombre)
+            # print(nivelesConocimientoConsultor.nombre)
+            # print(nivelesConocimientoGnosis.nombre)
             if consultorID and nivelConsultor and nivelGnosis:
                 
                 consulta = ConocimientosConsultor.objects.filter(
@@ -378,7 +379,7 @@ def updateModulosSAPAdmin(request):
                 if consulta.exists():
                         
                     objeto_consulta = consulta.first()
-                    print(objeto_consulta.id)
+                    # print(objeto_consulta.id)
                     objeto_consulta.id_nivel = nivelesConocimientoConsultor
                     objeto_consulta.id_nivelGnosis = nivelesConocimientoGnosis
                     objeto_consulta.estatus = 'Validado'
@@ -534,7 +535,7 @@ def view_notification(request, id=None):
 @login_required
 def validarEntrevista(request, id:int, proyecto:int):
     try:
-        print("Holaaaaaa")
+        # print("Holaaaaaa")
         try:
             entrevistasConsultoresProyecto = EntrevistasConsultoresProyecto.objects.get(id_proyecto_id=int(proyecto), id_consultor_id=int(id))
             if entrevistasConsultoresProyecto:
@@ -650,7 +651,7 @@ def addConsultorProyecto(request):
             dias_seleccionados.append('Dom')
 
         dias = ", ".join(dias_seleccionados)
-        print("Hola")
+        # print("Hola")
         horas = request.POST['inicio-horas']
         minutos = request.POST['inicio-minutos']
         cadena = horas +':'+minutos
@@ -675,7 +676,7 @@ def addConsultorProyecto(request):
             persona.save()
 
             entrevista = EntrevistasConsultoresProyecto.objects.get(id_proyecto=proyecto, id_consultor=consultor)
-            print(entrevista)
+            # print(entrevista)
             entrevista.delete()
 
             messageEmpresa = 'Hemos validado al consultor ' + str(consultor.id_persona.nombre) + ', para trabajar en tu proyecto ' + str(proyecto.proyecto_nombre)
@@ -685,7 +686,7 @@ def addConsultorProyecto(request):
             messageConsultor = 'La empresa ' + str(entrevista.id_empresa.empresa) + ' ha aprobado tu perfil para el proyecto ' + str(proyecto.proyecto_nombre)
             newNotificacion = NotificationConsultor(name='Gnosis SC', email='gnosis@gmail.com', subject='¡¡Felicidades estas en un nuevo proyecto!!', message=messageConsultor, status='Pending', id_consultor_destinatary_id=consultor.id,  ruta='confirmarProyectoConsultor', confirm=True, data=data)
             newNotificacion.save()
-            print("envieee")
+            # print("envieee")
         
         url = reverse('principalAdmin')
         return redirect(url)
@@ -711,68 +712,68 @@ def getConsultoresDisponiblesWithFilters(request):
             nivelInglesFilter = request.POST.get('nivelIngles-filter', '')
             nivelEstudiosFilter = request.POST.get('nivelEstudios-filter', '')
             certificadosFilter = request.POST.get('certificados-filter', '')
-            print("---- Datos recibidos ----")
-            print("mod " + moduloFilter)
-            print("sub " + submoduloFilter)
-            print("nivel " + nivelFilter)
-            print("tarifa " + tarifaFilter)
-            print("disp " + disponibleFilter)
-            print("ndisp " + NdisponibleFilter)
-            print("ingle " + nivelInglesFilter)
-            print("estudi " + nivelEstudiosFilter)
-            print("certif " + certificadosFilter)
+            # print("---- Datos recibidos ----")
+            # print("mod " + moduloFilter)
+            # print("sub " + submoduloFilter)
+            # print("nivel " + nivelFilter)
+            # print("tarifa " + tarifaFilter)
+            # print("disp " + disponibleFilter)
+            # print("ndisp " + NdisponibleFilter)
+            # print("ingle " + nivelInglesFilter)
+            # print("estudi " + nivelEstudiosFilter)
+            # print("certif " + certificadosFilter)
 
-            print("\n")
+            # print("\n")
 
             if disponibleFilter:
-                print("disponible")
+                # print("disponible")
                 personas = Personas.objects.filter(disponible=int(disponibleFilter))
 
             if NdisponibleFilter:
-                print("no dispo")
+                # print("no dispo")
                 personas = Personas.objects.filter(disponible=int(NdisponibleFilter))
-            print("\n")
+            # print("\n")
 
             consultores = Consultores.objects.filter(id_persona__in=personas, tarifa_hora__lte=int(tarifaFilter))
             
             if not moduloFilter and not submoduloFilter and not nivelFilter:
-                print("no hay modulo aplicados")
+                # print("no hay modulo aplicados")
                 consultoresModulosSAP = []
             else:
-                print("hay modulos aplicados")
+                # print("hay modulos aplicados")
                 conocimientosConsultor = ConocimientosConsultor.objects.filter(id_consultor__in=consultores)
                 if moduloFilter:
-                    print("modulo")
+                    # print("modulo")
                     modulo = Modulos.objects.get(pk=int(moduloFilter))
                     conocimientosConsultor = conocimientosConsultor.filter(id_modulo=modulo)
-                print("\n")
+                # print("\n")
                 if submoduloFilter:
-                    print("submo")
+                    # print("submo")
                     submodulo = Submodulos.objects.get(pk=int(submoduloFilter))
                     conocimientosConsultor = conocimientosConsultor.filter(id_submodulo=submodulo)
-                print("\n")
+                # print("\n")
                 if nivelFilter:
-                    print("nivelk")
+                    # print("nivelk")
                     nivelK = NivelesConocimiento.objects.get(pk=int(nivelFilter))
                     conocimientosConsultor = conocimientosConsultor.filter(id_nivel=nivelK)
-                print("\n")
+                # print("\n")
                 
 
                 consultoresModulosSAP = []
                 for modulosSAP in conocimientosConsultor:
                     consultoresR = Consultores.objects.filter(pk=modulosSAP.id_consultor_id)
-                    # print(consultores)
+                    # # print(consultores)
             
                 consultores = Consultores.objects.filter(id__in=conocimientosConsultor.values_list('id_consultor_id', flat=True))
             
 
             resultadosIngles = []
             if nivelInglesFilter:
-                print("nivel imgles")
+                # print("nivel imgles")
                 for consultor in consultores:
                     try:
                         nivelIngles = IdiomasConsultor.objects.get(id_consultor=consultor.id, id_idioma=3, nivel=nivelInglesFilter)
-                        # print("si")
+                        # # print("si")
                         resultadosIngles.append(nivelIngles)
                         # Resto de tu lógica aquí
                     except IdiomasConsultor.DoesNotExist:
@@ -781,13 +782,14 @@ def getConsultoresDisponiblesWithFilters(request):
                 # print(resultadosIngles)
                 consultores = Consultores.objects.filter(id__in=[resultado.id_consultor.id for resultado in resultadosIngles])
             else:
-                print("no hay nivel ingles")
+                # print("no hay nivel ingles")
+                pass
 
-            print("\n")
+            # print("\n")
 
             resultadosEstudios = []
             if nivelEstudiosFilter:
-                print("estudios educativos")
+                # print("estudios educativos")
                 for consultor in consultores:
                     try:
                         estudios = Estudios.objects.get(id_consultor=consultor.id, educacion=nivelEstudiosFilter)
@@ -799,13 +801,14 @@ def getConsultoresDisponiblesWithFilters(request):
                 # print(resultadosIngles)
                 consultores = Consultores.objects.filter(id__in=[resultado.id_consultor.id for resultado in resultadosEstudios])
             else:
-                print("no hay nivel estudios")
-            print("\n")
+                # print("no hay nivel estudios")
+                pass
+            # print("\n")
 
 
             resultadoscertificicaciones = []
             if certificadosFilter:
-                print("certificados")
+                # print("certificados")
                 for consultor in consultores:
                     try:
                         certificados = CursosConsultor.objects.get(id_consultor=consultor.id, nombre_curso__icontains=certificadosFilter)
@@ -818,8 +821,9 @@ def getConsultoresDisponiblesWithFilters(request):
                 # print(resultadosIngles)
                 consultores = Consultores.objects.filter(id__in=[resultado.id_consultor.id for resultado in resultadoscertificicaciones])
             else:
-                print("no hay nivel certificados")
-            print("\n")
+                # print("no hay nivel certificados")
+                pass
+            # print("\n")
             # print(consultores)
 
         
@@ -976,7 +980,7 @@ def queryForName(request):
                     'puntuacionConsultor_entero':puntuacionConsultor_entero
                     # Agrega más campos si es necesario
                 })
-            print(resultados)
+            # print(resultados)
             # Crear el diccionario de respuesta
             response_data = {
                 'status': 200,  # Código de estado de respuesta exitosa
@@ -1409,8 +1413,8 @@ def experienceConsultorAdmin(request):
                 params = {k: v for k, v in request.GET.items()}
                 params.update(nuevo_parametro)
 
-                for key, value in request.POST.items():
-                    print(f'{key}: {value}')
+                # for key, value in request.POST.items():
+                    # print(f'{key}: {value}')
 
                 if request.POST.get('addMore') == 'ON':
                     url = reverse('experienceConsultorAdmin') + '?' + urlencode(params)
@@ -1648,11 +1652,11 @@ def agregadoConsultorAdmin(request):
             persona = Personas(nombre=nombre, ape_pat=apepa, ape_mat=apema, fecha_nacimiento=fecha_nacimiento, ciudad=ciudad, cod_post=cod_post, estado=estado, pais=pais, telefono=telefono, sexo=genero, municipio=municipio, colonia=colonia, disponible=int(disponibilidad), referencia=referencia)
             persona.save()
 
-            print(persona)
+            # print(persona)
             
             user = Usuarios.objects.create_superuser(correo=email, password=password, id_persona=persona, rol='Administrador')
             user.save()
-            print(user)
+            # print(user)
 
             pago = ManeraPago.objects.get(pk=int(forma_cobro))
             moneda = TipoMoneda.objects.get(pk=int(tipo_moneda))
@@ -1765,7 +1769,7 @@ def proyectosForAdmin(request):
             nivelesConocimiento = NivelesConocimiento.objects.filter(nombre__exact=experiencia)
             requerimientos_ids = RequerimientosModulosProyecto.objects.filter(id_experiencia_requerida__in=nivelesConocimiento).values_list('id_proyecto', flat=True)
 
-            print(requerimientos_ids)
+            # print(requerimientos_ids)
             registros = registros.filter(id__in=requerimientos_ids)
 
 
@@ -2279,22 +2283,22 @@ def contratoMachote(request):
         cambioAuto = request.POST.get('tipoCambioHoy-Auto-base')
         tipoCambio = request.POST.get('cambio-base')
 
-
         facturaDia = request.POST.get('factura-dia-base')
         
         if facturaDia == 'ON':
-            print("factura dia")
+            # print("factura dia")
             aplicada = 'Dia - Factura'
             cambioAuto = 0.00
             cambioManual = 0.00
             tipoCambio = 0.00
         else:
+
             if manual == '1':
-                print("manual")
+                # print("manual")
                 aplicada = 'Manual'
                 
             else:
-                print("api")
+                # print("api")
                 aplicada = 'Automatica'
             
 
@@ -2365,7 +2369,7 @@ def contratoMachote(request):
             contrato.save()
                 
             persona = proyectoConsultor.id_consultor.id_persona
-            print(persona)
+            # print(persona)
             empresa = proyectoConsultor.id_proyecto.id_empresa_proyecto.id_empresa
             consultor = proyectoConsultor.id_consultor
             usuario = Usuarios.objects.get(id_persona=proyectoConsultor.id_consultor.id_persona)
@@ -2889,7 +2893,10 @@ def facturasConsultor(request, id, prj):
                 id_proyecto_consultor_list = colaborador.values_list('id', flat=True)
 
                 # Obtener todos los contratos asociados a los id_proyecto_consultor
-                contratos = Contratos.objects.filter(id_proyecto_consultor__in=id_proyecto_consultor_list)
+                try:
+                    contratos = Contratos.objects.get(id_proyecto_consultor__in=id_proyecto_consultor_list)
+                except Contratos.DoesNotExist as error:
+                    contratos = None
 
                 facturas = Facturas.objects.filter(id_proyecto_consultor__in=id_proyecto_consultor_list)
 
@@ -2902,8 +2909,9 @@ def facturasConsultor(request, id, prj):
                     entregado = searchFile(directory)
                     validacionGnosis = f.validacionGnosis
                     validacionEmpresa = f.validacionEmpresa
-
-                    regitrosFacturas.append([periodo, entregado, validacionGnosis, validacionEmpresa, fecha, id, f.id_documentacion.ruta,f.id_documentacion.nombre ])
+                    tipoCambio = f.tipoCambioMXN
+                    tipoCambioUSD = f.tipoCambioUSD
+                    regitrosFacturas.append([periodo, entregado, validacionGnosis, validacionEmpresa, fecha, id, f.id_documentacion.ruta,f.id_documentacion.nombre, tipoCambio,tipoCambioUSD ])
 
 
             notification_list = NotificationAdministrador.objects.filter(id_persona_destinatary=informationPersonalAdministradorUser.id).order_by('-created_at')
@@ -3433,13 +3441,16 @@ def excel(request):
             fechaPago = [factura.fecha_pago for factura in facturas]
             fechaCobranza = [factura.fecha_cobranza for factura in facturas]
             mesDeclarado = [factura.num_mes_declarado for factura in facturas]
+            tipo_cambio_unoOpcional = [factura.tipoCambioUSD for factura in facturas]
+            cambioOpcional = [factura.tipoCambioMXN for factura in facturas]
+            
 
             try:
                 titulos_validos = ['CONTRATO BASE', 'CONTRATO FINAL TERCEROS', 'CONTRATO FINAL PROPIO']
                 contrato = Contratos.objects.get(id_proyecto_consultor=consultores, titulo__in=titulos_validos)
                 tarifaCliente = contrato.tarifa_dia_cliente
                 tarifaCliente = round(float(tarifaCliente), 2)
-
+                # print(contrato)
                 tarifa_consultor = contrato.tarifa_dia_consultor
                 tarifa_consultor = round(float(tarifa_consultor), 2)
                 fecha_promesa = contrato.fecha_promesa.strftime('%d-%m-%Y')
@@ -3455,48 +3466,64 @@ def excel(request):
                 
                 if contrato.aplicada == 'Automatica':
                     aplicadaCambio = 1
+                elif contrato.aplicada == 'Dia - Factura':
+                    aplicadaCambio = 2
+                    
                 else:
                     aplicadaCambio = 0
                 cambio = contrato.tipoCambio
+
+                aplicada = contrato.aplicada
             except Contratos.DoesNotExist as error:
                 fecha_promesa = ''
             
-        
             
+            """if aplicadaCambio == 2:
+                tipo_cambio_uno = [factura.tipoCambioUSD for factura in facturas]
+                cambio = [factura.tipoCambioMXN for factura in facturas]"""
 
             # Verificar si hay la misma cantidad de fechas de factura y periodos antes de combinarlos
             if len(fechas_factura) == len(periodos_facturados):
                 # Agregar los datos del consultor junto con las fechas de factura y periodos a la lista data
-                for fecha_factura, periodo_facturado, fechaPago, fechaCobranza, mesDeclarado in zip(fechas_factura, periodos_facturados, fechaPago, fechaCobranza, mesDeclarado):
+                for fecha_factura, periodo_facturado, fechaPago, fechaCobranza, mesDeclarado, tipo_cambio_unoOpcional,cambioOpcional  in zip(fechas_factura, periodos_facturados, fechaPago, fechaCobranza, mesDeclarado, tipo_cambio_unoOpcional,cambioOpcional ):
+
+                    if aplicadaCambio == 2:
+                        cambio = cambioOpcional
+
                     diasFacturados = obtener_dias_del_mes(obtener_numero_mes(str(periodo_facturado)), datetime.now().year)
                     dias_pagados = diasFacturados 
-                    print("---")
-                    print(tarifaCliente)
-                    print(type(tarifaCliente))
-                    print(diasFacturados)
-                    print(type(diasFacturados))
-                    print(cambio)
-                    print(type(cambio))
+                    # print("---")
+                    # print(tarifaCliente)
+                    # print(type(tarifaCliente))
+                    # print(diasFacturados)
+                    # print(type(diasFacturados))
+                    # print(cambio)
+                    # print(type(cambio))
                     tarifa_cliente_decimal = Decimal(str(tarifaCliente))
 
                     # Realizar la multiplicación usando objetos Decimal
                     cantidad_usd_facturada = tarifa_cliente_decimal * diasFacturados * cambio
-                    print(cantidad_usd_facturada)
-                    print("---")
-                    print(dias_pagados)
-                    print(type(tipo_cambio_dos))
-                    print(tarifa_consultor)
+                    # print(cantidad_usd_facturada)
+                    # print("---")
+                    # print(dias_pagados)
+                    # print(type(tipo_cambio_dos))
+                    # print(tarifa_consultor)
                     tarifa_consultor = Decimal(str(tarifa_consultor))
+
                     if aplicadaCambio == 1:
-                        print("auot")
+                        # print("auot")
+                        subtotal = dias_pagados*tipo_cambio_uno*tarifa_consultor
+                    elif aplicadaCambio == 2:
+                        # print("al dia")
+                        tipo_cambio_uno = tipo_cambio_unoOpcional
                         subtotal = dias_pagados*tipo_cambio_uno*tarifa_consultor
                     else:
-                        print("manual")
+                        # print("manual")
                         subtotal = dias_pagados*tipo_cambio_dos*tarifa_consultor
 
 
-                    print("****+")
-                    print(subtotal)
+                    # print("****+")
+                    # print(subtotal)
                     iva = subtotal*IVA
                     iva = round(iva,3)
                     ivaRet = subtotal*IVA_Ret
@@ -3520,6 +3547,7 @@ def excel(request):
             else:
                 # Manejar el caso en el que las listas no tengan la misma longitud (opcional)
                 print("Error: No hay coincidencia entre fechas de factura y periodos para el consultor:", nombre)
+                
             
             
         # Crear el libro de trabajo y seleccionar la hoja activa
@@ -3661,18 +3689,28 @@ def contratoFinal(request):
         cambioAuto = request.POST.get('tipoCambioHoy-Auto')
         tipoCambio = request.POST.get('cambio')
 
-        if manual == '1':
-            print("manual")
-            aplicada = 'Manual'
-            
+        facturaDia = request.POST.get('factura-dia-propio')
+        
+        if facturaDia == 'ON':
+            # print("factura dia")
+            aplicada = 'Dia - Factura'
+            cambioAuto = 0.00
+            cambioManual = 0.00
+            tipoCambio = 0.00
         else:
-            print("api")
-            aplicada = 'Automatica'
+
+            if manual == '1':
+                # print("manual")
+                aplicada = 'Manual'
+                
+            else:
+                # print("api")
+                aplicada = 'Automatica'
             
-        print(cambioManual)
-        print(cambioAuto)
-        print(tipoCambio)
-        print("----")
+        # print(cambioManual)
+        # print(cambioAuto)
+        # print(tipoCambio)
+        # print("----")
 
         empresaCopia = request.POST.get('empresaCopia')
         consultorCopia = request.POST.get('consultorCopia')
@@ -3693,7 +3731,7 @@ def contratoFinal(request):
 
         try:
             proyectoConsultor = ProyectoConsultor.objects.get(pk=int(proyectoConsultor), id_proyecto_id=int(proyecto), id_consultor_id=int(consultor))
-            print(proyectoConsultor)
+            # print(proyectoConsultor)
             documento, created = TipoContrato.objects.get_or_create(nombre=titulo)
             
             
@@ -3746,7 +3784,7 @@ def contratoFinal(request):
             contrato.save()
                 
             persona = proyectoConsultor.id_consultor.id_persona
-            print(persona)
+            # print(persona)
             empresa = proyectoConsultor.id_proyecto.id_empresa_proyecto.id_empresa
             consultor = proyectoConsultor.id_consultor
             usuario = Usuarios.objects.get(id_persona=proyectoConsultor.id_consultor.id_persona)
@@ -3757,19 +3795,37 @@ def contratoFinal(request):
             estudios = Estudios.objects.get(id_consultor=proyectoConsultor.id_consultor)
             proyectos = ProyectoConsultor.objects.get(id_consultor=proyectoConsultor.id_consultor)
             
+            if contrato.aplicada == 'Dia - Factura':
+                usdPay = contrato.tarifa_dia_consultor
+                parte_entera = math.trunc(usdPay)
+                parte_decimal = int((usdPay - parte_entera) * 1000)  # Tomando 3 decimales
+                numero_truncado = parte_entera + parte_decimal / 1000
+                # print(numero_truncado)
+                facturaCambio = 1
 
-            usdPay = contrato.tarifa_dia_consultor*contrato.tipoCambio
+                usdGratiticado = contrato.gratificacion
+                parte_enteraGratificada = math.trunc(usdGratiticado)
+                parte_decimalGratificada = int((usdGratiticado - parte_enteraGratificada) * 1000)  # Tomando 3 decimales
+                numero_truncadoGratificada = parte_enteraGratificada + parte_decimalGratificada / 1000
+                # print(numero_truncadoGratificada)
+
+            else:
+                usdPay = contrato.tarifa_dia_consultor*contrato.tipoCambio
+                parte_entera = math.trunc(usdPay)
+                parte_decimal = int((usdPay - parte_entera) * 1000)  # Tomando 3 decimales
+                numero_truncado = parte_entera + parte_decimal / 1000
+                # print(numero_truncado)
+                facturaCambio = 0
+
+                usdGratiticado = contrato.gratificacion*contrato.tipoCambio
+                parte_enteraGratificada = math.trunc(usdGratiticado)
+                parte_decimalGratificada = int((usdGratiticado - parte_enteraGratificada) * 1000)  # Tomando 3 decimales
+                numero_truncadoGratificada = parte_enteraGratificada + parte_decimalGratificada / 1000
+                # print(numero_truncadoGratificada)
+
+
             
-            parte_entera = math.trunc(usdPay)
-            parte_decimal = int((usdPay - parte_entera) * 1000)  # Tomando 3 decimales
-            numero_truncado = parte_entera + parte_decimal / 1000
-            print(numero_truncado)
 
-            usdGratiticado = contrato.gratificacion*contrato.tipoCambio
-            parte_enteraGratificada = math.trunc(usdGratiticado)
-            parte_decimalGratificada = int((usdGratiticado - parte_enteraGratificada) * 1000)  # Tomando 3 decimales
-            numero_truncadoGratificada = parte_enteraGratificada + parte_decimalGratificada / 1000
-            print(numero_truncadoGratificada)
             # Pasar los datos al HTML que servirá como plantilla para el PDF
             template_path = "contratos/contrato_final_propio.html"
             context = {
@@ -3783,6 +3839,7 @@ def contratoFinal(request):
                 "fechaInicio":fechaInicio,
                 "fechaFinal":fechaFinal,
                 "tarifa_diaria":tarifa_diaria.upper(),
+                "facturaCambio":facturaCambio,
                 "tarifaDiariaUSD": numero_truncado,
                 "gratificacion":numero_truncadoGratificada,
                 "fechaFirma":fechaFirma,
@@ -3889,18 +3946,18 @@ def contratoTerceros(request):
         facturaDia = request.POST.get('factura-dia')
         
         if facturaDia == 'ON':
-            print("factura dia")
+            # print("factura dia")
             aplicada = 'Dia - Factura'
             cambioAuto = 0.00
             cambioManual = 0.00
             tipoCambio = 0.00
         else:
             if manual == '1':
-                print("manual")
+                # print("manual")
                 aplicada = 'Manual'
                 
             else:
-                print("api")
+                # print("api")
                 aplicada = 'Automatica'
                 
 
@@ -3982,20 +4039,40 @@ def contratoTerceros(request):
             estudios = Estudios.objects.get(id_consultor=proyectoConsultor.id_consultor)
             proyectos = ProyectoConsultor.objects.get(id_consultor=proyectoConsultor.id_consultor)
 
-            usdPay = contrato.tarifa_dia_consultor*contrato.tipoCambio
-            print(contrato.tarifa_dia_consultor)
-            print(contrato.tipoCambio)
-            print(usdPay)
-            parte_entera = math.trunc(usdPay)
-            parte_decimal = int((usdPay - parte_entera) * 1000)  # Tomando 3 decimales
-            numero_truncado = parte_entera + parte_decimal / 1000
-            print(numero_truncado)
+            if contrato.aplicada == 'Dia - Factura':
+                usdPay = contrato.tarifa_dia_consultor
+                # print(contrato.tarifa_dia_consultor)
+                # print(contrato.tipoCambio)
+                # print(usdPay)
+                parte_entera = math.trunc(usdPay)
+                parte_decimal = int((usdPay - parte_entera) * 1000)  # Tomando 3 decimales
+                numero_truncado = parte_entera + parte_decimal / 1000
+                # print(numero_truncado)
 
-            usdGratiticado = contrato.gratificacion*contrato.tipoCambio
-            parte_enteraGratificada = math.trunc(usdGratiticado)
-            parte_decimalGratificada = int((usdGratiticado - parte_enteraGratificada) * 1000)  # Tomando 3 decimales
-            numero_truncadoGratificada = parte_enteraGratificada + parte_decimalGratificada / 1000
-            print(numero_truncadoGratificada)
+                usdGratiticado = contrato.gratificacion
+                parte_enteraGratificada = math.trunc(usdGratiticado)
+                parte_decimalGratificada = int((usdGratiticado - parte_enteraGratificada) * 1000)  # Tomando 3 decimales
+                numero_truncadoGratificada = parte_enteraGratificada + parte_decimalGratificada / 1000
+                # print(numero_truncadoGratificada)
+                facturaCambio = 1
+
+            else:
+                usdPay = contrato.tarifa_dia_consultor*contrato.tipoCambio
+                # print(contrato.tarifa_dia_consultor)
+                # print(contrato.tipoCambio)
+                # print(usdPay)
+                parte_entera = math.trunc(usdPay)
+                parte_decimal = int((usdPay - parte_entera) * 1000)  # Tomando 3 decimales
+                numero_truncado = parte_entera + parte_decimal / 1000
+                # print(numero_truncado)
+
+                usdGratiticado = contrato.gratificacion*contrato.tipoCambio
+                parte_enteraGratificada = math.trunc(usdGratiticado)
+                parte_decimalGratificada = int((usdGratiticado - parte_enteraGratificada) * 1000)  # Tomando 3 decimales
+                numero_truncadoGratificada = parte_enteraGratificada + parte_decimalGratificada / 1000
+                # print(numero_truncadoGratificada)
+                facturaCambio = 0
+
             # Pasar los datos al HTML que servirá como plantilla para el PDF
             template_path = "contratos/contrato_terceros.html"
             context = {
@@ -4012,6 +4089,7 @@ def contratoTerceros(request):
                 "tarifaDiariaUSD": numero_truncado,
                 "gratificacion":numero_truncadoGratificada,
                 "tarifa_diaria":tarifa_diaria.upper(),
+                "facturaCambio":facturaCambio,
                 "fechaFirma":fechaFirma,
                 "proyectos":proyectos,
             }

@@ -207,11 +207,13 @@ def requirements_project(request):
                         )
                         requerimientosModulosProyecto.append([requerimientos])
                     # print(requerimientosModulosProyecto)
-                    print("Con modulos adicionales")
+                    # print("Con modulos adicionales")
                 except json.JSONDecodeError:
-                    print("Sin modulos adicionales")
+                    # print("Sin modulos adicionales")
+                    pass
             else:
-                print("Sin modulos adicionales")
+                # print("Sin modulos adicionales")
+                pass
 
 
             params = {
@@ -434,7 +436,7 @@ def project_created(request):
                 if isinstance(requerimiento[0], RequerimientosModulosProyecto):
                     try:
                         requerimiento[0].save()
-                        print("Guardado exitosamente")
+                        # print("Guardado exitosamente")
                     except Exception as e:
                         print("Error al guardar:", str(e))
                 else:
@@ -793,7 +795,7 @@ def details_project(request):
                         else:
                             sexo = 'Mujer'
 
-                        name = str(consulProyecto.id_consultor.id_persona.nombre) + ' ' + str(consulProyecto.id_consultor.id_persona.ape_pat) + ' ' + str(consulProyecto.id_consultor.id_persona.ape_mat)
+                        name = str(consulProyecto.id_consultor.id_persona.nombre) + ' ' + str(consulProyecto.id_consultor.id_persona.ape_pat)
                         edad = calcular_edad(str(consulProyecto.id_consultor.id_persona.fecha_nacimiento))
 
                         modulos = ConocimientosConsultor.objects.filter(id_consultor=consulProyecto.id_consultor)
@@ -1367,9 +1369,9 @@ def addRequerimientos_idiomas_project(request, id=None):
     try:
         user = Usuarios.objects.get(correo=request.session.get('username'))
         empresa = Empresas.objects.get(id_usuario=user)
-        print("Hipoola")
+        
         data = json.loads(request.body)
-        print(data)
+        # print(data)
         if data:
             for fila in data:
                 if fila[0] == '' or fila[1] == '' or fila[2] == '':
@@ -1619,7 +1621,7 @@ def sendemail(email, name, puesto, ubicacion, tipo):
     # se indica que se convierta como html
     email.attach_alternative(html_content, "text/html")
     # se envia el correo
-    print("envieee")
+    # print("envieee")
     email.send()
     return "Correo enviado"
 
@@ -1631,7 +1633,7 @@ def validarEntrevistaGnosis(request):
     try:
         data = json.loads(request.body)
         id = data['consultor']
-        print(id)
+        # print(id)
         proyecto = data['proyecto']
 
         informationConsultorUser = Consultores.objects.get(pk=id)
@@ -1768,23 +1770,25 @@ def allMapa(request, id:int):
             
             
             cPostulados = len(postulados)
+        
 
-        notification = NotificationEmpresa.objects.filter(id_empresa_destinatary=empresa.id)
-        # // CANT. NOTIFICATIONS PENDING
-        pending_total= NotificationEmpresa.objects.filter(status='Pending', id_empresa_destinatary=empresa.id).order_by('-created_at')
-        # // ONLY 4 PENDING 
-        pending = NotificationEmpresa.objects.filter(status='Pending', id_empresa_destinatary=empresa.id).order_by('-created_at')[:4]
-        return render(request, 'mapa_alls.html',{
-            'indice': 'Proyectos',
-            'empresa':empresa,
-            'postulacionesProyecto':postulacionesProyecto[0],
-            'postulados':postulados,
-            'cPostulados':cPostulados,
-            'notifications':notification,
-            'pending':pending,
-            'pending_total':pending_total,
-        })
-    
+            notification = NotificationEmpresa.objects.filter(id_empresa_destinatary=empresa.id)
+            # // CANT. NOTIFICATIONS PENDING
+            pending_total= NotificationEmpresa.objects.filter(status='Pending', id_empresa_destinatary=empresa.id).order_by('-created_at')
+            # // ONLY 4 PENDING 
+            pending = NotificationEmpresa.objects.filter(status='Pending', id_empresa_destinatary=empresa.id).order_by('-created_at')[:4]
+            return render(request, 'mapa_alls.html',{
+                'indice': 'Proyectos',
+                'empresa':empresa,
+                'postulacionesProyecto':postulacionesProyecto[0],
+                'postulados':postulados,
+                'cPostulados':cPostulados,
+                'notifications':notification,
+                'pending':pending,
+                'pending_total':pending_total,
+            })
+        else:
+            return redirect('my_projectsCreateds')
     
     except Empresas.DoesNotExist as error:
         print(f"Error: {str(error)}")
@@ -2119,22 +2123,23 @@ def allMapaGnosis(request, id:int):
             
             cPostulados = len(postulados)
 
-        notification = NotificationEmpresa.objects.filter(id_empresa_destinatary=empresa.id)
-        # // CANT. NOTIFICATIONS PENDING
-        pending_total= NotificationEmpresa.objects.filter(status='Pending', id_empresa_destinatary=empresa.id).order_by('-created_at')
-        # // ONLY 4 PENDING 
-        pending = NotificationEmpresa.objects.filter(status='Pending', id_empresa_destinatary=empresa.id).order_by('-created_at')[:4]
-        return render(request, 'mapa_alls.html',{
-            'indice': 'Proyectos',
-            'empresa':empresa,
-            'postulacionesProyecto':postulacionesProyecto[0],
-            'postulados':postulados,
-            'cPostulados':cPostulados,
-            'notifications':notification,
-            'pending':pending,
-            'pending_total':pending_total,
-        })
-    
+            notification = NotificationEmpresa.objects.filter(id_empresa_destinatary=empresa.id)
+            # // CANT. NOTIFICATIONS PENDING
+            pending_total= NotificationEmpresa.objects.filter(status='Pending', id_empresa_destinatary=empresa.id).order_by('-created_at')
+            # // ONLY 4 PENDING 
+            pending = NotificationEmpresa.objects.filter(status='Pending', id_empresa_destinatary=empresa.id).order_by('-created_at')[:4]
+            return render(request, 'mapa_alls.html',{
+                'indice': 'Proyectos',
+                'empresa':empresa,
+                'postulacionesProyecto':postulacionesProyecto[0],
+                'postulados':postulados,
+                'cPostulados':cPostulados,
+                'notifications':notification,
+                'pending':pending,
+                'pending_total':pending_total,
+            })
+        else:
+            return redirect('my_projectsCreateds')
     
     except Empresas.DoesNotExist as error:
         print(f"Error: {str(error)}")

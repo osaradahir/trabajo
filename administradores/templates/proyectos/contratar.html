@@ -405,16 +405,16 @@
                   title="Use solo numeros" required />
               </div>
 
-              <div class="col l6 input-field center" id="cambio-show">
+              <div class="col l3 input-field center" id="cambio-show">
                 <i class="material-icons prefix">attach_money</i>
-                <label for="tipoCambioHoy" data-error="wrong" data-success="right">Tipo de cambio al dia de hoy</label>
+                <label for="tipoCambioHoy" data-error="wrong" data-success="right">Cambio al dia de hoy</label>
                 <input id="tipoCambioHoy-Auto" name="tipoCambioHoy-Auto"  class="validate" type="text"
                   title="Use solo numeros" value="{{cambioHoyMXN}}" readonly required/>
               </div>
               <input type="hidden" name="cambio" value="{{cambioHoyUSD}}" id="cambio">
-              <div class="col l6 input-field center" id="cambio-update" style="display: none;">
+              <div class="col l3 input-field center" id="cambio-update" style="display: none;">
                 <i class="material-icons prefix">attach_money</i>
-                <label for="tipoCambioHoy-Manual" data-error="wrong" data-success="right">Tipo de cambio al dia de hoy</label>
+                <label for="tipoCambioHoy-Manual" data-error="wrong" data-success="right">Cambio al dia de hoy</label>
                 <input id="tipoCambioHoy-Manual" name="tipoCambioHoy-Manual" class="validate" type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*"
                   title="Use solo numeros" value="0" required onchange="calcularCambio();"/>
               </div>
@@ -427,7 +427,13 @@
                   <span>Insertar manualmente</span>
                 </label>
               </div>
-
+              
+              <div class="input-field col s6 l3" style="height:1.5cm">
+                <label>
+                  <input name="factura-dia-propio" type="checkbox" id="factura-dia-propio" value="ON"/>
+                  <span>Tomarlo del dia de la factura</span>
+                </label>
+              </div>
 
               <div class="input-field col s6 l6">
                 <select id="consultorCopia" required name="consultorCopia">
@@ -885,7 +891,7 @@
           setTimeout(function () {
             let fechaEntrada = document.getElementById("fecha_inicio").value;
             let fechaSalida = document.getElementById("fecha_final").value;
-            console.log(fechaNacInput)
+            // console.log(fechaNacInput)// 
             var dateEntrada = new Date(fechaEntrada);
             var dateSalida = new Date(fechaSalida);
             var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
@@ -902,7 +908,7 @@
               Swal.fire('La fecha de salida no debe ser mayor a la fecha actual');
             }
   
-            console.log(fechaHoy)
+            // console.log(fechaHoy)
           }, 1000);
         },
       });
@@ -980,7 +986,7 @@
   
             if (dateEntrada >= fechaHoy) {
               document.getElementById("fecha_inicio").value = "";
-              console.log(document.getElementById("año_inicio").value)
+              // console.log(document.getElementById("año_inicio").value)
               Swal.fire('La fecha de entrada no debe ser mayor a la fecha actual');
             }
             if (dateEntrada == dateSalida) {
@@ -992,7 +998,7 @@
               Swal.fire('La fecha de salida no debe ser mayor que la de entrada');
             }
   
-            console.log(fechaHoy)
+            // console.log(fechaHoy)
           }, 1000);
         },
       });
@@ -1188,7 +1194,7 @@
         setTimeout(function () {
           let fechaEntrada = document.getElementById("fecha_inicio").value;
           let fechaSalida = document.getElementById("fecha_final").value;
-          console.log(fechaNacInput)
+          // console.log(fechaNacInput)
           var dateEntrada = new Date(fechaEntrada);
           var dateSalida = new Date(fechaSalida);
           var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
@@ -1205,7 +1211,7 @@
             Swal.fire('La fecha de salida no debe ser mayor a la fecha actual');
           }
 
-          console.log(fechaHoy)
+          // console.log(fechaHoy)
         }, 1000);
       },
     });
@@ -1283,7 +1289,7 @@
 
           if (dateEntrada >= fechaHoy) {
             document.getElementById("fecha_inicio").value = "";
-            console.log(document.getElementById("año_inicio").value)
+            // console.log(document.getElementById("año_inicio").value)
             Swal.fire('La fecha de entrada no debe ser mayor a la fecha actual');
           }
           if (dateEntrada == dateSalida) {
@@ -1295,7 +1301,7 @@
             Swal.fire('La fecha de salida no debe ser mayor que la de entrada');
           }
 
-          console.log(fechaHoy)
+          // console.log(fechaHoy)
         }, 1000);
       },
     });
@@ -1427,7 +1433,7 @@
         setTimeout(function () {
           let fechaEntrada = document.getElementById("fecha_inicio").value;
           let fechaSalida = document.getElementById("fecha_final").value;
-          console.log(fechaNacInput)
+          // console.log(fechaNacInput)
           var dateEntrada = new Date(fechaEntrada);
           var dateSalida = new Date(fechaSalida);
           var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
@@ -1444,7 +1450,7 @@
             Swal.fire('La fecha de salida no debe ser mayor a la fecha actual');
           }
 
-          console.log(fechaHoy)
+          // console.log(fechaHoy)
         }, 1000);
       },
     });
@@ -1522,7 +1528,7 @@
 
           if (dateEntrada >= fechaHoy) {
             document.getElementById("fecha_inicio").value = "";
-            console.log(document.getElementById("año_inicio").value)
+            // console.log(document.getElementById("año_inicio").value)
             Swal.fire('La fecha de entrada no debe ser mayor a la fecha actual');
           }
           if (dateEntrada == dateSalida) {
@@ -1534,7 +1540,7 @@
             Swal.fire('La fecha de salida no debe ser mayor que la de entrada');
           }
 
-          console.log(fechaHoy)
+          // console.log(fechaHoy)
         }, 1000);
       },
     });
@@ -1683,7 +1689,7 @@
             Swal.fire('La fecha de salida no debe ser mayor a la fecha actual');
           }
 
-          console.log(fechaHoy)
+          // console.log(fechaHoy)
         }, 1000);
       },
     });
@@ -1761,7 +1767,7 @@
 
           if (dateEntrada >= fechaHoy) {
             document.getElementById("fecha_inicio_marco").value = "";
-            console.log(document.getElementById("fecha_inicio_marco").value)
+            // console.log(document.getElementById("fecha_inicio_marco").value)
             Swal.fire('La fecha de entrada no debe ser mayor a la fecha actual');
           }
           if (dateEntrada == dateSalida) {
@@ -1773,7 +1779,7 @@
             Swal.fire('La fecha de salida no debe ser mayor que la de entrada');
           }
 
-          console.log(fechaHoy)
+          // console.log(fechaHoy)
         }, 1000);
       },
     });
@@ -1849,7 +1855,7 @@
           setTimeout(function () {
             let fechaEntrada = document.getElementById("fecha_inicio").value;
             let fechaSalida = document.getElementById("fecha_final").value;
-            console.log(fechaNacInput)
+            // console.log(fechaNacInput)
             var dateEntrada = new Date(fechaEntrada);
             var dateSalida = new Date(fechaSalida);
             var fechaHoy = new Date();  // Crear un objeto Date con la fecha y hora actuales
@@ -1866,7 +1872,7 @@
               Swal.fire('La fecha de salida no debe ser mayor a la fecha actual');
             }
   
-            console.log(fechaHoy)
+            // console.log(fechaHoy)
           }, 1000);
         },
       });
@@ -1944,7 +1950,7 @@
   
             if (dateEntrada >= fechaHoy) {
               document.getElementById("fecha_inicio").value = "";
-              console.log(document.getElementById("año_inicio").value)
+              // console.log(document.getElementById("año_inicio").value)
               Swal.fire('La fecha de entrada no debe ser mayor a la fecha actual');
             }
             if (dateEntrada == dateSalida) {
@@ -1956,7 +1962,7 @@
               Swal.fire('La fecha de salida no debe ser mayor que la de entrada');
             }
   
-            console.log(fechaHoy)
+            // console.log(fechaHoy)
           }, 1000);
         },
       });

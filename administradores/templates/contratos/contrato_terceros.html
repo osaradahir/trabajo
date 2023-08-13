@@ -460,8 +460,14 @@
                     <span class="fontbold">SEXTA. PAGOS.</span>
                     <span class="font-normal">
                         “GNOSIS” acepta y se obliga a pagar al “CONSULTOR” por los servicios objeto del presente contrato la cantidad determinada en el
-                         <strong> Anexo Tres </strong> denominado Reporte de Tiempos, bajo una tarifa diaria de <strong>{{tarifaDiariaUSD}}</strong> usd ({{contratos.tipoCambio}},00/100 dólares de los 
-                         Estados Unidos de América) menos las deducciones legales correspondientes. Al tenor de lo siguiente:                    
+                         <strong> Anexo Tres </strong> denominado Reporte de Tiempos, bajo una tarifa diaria de {% if facturaCambio == 1 %}
+                         <strong>{{tarifaDiariaUSD}}</strong> mxn *el pago se hara segun el tipo de cambio al dia en dólares de los 
+                         Estados Unidos de América menos las deducciones legales correspondientes. Al tenor de lo siguiente: 
+                         {% else %}
+                            <strong>{{tarifaDiariaUSD}}</strong> usd ({{contratos.tipoCambio}},00/100 dólares de los   
+                         Estados Unidos de América) menos las deducciones legales correspondientes. Al tenor de lo siguiente:  
+                         {% endif %}
+                                             
                     </span>
                 </p>
                 <table class="table-design">
@@ -535,9 +541,15 @@
                         Una vez que “CONSULTOR” cumpla con los Servicios materia del presente contrato y Proyecto
                         satisfactoriamente, entendiendo por esto la cobertura total del tiempo de este contrato en forma puntual,
                         y firma de satisfacción del Supervisor del Proyecto en la Empresa asignada, “GNOSIS” se compromete a pagar 
-                        una Gratificación de Terminación Satisfactoria a razón de <strong>{{gratificacion}}</strong> usd ({{contratos.tipoCambio}} 00/100 Dólares
-                        de los Estados Unidos de América) diarios por los días reflejados en el Anexo Tres Reporte de Tiempos mencionado 
-                        en el cuerpo de este instrumento.                    
+                        una Gratificación de Terminación Satisfactoria a razón de {% if facturaCambio == 1 %}
+                            <strong>{{gratificacion}}</strong> mxn diarios *el pago se hara segun el tipo de cambio al dia en dólares de los 
+                            Estados Unidos de América por los días reflejados en el Anexo Tres Reporte de Tiempos mencionado 
+                            en el cuerpo de este instrumento. 
+                        {% else %}
+                            <strong>{{gratificacion}}</strong> usd ({{contratos.tipoCambio}} 00/100 Dólares
+                            de los Estados Unidos de América) diarios por los días reflejados en el Anexo Tres Reporte de Tiempos mencionado 
+                            en el cuerpo de este instrumento.   
+                        {% endif %}                 
                     </span>
                 </p>
 

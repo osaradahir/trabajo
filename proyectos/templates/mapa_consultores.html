@@ -261,7 +261,7 @@
 
     // Ubicaciones 
     var ubicacion = [document.getElementById('direccion').value];
-    console.log(document.getElementById('direccion').value);
+    // console.log(document.getElementById('direccion').value);
     Coordenadas(document.getElementById('direccion').value);
     // La funcion se encarga de traducir "Mexico, Hidalgo, Atotonilco el grande" a [lat, lon], hasta que se terminen las ubicaciones, el arreglo ubicacion tieen 4 ubicaciones, entonces si llega a 4, entonces terminara hasta 4
     function Coordenadas(ubicacion) {
@@ -274,7 +274,7 @@
                     var lat = data[0].lat; // Latitud
                     var lon = data[0].lon; // Longitud
     
-                    console.log("Coordenadas: " + lat + ", " + lon);
+                    // console.log("Coordenadas: " + lat + ", " + lon);
                     // Obtiene las coordenas, las imprime y las agrega al arreglo
                     // coordenadas.push([lat, lon]);
                     showMap(lat, lon)

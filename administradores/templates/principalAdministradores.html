@@ -221,8 +221,6 @@
     function aparece() {
       var anchoPantalla = window.innerWidth;
       if (anchoPantalla <= 500){
-        console.log("shsh")
-        
         
         var test =document.querySelectorAll('#user1')
         for(var i=0;i<test.length;i++)  
@@ -233,7 +231,6 @@
         }
       }
       else {
-        console.log("jjjh")
         var test =document.querySelectorAll('#user1');
         for(var i=0;i<test.length;i++)
         {
@@ -266,8 +263,8 @@
       .then(data => {
         if (data.status === 200) {
           // Búsqueda exitosa
-          console.log(data);
-          console.log(data.results);
+          // console.log(data);
+          // console.log(data.results);
           
           document.getElementById('result-busqueda').innerHTML = `Mostrando consultores en base a filtros (${data.results.length})` 
           const alineadorDiv = document.getElementById('alineador');
@@ -319,7 +316,7 @@
       .then(response => response.json())  // Convertir la respuesta a JSON
       .then(data => {
         // Aquí puedes trabajar con los datos obtenidos
-        console.log(data);
+        // console.log(data);
         document.getElementById('result-busqueda').innerHTML = `Mostrando consultores en base a filtros (${data.results.length})` 
           const alineadorDiv = document.getElementById('alineador');
           const elementos = document.querySelectorAll('[id^="user"]');

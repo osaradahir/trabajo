@@ -621,7 +621,7 @@
           var lat = data[0].lat; // Latitud
           var lon = data[0].lon; // Longitud
 
-          console.log("Coordenadas: " + lat + ", " + lon);
+          // console.log("Coordenadas: " + lat + ", " + lon);
           // Obtiene las coordenas, las imprime y las agrega al arreglo
           coordenadas.push([lat, lon]);
           idVal.push([id]);
@@ -659,7 +659,7 @@
     }).addTo(map);
 
     // Se muestran las coordenadas y a su vez se genera el L.marker con las cordenas segun las posiciones de i en el for que rrecore el arreglo coordenadas
-    console.log("Datos de coordenadas:");
+    //console.log("Datos de coordenadas:");
     for (var i = 0; i < coordenadas.length; i++) {
       (function (index) {
         var titulo = document.querySelector(

@@ -38,10 +38,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 def miProfile(request):
     try:
         user = Usuarios.objects.get(correo=request.session.get('username'))
-        print(request.session)
+        # print(request.session)
         informationPersonalUser = Personas.objects.get(pk=user.id_persona_id)
         informationConsultorUser = Consultores.objects.get(id_persona=informationPersonalUser)
-        # print(informationPersonalUser)
+        # # print(informationPersonalUser)
         edad = calcular_edad(informationPersonalUser.fecha_nacimiento)
         maneraPago2 = ManeraPago.objects.get(
             pk=informationConsultorUser.id_manera_pago_id)
@@ -200,7 +200,7 @@ def miProfile(request):
                     pasaporte), searchFile(domicilio), searchFile(recomendacion), searchFile(f3),
             ]
         }
-        # print(context)
+        # # print(context)
         return render(request, 'miProfile.html', context)
 
     
@@ -449,7 +449,7 @@ def updateInformationConsultor(request):
                     try:
                         # Eliminar la carpeta con su contenido
                         shutil.rmtree(carpeta_a_eliminar)
-                        print("La carpeta se ha eliminado correctamente.")
+                        # print("La carpeta se ha eliminado correctamente.")
                     except OSError as e:
                         print("Error al eliminar la carpeta:", e)
                 else:
@@ -673,7 +673,7 @@ def updateExperiencia(request):
 
 
             if id_experiencia and puesto and empresa and ageInit:
-                print("Hola")
+                
                 fecha_entrada_str = ageInit
                 fecha_entrada = datetime.strptime(fecha_entrada_str, '%Y-%m-%d')
                 fecha_salida = date.today()
@@ -690,7 +690,7 @@ def updateExperiencia(request):
                 experienciaRegistrada = Experiencias.objects.get(pk=experiencia.id_experiencia_id)
                 experienciaRegistrada.nombre = puesto
                 experienciaRegistrada.save()    
-                print(experienciaRegistrada.id)
+                # print(experienciaRegistrada.id)
                 experiencia.descripcion = actividades
                 experiencia.empresa = empresa
                 experiencia.puesto = puesto
@@ -700,7 +700,7 @@ def updateExperiencia(request):
                 experiencia.fecha_salida=fecha_salida
                 # print(experiencia.id)
                 experiencia.save()
-                print(experiencia.id)
+                # print(experiencia.id)
 
 
             return HttpResponse(status=200)
@@ -841,7 +841,7 @@ def principal(request):
             nivelesConocimiento = NivelesConocimiento.objects.filter(nombre__exact=experiencia)
             requerimientos_ids = RequerimientosModulosProyecto.objects.filter(id_experiencia_requerida__in=nivelesConocimiento).values_list('id_proyecto', flat=True)
 
-            print(requerimientos_ids)
+            # print(requerimientos_ids)
             registros = registros.filter(id__in=requerimientos_ids)
 
 
@@ -858,7 +858,7 @@ def principal(request):
             proyectos_con_requerimientos[proyecto] = requerimientos_proyecto
 
         
-        print(proyectos)
+        # print(proyectos)
         notification = NotificationConsultor.objects.filter(id_consultor_destinatary=informationConsultorUser.id)
         # // CANT. NOTIFICATIONS PENDING
         pending_total= NotificationConsultor.objects.filter(status='Pending', id_consultor_destinatary=informationConsultorUser.id)
@@ -1010,7 +1010,7 @@ def all_notifications(request):
 
         # //Cantidad de notificaciones que apareceran antes de crear otra page
         if notification_list.exists():
-            paginator = Paginator(notification_list, 6)
+            paginator = Paginator(notification_list, 16)
             page = request.GET.get('page')
             notification = paginator.get_page(page)
 
@@ -1148,14 +1148,14 @@ def view_notification(request, id= None):
 @login_required
 @require_http_methods(['DELETE'])
 def deleteModuloSAP(request, id):
-    print("Hola")
+    
     try:
-        print(id)
+        # print(id)
         conocimiento = ConocimientosConsultor(pk=int(id))
-        print(conocimiento)
+        # print(conocimiento)
         conocimiento.delete()
-        print("se eliminado")
-        print(conocimiento)
+        # print("se eliminado")
+        # print(conocimiento)
         return JsonResponse({'message': 'El objeto se ha eliminado correctamente.'}, status=200)
     except ConocimientoConsultor.DoesNotExist:
         return JsonResponse({'message': 'El objeto no existe.'}, status=404)
@@ -1597,8 +1597,10 @@ def miProyecto(request, id=int):
             id_proyecto_consultor_list = colaborador.values_list('id', flat=True)
 
             # Obtener todos los contratos asociados a los id_proyecto_consultor
-            contratos = Contratos.objects.filter(id_proyecto_consultor__in=id_proyecto_consultor_list)
-
+            try:
+                contratos = Contratos.objects.get(id_proyecto_consultor__in=id_proyecto_consultor_list)
+            except Contratos.DoesNotExist as error:
+                contratos = None
             facturas = Facturas.objects.filter(id_proyecto_consultor__in=id_proyecto_consultor_list)
             
             
@@ -1641,7 +1643,7 @@ def miProyecto(request, id=int):
 
                 regitrosReportesFinales.append([periodo, entregado, validacionGnosis, validacionEmpresa, fecha])
 
-            print(regitrosReportesFinales)
+            # print(regitrosReportesFinales)
 
             fecha_actual = datetime.now().date()
             # Fecha de publicación del staffing (ejemplo)
@@ -1795,15 +1797,15 @@ def upload_all_files_rp(request):
                 tipoCambio = request.POST.get('cambio-terceros')
 
                 if manual == '1':
-                    print("manual")
+                    # print("manual")
                     cambio = request.POST.get('tipoCambioHoy-Manual-terceros')
                     
                 else:
-                    print("api")
+                    # print("api")
                     cambio = request.POST.get('tipoCambioHoy-Auto-terceros')
 
-                print(cambio)
-                print(tipoCambio)
+                # print(cambio)
+                # print(tipoCambio)
                 try:
                     
                     factura = Facturas.objects.get(
@@ -2045,12 +2047,14 @@ def curriculum_vitae(request):
                 "idiomas":idiomas,
                 "proyectoConsultor":proyectoConsultor,
             }
-            print(context)
-            print("---")
+            # print(context)
+            # print("---")
             if modulos:
-                print("pipi")
+                # print("pipi")
+                pass
             else:
-                print("popop")
+                # print("popop")
+                pass
             template = get_template(template_path)
             html = template.render(context)
             

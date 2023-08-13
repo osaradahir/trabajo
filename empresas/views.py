@@ -44,8 +44,8 @@ def all_notifications(request):
         notification_list = NotificationEmpresa.objects.filter(id_empresa_destinatary_id=empresa.id)
         if notification_list.exists():
             notification_list = notification_list.order_by('-created_at')
-            paginator = Paginator(notification_list, 6)
-            print(paginator)
+            paginator = Paginator(notification_list, 16)
+            # print(paginator)
             page = request.GET.get('page')
             notification = paginator.get_page(page)
 
@@ -611,8 +611,11 @@ def consultorFacturas(request, id, prj):
             if colaborador:
                 id_proyecto_consultor_list = colaborador.values_list('id', flat=True)
 
-                # Obtener todos los contratos asociados a los id_proyecto_consultor
-                contratos = Contratos.objects.filter(id_proyecto_consultor__in=id_proyecto_consultor_list)
+                try:
+                    # Obtener todos los contratos asociados a los id_proyecto_consultor
+                    contratos = Contratos.objects.get(id_proyecto_consultor__in=id_proyecto_consultor_list)
+                except Contratos.DoesNotExist as error:
+                    contratos = None
 
                 facturas = Facturas.objects.filter(id_proyecto_consultor__in=id_proyecto_consultor_list)
 
@@ -625,8 +628,10 @@ def consultorFacturas(request, id, prj):
                     entregado = searchFile(directory)
                     validacionGnosis = f.validacionGnosis
                     validacionEmpresa = f.validacionEmpresa
+                    tipoCambio = f.tipoCambioMXN
+                    tipoCambioUSD = f.tipoCambioUSD
 
-                    regitrosFacturas.append([periodo, entregado, validacionGnosis, validacionEmpresa, fecha, id, f.id_documentacion.ruta,f.id_documentacion.nombre ])
+                    regitrosFacturas.append([periodo, entregado, validacionGnosis, validacionEmpresa, fecha, id, f.id_documentacion.ruta,f.id_documentacion.nombre,tipoCambio,tipoCambioUSD ])
 
 
             notification_data = NotificationEmpresa.objects.filter(id_empresa_destinatary=empresa.id).order_by('-created_at')
@@ -720,8 +725,8 @@ def consultorDocumentosShowXML(request):
         nombre_file = request.GET.get('nameFile', None)
         
         ruta_xml = os.path.join(ruta, nombre_file)
-        print("")
-        print(ruta_xml)
+        
+        # print(ruta_xml)
         if os.path.exists(ruta_xml):
             return FileResponse(open(ruta_xml, 'rb'), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         else:

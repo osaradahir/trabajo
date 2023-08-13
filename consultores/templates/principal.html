@@ -228,7 +228,7 @@
       }
       var pagina = Math.floor(page)+1
       var paginasTotal = document.getElementById('paginas').value;
-      console.log(paginasTotal)
+      // console.log(paginasTotal)
       if(count==1 || count == 0){
         if(pagina<=paginasTotal){
           window.location.href = `{% url 'principal' %}?page=${pagina}`;

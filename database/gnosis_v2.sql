@@ -58,28 +58,28 @@ CREATE TABLE categorias(
 -- Estructura para la tabla `proyecto_consultor`
 --
 DROP TABLE IF EXISTS proyecto_consultor;
-
 CREATE TABLE proyecto_consultor (
-    `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    `participacion` BOOLEAN NOT NULL,
-    `puntuacion` int(5),
-    `comentario` varchar(30),
-    `fecha_aceptacion` DATETIME NOT NULL,
-    `fecha_inicio` DATETIME NOT NULL,
-    `fecha_termino` DATETIME NOT NULL,
-    `horario_hora_inicio` BOOLEAN NOT NULL,
-    `horario_hora_final` BOOLEAN NOT NULL,
-    `fun_laborales` varchar(600) NOT NULL,
-    `dias_laborales` varchar(30) NOT NULL,
-    `status` varchar(30) NOT NULL,
-    `tarifa` DECIMAL(8,2) NOT NULL,
-    `id_tipo_moneda` int(10) NULL,
-    `id_consultor` int(10) NULL,
-    `id_contrato` int(10) NULL,
-    FOREIGN KEY (id_tipo_moneda) REFERENCES tipo_moneda(id),   
-    FOREIGN KEY (id_proyecto) REFERENCES proyectos(id),
-    FOREIGN KEY (id_consultor) REFERENCES consultores(id),
-    FOREIGN KEY (id_contrato) REFERENCES contratos(id)
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `participacion` BOOLEAN DEFAULT 1,
+    `puntuacion` VARCHAR(10) DEFAULT "0",
+    `comentario` VARCHAR(1000) DEFAULT "Sin comentarios",
+    `fecha_aceptacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `fecha_inicio` DATE,
+    `fecha_termino` DATE,
+    `horario_hora_inicio` TIME,
+    `horario_hora_final` TIME,
+    `fun_laborales` VARCHAR(600),
+    `dias_laborales` VARCHAR(30),
+    `status` VARCHAR(30),
+    `tarifa` INT DEFAULT 0,
+    `id_tipo_moneda` INT DEFAULT 1,
+    `id_proyecto` INT,
+    `id_consultor` INT,
+    `id_contrato` INT,
+    FOREIGN KEY (`id_tipo_moneda`) REFERENCES tipo_moneda(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_proyecto`) REFERENCES proyectos(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_consultor`) REFERENCES consultores(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_contrato`) REFERENCES contratos(`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -567,7 +567,7 @@ CREATE TABLE usuarios (
     `rol` varchar(2) NOT NULL,
     `validacion` BOOLEAN NOT NULL,
     `id_persona` int(10) NOT NULL,
-    `is_staff` BOOLEAN NOT NULL
+    `is_staff` BOOLEAN NOT NULL,
     FOREIGN KEY (id_persona) references personas(id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -684,7 +684,6 @@ CREATE TABLE notification_administrador (
     `email` varchar(100) NOT NULL,
     `subject` varchar(100) NOT NULL,
     `message` varchar(100) NOT NULL,
-    `status` ENUM('Pending', 'Read') NOT NULL DEFAULT 'Pending',
     `created_at` DATE DEFAULT CURRENT_TIMESTAMP,
     `status` ENUM('Pending', 'Read') NOT NULL DEFAULT 'Pending',
     `id_persona_destinatary` int(10) NOT NULL,
@@ -725,7 +724,6 @@ CREATE TABLE empresas (
     `ape_pat` varchar(100) NOT NULL,
     `ape_mat` varchar(100) NOT NULL,
     `telefono` varchar(12) NOT NULL,
-    `telefono` varchar(12) NOT NULL,
     `tamano` varchar(100) NOT NULL,
     `industria` varchar(40) NOT NULL,
     `versionSAP` varchar(20) NOT NULL,
@@ -741,3 +739,179 @@ CREATE TABLE empresas (
     `id_usuario` int(10) NOT NULL,
     FOREIGN KEY (id_usuario) references usuarios(id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+--
+-- Estructura para la tabla `notas_gnosis_consultor`
+--
+DROP TABLE IF EXISTS notas_gnosis_consultor;
+CREATE TABLE notas_gnosis_consultor (
+    `id` int(10) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `nota` varchar(650) NOT NULL,
+    `id_consultor` int(10),
+    FOREIGN KEY (`id_consultor`) REFERENCES consultores(`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+--
+-- Estructura para la tabla `postulaciones_proyecto_gnosis`
+--
+DROP TABLE IF EXISTS postulaciones_proyecto_gnosis;
+CREATE TABLE postulaciones_proyecto_gnosis (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `id_proyecto` INT,
+    `id_empresa` INT,
+    `id_consultor` INT,
+    FOREIGN KEY (`id_proyecto`) REFERENCES proyectos(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_empresa`) REFERENCES empresas(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_consultor`) REFERENCES consultores(`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+--
+-- Estructura para la tabla `categorias_consultor`
+--
+DROP TABLE IF EXISTS categorias_consultor;
+CREATE TABLE categorias_consultor (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `categoria_nombre` VARCHAR(150),
+    `descripcion` VARCHAR(150)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+--
+-- Estructura para la tabla `entrevistas_consultores_proyecto`
+--
+DROP TABLE IF EXISTS entrevistas_consultores_proyecto;
+CREATE TABLE entrevistas_consultores_proyecto (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `id_proyecto` INT,
+    `id_empresa` INT,
+    `id_consultor` INT,
+    `fecha` DATE,
+    `hora` TIME,
+    `estatus` VARCHAR(30) DEFAULT "",
+    FOREIGN KEY (`id_proyecto`) REFERENCES proyectos(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_empresa`) REFERENCES empresas(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_consultor`) REFERENCES consultores(`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+--
+-- Estructura para la tabla `tipo_contratacion`
+--
+DROP TABLE IF EXISTS tipo_contratacion;
+CREATE TABLE tipo_contratacion (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `contratacion` VARCHAR(60) DEFAULT ""
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+--
+-- Estructura para la tabla `facturas`
+--
+DROP TABLE IF EXISTS facturas;
+CREATE TABLE facturas (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `id_proyecto_consultor` INT,
+    `validacionGnosis` VARCHAR(20) DEFAULT "Pendiente",
+    `validacionEmpresa` VARCHAR(20) DEFAULT "Pendiente",
+    `periodo` VARCHAR(20) DEFAULT "",
+    `num_mes_declarado` VARCHAR(10) DEFAULT "",
+    `fecha_cobranza` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `fecha_pago` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `tipoCambioMXN` DECIMAL(10, 4),
+    `tipoCambioUSD` DECIMAL(10, 4),
+    `id_documentacion` INT,
+    FOREIGN KEY (`id_proyecto_consultor`) REFERENCES proyecto_consultor(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_documentacion`) REFERENCES documentacion(`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+--
+-- Estructura para la tabla `reportes_horas`
+--
+DROP TABLE IF EXISTS reportes_horas;
+CREATE TABLE reportes_horas (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `id_proyecto_consultor` INT,
+    `validacionGnosis` VARCHAR(20) DEFAULT "Pendiente",
+    `validacionEmpresa` VARCHAR(20) DEFAULT "Pendiente",
+    `periodo` VARCHAR(20) DEFAULT "",
+    `id_documentacion` INT,
+    FOREIGN KEY (`id_proyecto_consultor`) REFERENCES proyecto_consultor(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_documentacion`) REFERENCES documentacion(`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+--
+-- Estructura para la tabla `postulaciones_proyecto`
+--
+DROP TABLE IF EXISTS postulaciones_proyecto;
+CREATE TABLE postulaciones_proyecto (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `id_proyecto` INT,
+    `id_empresa` INT,
+    `id_consultor` INT,
+    FOREIGN KEY (`id_proyecto`) REFERENCES proyectos(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_empresa`) REFERENCES empresas(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_consultor`) REFERENCES consultores(`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+--
+-- Estructura para la tabla `requerimientos_idiomas_proyecto`
+--
+DROP TABLE IF EXISTS requerimientos_idiomas_proyecto;
+CREATE TABLE requerimientos_idiomas_proyecto (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `id_proyecto` INT,
+    `id_empresa` INT,
+    `id_idioma` INT,
+    `nivelRequerido` VARCHAR(40) DEFAULT "",
+    `nivelDeseado` VARCHAR(40) DEFAULT "",
+    FOREIGN KEY (`id_proyecto`) REFERENCES proyectos(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_empresa`) REFERENCES empresas(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_idioma`) REFERENCES idiomas(`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+--
+-- Estructura para la tabla `reportes_final_actividades`
+--
+DROP TABLE IF EXISTS reportes_final_actividades;
+CREATE TABLE reportes_final_actividades (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `id_proyecto_consultor` INT,
+    `validacionGnosis` VARCHAR(20) DEFAULT "Pendiente",
+    `validacionEmpresa` VARCHAR(20) DEFAULT "Pendiente",
+    `periodo` VARCHAR(20) DEFAULT "",
+    `id_documentacion` INT,
+    FOREIGN KEY (`id_proyecto_consultor`) REFERENCES proyecto_consultor(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_documentacion`) REFERENCES documentacion(`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+--
+-- Estructura para la tabla `requerimientos_modulos_proyecto`
+--
+DROP TABLE IF EXISTS requerimientos_modulos_proyecto;
+CREATE TABLE requerimientos_modulos_proyecto (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `id_proyecto` INT,
+    `id_empresa` INT,
+    `id_modulo` INT,
+    `id_submodulo` INT,
+    `id_experiencia_requerida` INT DEFAULT 1,
+    `id_experiencia_deseable` INT DEFAULT 1,
+    FOREIGN KEY (`id_proyecto`) REFERENCES proyectos(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_empresa`) REFERENCES empresas(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_modulo`) REFERENCES modulos(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_submodulo`) REFERENCES submodulos(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_experiencia_requerida`) REFERENCES niveles_conocimiento(`id`) ON DELETE SET NULL,
+    FOREIGN KEY (`id_experiencia_deseable`) REFERENCES niveles_conocimiento(`id`) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
