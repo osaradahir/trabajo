@@ -932,7 +932,7 @@ def curriculum_vitaeEmpresa(request, id):
             proyectoConsultor = ProyectoConsultor.objects.filter(id_consultor = informationConsultorUser  )
 
             # Pasar los datos al HTML que servirá como plantilla para el PDF
-            template_path = "CV/curriculum.html"
+            template_path = "consultores/curriculum.html"
             context = {
                 "usuarios":user,
                 "personas":informationPersonalUser,
