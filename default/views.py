@@ -414,7 +414,7 @@ def addEducation(request):
                 query_string = urlencode(params)
                 url = reverse('emailConfimacion') + '?' + query_string
                 # enviar email de confirmacion
-                #sendemail(decrypted_correo, decrypted_name)
+                sendemail(decrypted_correo, decrypted_name)
                 return HttpResponseRedirect(url)
             else:
                 return render(request, 'login/education.html', {

@@ -75,7 +75,7 @@
         </div>-->
 
         <div class="col s12 l12">
-          <a class="waves-effect waves-light btn blue darken-4"
+          <a class="waves-effect waves-light btn blue darken-4" href="{% url 'curriculum_consultor_admin' id=consultor.id %}" target="_blank"
             ><i
               class="material-icons white-text right trans"
               style="background-color: transparent"
@@ -119,9 +119,10 @@
                 id="pago"
                 placeholder="${{ consultor.tarifa_hora }}.00"
                 name="pago"
-                type="text"
+                type="number"
                 class="validate"
                 title="El formato no es el correcto"
+                min="10"
                 required
               />
             </div>

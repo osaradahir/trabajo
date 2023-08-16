@@ -291,18 +291,6 @@
       <div class="documents">
         <div class="docs-info">
           <h5>Documentos subidos</h5>
-          <div class="document-upload" onclick="openFileExplorerForCv()">
-            <p>
-              <label>
-                  {% if files.0 == '1' %}
-                    <input type="checkbox" class="" disabled checked/>
-                  {% else %}
-                    <input type="checkbox" class="filled-in" disabled/>
-                  {% endif %}
-                <span id="upload" onclick="window.open(`{% url 'consultorDocumentacion' %}?id={{ informationConsultorUser.id }}&pais={{ informationPersonalUser.pais }}&rfc={{ informationConsultorUser.rfc }}&file=CV&format=pdf`, '_blank');">Ver CV</span>
-              </label>
-            </p>
-          </div>
           <div class="document-upload" onclick="openFileExplorerForINE()">
             <p>
               <label>

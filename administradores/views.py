@@ -2411,13 +2411,13 @@ def contratoMachote(request):
                 raise Exception("Error al generar el PDF")
             
             if consultorCopia == '1':
-                # sendemail(str(usuario.correo), pdf_bytes, consultor.id_persona.nombre, empresa.empresa, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO BASE', 'GNOSIS [CONTRATO BASE]', 'consultor')
+                endemail(str(usuario.correo), pdf_bytes, consultor.id_persona.nombre, empresa.empresa, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO BASE', 'GNOSIS [CONTRATO BASE]', 'consultor')
 
                 pass
 
         
             if empresaCopia == '1':
-                # sendemail(str(empresa.id_usuario.correo), pdf_bytes, empresa.empresa, consultor.id_persona.nombre, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO BASE', 'GNOSIS [CONTRATO BASE]', 'empresa')
+                sendemail(str(empresa.id_usuario.correo), pdf_bytes, empresa.empresa, consultor.id_persona.nombre, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO BASE', 'GNOSIS [CONTRATO BASE]', 'empresa')
 
                 pass
             
@@ -2603,11 +2603,11 @@ def contratoMarco(request):
                 raise Exception("Error al generar el PDF")
             
             if consultorCopia == '1':
-                # sendemail(str(usuario.correo), pdf_bytes, consultorEnProyecto.id_persona.nombre, empresa.empresa, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO MARCO GNOSIS', 'GNOSIS [CONTRATO MARCO GNOSIS]', 'consultor')
-                pass
+                sendemail(str(consultorEnProyecto.correo), pdf_bytes, consultorEnProyecto.id_persona.nombre, empresa.empresa, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO MARCO GNOSIS', 'GNOSIS [CONTRATO MARCO GNOSIS]', 'consultor')
+                
         
             if empresaCopia == '1':
-                # sendemail(str(empresa.id_usuario.correo), pdf_bytes, empresa.empresa, consultorEnProyecto.id_persona.nombre, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO MARCO GNOSIS', 'GNOSIS [CONTRATO MARCO GNOSIS]', 'empresa')
+                sendemail(str(empresa.id_usuario.correo), pdf_bytes, empresa.empresa, consultorEnProyecto.id_persona.nombre, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO MARCO GNOSIS', 'GNOSIS [CONTRATO MARCO GNOSIS]', 'empresa')
                 pass
 
             # Crear el PDF a partir del HTML usando pisa
@@ -2771,11 +2771,11 @@ def contratoAnexo(request):
             
 
             if consultorCopia == '1':
-                # sendemail(str(usuario.correo), pdf_bytes, consultor.id_persona.nombre, empresa.empresa, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO ANEXO', 'GNOSIS [CONTRATO ANEXO]', 'consultor')
+                sendemail(str(usuario.correo), pdf_bytes, consultor.id_persona.nombre, empresa.empresa, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO ANEXO', 'GNOSIS [CONTRATO ANEXO]', 'consultor')
                 pass
         
             if empresaCopia == '1':
-                # sendemail(str(empresa.id_usuario.correo), pdf_bytes, empresa.empresa, consultor.id_persona.nombre, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO ANEXO', 'GNOSIS [CONTRATO ANEXO]', 'empresa')
+                sendemail(str(empresa.id_usuario.correo), pdf_bytes, empresa.empresa, consultor.id_persona.nombre, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO ANEXO', 'GNOSIS [CONTRATO ANEXO]', 'empresa')
                 pass
 
             # Crear el PDF a partir del HTML usando pisa
@@ -3864,13 +3864,13 @@ def contratoFinal(request):
                 raise Exception("Error al generar el PDF")
             
             if consultorCopia == '1':
-                # sendemail(str(usuario.correo), pdf_bytes, consultor.id_persona.nombre, empresa.empresa, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO BASE', 'GNOSIS [CONTRATO BASE]', 'consultor')
+                endemail(str(usuario.correo), pdf_bytes, consultor.id_persona.nombre, empresa.empresa, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO BASE', 'GNOSIS [CONTRATO BASE]', 'consultor')
 
                 pass
 
         
             if empresaCopia == '1':
-                # sendemail(str(empresa.id_usuario.correo), pdf_bytes, empresa.empresa, consultor.id_persona.nombre, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO BASE', 'GNOSIS [CONTRATO BASE]', 'empresa')
+                sendemail(str(empresa.id_usuario.correo), pdf_bytes, empresa.empresa, consultor.id_persona.nombre, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO BASE', 'GNOSIS [CONTRATO BASE]', 'empresa')
 
                 pass
             
@@ -4111,13 +4111,13 @@ def contratoTerceros(request):
                 raise Exception("Error al generar el PDF")
             
             if consultorCopia == '1':
-                # sendemail(str(usuario.correo), pdf_bytes, consultor.id_persona.nombre, empresa.empresa, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO BASE', 'GNOSIS [CONTRATO BASE]', 'consultor')
+                sendemail(str(usuario.correo), pdf_bytes, consultor.id_persona.nombre, empresa.empresa, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO BASE', 'GNOSIS [CONTRATO BASE]', 'consultor')
 
                 pass
 
         
             if empresaCopia == '1':
-                # sendemail(str(empresa.id_usuario.correo), pdf_bytes, empresa.empresa, consultor.id_persona.nombre, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO BASE', 'GNOSIS [CONTRATO BASE]', 'empresa')
+                sendemail(str(empresa.id_usuario.correo), pdf_bytes, empresa.empresa, consultor.id_persona.nombre, proyectoConsultor.id_proyecto.proyecto_nombre, 'CONTRATO BASE', 'GNOSIS [CONTRATO BASE]', 'empresa')
 
                 pass
             
@@ -4162,7 +4162,7 @@ def contratoTerceros(request):
 
 
 def tipoCambioUSD():
-    api_key = "2783819ab9795ebb65cf80f8"
+    api_key = "93c3b7f4d1f22af42757e75f"
     url = f"https://v6.exchangerate-api.com/v6/{api_key}/latest/MXN"
     response = requests.get(url)
 
@@ -4180,7 +4180,7 @@ def tipoCambioUSD():
 
 
 def tipoCambioMXN():
-    api_key = "2783819ab9795ebb65cf80f8"
+    api_key = "93c3b7f4d1f22af42757e75f"
     url = f"https://v6.exchangerate-api.com/v6/{api_key}/latest/USD"
     response = requests.get(url)
 

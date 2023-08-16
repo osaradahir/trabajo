@@ -50,7 +50,7 @@
                         <div class="col l12 input-field">
                             <i class="material-icons prefix">call</i>
                             <label for="telefono" data-error="wrong" data-success="right">Telefono</label>
-                            <input id="telefono" name="telefono" type="tel" class="validate"
+                            <input id="telefono" name="telefono" type="tel" class="validate" maxlength="12"
                                 pattern="[0-9]{3}[ -][0-9]{3}[ -][0-9]{4}"
                                 title="Use solo numeros y deje un espacio entre las series de digitos: 000-000-0000"
                                 required />
@@ -150,7 +150,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-alpha.4/js/materialize.min.js"></script>
-    <script src="{% static 'js/contact.js' %}"></script>
+    <script src="{% static 'js/contact.js' %}?v=1.0"></script>
 
     <script>
         (function ($) {

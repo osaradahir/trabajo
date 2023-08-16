@@ -1579,7 +1579,7 @@ def entrevistaAgendada(request):
         entrevistasConsultoresProyecto.hora = hora_obj
         entrevistasConsultoresProyecto.save()
         usuario = Usuarios.objects.get(id_persona=entrevistasConsultoresProyecto.id_consultor.id_persona)
-        # sendemail(str(usuario.correo), str(entrevistasConsultoresProyecto.id_consultor.id_persona.nombre), proyecto.proyecto_nombre, ubicacion, proyecto.tipo)
+        sendemail(str(usuario.correo), str(entrevistasConsultoresProyecto.id_consultor.id_persona.nombre), proyecto.proyecto_nombre, ubicacion, proyecto.tipo)
     
         message = 'La empresa a la cual te has postulado ha solicitado una entrevista el dia ' +str(entrevistasConsultoresProyecto.fecha) + ', a las ' + str(entrevistasConsultoresProyecto.hora) + '. Si estas disponible y te interesaría esta oportunidad da click en vinculo para confirmar tu entrevista.'
 
@@ -1624,7 +1624,6 @@ def sendemail(email, name, puesto, ubicacion, tipo):
     # print("envieee")
     email.send()
     return "Correo enviado"
-
 
 
 

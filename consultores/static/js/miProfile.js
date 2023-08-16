@@ -52,7 +52,7 @@ var previousWidth = window.innerWidth;
 document.getElementById("ageFinish").value = "";
 document.getElementById("ageInit").value = "";
 const tokenP = "pruebas";
-const token = "";
+const token = "38bf9334-0cba-4550-a079-79ef3534413f";
 var longPressTimer;
 var inicio = 0;
 var final = 3;
@@ -1540,7 +1540,7 @@ function queryCP(cp) {
   const selectColonia = document.getElementById("colonia");
   //selectEstado.innerHTML = "";
   selectColonia.innerHTML = "";
-  const url = `https://api.copomex.com/query/info_cp/${cp}?token=${tokenP}`;
+  const url = `https://api.copomex.com/query/info_cp/${cp}?token=${token}`;
   axios
     .get(url)
     .then((response) => {

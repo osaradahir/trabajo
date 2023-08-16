@@ -228,7 +228,7 @@
             <form class="col s12" id="update-contact-form">
               {% csrf_token %}
               <div class="input-field col s12">
-                <input id="telefono" type="tel" class="validate" name="telefono" pattern="[0-9]{3}[ -][0-9]{3}[ -][0-9]{4}"
+                <input id="telefono" type="tel" class="validate" name="telefono" maxlength="12" pattern="[0-9]{3}[ -][0-9]{3}[ -][0-9]{4}"
                 title="Use solo numeros y deje un espacio entre las series de digitos: 000-000-0000"/>
                 <label for="telefono">Telefono</label>
               </div>

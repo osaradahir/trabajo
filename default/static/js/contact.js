@@ -1,12 +1,12 @@
 const tokenP = "pruebas";
-const token = "";
+const token = "38bf9334-0cba-4550-a079-79ef3534413f";
 
 function queryCP(cp) {
     const selectEstado = document.getElementById("estado");
     const selectColonia = document.getElementById("colonia");
     //selectEstado.innerHTML = "";
     selectColonia.innerHTML = "";
-    const url = `https://api.copomex.com/query/info_cp/${cp}?token=${tokenP}`;
+    const url = `https://api.copomex.com/query/info_cp/${cp}?token=${token}`;
     axios
         .get(url)
         .then((response) => {

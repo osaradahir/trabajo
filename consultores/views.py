@@ -1876,7 +1876,7 @@ def upload_all_files_rp(request):
                 newNotificacion.save()
 
 
-                # sendemail(str(empresa.id_usuario.correo), empresaName, str(new_filepath), nameConsultor, proyectoName, 'FACTURA', new_filename)
+                sendemail(str(empresa.id_usuario.correo), empresaName, str(new_filepath), nameConsultor, proyectoName, 'FACTURA', new_filename)
                 
             elif nameFile.startswith('RHORAS'):
                 
@@ -1887,7 +1887,7 @@ def upload_all_files_rp(request):
             
                 newNotificacion.save()
 
-                # sendemail(correoEmpresa, empresaName, str(new_filepath), nameConsultor, proyectoName)
+                sendemail(correoEmpresa, empresaName, str(new_filepath), nameConsultor, proyectoName)
                 
                 
             else:
@@ -1899,7 +1899,7 @@ def upload_all_files_rp(request):
             
                 newNotificacion.save()
 
-                # sendemail(correoEmpresa, empresaName, str(new_filepath), nameConsultor, proyectoName)
+                sendemail(correoEmpresa, empresaName, str(new_filepath), nameConsultor, proyectoName)
            
 
             return redirect('miProjects')
@@ -2098,7 +2098,7 @@ def curriculum_vitae(request):
 
 
 def tipoCambioUSD():
-    api_key = "2783819ab9795ebb65cf80f8"
+    api_key = "93c3b7f4d1f22af42757e75f"
     url = f"https://v6.exchangerate-api.com/v6/{api_key}/latest/MXN"
     response = requests.get(url)
 
@@ -2116,7 +2116,7 @@ def tipoCambioUSD():
 
 
 def tipoCambioMXN():
-    api_key = "2783819ab9795ebb65cf80f8"
+    api_key = "93c3b7f4d1f22af42757e75f"
     url = f"https://v6.exchangerate-api.com/v6/{api_key}/latest/USD"
     response = requests.get(url)
 
